@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -6,7 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 body {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Manrope", sans-serif;
   font-optical-sizing: auto;
 }
 
@@ -48,6 +49,10 @@ body {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-primary-color: var(--primaryColor);
+  --color-secondary-color: var(--secondaryColor);
+  --color-accent-color: var(--accentColor);
+  --color-accent-bg: var(--accentBg);
 }
 
 :root {
@@ -83,6 +88,12 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Custom Colors */
+  --primaryColor: #034833;
+  --secondaryColor: #d66a28;
+  --accentColor: #83cd20;
+  --accentBg: #e6ebdf;
 }
 
 .dark {
@@ -117,6 +128,12 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Custom Colors (same in dark mode) */
+  --primaryColor: #034833;
+  --secondaryColor: #d66a28;
+  --accentColor: #83cd20;
+  --accentBg: #e6ebdf;
 }
 
 @layer base {

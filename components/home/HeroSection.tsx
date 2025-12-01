@@ -6,40 +6,40 @@ export default function HeroSection() {
     {
       title: "Key African Architecture",
       image: "/Frame/Frame-1.png",
-      color: "bg-[#b91c1c]", // Red
+      color: "bg-[#B20500]", // Red
     },
     {
       title: "Central African Architecture",
       image: "/Frame/Frame-2.png",
-      color: "bg-[#FFFFFF]", // Green
+      color: "bg-[#37893C]", // Green
       text: "text-[#1a5d1a]",
     },
     {
       title: "East African Architecture",
       image: "/Frame/Frame-3.png",
-      color: "bg-[#1d4ed8]", // Blue
+      color: "bg-[#063391]", // Blue
     },
     {
       title: "South African Architecture",
       image: "/Frame/Frame-4.png",
-      color: "bg-[#ca8a04]", // Yellow
+      color: "bg-[#C89D1F]", // Yellow
     },
     {
       title: "West African Architecture",
       image: "/Frame/Frame-5.png",
-      color: "bg-[#ea580c]", // Orange
+      color: "bg-[#E26513]", // Orange
     },
     {
       title: "North African Architecture",
       image: "/Frame/Frame-6.png",
-      color: "bg-[#7e22ce]", // Purple
+      color: "bg-[#6C0544]", // Purple
     },
   ];
 
   return (
-    <section className="relative text-white container mx-auto rounded-xl lg:mt-5">
+    <section className="relative text-white  rounded-xl lg:mt-5 mt-5">
       {/* Background Pattern Overlay */}
-      <div className="absolute container inset-0 bg-[url('/hero-bg.png')] bg-cover  bg-center opacity-100 rounded-xl"></div>
+      <div className="absolute  inset-0 bg-[url('/hero-bg.png')] bg-size-[100%_100%] bg-no-repeat bg-center opacity-100 rounded-2xl"></div>
 
       <div className="container mx-auto px-4 md:px-6 pt-12 pb-5  relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -65,7 +65,7 @@ export default function HeroSection() {
           </div>
 
           {/* Hero Image */}
-          <div className="relative h-[250px] md:h-[500px] rounded-3xl overflow-hidden border-2 border-white/20 lg:mt-0 -mt-14">
+          <div className="relative h-[250px] md:h-[400px] rounded-3xl overflow-hidden border-2 border-white/20 lg:mt-0 -mt-14">
             {/* Placeholder for the huts image */}
             <div className="absolute inset-0 bg-gray-200/10 flex items-center justify-center">
               <img
@@ -101,9 +101,7 @@ export default function HeroSection() {
                   height={80}
                 />
               </div>
-              <span
-                className={`lg:text-lg text-xs font-bold leading-tight ${feature.text}`}
-              >
+              <span className={`lg:text-lg text-xs font-bold leading-tight `}>
                 {feature.title}
               </span>
             </div>

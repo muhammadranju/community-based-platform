@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FcGoogle } from "react-icons/fc";
+import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,14 +17,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
-import { z } from "zod";
+import AuthHeader from "@/components/auth/AuthHeader";
+import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
+import { Badge } from "@/components/ui/badge";
 
+const image = "/Rectangle.png";
+const bottomImage = "/bg/Rectangle4.png";
+
+// --- Schema Definition ---
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -33,6 +41,7 @@ const formSchema = z.object({
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
 
+  // --- Form Setup ---
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,61 +52,40 @@ export default function SignupPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
+    // Simulate API call
+    alert(JSON.stringify(values, null, 2));
   }
 
   return (
-    <div className="flex h-screen w-full bg-white overflow-hidden">
-      {/* Left Section - Architecture Image */}
-      <div className="hidden lg:block w-1/2 h-full relative">
-        <div className="relative h-full w-full overflow-hidden">
-          <img
-            src="/signup-bg.png"
-            alt="Signup Background"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
-
-      {/* Right Section - Signup Form */}
-      <div className="w-full lg:w-1/2 h-full flex flex-col justify-center px-8 md:px-12 lg:px-16 py-6 overflow-y-auto">
-        <div className="w-full max-w-xl mx-auto flex flex-col h-full justify-center">
-          {/* Header: Logo and Login Button */}
-          <div className="flex justify-between items-center mb-6 shrink-0">
-            <Link href="/">
-              <img src="/logo.png" alt="ATA Logo" className="h-12 w-auto" />
-            </Link>
-            <Link href="/login">
-              <Button className="bg-[#d97706] hover:bg-[#b45309] text-white rounded-full px-6 h-9 text-sm font-semibold">
-                Login
-              </Button>
-            </Link>
-          </div>
-
-          {/* Scrollable Content Container */}
-          <div className="flex-1 flex flex-col justify-center min-h-0">
+    <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white font-sans overflow-x-hidden ">
+      <LoginLeftDesign link="/login" text="Login" />
+      {/* --- Right Panel (Form) --- */}
+      {/* Fixed: Adjusted width to 55% (was 60%) to prevent layout breaking on 1024px screens */}
+      <div className="w-full lg:w-[55%] flex flex-col relative">
+        {/* Top Navigation Bar */} {/* Desktop Navigation Bar */}
+        <AuthHeader link="/login" text="Login" />
+        {/* Form Content Container */}
+        <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 pb-10 lg:py-0">
+          <div className="w-full max-w-xl mx-auto mt-10">
             {/* Badge */}
-            <div className="mb-4">
-              <span className="bg-[#84cc16] text-white px-3 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase">
-                Join The Village
-              </span>
-            </div>
+            <Badge className="bg-accent-color text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
+              JOIN THE VILLAGE
+            </Badge>
 
             {/* Heading */}
-            <h1 className="text-3xl font-bold text-[#064e3b] mb-1">
+            <h1 className="text-3xl sm:text-4xl font-bold text-primary-color mb-2 tracking-tight">
               Create an account
             </h1>
 
-            {/* Login Link */}
-            <p className="text-gray-500 text-sm mb-6">
+            {/* Subheading / Login Link */}
+            <p className="text-gray-500 text-sm mb-8">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="text-[#1a5d1a] font-bold hover:underline"
+                className="text-[#1a5d1a] font-bold hover:underline decoration-2 underline-offset-2"
               >
-                Log in
+                Login
               </Link>
             </p>
 
@@ -107,17 +95,19 @@ export default function SignupPage() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4"
               >
+                {/* User Name */}
                 <FormField
                   control={form.control}
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="block text-xs font-medium text-gray-600">
+                      <FormLabel className="text-gray-500 font-medium">
                         User name
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-[#84cc16] focus:border-[#84cc16]"
+                          placeholder="Enter your username"
+                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white text-base"
                           {...field}
                         />
                       </FormControl>
@@ -126,17 +116,20 @@ export default function SignupPage() {
                   )}
                 />
 
+                {/* Email Address */}
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="block text-xs font-medium text-gray-600">
+                      <FormLabel className="text-gray-500 font-medium">
                         Email address
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-[#84cc16] focus:border-[#84cc16]"
+                          type="email"
+                          placeholder="Enter your email"
+                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white text-base"
                           {...field}
                         />
                       </FormControl>
@@ -145,91 +138,99 @@ export default function SignupPage() {
                   )}
                 />
 
+                {/* Password */}
                 <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="block text-xs font-medium text-gray-600">
-                        Password
+                      <FormLabel className="text-gray-500 font-medium flex justify-between">
+                        <span>Password</span>
+                        <div
+                          className="flex items-center text-gray-400 gap-1 cursor-pointer hover:text-gray-600 select-none"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="w-4 h-4" />
+                          ) : (
+                            <Eye className="w-4 h-4" />
+                          )}
+                          <span className="text-xs">
+                            {showPassword ? "Hide" : "Show"}
+                          </span>
+                        </div>
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Input
                             type={showPassword ? "text" : "password"}
-                            className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-[#84cc16] focus:border-[#84cc16]"
+                            placeholder="Enter your password"
+                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white pr-10 text-base"
                             {...field}
                           />
-                          <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 flex items-center gap-1 text-xs"
-                          >
-                            {showPassword ? (
-                              <EyeOff className="w-3 h-3" />
-                            ) : (
-                              <Eye className="w-3 h-3" />
-                            )}
-                            <span>Hide</span>
-                          </button>
                         </div>
                       </FormControl>
-                      <p className="text-[10px] text-gray-500 mt-0.5">
+                      <FormMessage />
+                      <p className="text-[10px] text-gray-600 mt-1.5">
                         Use 8 or more characters with a mix of letters, numbers
                         & symbols
                       </p>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
 
                 {/* Terms */}
-                <div className="pt-1">
-                  <p className="text-[10px] text-gray-500">
-                    By creating an account, you agree to our{" "}
-                    <Link
+                <div className="pb-2">
+                  <p className="text-[11px] text-gray-600 leading-relaxed">
+                    By creating an account, you agree to our <br />
+                    <a
                       href="#"
-                      className="text-[#1a5d1a] font-bold underline"
+                      className="text-[#1a5d1a] font-bold underline decoration-1 underline-offset-2"
                     >
                       Terms of use
-                    </Link>{" "}
+                    </a>{" "}
                     and{" "}
-                    <Link
+                    <a
                       href="#"
-                      className="text-[#1a5d1a] font-bold underline"
+                      className="text-[#1a5d1a] font-bold underline decoration-1 underline-offset-2"
                     >
                       Privacy Policy
-                    </Link>
+                    </a>
                   </p>
                 </div>
 
-                {/* Create Account Button */}
-                <Button className="w-full bg-[#d97706] hover:bg-[#b45309] text-white font-bold py-2.5 h-11 rounded-lg text-sm shadow-sm mt-3">
-                  CREATE ACCOUNT
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  className="w-full bg-secondary-color hover:bg-[#b45309] text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
+                >
+                  Create Account
+                </Button>
+
+                {/* Divider */}
+                <div className="relative ">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border border-gray-400"></div>
+                  </div>
+                  <div className="relative flex justify-center text-xs">
+                    <span className="px-4 bg-white text-primary-color font-bold">
+                      OR
+                    </span>
+                  </div>
+                </div>
+
+                {/* Google Button */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm  transition-all"
+                  onClick={() => console.log("Google Login")}
+                >
+                  <FcGoogle className="w-5 h-5" />
+                  Continue with Google
                 </Button>
               </form>
             </Form>
-
-            {/* Divider */}
-            <div className="relative my-5">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-xs">
-                <span className="px-2 bg-white text-[#064e3b] font-bold">
-                  OR
-                </span>
-              </div>
-            </div>
-
-            {/* Google Button */}
-            <Button
-              variant="outline"
-              className="w-full border border-gray-300 text-gray-600 font-medium py-2.5 h-11 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-2 text-sm mb-5"
-            >
-              <FcGoogle className="w-10 h-10 text-2xl" />
-              Continue with Google
-            </Button>
           </div>
         </div>
       </div>

@@ -51,13 +51,9 @@ export default function WaitingListPage() {
   return (
     <div className="flex h-screen w-full bg-white overflow-hidden">
       {/* Left Section - Architecture Image */}
-      <div className="hidden lg:block w-1/2 h-full relative">
-        <div className="relative h-full w-full overflow-hidden">
-          <img
-            src="/wait-list.png"
-            alt="Signup Background"
-            className="w-full h-full object-cover"
-          />
+      <div className="w-1/2 h-full bg-[url('/Rectangle.png')] bg-cover bg-center rounded-r-3xl p-10">
+        <div className="bg-[url('/bg/Rectangle2.png')] bg-cover bg-center rounded-3xl w-full h-full">
+          <div className="w-full h-full hidden">.</div>
         </div>
       </div>
 
@@ -70,7 +66,7 @@ export default function WaitingListPage() {
               <img src="/logo.png" alt="ATA Logo" className="h-12 w-auto" />
             </Link>
             <Link href="/login">
-              <Button className="bg-[#d97706] hover:bg-[#b45309] text-white rounded-full px-6 h-9 text-sm font-semibold">
+              <Button className="bg-secondary-color hover:bg-[#b45309] text-white rounded-full px-6 h-9 text-sm font-semibold">
                 Login
               </Button>
             </Link>
@@ -80,13 +76,13 @@ export default function WaitingListPage() {
           <div className="flex-1 flex flex-col justify-center min-h-0">
             {/* Badge */}
             <div className="mb-4">
-              <span className="bg-[#84cc16] text-white px-3 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase">
+              <span className="bg-accent-color text-white px-3 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase">
                 Waiting List
               </span>
             </div>
 
             {/* Heading */}
-            <h1 className="text-3xl font-bold text-[#064e3b] mb-2">
+            <h1 className="text-3xl font-bold text-primary-color mb-2">
               Join The Waiting List
             </h1>
 
@@ -113,7 +109,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Input
                           placeholder="Your name"
-                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-[#84cc16] focus:border-[#84cc16]"
+                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
                           {...field}
                         />
                       </FormControl>
@@ -133,7 +129,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Input
                           placeholder="your@email.com"
-                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-[#84cc16] focus:border-[#84cc16]"
+                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
                           {...field}
                         />
                       </FormControl>
@@ -153,7 +149,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Input
                           placeholder="Your country"
-                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-[#84cc16] focus:border-[#84cc16]"
+                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
                           {...field}
                         />
                       </FormControl>
@@ -174,7 +170,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Textarea
                           placeholder="Share here..."
-                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-[#84cc16] focus:border-[#84cc16]"
+                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
                           rows={5}
                           {...field}
                         />
@@ -186,7 +182,7 @@ export default function WaitingListPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-[#d97706] hover:bg-[#b45309] text-white font-bold py-2.5 h-11 rounded-lg text-sm shadow-sm mt-3"
+                  className="w-full bg-secondary-color hover:bg-[#b45309] text-white font-bold py-2.5 h-11 rounded-lg text-sm shadow-sm mt-3"
                 >
                   JOIN NOW
                 </Button>
