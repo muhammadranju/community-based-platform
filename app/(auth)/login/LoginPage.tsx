@@ -182,7 +182,7 @@ export default function LoginPage() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full bg-secondary-color hover:bg-[#b45309] text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
+                  className="w-full bg-secondary-color hover:bg-secondary-color2 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
                 >
                   Login
                 </Button>

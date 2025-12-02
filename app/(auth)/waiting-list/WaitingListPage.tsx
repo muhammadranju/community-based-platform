@@ -66,7 +66,7 @@ export default function WaitingListPage() {
               <img src="/logo.png" alt="ATA Logo" className="h-12 w-auto" />
             </Link>
             <Link href="/login">
-              <Button className="bg-secondary-color hover:bg-[#b45309] text-white rounded-full px-6 h-9 text-sm font-semibold">
+              <Button className="bg-secondary-color hover:bg-secondary-color2 text-white rounded-full px-6 h-9 text-sm font-semibold">
                 Login
               </Button>
             </Link>
@@ -182,7 +182,7 @@ export default function WaitingListPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-secondary-color hover:bg-[#b45309] text-white font-bold py-2.5 h-11 rounded-lg text-sm shadow-sm mt-3"
+                  className="w-full bg-secondary-color hover:bg-secondary-color2 text-white font-bold py-2.5 h-11 rounded-lg text-sm shadow-sm mt-3"
                 >
                   JOIN NOW
                 </Button>

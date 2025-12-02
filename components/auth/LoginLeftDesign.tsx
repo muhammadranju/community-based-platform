@@ -15,7 +15,7 @@ function LoginLeftDesign({ link, text }: { link: string; text?: string }) {
               e.currentTarget.style.display = "none";
               const span = document.createElement("span");
               span.innerText = "ATA";
-              span.className = "text-[#b45309] font-black text-2xl";
+              span.className = "text-secondary-color2 font-black text-2xl";
               e.currentTarget.parentNode?.appendChild(span);
             }}
           />

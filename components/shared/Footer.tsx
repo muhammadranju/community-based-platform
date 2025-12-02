@@ -1,26 +1,8 @@
-import {
-  ChevronRight,
-  Facebook,
-  HeartHandshake,
-  Home,
-  Instagram,
-  Linkedin,
-  Send,
-  Youtube,
-} from "lucide-react";
+import { ChevronRight, HeartHandshake, Home, Send } from "lucide-react";
+import Link from "next/link";
 import React from "react";
-
-// Custom Icons for those not perfectly matched in Lucide
-const TikTokIcon = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-  </svg>
-);
+import { FaFacebook, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
+import { PiInstagramLogoFill } from "react-icons/pi";
 
 const Footer: React.FC = () => {
   return (
@@ -77,11 +59,11 @@ const Footer: React.FC = () => {
                 Follow us on our social media channels
               </p>
               <div className="flex gap-3">
-                <SocialLink icon={<Youtube size={20} />} />
-                <SocialLink icon={<TikTokIcon className="w-5 h-5" />} />
-                <SocialLink icon={<Linkedin size={20} />} />
-                <SocialLink icon={<Instagram size={20} />} />
-                <SocialLink icon={<Facebook size={20} />} />
+                <SocialLink icon={<FaYoutube size={20} />} />
+                <SocialLink icon={<FaTiktok size={20} />} />
+                <SocialLink icon={<FaLinkedin size={20} />} />
+                <SocialLink icon={<PiInstagramLogoFill size={20} />} />
+                <SocialLink icon={<FaFacebook size={20} />} />
               </div>
             </div>
 
@@ -134,15 +116,15 @@ const Footer: React.FC = () => {
               © Africa Traditional Architecture 2025| All Rights Reserved
             </p>
             <div className="flex gap-8">
-              <a href="#" className="hover:text-white transition-colors">
+              <Link href="#" className="hover:text-white transition-colors">
                 Terms & Conditions
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
+              </Link>
+              <Link href="#" className="hover:text-white transition-colors">
                 Privacy Policy
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
+              </Link>
+              <Link href="#" className="hover:text-white transition-colors">
                 Contact Us
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -152,20 +134,24 @@ const Footer: React.FC = () => {
 };
 
 const SocialLink = ({ icon }: { icon: React.ReactNode }) => (
-  <a
+  <Link
     href="#"
     className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary-color hover:bg-accent-color hover:text-white transition-all duration-300"
   >
     {icon}
-  </a>
+  </Link>
 );
 
 const LinkItem = ({ text }: { text: string }) => (
   <li className="flex items-start gap-2 group cursor-pointer">
     <ChevronRight className="w-4 h-4 mt-1 text-accent-color shrink-0 group-hover:translate-x-1 transition-transform" />
-    <span className="text-sm font-light leading-relaxed text-gray-200 group-hover:text-white transition-colors">
+
+    <Link
+      href="#"
+      className="text-sm font-light leading-relaxed text-gray-200 group-hover:text-white transition-colors"
+    >
       {text}
-    </span>
+    </Link>
   </li>
 );
 

@@ -51,6 +51,7 @@ body {
   --radius-xl: calc(var(--radius) + 4px);
   --color-primary-color: var(--primaryColor);
   --color-secondary-color: var(--secondaryColor);
+  --color-secondary-color2: var(--secondaryColor2);
   --color-accent-color: var(--accentColor);
   --color-accent-bg: var(--accentBg);
 }
@@ -92,6 +93,7 @@ body {
   /* Custom Colors */
   --primaryColor: #034833;
   --secondaryColor: #d66a28;
+  --secondaryColor2: #b45309;
   --accentColor: #83cd20;
   --accentBg: #e6ebdf;
 }
@@ -132,6 +134,7 @@ body {
   /* Custom Colors (same in dark mode) */
   --primaryColor: #034833;
   --secondaryColor: #d66a28;
+  --secondaryColor2: #b45309;
   --accentColor: #83cd20;
   --accentBg: #e6ebdf;
 }
