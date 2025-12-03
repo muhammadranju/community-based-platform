@@ -41,7 +41,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        className={`sticky top-0 z-50 w-full transition-all duration-300 mb-5 ${
           isScrolled
             ? "bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm"
             : "bg-white"
@@ -54,9 +54,9 @@ export default function Header() {
               <Image
                 src="/logo.png"
                 alt="Logo"
-                width={120}
-                height={120}
-                className="w-auto h-12"
+                width={160}
+                height={160}
+                className="w-auto h-16"
               />
             </Link>
 

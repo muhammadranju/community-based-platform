@@ -1,0 +1,55 @@
+import { Calendar, MapPin } from "lucide-react";
+import React from "react";
+import { Button } from "../ui/button";
+import { ContentItem } from "@/types/types";
+// import { MapPin, Calendar } from 'lucide-react';
+// import { ContentItem } from '../types';
+// import Button from './Button';
+
+interface PopularContentCardProps {
+  item: ContentItem;
+}
+
+const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
+  return (
+    <div className="bg-[#F2F6EF] border border-lime-500 rounded-2xl p-6 flex flex-col h-full hover:shadow-md  hover:bg-white hover:border-white transition-colors duration-400">
+      <div className="flex-1 mb-6">
+        <h3 className="text-xl font-bold text-brand-dark mb-3 font-sans tracking-tight">
+          {item.title}
+        </h3>
+        <p className="text-gray-600 text-sm leading-relaxed font-light">
+          {item.description}
+        </p>
+      </div>
+
+      {/* Divider */}
+      <div className="h-px bg-lime-500/30 w-full mb-4" />
+
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-3 md:gap-4 text-xs font-medium text-gray-700">
+          <div className="flex items-center gap-1.5">
+            <div className="bg-primary-color  rounded-full p-1 shrink-0">
+              <MapPin size={10} className="text-white" strokeWidth={3} />
+            </div>
+            <span>{item.location}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="bg-primary-color rounded-full p-1 shrink-0">
+              <Calendar size={10} className="text-white" strokeWidth={3} />
+            </div>
+            <span className="whitespace-nowrap">{item.date}</span>
+          </div>
+        </div>
+
+        <Button
+          //   variant="orange-outline"
+          className="text-xs px-4 py-3 h-auto font-semibold shrink-0 rounded-full bg-transparent border border-secondary-color text-primary-color hover:bg-secondary-color hover:text-white transition-colors duration-200"
+        >
+          Read Post
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default PopularContentCard;

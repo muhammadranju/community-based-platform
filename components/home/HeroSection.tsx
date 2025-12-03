@@ -37,7 +37,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="relative text-white  rounded-xl lg:mt-5 mt-5">
+    <section className="relative text-white  rounded-xl ">
       {/* Background Pattern Overlay */}
       <div className="absolute  inset-0 bg-[url('/hero-bg.png')] bg-size-[100%_100%] bg-no-repeat bg-center opacity-100 rounded-2xl"></div>
 

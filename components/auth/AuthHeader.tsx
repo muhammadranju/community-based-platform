@@ -12,7 +12,7 @@ function AuthHeader({ link, text }: { link: string; text?: string }) {
             alt="ATA Logo"
             width={120}
             height={120}
-            className="lg:h-12 w-auto object-contain"
+            className="lg:h-16 w-auto object-contain"
             onError={(e) => {
               e.currentTarget.style.display = "none";
               const span = document.createElement("span");
