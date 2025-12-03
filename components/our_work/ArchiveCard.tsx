@@ -1,6 +1,6 @@
-import type React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface ArchiveCardProps {
   id: number;
@@ -10,6 +10,7 @@ interface ArchiveCardProps {
   image: string;
   description: string;
   borderColor: string;
+  link: string;
 }
 
 export default function ArchiveCard({
@@ -19,6 +20,7 @@ export default function ArchiveCard({
   image,
   description,
   borderColor,
+  link,
 }: ArchiveCardProps) {
   return (
     <div
@@ -48,12 +50,18 @@ export default function ArchiveCard({
 
       {/* Button */}
       <div>
-        <Button
-          variant="outline"
-          className="text-gray-700 border-gray-400 hover:bg-gray-50 rounded-full px-6 py-2 font-medium bg-transparent"
-        >
-          Explore Now
-        </Button>
+        <Link href={link}>
+          <Button
+            // variant="outline"
+            // className={`text-gray-700 border  hover:bg-gray-50 rounded-full px-6 py-2 font-medium bg-transparent`}
+            className={cn(
+              "text-gray-700 border  hover:bg-gray-50 rounded-full px-6 py-2 font-medium bg-transparent",
+              borderColor
+            )}
+          >
+            Explore Nows
+          </Button>
+        </Link>
       </div>
     </div>
   );

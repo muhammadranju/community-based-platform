@@ -58,7 +58,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white font-sans overflow-x-hidden ">
+    <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white  overflow-x-hidden ">
       <LoginLeftDesign link="/login" text="Login" />
       {/* --- Right Panel (Form) --- */}
       {/* Fixed: Adjusted width to 55% (was 60%) to prevent layout breaking on 1024px screens */}

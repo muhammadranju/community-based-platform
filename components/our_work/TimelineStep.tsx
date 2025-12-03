@@ -29,7 +29,7 @@ const TimelineStep: React.FC<TimelineStepProps> = ({ step, isLast }) => {
 
       {/* Content Column */}
       <div className="py-10 pt-1">
-        <h3 className="text-xl font-bold text-primary-color mb-1 font-sans">
+        <h3 className="text-xl font-bold text-primary-color mb-1 ">
           {step.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed border-b border-gray-300 pb-4">

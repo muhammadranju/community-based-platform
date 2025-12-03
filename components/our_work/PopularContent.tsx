@@ -1,5 +1,4 @@
 import React from "react";
-// import { POPULAR_CONTENT } from '../constants';
 import PopularContentCard from "./PopularContentCard";
 import { POPULAR_CONTENT } from "./ProcessCardData";
 

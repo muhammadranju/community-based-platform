@@ -53,7 +53,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white font-sans overflow-x-hidden">
+    <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white  overflow-x-hidden">
       <LoginLeftDesign link="/signup" text="Signup" />
       {/* --- Right Panel (Form) --- */}
       <div className="w-full lg:w-[55%] flex flex-col relative">

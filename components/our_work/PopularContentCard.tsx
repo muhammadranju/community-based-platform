@@ -2,9 +2,6 @@ import { Calendar, MapPin } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
 import { ContentItem } from "@/types/types";
-// import { MapPin, Calendar } from 'lucide-react';
-// import { ContentItem } from '../types';
-// import Button from './Button';
 
 interface PopularContentCardProps {
   item: ContentItem;
@@ -14,7 +11,7 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
   return (
     <div className="bg-[#F2F6EF] border border-lime-500 rounded-2xl p-6 flex flex-col h-full hover:shadow-md  hover:bg-white hover:border-white transition-colors duration-400">
       <div className="flex-1 mb-6">
-        <h3 className="text-xl font-bold text-brand-dark mb-3 font-sans tracking-tight">
+        <h3 className="text-xl font-bold text-brand-dark mb-3  tracking-tight">
           {item.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed font-light">

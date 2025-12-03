@@ -1,4 +1,4 @@
-import { ContentItem, SectionData } from "@/types/types";
+import { ArchiveItem, ContentItem, SectionData } from "@/types/types";
 import {
   User,
   FolderOpen,
@@ -97,6 +97,7 @@ export const ARCHIVE_DATA = [
     description:
       "Kenya, Tanzania, Uganda, Ethiopia, Somalia, Burundi, Rwanda, Djibouti, Comoros, Eritrea, Seychelles, Mauritius, South Sudan, Reunion, Mayotte, French Southernn and Antarctic Lands",
     borderColor: "border-red-400",
+    link: "/our-work/east-african-architecture",
   },
   {
     id: 2,
@@ -107,6 +108,7 @@ export const ARCHIVE_DATA = [
     description:
       "Cameroon, Equatorial Guinea, Gabon, Congo, Chad, Central African Republic, Congo - the Democratic Republic, São Tomé and Príncipe",
     borderColor: "border-green-500",
+    link: "/our-work/central-african-architecture",
   },
   {
     id: 3,
@@ -117,6 +119,7 @@ export const ARCHIVE_DATA = [
     description:
       "Nigeria, Niger, Burkina Faso, Benin, Liberia, Ghana, The Gambia, Mali, Côte d'Ivoire, Senegal, Guinea, Togo, Sierra Leone, Guinea-Bissau, Mauritania, Cabot Verde, Saint-Helena, Ascension and Tristan da Cunha",
     borderColor: "border-blue-800",
+    link: "/our-work/west-african-architecture",
   },
   {
     id: 4,
@@ -127,6 +130,7 @@ export const ARCHIVE_DATA = [
     description:
       "South Africa, Botswana, Namibia, Lesotho, Eswatini, Zimbabwe, Zambia, Mozambique, Angola, Malawi, Madagascar",
     borderColor: "border-yellow-400",
+    link: "/our-work/south-african-architecture",
   },
   {
     id: 5,
@@ -137,6 +141,7 @@ export const ARCHIVE_DATA = [
     description:
       "Algeria, Egypt, Libyan Arab Jamahiriya, Morocco, Tunisia, Western Sahara, Sudan.",
     borderColor: "border-orange-400",
+    link: "/our-work/north-african-architecture",
   },
   {
     id: 6,
@@ -147,6 +152,7 @@ export const ARCHIVE_DATA = [
     description:
       "Showcase how African Traditional Architecture has influenced spaces globally, and far beyond the continent, not only through the African diaspora",
     borderColor: "border-purple-800",
+    link: "/our-work/african-architecture-globally",
   },
 ];
 
@@ -222,5 +228,75 @@ export const POPULAR_CONTENT: ContentItem[] = [
       "In the heart of northern Nigeria, Kano's ancient mud architecture stands resilient and beautiful. Explore how the city's earth-built walls,",
     location: "Kenya",
     date: "July 7, 2025",
+  },
+];
+
+export const COUNTRIES = [
+  "Kenya",
+  "Tanzania",
+  "Uganda",
+  "Ethiopia",
+  "Somalia",
+  "Burundi",
+  "Rwanda",
+  "Djibouti",
+  "Comoros",
+  "Eritrea",
+  "Seychelles",
+  "Mauritius",
+  "South Sudan",
+  "Réunion",
+  "Mayotte",
+  "French Southern and Antarctic Lands",
+];
+
+export const ARCHIVE_ITEMS: ArchiveItem[] = [
+  {
+    id: "a1",
+    title: "Manyatta",
+    subtitle: "Maasai Traditional home",
+    image:
+      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    stats: { photos: 6, videos: 6, pdfs: 6 },
+  },
+  {
+    id: "a2",
+    title: "Manyatta",
+    subtitle: "Maasai Traditional home",
+    image:
+      "https://images.unsplash.com/photo-1547471080-7541e8856987?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    stats: { photos: 6, videos: 6, pdfs: 6 },
+  },
+  {
+    id: "a3",
+    title: "Manyatta",
+    subtitle: "Maasai Traditional home",
+    image:
+      "https://images.unsplash.com/photo-1481277542470-605612bd2d61?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    stats: { photos: 6, videos: 6, pdfs: 6 },
+  },
+  {
+    id: "a4",
+    title: "Manyatta",
+    subtitle: "Maasai Traditional home",
+    image:
+      "https://images.unsplash.com/photo-1599578705716-9736775f05b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    stats: { photos: 6, videos: 6, pdfs: 6 },
+  },
+  {
+    id: "a5",
+    title: "Manyatta",
+    subtitle: "Maasai Traditional home",
+    image:
+      "https://images.unsplash.com/photo-1533669955278-6623e712792d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    stats: { photos: 6, videos: 6, pdfs: 6 },
+  },
+  {
+    id: "a6",
+    title: "Manyatta",
+    subtitle: "Maasai Traditional home",
+    image:
+      "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    stats: { photos: 6, videos: 6, pdfs: 6 },
   },
 ];

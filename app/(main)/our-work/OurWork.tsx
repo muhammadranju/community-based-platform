@@ -25,7 +25,7 @@ function OurWork() {
           />
           {/* Overlay for better text contrast */}
           <div className="relative z-10 max-w-4xl text-center flex flex-col items-center">
-            <h1 className="text-2xl md:text-5xl font-medium mb-6 font-sans tracking-tight">
+            <h1 className="text-2xl md:text-5xl font-medium mb-6  tracking-tight">
               African Indigenous Architecture Digital Archive
             </h1>
             <p className="text-gray-200 text-base md:text-lg max-w-2xl font-light leading-relaxed">
