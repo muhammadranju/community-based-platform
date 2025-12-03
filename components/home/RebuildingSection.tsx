@@ -2,13 +2,13 @@ export default function RebuildingSection() {
   return (
     <section className=" lg:py-28 py-12 bg-white">
       <div className="mb-8">
-        <span className="inline-block bg-accent-color text-white text-xs font-semibold px-5 py-2 rounded-full mb-4">
+        <span className="inline-block bg-lime-500 text-white text-xs font-semibold px-5 py-2 rounded-full mb-4">
           OUR MISSION
         </span>
-        <h2 className="text-2xl md:text-4xl font-bold text-primary-color mb-2">
+        <h2 className="text-2xl md:text-4xl font-bold text-emerald-900 mb-2">
           Rebuilding
         </h2>
-        <h2 className="text-2xl md:text-4xl font-bold text-primary-color">
+        <h2 className="text-2xl md:text-4xl font-bold text-emerald-900">
           Indigenous African Architecture
         </h2>
       </div>
@@ -23,7 +23,7 @@ export default function RebuildingSection() {
             alt="Mission"
             className="object-cover"
           />
-          {/* <div className="absolute inset-0 bg-secondary-color flex items-center justify-center">
+          {/* <div className="absolute inset-0 bg-amber-600 flex items-center justify-center">
               <span className="text-white font-bold opacity-50">
                 Mission Image Placeholder
               </span>

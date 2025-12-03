@@ -3,6 +3,7 @@ import React from "react";
 import { ArrowRightIcon, GridIcon, PlayIcon } from "lucide-react";
 import { PdfIcon } from "./Icons";
 import { GlassButton, PrimaryButton } from "./PrimaryButton";
+import Link from "next/link";
 // import { GridIcon, PlayIcon, PdfIcon, ArrowRightIcon } from './Icons';
 
 export interface DocumentItem {
@@ -38,6 +39,7 @@ interface MediaCardProps {
   label: string;
   type: "photos" | "videos";
   imageUrl: string;
+  url: string;
 }
 
 export const MediaCard: React.FC<MediaCardProps> = ({
@@ -45,6 +47,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
   label,
   type,
   imageUrl,
+  url,
 }) => {
   return (
     <div className="group relative h-[450px] w-full rounded-4xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
@@ -63,17 +66,18 @@ export const MediaCard: React.FC<MediaCardProps> = ({
         <h3 className="text-white text-4xl font-bold mb-6 drop-shadow-md">
           {count} {label}
         </h3>
-
-        <GlassButton
-          label={`View all ${label}`}
-          icon={
-            type === "photos" ? (
-              <GridIcon className="w-4 h-4" />
-            ) : (
-              <PlayIcon className="w-4 h-4" />
-            )
-          }
-        />
+        <Link href={url}>
+          <GlassButton
+            label={`View all ${label}`}
+            icon={
+              type === "photos" ? (
+                <GridIcon className="w-4 h-4" />
+              ) : (
+                <PlayIcon className="w-4 h-4" />
+              )
+            }
+          />
+        </Link>
       </div>
     </div>
   );
@@ -83,11 +87,13 @@ export const MediaCard: React.FC<MediaCardProps> = ({
 interface DocumentsCardProps {
   documents: DocumentItem[];
   totalCount: number;
+  url: string;
 }
 
 export const DocumentsCard: React.FC<DocumentsCardProps> = ({
   documents,
   totalCount,
+  url,
 }) => {
   return (
     <div className="h-full min-h-[450px] bg-white rounded-4xl p-8 flex flex-col shadow-sm">
@@ -113,7 +119,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
               </div>
             </div>
 
-            <div className="w-8 h-8 rounded-full bg-primary-color text-white flex items-center justify-center opacity-100 transition-opacity">
+            <div className="w-8 h-8 rounded-full bg-emerald-900 text-white flex items-center justify-center opacity-100 transition-opacity">
               <ArrowRightIcon className="w-4 h-4" />
             </div>
           </div>
@@ -121,11 +127,13 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
       </div>
 
       <div className="mt-8">
-        <PrimaryButton
-          label="View all Documents"
-          icon={<GridIcon className="w-4 h-4" />}
-          fullWidth
-        />
+        <Link href={url}>
+          <PrimaryButton
+            label="View all Documents"
+            icon={<GridIcon className="w-4 h-4" />}
+            fullWidth
+          />
+        </Link>
       </div>
     </div>
   );

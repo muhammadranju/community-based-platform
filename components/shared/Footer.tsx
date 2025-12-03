@@ -12,10 +12,10 @@ const Footer: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
           {/* Left CTA */}
           <div className="flex  flex-row items-center gap-6  md:text-left flex-1 justify-end ">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-accent-color">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-lime-500">
               <Home className="text-white w-8 h-8" strokeWidth={1.5} />
             </div>
-            <h3 className="text-primary-color text-xl font-medium max-w-xs leading-snug">
+            <h3 className="text-emerald-900ext-xl font-medium max-w-xs leading-snug">
               Acces Our African Indigenous Architecture Digital Archive
             </h3>
           </div>
@@ -25,13 +25,13 @@ const Footer: React.FC = () => {
 
           {/* Right CTA */}
           <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-accent-color">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-lime-500">
               <HeartHandshake
                 className="text-white w-8 h-8"
                 strokeWidth={1.5}
               />
             </div>
-            <h3 className="text-primary-color text-xl font-medium max-w-xs leading-snug">
+            <h3 className="text-emerald-900 text-xl font-medium max-w-xs leading-snug">
               Learn How You Can Donate To Support Our Work
             </h3>
           </div>
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Section */}
-      <div className="relative w-full text-white pt-16 pb-8 overflow-hidden bg-primary-color">
+      <div className="relative w-full text-white pt-16 pb-8 overflow-hidden bg-emerald-900">
         {/* World Map Background with low opacity */}
         <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
           <img
@@ -100,9 +100,9 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   placeholder="Enter Email"
-                  className="w-full bg-white text-gray-800 rounded-full py-3 px-5 pr-14 focus:outline-none focus:ring-2 focus:ring-accent-color"
+                  className="w-full bg-white text-gray-800 rounded-full py-3 px-5 pr-14 focus:outline-none focus:ring-2 focus:ring-lime-500"
                 />
-                <button className="absolute right-1 top-1 bottom-1 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:opacity-90 bg-accent-color">
+                <button className="absolute right-1 top-1 bottom-1 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:opacity-90 bg-lime-500">
                   <Send size={18} className="text-white ml-1" />{" "}
                   {/* ml-1 to visually center the icon better */}
                 </button>
@@ -136,7 +136,7 @@ const Footer: React.FC = () => {
 const SocialLink = ({ icon }: { icon: React.ReactNode }) => (
   <Link
     href="#"
-    className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-primary-color hover:bg-accent-color hover:text-white transition-all duration-300"
+    className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-900 hover:bg-lime-500 hover:text-white transition-all duration-300"
   >
     {icon}
   </Link>
@@ -144,7 +144,7 @@ const SocialLink = ({ icon }: { icon: React.ReactNode }) => (
 
 const LinkItem = ({ text }: { text: string }) => (
   <li className="flex items-start gap-2 group cursor-pointer">
-    <ChevronRight className="w-4 h-4 mt-1 text-accent-color shrink-0 group-hover:translate-x-1 transition-transform" />
+    <ChevronRight className="w-4 h-4 mt-1 text-lime-500 shrink-0 group-hover:translate-x-1 transition-transform" />
 
     <Link
       href="#"

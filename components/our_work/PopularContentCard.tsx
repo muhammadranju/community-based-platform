@@ -25,13 +25,13 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-3 md:gap-4 text-xs font-medium text-gray-700">
           <div className="flex items-center gap-1.5">
-            <div className="bg-primary-color  rounded-full p-1 shrink-0">
+            <div className="bg-emerald-900rounded-full p-1 shrink-0">
               <MapPin size={10} className="text-white" strokeWidth={3} />
             </div>
             <span>{item.location}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="bg-primary-color rounded-full p-1 shrink-0">
+            <div className="bg-emerald-900 rounded-full p-1 shrink-0">
               <Calendar size={10} className="text-white" strokeWidth={3} />
             </div>
             <span className="whitespace-nowrap">{item.date}</span>
@@ -40,7 +40,7 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
 
         <Button
           //   variant="orange-outline"
-          className="text-xs px-4 py-3 h-auto font-semibold shrink-0 rounded-full bg-transparent border border-secondary-color text-primary-color hover:bg-secondary-color hover:text-white transition-colors duration-200"
+          className="text-xs px-4 py-3 h-auto font-semibold shrink-0 rounded-full bg-transparent border border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white transition-colors duration-200"
         >
           Read Post
         </Button>

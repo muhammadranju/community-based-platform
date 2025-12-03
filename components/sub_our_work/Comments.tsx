@@ -80,15 +80,15 @@ const COMMENTS: CommentData[] = [
     attachments: [
       {
         type: "image",
-        url: "https://images.unsplash.com/photo-1590623652876-068a053c8466?q=80&w=600&auto=format&fit=crop",
+        url: "https://images.unsplash.com/photo-1764377725021-33bba9d00944?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         type: "image",
-        url: "https://images.unsplash.com/photo-1565039527780-6c92131972b9?q=80&w=600&auto=format&fit=crop",
+        url: "https://images.unsplash.com/photo-1764377725021-33bba9d00944?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         type: "image",
-        url: "https://images.unsplash.com/photo-1582913130063-424b4554b79b?q=80&w=600&auto=format&fit=crop",
+        url: "https://images.unsplash.com/photo-1764377725021-33bba9d00944?q=80&w=1080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
     ],
   },
@@ -123,12 +123,12 @@ const COMMENTS: CommentData[] = [
     attachments: [
       {
         type: "image",
-        url: "https://images.unsplash.com/photo-1518182170546-0766ce6fec56?q=80&w=600&auto=format&fit=crop",
+        url: "https://images.unsplash.com/photo-1764591696226-ea4e8d655bc7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       },
       {
         type: "video",
         thumbnail:
-          "https://images.unsplash.com/photo-1598528994503-62584c3606df?q=80&w=600&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1159&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         title: "Sidama House construction",
       },
     ],
@@ -177,7 +177,7 @@ const COMMENTS: CommentData[] = [
 const Pagination = () => {
   return (
     <div className="flex items-center gap-1.5 sm:gap-2">
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary-color text-white flex items-center justify-center hover:bg-teal-900 transition-colors">
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-teal-900 transition-colors">
         <ChevronLeft size={20} />
       </button>
 
@@ -200,7 +200,7 @@ const Pagination = () => {
         21
       </button>
 
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary-color text-white flex items-center justify-center hover:bg-teal-900 transition-colors">
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-teal-900 transition-colors">
         <ChevronRight size={20} />
       </button>
     </div>
@@ -277,18 +277,18 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
   return (
     <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* User Sidebar */}
-      <div className="flex-shrink-0 md:w-48">
-        <div className="border border-gray-200 rounded-xl p-4 flex flex-row md:flex-col items-center md:items-start gap-3 md:gap-4 bg-white h-full md:h-auto">
+      <div className="shrink-0 md:w-48 ">
+        <div className="border border-emerald-900 rounded-xl p-4 flex flex-row md:flex-col items-center  gap-3 md:gap-4 bg-white h-full md:h-auto">
           <img
             src={comment.user.avatar}
             alt={comment.user.name}
             className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover border-2 border-white shadow-sm"
           />
-          <div className="flex flex-col">
-            <h3 className="font-bold text-primary text-sm md:text-base">
+          <div className="flex flex-col items-center">
+            <h3 className="font-bold text-emerald-900 text-sm md:text-base">
               {comment.user.name}
             </h3>
-            <p className="text-xs text-secondary mt-0.5">
+            <p className="text-xs text-emerald-900 mt-0.5">
               <span className="font-medium">Joined:</span> {comment.user.joined}
             </p>
           </div>
@@ -298,18 +298,18 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
       {/* Content */}
       <div className="flex-grow min-w-0">
         <div className="mb-1">
-          <span className="text-primary font-medium text-sm md:text-base">
+          <span className="text-emerald-900 font-medium text-sm md:text-base">
             {comment.handle}
           </span>
         </div>
 
         {comment.title && (
-          <h4 className="font-bold text-primary text-base md:text-lg mb-2">
+          <h4 className="font-bold text-emerald-900 text-base md:text-lg mb-2">
             {comment.title}
           </h4>
         )}
 
-        <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4">
+        <p className="text-emerald-900 text-sm md:text-base leading-relaxed mb-4">
           {comment.content}
         </p>
 
@@ -331,7 +331,7 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-square relative"
+                  className="rounded-2xl overflow-hidden aspect-4/3 sm:aspect-square relative"
                 >
                   <img
                     src={att.url}
@@ -345,7 +345,7 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
         )}
 
         {/* Actions */}
-        <div className="flex items-center gap-4 text-secondary text-sm">
+        <div className="flex items-center gap-4 text-emerald-900 text-sm">
           <button className="flex items-center gap-1.5 hover:text-primary transition-colors">
             <div className="bg-blue-50 p-1 rounded text-primary">
               <ArrowUp size={16} fill="currentColor" className="text-primary" />
@@ -366,16 +366,16 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
 export const CommentsSection = () => {
   return (
     <div className="flex justify-center  mb-10">
-      <div className="w-full  border-2 border-primary-color rounded-3xl p-4 sm:p-8 md:p-12 shadow-sm relative overflow-hidden">
+      <div className="w-full  border-2 border-emerald-900 rounded-3xl p-4 sm:p-8 md:p-12 shadow-sm relative overflow-hidden">
         {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <MessageCircle
               size={32}
-              className="text-primary-color"
+              className="text-emerald-900"
               strokeWidth={2.5}
             />
-            <h1 className="text-3xl md:text-4xl font-bold text-primary-color tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-emerald-900 tracking-tight">
               Comment
             </h1>
           </div>
@@ -383,11 +383,11 @@ export const CommentsSection = () => {
             <input
               type="checkbox"
               id="save-info"
-              className="rounded border-gray-300 text-primary-color focus:ring-primary-color w-4 h-4"
+              className="rounded border-gray-300 text-emerald-900 focus:ring-emerald-900 w-4 h-4"
             />
             <label
               htmlFor="save-info"
-              className="text-sm text-primary-color font-medium"
+              className="text-sm text-emerald-900 font-medium"
             >
               Save my name email and website
             </label>
@@ -396,14 +396,14 @@ export const CommentsSection = () => {
 
         {/* Input Area */}
         <div className="mb-12">
-          <div className="border border-primary-color rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-primary-color/20 transition-all">
+          <div className="border border-emerald-900 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-emerald-900/20 transition-all">
             <textarea
               className="w-full p-4 min-h-[140px] resize-none outline-none text-gray-700 placeholder:text-gray-400"
               placeholder="Write your message here"
             ></textarea>
 
             {/* Toolbar */}
-            <div className="bg-white border-t border-primary-color p-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="bg-white border-t border-emerald-900 p-3 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500">
                 <div className="flex items-center gap-2">
                   <button className="hover:text-primary p-1">
@@ -438,12 +438,12 @@ export const CommentsSection = () => {
                   </button>
                 </div>
                 <div className="w-px h-4 bg-gray-200 hidden sm:block"></div>
-                <button className="hover:text-primary-color p-1 flex items-center gap-1 text-xs sm:text-sm font-medium">
+                <button className="hover:text-emerald-900 p-1 flex items-center gap-1 text-xs sm:text-sm font-medium">
                   <Paperclip size={16} /> Attach File
                 </button>
               </div>
 
-              <Button className="w-full sm:w-auto bg-secondary-color hover:bg-secondary-color/80 text-white font-medium px-6 py-2.5 rounded-full transition-colors shadow-sm">
+              <Button className="w-full sm:w-auto bg-amber-600 hover:bg-amber-600/80 text-white font-medium px-6 py-2.5 rounded-full transition-colors shadow-sm">
                 Post Comment
               </Button>
             </div>
@@ -452,7 +452,7 @@ export const CommentsSection = () => {
 
         {/* Comments Count & Pagination Top */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-primary-color">
+          <h2 className="text-2xl md:text-3xl font-bold text-emerald-900">
             2,342 Comments
           </h2>
           <Pagination />

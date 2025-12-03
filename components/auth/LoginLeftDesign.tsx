@@ -15,14 +15,14 @@ function LoginLeftDesign({ link, text }: { link: string; text?: string }) {
               e.currentTarget.style.display = "none";
               const span = document.createElement("span");
               span.innerText = "ATA";
-              span.className = "text-secondary-color2 font-black text-2xl";
+              span.className = "text-orange-600 font-black text-2xl";
               e.currentTarget.parentNode?.appendChild(span);
             }}
           />
         </div>
 
         <Link href={link}>
-          <Button className="bg-[#ea580c] hover:bg-[#c2410c] text-white rounded-full px-6 h-10 font-semibold shadow-md transition-all text-sm">
+          <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-6 h-10 font-semibold shadow-md transition-all text-sm">
             {text}
           </Button>
         </Link>

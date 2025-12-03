@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 
 const ArchiveHeader: React.FC = () => {
   return (
-    <div className="bg-white rounded-3xl p-6 md:p-10 border border-primary-color shadow-sm mb-8">
-      <h2 className="text-2xl md:text-3xl font-bold text-primary-color  mb-8 tracking-tight">
+    <div className="bg-white rounded-3xl p-6 md:p-10 border border-emerald-900hadow-sm mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-emerald-900  mb-8 tracking-tight">
         Contribute Photos, Videos & Documents To The Archive
       </h2>
 
@@ -24,7 +24,7 @@ const ArchiveHeader: React.FC = () => {
           >
             Sign up
           </Button>
-          <Button className="flex-1 sm:flex-none px-6 py-2 h-auto text-sm font-semibold shadow-none bg-secondary-color rounded-full hover:bg-secondary-color/80">
+          <Button className="flex-1 sm:flex-none px-6 py-2 h-auto text-sm font-semibold shadow-none bg-amber-600 rounded-full hover:bg-amber-600/80">
             Login
           </Button>
         </div>

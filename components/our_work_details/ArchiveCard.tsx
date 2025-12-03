@@ -12,7 +12,7 @@ interface ArchiveCardProps {
 
 const ArchiveCard: React.FC<ArchiveCardProps> = ({ item }) => {
   return (
-    <div className=" rounded-2xl overflow-hidden border border-primary-color/80 flex flex-col h-full hover:shadow-lg transition-all duration-300 group">
+    <div className=" rounded-2xl overflow-hidden border border-emerald-900/80 flex flex-col h-full hover:shadow-lg transition-all duration-300 group">
       {/* Image Container */}
       <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
         <img
@@ -20,13 +20,13 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item }) => {
           alt={item.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <button className="absolute top-3 right-3 p-2 bg-[#F2F6EF] backdrop-blur-sm rounded-full text-primary-color hover:text-brand-orange transition-colors shadow-sm">
+        <button className="absolute top-3 right-3 p-2 bg-[#F2F6EF] backdrop-blur-sm rounded-full text-emerald-900 hover:text-brand-orange transition-colors shadow-sm">
           <Heart size={18} />
         </button>
       </div>
 
       {/* Content */}
-      <div className="p-5 flex-1 flex flex-col bg-[#F2F6EF] rounded-t-2xl border-t border-primary-color">
+      <div className="p-5 flex-1 flex flex-col bg-[#F2F6EF] rounded-t-2xl border-t border-emerald-900">
         <div className="mb-4">
           <h3 className="text-xl font-bold text-secondary-color mb-1 ">
             {item.title}
@@ -35,16 +35,16 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item }) => {
         </div>
 
         {/* Stats */}
-        <div className="flex items-center gap-4 mb-6 border-b border-primary-color pb-4">
-          <div className="flex items-center gap-1.5 text-xs text-primary-color font-medium">
+        <div className="flex items-center gap-4 mb-6 border-b border-emerald-900 pb-4">
+          <div className="flex items-center gap-1.5 text-xs text-emerald-900 font-medium">
             <ImageIcon size={16} strokeWidth={1.5} />
             <span>{item.stats.photos} Photos</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-primary-color font-medium">
+          <div className="flex items-center gap-1.5 text-xs text-emerald-900 font-medium">
             <Video size={16} strokeWidth={1.5} />
             <span>{item.stats.videos} Videos</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-primary-color font-medium">
+          <div className="flex items-center gap-1.5 text-xs text-emerald-900 font-medium">
             <FileText size={16} strokeWidth={1.5} />
             <span>{item.stats.pdfs} PDF</span>
           </div>
@@ -52,10 +52,10 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item }) => {
 
         {/* Footer Action */}
         <div className="mt-auto">
-          <Link href={"/sub-our-work"}>
+          <Link href={"/our-work/our-work-details"}>
             <Button
               variant="outline"
-              className="w-auto px-6 py-2 h-9 text-xs font-semibold hover:bg-secondary-color hover:text-white transition-colors rounded-full bg-transparent border-secondary-color text-primary-color"
+              className="w-auto px-6 py-2 h-9 text-xs font-semibold hover:bg-amber-600 hover:text-white transition-colors rounded-full bg-transparent border-secondary-color text-emerald-900"
             >
               Open Folder
             </Button>

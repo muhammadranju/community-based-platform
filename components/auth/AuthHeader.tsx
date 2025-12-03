@@ -25,7 +25,7 @@ function AuthHeader({ link, text }: { link: string; text?: string }) {
       </Link>
 
       <Link href={link}>
-        <Button className="px-6 py-5 bg-secondary-color hover:bg-secondary-color2 text-white rounded-full">
+        <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-700 text-white rounded-full">
           {text}
         </Button>
       </Link>

@@ -43,7 +43,7 @@ export default function GetInvolvedSection() {
     <section className="lg:py-28 py-12 bg-white">
       <div className="mb-12">
         <HomeBadge>JOIN OUR COMMUNITY</HomeBadge>
-        <h2 className="text-3xl md:text-4xl max-w-2xl font-bold text-primary-color">
+        <h2 className="text-3xl md:text-4xl max-w-2xl font-bold text-emerald-900">
           Here are a few ways you can become a part of the village
         </h2>
       </div>
@@ -54,37 +54,37 @@ export default function GetInvolvedSection() {
             key={index}
             className={`rounded-3xl p-8 border ${
               index === 0
-                ? "bg-primary-color text-white border-primary-color"
-                : "bg-white text-primary-color border-gray-200"
+                ? "bg-emerald-900 text-white border-emerald-900"
+                : "bg-white text-emerald-900 border-gray-200"
             }`}
           >
             <div className="flex items-center gap-2 mb-6">
               {index === 0 ? (
                 <div className="flex items-center gap-2">
                   <span className="p-2 rounded-full bg-white">
-                    <Image className="text-primary-color" />
+                    <Image className="text-emerald-900" />
                   </span>
                   <span className="text-xs font-bold opacity-80 flex items-center gap-2">
                     Photo
                   </span>{" "}
                   <span className="p-2 rounded-full bg-white">
-                    <Video className="text-primary-color" />
+                    <Video className="text-emerald-900" />
                   </span>
                   <span className="text-xs font-bold opacity-80">Video</span>{" "}
                   <span className="p-2 rounded-full bg-white">
-                    <FileText className="text-primary-color" />
+                    <FileText className="text-emerald-900" />
                   </span>
                   <span className="text-xs font-bold opacity-80">Document</span>
                 </div>
               ) : (
                 <div
                   className={`p-2 rounded-full ${
-                    index === 0 ? "bg-white/20" : "bg-primary-color/10"
+                    index === 0 ? "bg-white/20" : "bg-emerald-900/10"
                   }`}
                 >
                   <action.icon
                     className={`h-6 w-6 ${
-                      index === 0 ? "text-white" : "text-primary-color"
+                      index === 0 ? "text-white" : "text-emerald-900"
                     }`}
                   />
                 </div>
@@ -110,8 +110,8 @@ export default function GetInvolvedSection() {
               href={action.link}
               className={`inline-flex items-center px-6 py-2 rounded-full text-sm font-bold border transition-colors ${
                 index === 0
-                  ? "border-white text-white hover:bg-white hover:text-primary-color"
-                  : "border-secondary-color text-primary-color hover:bg-secondary-color hover:text-white"
+                  ? "border-white text-white hover:bg-white hover:text-emerald-900"
+                  : "border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white"
               }`}
             >
               {action.buttonText}

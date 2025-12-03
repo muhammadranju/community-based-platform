@@ -82,17 +82,11 @@ function SubOurWork() {
     <>
       <div className="text-gray-800">
         <HeaderBanner />
-        <div className="py-12 md:py-16">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6 gap-4 md:gap-6 md:flex-wrap md:justify-center">
-            {categories.map((category) => (
-              <OurWorkCategoryCard key={category.id} {...category} />
-            ))}
-          </div>
-        </div>
+
         <div className=" mx-auto space-y-8 ">
           <div className="bg-accent-bg p-5 rounded-2xl space-y-5">
             {/* Header Section */}
-            <header className="relative w-full bg-primary-color rounded-4xl p-8 md:p-16 text-white overflow-hidden shadow-sm ">
+            <header className="relative w-full bg-emerald-900 rounded-4xl p-8 md:p-16 text-white overflow-hidden shadow-sm ">
               {/* Badge */}
               <CustomBadge>Explore Content in the Archive</CustomBadge>
 
@@ -124,6 +118,7 @@ function SubOurWork() {
                 type="photos"
                 // Using a distinct image of Maasai or similar landscape
                 imageUrl="https://picsum.photos/seed/maasai1/800/1000"
+                url="/our-work/our-work-details/photos"
               />
               <MediaCard
                 count={10}
@@ -131,8 +126,13 @@ function SubOurWork() {
                 type="videos"
                 // Using a distinct image of Maasai people walking or gathering
                 imageUrl="https://picsum.photos/seed/maasai2/800/1000"
+                url="/our-work/our-work-details/videos"
               />
-              <DocumentsCard documents={MOCK_DOCS} totalCount={7} />
+              <DocumentsCard
+                documents={MOCK_DOCS}
+                totalCount={7}
+                url="/our-work/our-work-details/pdfs"
+              />
             </section>
           </div>
           {/* About Section */}

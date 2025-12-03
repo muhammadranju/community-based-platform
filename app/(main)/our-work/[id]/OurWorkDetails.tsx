@@ -1,9 +1,6 @@
 "use client";
 import ArchiveExplorer from "@/components/our_work_details/ArchiveExplorer";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
-import OurWorkCategoryCard from "@/components/our_work_details/OurWorkCategoryCard";
-import { Search } from "lucide-react";
-import { useState } from "react";
 
 const categories = [
   {
@@ -54,14 +51,6 @@ function OurWorkDetails() {
   return (
     <main className="w-full">
       <HeaderBanner />
-
-      <div className="py-12 md:py-16">
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6 gap-4 md:gap-6 md:flex-wrap md:justify-center">
-          {categories.map((category) => (
-            <OurWorkCategoryCard key={category.id} {...category} />
-          ))}
-        </div>
-      </div>
 
       {/* Archive Explorer Section */}
       <section className="py-16 md:py-24">

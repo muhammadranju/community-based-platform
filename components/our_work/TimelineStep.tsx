@@ -14,7 +14,7 @@ const TimelineStep: React.FC<TimelineStepProps> = ({ step, isLast }) => {
       {/* Icon Column */}
       <div className="flex flex-col items-center">
         {/* The Icon Circle */}
-        <div className="w-12 h-12 rounded-full bg-accent-color flex items-center justify-center z-10 shrink-0 text-white shadow-sm border-2 border-brand-beige">
+        <div className="w-12 h-12 rounded-full bg-lime-500 flex items-center justify-center z-10 shrink-0 text-white shadow-sm border-2 border-brand-beige">
           <Icon size={20} strokeWidth={2.5} />
         </div>
 
@@ -29,7 +29,7 @@ const TimelineStep: React.FC<TimelineStepProps> = ({ step, isLast }) => {
 
       {/* Content Column */}
       <div className="py-10 pt-1">
-        <h3 className="text-xl font-bold text-primary-color mb-1 ">
+        <h3 className="text-xl font-bold text-emerald-900 mb-1 ">
           {step.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed border-b border-gray-300 pb-4">

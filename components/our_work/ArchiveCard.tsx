@@ -39,12 +39,12 @@ export default function ArchiveCard({
       </div>
 
       {/* Title */}
-      <h3 className="text-lg md:text-xl font-bold text-primary-color mb-4">
+      <h3 className="text-lg md:text-xl font-bold text-emerald-900 mb-4">
         {title}
       </h3>
 
       {/* Description */}
-      <p className="text-primary-color text-sm md:text-base leading-relaxed mb-6">
+      <p className="text-emerald-900 text-sm md:text-base leading-relaxed mb-6">
         {description}
       </p>
 

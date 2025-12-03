@@ -66,7 +66,7 @@ export default function WaitingListPage() {
               <img src="/logo.png" alt="ATA Logo" className="h-12 w-auto" />
             </Link>
             <Link href="/login">
-              <Button className="bg-secondary-color hover:bg-secondary-color2 text-white rounded-full px-6 h-9 text-sm font-semibold">
+              <Button className="bg-amber-600 hover:bg-amber-600 text-white rounded-full px-6 h-9 text-sm font-semibold">
                 Login
               </Button>
             </Link>
@@ -76,13 +76,13 @@ export default function WaitingListPage() {
           <div className="flex-1 flex flex-col justify-center min-h-0">
             {/* Badge */}
             <div className="mb-4">
-              <span className="bg-accent-color text-white px-3 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase">
+              <span className="bg-lime-500 text-white px-3 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase">
                 Waiting List
               </span>
             </div>
 
             {/* Heading */}
-            <h1 className="text-3xl font-bold text-primary-color mb-2">
+            <h1 className="text-3xl font-bold text-emerald-900 mb-2">
               Join The Waiting List
             </h1>
 
@@ -109,7 +109,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Input
                           placeholder="Your name"
-                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
+                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-lime-500 focus:border-lime-500"
                           {...field}
                         />
                       </FormControl>
@@ -129,7 +129,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Input
                           placeholder="your@email.com"
-                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
+                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-lime-500 focus:border-lime-500"
                           {...field}
                         />
                       </FormControl>
@@ -149,7 +149,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Input
                           placeholder="Your country"
-                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
+                          className="w-full px-3 py-2 h-10 border-gray-200 rounded-lg focus:ring-lime-500 focus:border-lime-500"
                           {...field}
                         />
                       </FormControl>
@@ -170,7 +170,7 @@ export default function WaitingListPage() {
                       <FormControl>
                         <Textarea
                           placeholder="Share here..."
-                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-accent-color focus:border-accent-color"
+                          className="w-full px-3 py-2 border-gray-200 rounded-lg focus:ring-lime-500 focus:border-lime-500"
                           rows={5}
                           {...field}
                         />
@@ -182,7 +182,7 @@ export default function WaitingListPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-secondary-color hover:bg-secondary-color2 text-white font-bold py-2.5 h-11 rounded-lg text-sm shadow-sm mt-3"
+                  className="w-full bg-amber-600 hover:bg-amber-600 text-white font-bold py-2.5 h-11 rounded-lg text-sm shadow-sm mt-3"
                 >
                   JOIN NOW
                 </Button>

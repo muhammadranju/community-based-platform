@@ -31,7 +31,7 @@ export default function Header() {
   const navLinks = [
     { name: "HOME", href: "/" },
     { name: "OUR WORK", href: "/our-work" },
-    { name: "ABOUT", href: "/about" },
+    { name: "FORUM", href: "/forum" },
     { name: "CONTACT", href: "/contact" },
     { name: "DONATE", href: "/donate" },
   ];
@@ -88,7 +88,7 @@ export default function Header() {
                   </Button>
                 </Link>
                 <Link href="/login">
-                  <Button className="px-6 py-5 bg-secondary-color hover:bg-secondary-color2 text-white rounded-full">
+                  <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
                     Login
                   </Button>
                 </Link>
@@ -157,8 +157,8 @@ export default function Header() {
                   onClick={closeMenu}
                   className={`block w-full text-left py-4 px-4 rounded-lg text-lg font-medium transition-all ${
                     isActive(link.href)
-                      ? "bg-[#1a5d1a]/10 text-[#1a5d1a] font-bold border-l-4 border-[#1a5d1a]"
-                      : "text-gray-700 hover:bg-gray-100 hover:text-[#1a5d1a]"
+                      ? "bg-lime-500/10 text-lime-600 font-bold border-l-4 border-lime-600"
+                      : "text-gray-700 hover:bg-gray-100 hover:text-lime-600"
                   }`}
                 >
                   {link.name}
@@ -174,7 +174,7 @@ export default function Header() {
                 </Button>
               </Link>
               <Link href="/login" className="block" onClick={closeMenu}>
-                <Button className="w-full py-6 bg-secondary-color hover:bg-secondary-color2 text-white rounded-full text-lg font-medium">
+                <Button className="w-full py-6 bg-amber-600 hover:bg-amber-600 text-white rounded-full text-lg font-medium">
                   Login
                 </Button>
               </Link>

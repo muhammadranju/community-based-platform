@@ -64,12 +64,12 @@ export default function LoginPage() {
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 py-10 lg:py-0 ">
           <div className="w-full max-w-xl mx-auto">
             {/* Badge */}
-            <Badge className="bg-accent-color text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
+            <Badge className="bg-lime-500 text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
               welcome back to the village
             </Badge>
 
             {/* Heading */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-primary-color mb-2 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-emerald-900 mb-2 tracking-tight">
               Log in
             </h1>
 
@@ -102,7 +102,7 @@ export default function LoginPage() {
                   <div className="w-full border-t border-gray-300"></div>
                 </div>
                 <div className="relative flex justify-center text-xs">
-                  <span className="px-4 bg-white text-primary-color font-bold">
+                  <span className="px-4 bg-white text-emerald-900 font-bold">
                     OR
                   </span>
                 </div>
@@ -127,7 +127,7 @@ export default function LoginPage() {
                       <FormControl>
                         <Input
                           placeholder="Enter your username"
-                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white text-base"
+                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white text-base"
                           {...field}
                         />
                       </FormControl>
@@ -163,7 +163,7 @@ export default function LoginPage() {
                           <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
-                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white pr-10 text-base"
+                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white pr-10 text-base"
                             {...field}
                           />
                         </div>
@@ -182,7 +182,7 @@ export default function LoginPage() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full bg-secondary-color hover:bg-secondary-color2 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
+                  className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
                 >
                   Login
                 </Button>
@@ -193,7 +193,7 @@ export default function LoginPage() {
                       <div className="w-full border-t border-gray-300"></div>
                     </div>
                     <div className="relative flex justify-center text-xs">
-                      <span className="px-4 bg-white text-primary-color font-bold">
+                      <span className="px-4 bg-white text-emerald-900 font-bold">
                         OR
                       </span>
                     </div>

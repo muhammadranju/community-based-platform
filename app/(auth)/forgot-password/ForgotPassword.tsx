@@ -66,18 +66,18 @@ export default function ForgotPassword() {
             <Link href="/login" className="flex items-center gap-2 my-5">
               <Button
                 variant="outline"
-                className="rounded-xl py-5 bg-primary-color text-white hover:bg-primary-color hover:text-white"
+                className="rounded-xl py-5 bg-emerald-900 text-white hover:bg-emerald-900 hover:text-white"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <span className="text-primary-color">Back to Login</span>
+              <span className="text-emerald-900">Back to Login</span>
             </Link>
-            <Badge className="bg-accent-color text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
+            <Badge className="bg-lime-500 text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
               Reset password
             </Badge>
 
             {/* Heading */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-primary-color mb-2 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-emerald-900 mb-2 tracking-tight">
               Reset your password
             </h1>
 
@@ -119,7 +119,7 @@ export default function ForgotPassword() {
                           <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
-                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white pr-10 text-base"
+                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white pr-10 text-base"
                             {...field}
                           />
                         </div>
@@ -158,7 +158,7 @@ export default function ForgotPassword() {
                           <Input
                             type={showConfirmPassword ? "text" : "password"}
                             placeholder="Enter confirm password"
-                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white pr-10 text-base"
+                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white pr-10 text-base"
                             {...field}
                           />
                         </div>
@@ -171,7 +171,7 @@ export default function ForgotPassword() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full bg-secondary-color hover:bg-secondary-color2 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
+                  className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
                 >
                   SAVE
                 </Button>

@@ -69,12 +69,12 @@ export default function SignupPage() {
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 pb-10 lg:py-0">
           <div className="w-full max-w-xl mx-auto mt-10">
             {/* Badge */}
-            <Badge className="bg-accent-color text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
+            <Badge className="bg-lime-500 text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
               JOIN THE VILLAGE
             </Badge>
 
             {/* Heading */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-primary-color mb-2 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-emerald-900 mb-2 tracking-tight">
               Create an account
             </h1>
 
@@ -83,7 +83,7 @@ export default function SignupPage() {
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="text-[#1a5d1a] font-bold hover:underline decoration-2 underline-offset-2"
+                className="text-teal-800 font-bold hover:underline decoration-2 underline-offset-2"
               >
                 Login
               </Link>
@@ -107,7 +107,7 @@ export default function SignupPage() {
                       <FormControl>
                         <Input
                           placeholder="Enter your username"
-                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white text-base"
+                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white text-base"
                           {...field}
                         />
                       </FormControl>
@@ -129,7 +129,7 @@ export default function SignupPage() {
                         <Input
                           type="email"
                           placeholder="Enter your email"
-                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white text-base"
+                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white text-base"
                           {...field}
                         />
                       </FormControl>
@@ -165,7 +165,7 @@ export default function SignupPage() {
                           <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
-                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-accent-color bg-white pr-10 text-base"
+                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white pr-10 text-base"
                             {...field}
                           />
                         </div>
@@ -185,14 +185,14 @@ export default function SignupPage() {
                     By creating an account, you agree to our <br />
                     <a
                       href="#"
-                      className="text-[#1a5d1a] font-bold underline decoration-1 underline-offset-2"
+                      className="text-teal-800 font-bold underline decoration-1 underline-offset-2"
                     >
                       Terms of use
                     </a>{" "}
                     and{" "}
                     <a
                       href="#"
-                      className="text-[#1a5d1a] font-bold underline decoration-1 underline-offset-2"
+                      className="text-teal-800 font-bold underline decoration-1 underline-offset-2"
                     >
                       Privacy Policy
                     </a>
@@ -202,7 +202,7 @@ export default function SignupPage() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full bg-secondary-color hover:bg-secondary-color2 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
+                  className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
                 >
                   Create Account
                 </Button>
@@ -213,7 +213,7 @@ export default function SignupPage() {
                     <div className="w-full border-t border border-gray-400"></div>
                   </div>
                   <div className="relative flex justify-center text-xs">
-                    <span className="px-4 bg-white text-primary-color font-bold">
+                    <span className="px-4 bg-white text-emerald-900 font-bold">
                       OR
                     </span>
                   </div>

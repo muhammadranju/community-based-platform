@@ -59,13 +59,13 @@ export default function OurWorkSection() {
       </div>
 
       <div className="mb-10 relative z-20">
-        <h2 className="text-3xl md:text-4xl font-bold text-primary-color mb-6">
+        <h2 className="text-3xl md:text-4xl font-bold text-emerald-900 mb-6">
           Our Work
         </h2>
         <HomeBadge>BE PART OF THE CHANGE</HomeBadge>
 
         <div className="flex flex-col md:flex-row justify-between items-end gap-4 mt-4">
-          <h3 className="text-3xl md:text-4xl font-bold text-primary-color leading-tight max-w-2xl">
+          <h3 className="text-3xl md:text-4xl font-bold text-emerald-900 leading-tight max-w-2xl">
             Learn about our key initiatives and resource hubs
           </h3>
 
@@ -115,7 +115,7 @@ export default function OurWorkSection() {
                     isMiddleCard ? "mt-6 pt-2" : "mb-6 md:mb-6 mt-6 md:mt-0"
                   }`}
                 >
-                  <h4 className="font-bold text-primary-color text-xl mb-4 leading-tight min-h-[3.5rem]">
+                  <h4 className="font-bold text-emerald-900 text-xl mb-4 leading-tight min-h-[3.5rem]">
                     {work.title}
                   </h4>
                   <p className="text-[0.95rem] text-gray-600 mb-6 leading-relaxed flex-grow">
@@ -124,7 +124,7 @@ export default function OurWorkSection() {
                   <div>
                     <a
                       href={work.link}
-                      className="inline-flex items-center justify-center text-primary-color font-semibold px-6 text-sm border border-orange-400 rounded-full py-2.5 hover:bg-orange-50 transition-colors duration-200"
+                      className="inline-flex items-center justify-center text-emerald-900 font-semibold px-6 text-sm border border-orange-400 rounded-full py-2.5 hover:bg-orange-50 transition-colors duration-200"
                     >
                       {work.buttonText}
                     </a>

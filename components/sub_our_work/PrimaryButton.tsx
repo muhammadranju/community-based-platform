@@ -19,7 +19,7 @@ export const PrimaryButton: React.FC<ActionButtonProps> = ({
     <Button
       onClick={onClick}
       className={`
-        bg-secondary-color hover:bg-secondary-color/80 active:bg-secondary-color/60 transition-colors
+        bg-amber-600 hover:bg-amber-600/80 active:bg-amber-600/60 transition-colors
         text-white font-medium text-sm px-6 py-3 rounded-full
         flex items-center justify-center gap-2
         ${fullWidth ? "w-full" : "w-auto"}
@@ -42,7 +42,7 @@ export const GlassButton: React.FC<ActionButtonProps> = ({
   return (
     <Button
       onClick={onClick}
-      className="bg-secondary-color hover:bg-secondary-color/80 active:bg-secondary-color/60 transition-colors text-white font-medium text-sm px-5 py-2.5 rounded-full flex items-center gap-2"
+      className="bg-amber-600 hover:bg-amber-600/80 active:bg-amber-600/60 transition-colors text-white font-medium text-sm px-5 py-2.5 rounded-full flex items-center gap-2"
     >
       {icon}
       <span>{label}</span>
