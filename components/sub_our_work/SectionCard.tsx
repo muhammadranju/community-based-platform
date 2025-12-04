@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { StepList } from "./StepList";
 import { GuideSectionData } from "@/types/types";
@@ -9,35 +8,38 @@ interface SectionCardProps {
 }
 
 export const SectionCard: React.FC<SectionCardProps> = ({ data }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex flex-col mb-4 md:mb-12">
-      {/* Header - Clickable on mobile */}
-      <div
-        className="flex items-center justify-between cursor-pointer md:cursor-default mb-2 md:mb-6"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <h2 className="text-xl md:text-2xl font-bold text-emerald-900">
-          {data.id}. {data.title}
-        </h2>
-        <ChevronDown
-          className={`w-6 h-6 text-emerald-900 md:hidden transition-transform duration-200 ${
-            isExpanded ? "rotate-180" : ""
-          }`}
-        />
+    <div className="flex flex-col mb-8 md:mb-12">
+      {/* Header with Title and Dashed Line */}
+      <div className="mb-6">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between group md:cursor-default"
+        >
+          <h2 className="text-xl md:text-2xl font-bold text-primary-color mb-3 text-left">
+            {data.id}. {data.title}
+          </h2>
+          <ChevronDown
+            className={`w-6 h-6 text-primary-color transition-transform duration-300 md:hidden ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+        <div className="w-full border-b-2 border-dotted border-primary-color/30"></div>
       </div>
 
-      {/* Desktop Separator - Only visible on desktop, under title */}
-      <div className="hidden md:block w-full border-b-2 border-dotted border-emerald-900/30 mb-6"></div>
-
-      {/* Content - Hidden on mobile if collapsed, always visible on desktop */}
-      <div className={`${isExpanded ? "block" : "hidden"} md:block`}>
+      {/* Content - Hidden on mobile unless open, always visible on desktop */}
+      <div
+        className={`transition-all duration-300 ease-in-out overflow-hidden md:block ${
+          isOpen
+            ? "max-h-[1000px] opacity-100"
+            : "max-h-0 opacity-0 md:max-h-none md:opacity-100"
+        }`}
+      >
         <StepList steps={data.steps} />
       </div>
-
-      {/* Mobile Separator - Visible at bottom of component on mobile */}
-      <div className="md:hidden w-full border-b-2 border-dotted border-emerald-900/30 mt-4"></div>
     </div>
   );
 };
