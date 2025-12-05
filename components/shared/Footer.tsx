@@ -10,12 +10,11 @@ const Footer: React.FC = () => {
       {/* Top CTA Section */}
       <div className="w-full py-12 px-6 md:px-12 bg-accent-bg">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-          {/* Left CTA */}
-          <div className="flex  flex-row items-center gap-6  md:text-left flex-1 justify-end ">
+          <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start">
             <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-lime-500">
               <Home className="text-white w-8 h-8" strokeWidth={1.5} />
             </div>
-            <h3 className="text-emerald-900ext-xl font-medium max-w-xs leading-snug">
+            <h3 className="text-emerald-900 text-xl font-semibold max-w-xs leading-snug">
               Acces Our African Indigenous Architecture Digital Archive
             </h3>
           </div>
@@ -31,7 +30,7 @@ const Footer: React.FC = () => {
                 strokeWidth={1.5}
               />
             </div>
-            <h3 className="text-emerald-900 text-xl font-medium max-w-xs leading-snug">
+            <h3 className="text-emerald-900 text-xl font-semibold max-w-xs leading-snug">
               Learn How You Can Donate To Support Our Work
             </h3>
           </div>
