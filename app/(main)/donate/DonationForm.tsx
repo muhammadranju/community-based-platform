@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-// import { Input } from "./ui/Input";
-// import { CustomSelect } from "./ui/CustomSelect";
-// import { RadioSection } from "./ui/RadioSection";
-// import { DonationCategory, VolunteerType } from "../types";
-import { CreditCard, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { CustomSelect } from "./CustomSelect";
 import { RadioSection } from "./RadioSection";
-export interface Option {
-  label: string;
-  value: string;
-}
 
 export enum DonationCategory {
   MONETARY = "MONETARY",

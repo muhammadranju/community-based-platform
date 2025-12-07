@@ -1,6 +1,8 @@
+"use client";
 import {
   ArrowRight,
   Bird,
+  ChevronLeft,
   Clock,
   Eye,
   Infinity,
@@ -9,6 +11,9 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { HeaderSection } from "../ForumHeaderSection";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 // --- Types ---
 interface DiscussionData {
@@ -244,9 +249,27 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
 };
 
 export default function page() {
+  const router = useRouter();
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto space-y-10">
+    <div className="min-h-screen bg-white max-w-7xl mx-auto">
+      {/* Top Hero Image - Using a landscape placeholder that mimics the aerial village view */}
+      <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
+        <img
+          src="/bg/Rectangle7.png"
+          alt="Aerial view of African village architecture"
+          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+        />
+      </div>
+
+      {/* Content Section */}
+      <Button
+        onClick={() => router.back()}
+        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-teal-900 text-white hover:bg-green-900 transition-colors shadow-sm mb-5"
+      >
+        <ChevronLeft size={20} />
+      </Button>
+      <HeaderSection />
+      <div className="space-y-10">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
           <div className="max-w-xl">
