@@ -13,13 +13,10 @@ import { MdPhone } from "react-icons/md";
 
 const ContactPage: React.FC = () => {
   return (
-    <div
-      className=" pt-6 pb-20
-    "
-    >
+    <div>
       {/* Header Section */}
       <div className="">
-        <div className="w-full lg:min-h-[400px] h-[150px] rounded-4xl flex items-center justify-center relative overflow-hidden ">
+        <div className="w-full lg:min-h-[400px] h-[150px] rounded-3xl flex items-center justify-center relative overflow-hidden ">
           <Image
             src="/bg/our_work_bg.png"
             alt="Contact Hero"
@@ -34,14 +31,16 @@ const ContactPage: React.FC = () => {
       </div>
 
       {/* Main Content Section */}
-      <div className="flex flex-col-reverse lg:flex-row gap-0  rounded-4xl overflow-hidden bg-accent-bg mt-20">
+      <div className="flex flex-col-reverse lg:flex-row gap-0  rounded-3xl overflow-hidden bg-accent-bg mt-20">
         {/* Left Side - Image with Geometric Overlay */}
         <div className="relative h-[400px] lg:h-auto w-full flex-1">
           {/* Image source: Using a placeholder that resembles a hut/nature */}
-          <img
+          <Image
             src="/bg/Rectangle4.png"
             alt="Traditional Hut"
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover absolute inset-0"
+            priority
           />
         </div>
 
