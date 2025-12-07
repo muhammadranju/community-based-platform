@@ -1,14 +1,14 @@
-import React from "react";
 import {
-  Search,
   ArrowRight,
   Bird,
-  Infinity,
-  User,
   Clock,
   Eye,
+  Infinity,
   MessageSquare,
+  Search,
+  User,
 } from "lucide-react";
+import Link from "next/link";
 
 // --- Types ---
 interface DiscussionData {
@@ -21,6 +21,7 @@ interface DiscussionData {
   updatedBy?: string;
   variant: "blue" | "green";
   iconType: "intro" | "bird";
+  link?: string;
 }
 
 // --- Mock Data ---
@@ -36,6 +37,7 @@ const discussions: DiscussionData[] = [
     updatedBy: "Historyenjoyer822",
     variant: "blue",
     iconType: "intro",
+    link: "/forum/forum-details",
   },
   {
     id: 2,
@@ -47,6 +49,7 @@ const discussions: DiscussionData[] = [
     lastUpdated: "Yesterday at 2:02 PM",
     variant: "green",
     iconType: "bird",
+    link: "/forum/forum-details",
   },
   {
     id: 3,
@@ -58,6 +61,7 @@ const discussions: DiscussionData[] = [
     lastUpdated: "Yesterday at 2:02 PM",
     variant: "green",
     iconType: "bird",
+    link: "/forum/forum-details",
   },
   {
     id: 4,
@@ -94,12 +98,6 @@ const discussions: DiscussionData[] = [
   },
 ];
 
-// --- Internal Components ---
-
-/**
- * StatBlock Component
- * Displays a single statistic (Label + Value)
- */
 const StatBlock = ({
   label,
   value,
@@ -157,10 +155,6 @@ const MobileStatRow = ({
   </div>
 );
 
-/**
- * ForumCard Component
- * Main component for displaying a discussion topic
- */
 const ForumCard = ({ data }: { data: DiscussionData }) => {
   const isBlue = data.variant === "blue";
 
@@ -201,11 +195,13 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
 
         {/* Content Section */}
         <div className="flex-grow min-w-0 pr-4">
-          <h3
-            className={`text-lg md:text-xl font-bold ${titleColor} mb-2 leading-tight`}
-          >
-            {data.title}
-          </h3>
+          <Link href={data?.link || "#"}>
+            <h3
+              className={`text-lg md:text-xl font-bold ${titleColor} mb-2 leading-tight`}
+            >
+              {data.title}
+            </h3>
+          </Link>
           <p className="text-gray-500 text-sm leading-relaxed">
             {data.description}
           </p>
@@ -244,72 +240,70 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
 
 export default function CulturalHistoricalDiscussions() {
   return (
-    <>
-      <div className="space-y-10 lg:py-24 py-12">
-        {/* Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
-          <div className="max-w-xl">
-            <h1 className="text-3xl md:text-3xl font-bold text-teal-900 tracking-tight leading-tight">
-              Ask a question/Start <br className="hidden md:block" /> a New
-              Discussions
-            </h1>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-            {/* Search Input */}
-            <div className="relative w-full sm:w-80 md:w-96 group border border-black rounded-xl">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-orange-400" />
-              </div>
-              <input
-                type="text"
-                placeholder="Search Forum"
-                className="block w-full pl-10 pr-12 py-3 bg-[#f2f4f1] border  rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all"
-              />
-              <button className="absolute inset-y-1 right-1 px-3 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md flex items-center justify-center transition-colors">
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-
-            {/* Filter Buttons */}
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-gray-300 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
-                Topics
-              </button>
-              <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-orange-200 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
-                Posts
-              </button>
-            </div>
-          </div>
+    <div className="space-y-10 lg:py-24 py-12">
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
+        <div className="max-w-xl">
+          <h1 className="text-3xl md:text-3xl font-bold text-teal-900 tracking-tight leading-tight">
+            Ask a question/Start <br className="hidden md:block" /> a New
+            Discussions
+          </h1>
         </div>
 
-        {/* Discussions List */}
-        <div className="space-y-8">
-          {/* Section 1: Introductions */}
-          <div>
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+          {/* Search Input */}
+          <div className="relative w-full sm:w-80 md:w-96 group border border-black rounded-xl">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-orange-400" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search Forum"
+              className="block w-full pl-10 pr-12 py-3 bg-[#f2f4f1] border  rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all"
+            />
+            <button className="absolute inset-y-1 right-1 px-3 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md flex items-center justify-center transition-colors">
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Filter Buttons */}
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-gray-300 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
+              Topics
+            </button>
+            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-orange-200 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
+              Posts
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Discussions List */}
+      <div className="space-y-8">
+        {/* Section 1: Introductions */}
+        <div>
+          {discussions
+            .filter((d) => d.variant === "blue")
+            .map((discussion) => (
+              <ForumCard key={discussion.id} data={discussion} />
+            ))}
+        </div>
+
+        {/* Section 2: Cultural & Historical */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold text-green-600 tracking-tight">
+            Cultural & Historical Discussions
+          </h2>
+
+          <div className="space-y-4">
             {discussions
-              .filter((d) => d.variant === "blue")
+              .filter((d) => d.variant === "green")
               .map((discussion) => (
                 <ForumCard key={discussion.id} data={discussion} />
               ))}
           </div>
-
-          {/* Section 2: Cultural & Historical */}
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-green-600 tracking-tight">
-              Cultural & Historical Discussions
-            </h2>
-
-            <div className="space-y-4">
-              {discussions
-                .filter((d) => d.variant === "green")
-                .map((discussion) => (
-                  <ForumCard key={discussion.id} data={discussion} />
-                ))}
-            </div>
-          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
