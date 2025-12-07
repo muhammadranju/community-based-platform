@@ -335,7 +335,7 @@ const RebuildingInnovation: React.FC = () => {
 
   return (
     <>
-      <div className="space-y-12 lg:mb-20 mb-12">
+      <div className="space-y-12 lg:mb-12 mb-12">
         {/* Loop through sections */}
         {sections.map((section, idx) => (
           <div key={idx} className="w-full">
