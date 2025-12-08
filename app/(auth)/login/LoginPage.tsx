@@ -54,11 +54,11 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white  overflow-x-hidden">
-      <LoginLeftDesign link="/signup" text="Signup" />
+      <LoginLeftDesign link="/signup" text="Sign Up" />
       {/* --- Right Panel (Form) --- */}
       <div className="w-full lg:w-[55%] flex flex-col relative">
         {/* Desktop Navigation Bar */}
-        <AuthHeader link="/signup" text="Signup" />
+        <AuthHeader link="/signup" text="Sign Up" />
 
         {/* Form Content Container */}
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 py-10 lg:py-0 ">

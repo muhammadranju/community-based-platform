@@ -49,11 +49,40 @@ export default function WaitingListPage() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-white overflow-hidden">
-      {/* Left Section - Architecture Image */}
-      <div className="w-1/2 h-full bg-[url('/Rectangle.png')] bg-cover bg-center rounded-r-3xl p-10">
-        <div className="bg-[url('/bg/Rectangle2.png')] bg-cover bg-center rounded-3xl w-full h-full">
-          <div className="w-full h-full hidden">.</div>
+    <div className="flex  w-full bg-white overflow-hidden px-4 lg:px-0">
+      <div className="w-full lg:w-[45%] shrink-0 relative overflow-hidden bg-[#65a30d] flex items-center justify-center p-6 lg:p-12 min-h-[400px] lg:min-h-screen lg:h-auto">
+        {/* Decorative Background Pattern */}
+        <div className="absolute inset-0 opacity-100 pointer-events-none z-0">
+          <img
+            src="/Rectangle.png"
+            alt="Pattern"
+            className="w-full h-full object-cover opacity-20"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
+          <div className="absolute inset-0 opacity-100 bg-[url('/Rectangle.png')] bg-repeat -z-10"></div>
+        </div>
+
+        {/* Content Container (Card) */}
+        {/* On mobile, use aspect ratio or fixed height to prevent stretching. */}
+        <div className="relative w-full max-w-md lg:max-w-full lg:h-full max-h-[400px] lg:max-h-[90vh] aspect-[4/5] lg:aspect-auto bg-white rounded-[2.5rem] overflow-hidden flex flex-col  z-10">
+          {/* Top Wireframe/Geometry Section */}
+
+          {/* Bottom Image Section (The Hut) */}
+          <div className="absolute bottom-0 left-0 right-0 z-10">
+            <div className="w-full h-full relative">
+              <img
+                src="/bg/Rectangle2.png"
+                alt="African Traditional Architecture"
+                className="w-full h-full object-cover object-bottom"
+                onError={(e) => {
+                  e.currentTarget.src =
+                    "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?q=80&w=1000&auto=format&fit=crop";
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -65,9 +94,9 @@ export default function WaitingListPage() {
             <Link href="/">
               <img src="/logo.png" alt="ATA Logo" className="h-12 w-auto" />
             </Link>
-            <Link href="/login">
+            <Link href="/waiting-list/signup">
               <Button className="bg-amber-600 hover:bg-amber-600 text-white rounded-full px-6 h-9 text-sm font-semibold">
-                Login
+                Sign up
               </Button>
             </Link>
           </div>
@@ -90,6 +119,17 @@ export default function WaitingListPage() {
             <p className="text-gray-500 text-sm mb-6">
               We are soon launching a portfolio of Indigenous African
               architecture designs, signup to stay update
+            </p>
+
+            {/* Subheading / Login Link */}
+            <p className="text-gray-500 text-sm mb-8">
+              Don't have an account?{" "}
+              <Link
+                href="/waiting-list/signup"
+                className="text-[#1a5d1a] font-bold hover:underline decoration-2 underline-offset-2"
+              >
+                Sign Up Waiting List
+              </Link>
             </p>
 
             {/* Form */}

@@ -4,7 +4,7 @@ import Image from "next/image";
 
 function AuthHeader({ link, text }: { link: string; text?: string }) {
   return (
-    <div className="hidden lg:flex w-full px-6 py-6 md:px-12 lg:px-48 justify-between items-center shrink-0">
+    <div className="hidden lg:flex w-full px-6 py-6 md:px-12 lg:px-36 justify-between items-center shrink-0">
       <Link href="/">
         <div className="flex flex-col items-center">
           <Image
