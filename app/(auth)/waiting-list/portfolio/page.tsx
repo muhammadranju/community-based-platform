@@ -106,7 +106,7 @@ export default function page() {
               </div>
 
               {/* Headlines */}
-              <h1 className="text-teal-900 text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-[1.1] mb-6">
+              <h1 className="text-primary-color text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-[1.1] mb-6">
                 Join the Database of African Builders, Architects & Designers
               </h1>
 
@@ -117,7 +117,9 @@ export default function page() {
 
               {/* Form Section */}
               <div className="space-y-8">
-                <h3 className="text-teal-900 text-2xl font-bold">Portfolio</h3>
+                <h3 className="text-primary-color text-2xl font-bold">
+                  Portfolio
+                </h3>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Upload Samples of Work */}

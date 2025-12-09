@@ -15,12 +15,12 @@ export const WaysToGive: React.FC = () => {
         {/* Right Side: Action Cards */}
         <div className="w-full lg:w-2/3 flex flex-col sm:flex-row gap-6">
           <Card
-            icon={<Sprout className="w-8 h-8 text-teal-900" />}
+            icon={<Sprout className="w-8 h-8 text-primary-color" />}
             label="Monetary"
             onClick={() => console.log("Monetary clicked")}
           />
           <Card
-            icon={<HandHeart className="w-8 h-8 text-teal-900" />}
+            icon={<HandHeart className="w-8 h-8 text-primary-color" />}
             label="Volunteer"
             onClick={() => console.log("Volunteer clicked")}
           />
@@ -45,14 +45,14 @@ const Card: React.FC<CardProps> = ({ icon, label, onClick }) => {
       {/* Decorative Background Container matching the image style */}
       <div className="relative overflow-hidden rounded-3xl bg-white p-1 h-32 md:h-40 border border-lime-500">
         {/* Inner Border Area - simulates the geometric pattern via SVG in CSS or standard border */}
-        <div className="absolute inset-2 rounded-[1.2rem] border-[1.5px] border-teal-900/30 border-dashed flex items-center justify-between px-6 md:px-10 bg-white/50 backdrop-blur-[2px] hover:bg-white/80 transition-colors duration-200">
+        <div className="absolute inset-2 rounded-[1.2rem] border-[1.5px] border-primary-color/30 border-dashed flex items-center justify-between px-6 md:px-10 bg-white/50 backdrop-blur-[2px] hover:bg-white/80 transition-colors duration-200">
           {/* Icon Circle */}
           <div className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-lime-500 group-hover:scale-110 transition-transform duration-200 text-white">
             {icon}
           </div>
 
           {/* Label */}
-          <span className="text-xl md:text-2xl font-bold text-teal-900 group-hover:text-teal-900 transition-colors duration-200">
+          <span className="text-xl md:text-2xl font-bold text-primary-color group-hover:text-primary-color transition-colors duration-200">
             {label}
           </span>
 

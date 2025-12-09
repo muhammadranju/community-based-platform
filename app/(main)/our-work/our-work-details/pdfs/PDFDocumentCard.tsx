@@ -31,7 +31,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
             <span>{document.companyName}</span>
           </div>
 
-          <h3 className="lg:text-xl md:text-lg text-base font-bold text-teal-900 leading-tight">
+          <h3 className="lg:text-xl md:text-lg text-base font-bold text-primary-color leading-tight">
             {document.title}
           </h3>
         </div>

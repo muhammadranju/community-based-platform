@@ -62,7 +62,7 @@ const Header = ({ onClick }: { onClick: () => void }) => (
     <div className="flex items-center gap-3">
       <Button
         onClick={onClick}
-        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-teal-900 text-white hover:bg-green-900 transition-colors shadow-sm"
+        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary-color text-white hover:bg-green-900 transition-colors shadow-sm"
       >
         <ChevronLeft size={20} />
       </Button>

@@ -244,7 +244,7 @@ export default function CulturalHistoricalDiscussions() {
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
         <div className="max-w-xl">
-          <h1 className="text-3xl md:text-3xl font-bold text-teal-900 tracking-tight leading-tight">
+          <h1 className="text-3xl md:text-3xl font-bold text-primary-color tracking-tight leading-tight">
             Ask a question/Start <br className="hidden md:block" /> a New
             Discussions
           </h1>

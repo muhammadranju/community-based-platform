@@ -92,7 +92,7 @@ export default function page() {
       <section className="py-8 ">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-16 items-start">
           {/* Left Column: Green Card */}
-    <WaitingHeroSection />
+          <WaitingHeroSection />
 
           {/* Right Column: Form */}
           <div className="lg:col-span-8 pt-4 lg:pl-4">
@@ -103,7 +103,7 @@ export default function page() {
               </div>
 
               {/* Headlines */}
-              <h1 className="text-teal-900 text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-[1.1] mb-6">
+              <h1 className="text-primary-color text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-[1.1] mb-6">
                 Join the Database of African Builders, Architects & Designers
               </h1>
 
@@ -114,7 +114,7 @@ export default function page() {
 
               {/* Form Section */}
               <div className="space-y-8">
-                <h3 className="text-teal-900 text-2xl font-bold">
+                <h3 className="text-primary-color text-2xl font-bold">
                   Professional Details
                 </h3>
 

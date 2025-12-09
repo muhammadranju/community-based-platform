@@ -264,7 +264,7 @@ export default function page() {
       {/* Content Section */}
       <Button
         onClick={() => router.back()}
-        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-teal-900 text-white hover:bg-green-900 transition-colors shadow-sm mb-5"
+        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary-color text-white hover:bg-green-900 transition-colors shadow-sm mb-5"
       >
         <ChevronLeft size={20} />
       </Button>
@@ -273,7 +273,7 @@ export default function page() {
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
           <div className="max-w-xl">
-            <h1 className="text-3xl md:text-4xl font-bold text-teal-900 tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-primary-color tracking-tight leading-tight">
               Ask a question/Start <br className="hidden md:block" /> a New
               Discussions
             </h1>

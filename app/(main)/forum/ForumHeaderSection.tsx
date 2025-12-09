@@ -7,7 +7,7 @@ export const HeaderSection: React.FC = () => {
       <div>
         <CustomBadge>FORUM</CustomBadge>
       </div>
-      <h1 className="text-teal-900 text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight max-w-4xl">
+      <h1 className="text-primary-color text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight max-w-4xl">
         Join the village and start or contribute to ongoing discussions about
         Indigenous African Architecture
       </h1>

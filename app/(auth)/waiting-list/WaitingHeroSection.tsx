@@ -3,7 +3,7 @@ function WaitingHeroSection() {
     <>
       {/* Left Column: Green Card */}
       <div className="lg:col-span-4 lg:sticky lg:top-8">
-        <div className="bg-teal-900 rounded-3xl p-8 text-white flex flex-col h-full shadow-2xl relative overflow-hidden">
+        <div className="bg-primary-color rounded-3xl p-8 text-white flex flex-col h-full shadow-2xl relative overflow-hidden">
           {/* Content wrapper */}
           <div className="relative z-10 flex flex-col gap-6">
             <h2 className="text-2xl font-bold leading-tight">
@@ -28,7 +28,7 @@ function WaitingHeroSection() {
           {/* Image Section within the card */}
           <div className="lg:mt-8 -mx-8 -mb-8 relative h-64 lg:h-80 p-5">
             {/* Circular styled image container at bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-teal-900 via-transparent to-transparent z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-primary-color via-transparent to-transparent z-10"></div>
             <img
               src="/bg/Rectangle1.png"
               alt="Traditional African Huts"

@@ -50,7 +50,7 @@ const ContactPage: React.FC = () => {
             <CustomBadge>Contact Information</CustomBadge>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-black text-teal-900 mb-10 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-black text-primary-color mb-10 leading-tight">
             We'd love to hear from you
           </h2>
 

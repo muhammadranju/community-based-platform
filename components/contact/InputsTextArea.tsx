@@ -26,20 +26,20 @@ export const CustomInput: React.FC<InputProps> = ({
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-teal-900 text-sm font-medium mb-2 ml-1">
+        <label className="block text-primary-color text-sm font-medium mb-2 ml-1">
           {label}
         </label>
       )}
       <div className="relative">
         {Icon && (
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-teal-900">
+          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-color">
             <Icon size={18} />
           </div>
         )}
         <input
-          className={`w-full bg-white text-teal-900 rounded-full py-3.5  ${
+          className={`w-full bg-white text-primary-color rounded-full py-3.5  ${
             Icon ? "pl-12 pr-6" : "px-6"
-          } placeholder:text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-600/20 transition-all shadow-sm ${className}`}
+          } placeholder:text-primary-color focus:outline-none focus:ring-2 focus:ring-teal-600/20 transition-all shadow-sm ${className}`}
           {...props}
         />
       </div>
@@ -56,20 +56,20 @@ export const CustomTextarea: React.FC<TextareaProps> = ({
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-teal-900 text-sm font-medium mb-2 ml-1">
+        <label className="block text-primary-color text-sm font-medium mb-2 ml-1">
           {label}
         </label>
       )}
       <div className="relative">
         {Icon && (
-          <div className="absolute left-5 top-5 text-teal-900">
+          <div className="absolute left-5 top-5 text-primary-color">
             <Icon size={18} />
           </div>
         )}
         <textarea
           className={`w-full bg-white rounded-3xl py-4 ${
             Icon ? "pl-12 pr-6" : "px-6"
-          } text-teal-900 placeholder:text-teal-900 focus:outline-none focus:ring-2 focus:ring-teal-600/20 transition-all shadow-sm min-h-[160px] resize-none ${className}`}
+          } text-primary-color placeholder:text-primary-color focus:outline-none focus:ring-2 focus:ring-teal-600/20 transition-all shadow-sm min-h-[160px] resize-none ${className}`}
           {...props}
         />
       </div>
