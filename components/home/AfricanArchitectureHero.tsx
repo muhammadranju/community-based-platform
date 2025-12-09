@@ -271,7 +271,7 @@ const AfricanArchitectureHero: React.FC = () => {
 
   return (
     <section
-      className="relative text-white rounded-4xl overflow-hidden shadow-2xl"
+      className="relative text-white rounded-2xl overflow-hidden shadow-2xl"
       style={{
         backgroundImage: `url("${currentRegion.bgImage}")`,
         backgroundSize: "cover",
@@ -319,14 +319,13 @@ const AfricanArchitectureHero: React.FC = () => {
           {REGIONS.map((region, index) => (
             <SwiperSlide key={region.id}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div className="space-y-10 animate-fadeIn">
-                  <h1 className="text-4xl md:text-6xl font-bold leading-tight drop-shadow-sm">
-                    {region.title} <br />
-                    Traditional Architecture
+                <div className="space-y-10 ">
+                  <h1 className="text-3xl md:text-6xl font-bold leading-tight drop-shadow-sm">
+                    {region.title} Traditional Architecture
                   </h1>
 
                   <button
-                    className="bg-white hover:bg-gray-100 rounded-full px-8 py-4 text-lg font-bold shadow-lg transition-colors"
+                    className="bg-white hover:bg-gray-100 rounded-full px-8 py-4 lg:text-lg text-xs font-bold shadow-lg transition-colors"
                     style={{
                       color:
                         region.colorHex === "#C89D1F"
@@ -369,7 +368,6 @@ const AfricanArchitectureHero: React.FC = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-5">
           {REGIONS.map((region, index) => {
-            const Icon = IconMap[region.iconPath];
             const isActive = index === activeIndex;
 
             return (
