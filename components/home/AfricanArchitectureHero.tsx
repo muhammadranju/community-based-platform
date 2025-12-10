@@ -245,12 +245,12 @@ const SocialIcons = () => (
 
 // --- Images Array ---
 const Images = [
-  "./Frame/Frame-1.png",
-  "./Frame/Frame-2.png",
-  "./Frame/Frame-3.png",
-  "./Frame/Frame-4.png",
-  "./Frame/Frame-5.png",
-  "./Frame/Frame-6.png",
+  "./Icons/Vector-1.png",
+  "./Icons/Vector-2.png",
+  "./Icons/Vector-3.png",
+  "./Icons/Vector-4.png",
+  "./Icons/Vector-5.png",
+  "./Icons/Vector-6.png",
 ];
 
 // --- Main Component ---
@@ -379,26 +379,40 @@ const AfricanArchitectureHero: React.FC = () => {
                   transition-all duration-300
                   ${
                     isActive
-                      ? "scale-105 ring-4 ring-white/80 translate-y-[-6px] bg-white/20 backdrop-blur-sm"
-                      : "hover:-translate-y-2 hover:ring-2 hover:ring-white/50"
+                      ? "scale-105 ring-4 ring-white translate-y-[-6px] bg-white/20 backdrop-blur-sm"
+                      : "hover:-translate-y-1 hover:ring-2 hover:ring-white/50"
                   }
                 `}
                 style={{
                   backgroundColor: isActive
-                    ? region.colorHex
+                    ? "#ffffff"
                     : `${region.colorHex}E6`,
+                  color: isActive ? region.colorHex : "#ffffff",
                 }}
               >
-                <div className="p-2 rounded-full mb-2 bg-white/20">
+                <div
+                  className="p-4 rounded-full mb-1 transition-colors duration-300"
+                  style={{
+                    backgroundColor: isActive ? region.colorHex : "#ffffff",
+                  }}
+                >
                   <img
                     src={Images[index]}
                     alt={region.title}
                     width={80}
                     height={80}
-                    className="rounded-lg"
+                    className="rounded-lg w-14 transition-all duration-300"
+                    style={{
+                      filter: isActive ? "brightness(0) invert(1)" : "none",
+                    }}
                   />
                 </div>
-                <span className="lg:text-lg text-xs font-bold text-white drop-shadow-lg">
+                <span
+                  className="lg:text-lg text-xs font-bold drop-shadow-lg transition-colors duration-300"
+                  style={{
+                    color: isActive ? region.colorHex : "#ffffff",
+                  }}
+                >
                   {region.shortTitle.replace(" Architecture", "")}
                   <br className="hidden lg:block" /> Architecture
                 </span>

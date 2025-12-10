@@ -40,7 +40,7 @@ export default function GetInvolvedSection() {
   ];
 
   return (
-    <section className="lg:py-28 py-12 bg-white">
+    <section className=" bg-white">
       <div className="mb-12">
         <HomeBadge>JOIN OUR COMMUNITY</HomeBadge>
         <h2 className="text-3xl md:text-4xl max-w-2xl font-bold text-emerald-900">

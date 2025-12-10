@@ -38,7 +38,7 @@ export default function OurWorkSection() {
       description:
         "If you desire to start building your dream home based on the foundation of our ancestors knowledge, but don't know where to start. We hope the design inspirations here will help you get started. We have a combination of paid and free resources based on the contributions of our experts.",
       image: "/bg/Rectangle2.png", // Vertical image
-      link: "#",
+      link: "/waiting-list/signup",
       buttonText: "Join The Waiting List",
     },
     {

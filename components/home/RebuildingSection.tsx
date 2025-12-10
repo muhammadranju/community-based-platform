@@ -1,7 +1,7 @@
 export default function RebuildingSection() {
   return (
-    <section className=" lg:py-28 py-12 bg-white">
-      <div className="mb-8">
+    <section className="">
+      <div className="lg:-mb-20">
         <span className="inline-block bg-lime-500 text-white text-xs font-semibold px-5 py-2 rounded-full mb-4">
           OUR MISSION
         </span>
@@ -23,11 +23,6 @@ export default function RebuildingSection() {
             alt="Mission"
             className="object-cover"
           />
-          {/* <div className="absolute inset-0 bg-amber-600 flex items-center justify-center">
-              <span className="text-white font-bold opacity-50">
-                Mission Image Placeholder
-              </span>
-            </div> */}
         </div>
 
         {/* Text Content */}
@@ -40,7 +35,10 @@ export default function RebuildingSection() {
             knowledge. Our open forum encourages meaningful dialogue, while our
             investment in research, digitization and resource hubs ensures that
             indigenous building traditions are documented, shared and passed on
-            to future generations.
+            to future generations. Our open forum encourages meaningful
+            dialogue, while our investment in research, digitization and
+            resource hubs ensures that indigenous building traditions are
+            documented, shared and passed on to future generations.
           </p>
         </div>
       </div>
