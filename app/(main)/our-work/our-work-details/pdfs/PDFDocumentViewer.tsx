@@ -1,6 +1,7 @@
 import React from "react";
 import { Home } from "lucide-react";
-import { CURRENT_DOCUMENT } from "./page";
+import { CURRENT_DOCUMENT } from "./PdfsPage";
+// import { CURRENT_DOCUMENT } from "./page";
 
 export const PDFDocumentViewer: React.FC = () => {
   return (

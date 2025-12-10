@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowRight, FileText } from "lucide-react";
-import { DOCUMENTS } from "./page";
+import { DOCUMENTS } from "./PdfsPage";
 
 export const PDFSidebar: React.FC = () => {
   return (

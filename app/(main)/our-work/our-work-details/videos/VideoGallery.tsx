@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-// import VideoCard from './VideoCard';
-// import Pagination from "./Pagination";
-// import { Video } from "../types";
-import { Video, VideoCard } from "./page";
 import VideoPagination from "./VideoPagination";
+import { Video, VideoCard } from "./VideosPage";
 
 // Mock data to simulate the African village/nature aesthetic from the image
 const MOCK_VIDEOS: Video[] = [

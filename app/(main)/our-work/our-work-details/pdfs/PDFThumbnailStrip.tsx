@@ -1,5 +1,5 @@
 import React from "react";
-import { THUMBNAILS } from "./page";
+import { THUMBNAILS } from "./PdfsPage";
 
 export const PDFThumbnailStrip: React.FC = () => {
   return (

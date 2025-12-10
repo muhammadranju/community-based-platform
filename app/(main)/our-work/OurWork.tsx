@@ -1,3 +1,4 @@
+"use client";
 import CustomBadge from "@/components/home/HomeBadge";
 import YouTubeSection from "@/components/home/YouTubeSection";
 import ArchiveCard from "@/components/our_work/ArchiveCard";

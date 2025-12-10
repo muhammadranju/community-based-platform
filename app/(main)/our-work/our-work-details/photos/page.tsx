@@ -1,4 +1,3 @@
-"use client";
 import { Gallery } from "./PhotoGallery";
 import { Header } from "./PhotoHeader";
 

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { ArrowLeft, Heart, Share2 } from "lucide-react";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
