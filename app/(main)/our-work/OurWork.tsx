@@ -1,4 +1,5 @@
 import CustomBadge from "@/components/home/HomeBadge";
+import YouTubeSection from "@/components/home/YouTubeSection";
 import ArchiveCard from "@/components/our_work/ArchiveCard";
 import PopularContent from "@/components/our_work/PopularContent";
 import ProcessCard from "@/components/our_work/ProcessCard";
@@ -72,10 +73,14 @@ function OurWork() {
 
       {/* Popular Content Section */}
       <section className="bg-accent-bg py-16 border-t border-brand-green/10 ">
-        <div className="px-4 md:px-6 max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <PopularContent />
         </div>
       </section>
+
+      <div className="w-7xl mx-auto mt-20">
+        <YouTubeSection />
+      </div>
     </>
   );
 }

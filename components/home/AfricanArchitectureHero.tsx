@@ -202,19 +202,21 @@ const AfricanArchitectureHero: React.FC = () => {
     }
   }, [activeIndex, isTransitioning]);
 
-  const currentRegion = REGIONS[displayIndex];
-
   return (
-    <section
-      className="relative text-white rounded-2xl overflow-hidden shadow-2xl"
-      style={{
-        backgroundImage: `url("${currentRegion.bgImage}")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        transition: "background-image 0.8s ease-in-out",
-      }}
-    >
-      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+    <section className="relative text-white rounded-2xl overflow-hidden shadow-2xl bg-black">
+      {/* Background Layers */}
+      <div className="absolute inset-0 z-0">
+        {REGIONS.map((region, index) => (
+          <div
+            key={region.id}
+            className="absolute inset-0 bg-cover bg-center transition-opacity duration-700 ease-in-out"
+            style={{
+              backgroundImage: `url("${region.bgImage}")`,
+              opacity: index === displayIndex ? 1 : 0,
+            }}
+          />
+        ))}
+      </div>
 
       <div className="container mx-auto px-4 md:px-8 pt-12 pb-8 relative z-10">
         <Swiper
@@ -255,12 +257,12 @@ const AfricanArchitectureHero: React.FC = () => {
             <SwiperSlide key={region.id}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-10 ">
-                  <h1 className="text-3xl md:text-6xl font-bold leading-tight drop-shadow-sm">
+                  <h1 className="text-[28px] md:text-6xl font-bold leading-tight drop-shadow-sm">
                     {region.title} Traditional Architecture
                   </h1>
 
                   <button
-                    className="bg-white hover:bg-gray-100 rounded-full px-8 py-4 lg:text-lg text-xs font-bold shadow-lg transition-colors"
+                    className="bg-white hover:bg-gray-100 rounded-full px-8 py-4 lg:text-lg text-xs font-bold shadow transition-colors"
                     style={{
                       color:
                         region.colorHex === "#C89D1F"
@@ -276,7 +278,7 @@ const AfricanArchitectureHero: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="relative h-[250px] md:h-[400px] rounded-3xl overflow-hidden border-2 border-white/20 -mt-14 lg:mt-0">
+                <div className="relative h-[250px] md:h-[400px] rounded-3xl overflow-hidden bg-gray-200/10 border-2 border-white/20 -mt-14 lg:mt-0">
                   <Image
                     width={500}
                     height={500}
