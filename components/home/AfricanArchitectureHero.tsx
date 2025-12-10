@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-fade";
+import Image from "next/image";
 
 // --- Interfaces ---
 export interface FloatingLabel {
@@ -165,92 +166,26 @@ export const REGIONS: ArchitectureRegion[] = [
   },
 ];
 
-// --- IconMap (placeholder SVGs - replace with your actual icons) ---
-const IconMap: { [key: string]: React.FC<{ className?: string }> } = {
-  East: ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M12 2L2 22h20L12 2z" />
-    </svg>
-  ),
-  Central: ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-    >
-      <circle cx="12" cy="12" r="10" />
-    </svg>
-  ),
-  West: ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M3 12h18M12 3v18" />
-    </svg>
-  ),
-  South: ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M12 22V2M2 12h20" />
-    </svg>
-  ),
-  North: ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M12 2v20M2 12h20" />
-    </svg>
-  ),
-  Global: ({ className }) => (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 2a15 15 0 0 1 0 20" />
-      <path d="M12 22a15 15 0 0 1 0-20" />
-    </svg>
-  ),
-};
-
 // --- SocialIcons ---
 const SocialIcons = () => (
   <div className="lg:flex hidden lg:mt-10 ">
-    <img src="./Icons/icon-1.png" alt="" />
-    <img src="./Icons/icon-2.png" alt="" />
-    <img src="./Icons/icon-3.png" alt="" />
-    <img src="./Icons/icon-4.png" alt="" />
-    <img src="./Icons/icon-5.png" alt="" />
-    <img src="./Icons/icon-6.png" alt="" />
+    <Image src="/Icons/icon-1.png" width={70} height={70} alt="" />
+    <Image src="/Icons/icon-2.png" width={70} height={70} alt="" />
+    <Image src="/Icons/icon-3.png" width={70} height={70} alt="" />
+    <Image src="/Icons/icon-4.png" width={70} height={70} alt="" />
+    <Image src="/Icons/icon-5.png" width={70} height={70} alt="" />
+    <Image src="/Icons/icon-6.png" width={70} height={70} alt="" />
   </div>
 );
 
 // --- Images Array ---
 const Images = [
-  "./Icons/Vector-1.png",
-  "./Icons/Vector-2.png",
-  "./Icons/Vector-3.png",
-  "./Icons/Vector-4.png",
-  "./Icons/Vector-5.png",
-  "./Icons/Vector-6.png",
+  "/Icons/Vector-1.png",
+  "/Icons/Vector-2.png",
+  "/Icons/Vector-3.png",
+  "/Icons/Vector-4.png",
+  "/Icons/Vector-5.png",
+  "/Icons/Vector-6.png",
 ];
 
 // --- Main Component ---
@@ -342,7 +277,9 @@ const AfricanArchitectureHero: React.FC = () => {
                 </div>
 
                 <div className="relative h-[250px] md:h-[400px] rounded-3xl overflow-hidden border-2 border-white/20 -mt-14 lg:mt-0">
-                  <img
+                  <Image
+                    width={500}
+                    height={500}
                     src={region.mainImage}
                     alt={region.title}
                     className="w-full h-full object-cover"
@@ -379,7 +316,7 @@ const AfricanArchitectureHero: React.FC = () => {
                   transition-all duration-300
                   ${
                     isActive
-                      ? "scale-105 ring-4 ring-white translate-y-[-6px] bg-white/20 backdrop-blur-sm"
+                      ? "bg-white/20 backdrop-blur-sm"
                       : "hover:-translate-y-1 hover:ring-2 hover:ring-white/50"
                   }
                 `}
@@ -391,30 +328,30 @@ const AfricanArchitectureHero: React.FC = () => {
                 }}
               >
                 <div
-                  className="p-4 rounded-full mb-1 transition-colors duration-300"
+                  className="lg:p-4 p-2 rounded-full mb-1 transition-colors duration-300"
                   style={{
                     backgroundColor: isActive ? region.colorHex : "#ffffff",
                   }}
                 >
-                  <img
+                  <Image
                     src={Images[index]}
                     alt={region.title}
                     width={80}
                     height={80}
-                    className="rounded-lg w-14 transition-all duration-300"
+                    className="rounded-lg lg:w-14 w-10 transition-all duration-300"
                     style={{
                       filter: isActive ? "brightness(0) invert(1)" : "none",
                     }}
                   />
                 </div>
                 <span
-                  className="lg:text-lg text-xs font-bold drop-shadow-lg transition-colors duration-300"
+                  className="lg:text-lg text-xs font-semibold drop-shadow-lg transition-colors duration-300"
                   style={{
                     color: isActive ? region.colorHex : "#ffffff",
                   }}
                 >
                   {region.shortTitle.replace(" Architecture", "")}
-                  <br className="hidden lg:block" /> Architecture
+                  <br className="hidden lg:block mr-1" /> Architecture
                 </span>
               </div>
             );
