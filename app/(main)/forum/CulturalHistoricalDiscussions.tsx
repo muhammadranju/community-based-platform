@@ -244,7 +244,7 @@ export default function CulturalHistoricalDiscussions() {
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
         <div className="max-w-xl">
-          <h1 className="text-3xl md:text-3xl font-bold text-primary-color tracking-tight leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary-color tracking-tight leading-tight">
             Ask a question/Start <br className="hidden md:block" /> a New
             Discussions
           </h1>
@@ -259,19 +259,19 @@ export default function CulturalHistoricalDiscussions() {
             <input
               type="text"
               placeholder="Search Forum"
-              className="block w-full pl-10 pr-12 py-3 bg-[#f2f4f1] border  rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all"
+              className="block w-full pl-10 pr-12 py-3 bg-neutral-100 border-none  rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all"
             />
-            <button className="absolute inset-y-1 right-1 px-3 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md flex items-center justify-center transition-colors">
+            <button className="absolute inset-y-1 right-1 px-3 bg-amber-700 hover:bg-amber-600 text-white rounded-md flex items-center justify-center transition-colors">
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
 
           {/* Filter Buttons */}
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-gray-300 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
+            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
               Topics
             </button>
-            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-orange-200 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
+            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
               Posts
             </button>
           </div>

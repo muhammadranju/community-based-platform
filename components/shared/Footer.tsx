@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="w-full">
       {/* Top CTA Section */}
-      <div className="w-full py-12 bg-accent-bg">
+      <div className="w-full py-12 bg-accent-bg lg:px-0 px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
           <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start">
             <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-lime-500">

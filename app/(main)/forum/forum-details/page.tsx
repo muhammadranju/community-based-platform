@@ -251,7 +251,7 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
 export default function page() {
   const router = useRouter();
   return (
-    <div className="min-h-screen bg-white max-w-7xl mx-auto">
+    <div className="min-h-screen bg-white max-w-7xl mx-auto px-4 lg:px-0">
       {/* Top Hero Image - Using a landscape placeholder that mimics the aerial village view */}
       <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
         <img

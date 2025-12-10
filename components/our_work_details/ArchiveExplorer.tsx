@@ -1,22 +1,16 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import React from "react";
-import CountrySidebar from "./CountrySidebar";
-import ArchiveHeader from "./ArchiveHeader";
-// import ArchiveCard from "../our_work/ArchiveCard";
 import { ARCHIVE_ITEMS } from "../our_work/ProcessCardData";
-import ArchiveCard from "./ArchiveCard";
+import { Button } from "../ui/button";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "../ui/pagination";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "../ui/button";
-// import ArchiveCard from "./ArchiveCard";
-// import { ARCHIVE_ITEMS } from "../constants";
+import ArchiveCard from "./ArchiveCard";
+import ArchiveHeader from "./ArchiveHeader";
+import CountrySidebar from "./CountrySidebar";
 
 const ArchiveExplorer: React.FC = () => {
   return (

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../ui/button";
+import Link from "next/link";
 // import Button from "./Button";
 
 const ArchiveHeader: React.FC = () => {
@@ -10,23 +11,29 @@ const ArchiveHeader: React.FC = () => {
       </h2>
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <Button
-          variant="outline"
-          className="px-8 py-2 h-auto text-sm font-semibold w-full sm:w-auto rounded-full border-secondary-color"
-        >
-          Submit Content
-        </Button>
-
-        <div className="flex items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
+        <Link href="/submit-content">
           <Button
             variant="outline"
-            className="flex-1 sm:flex-none rounded-full px-6 py-2 h-auto border-gray-300 text-brand-dark hover:bg-gray-50 text-sm font-semibold"
+            className="px-8 py-2 h-auto text-sm font-semibold w-full sm:w-auto rounded-full border-secondary-color"
           >
-            Sign up
+            Submit Content
           </Button>
-          <Button className="flex-1 sm:flex-none px-6 py-2 h-auto text-sm font-semibold shadow-none bg-amber-600 rounded-full hover:bg-amber-600/80">
-            Login
-          </Button>
+        </Link>
+
+        <div className="flex items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
+          <Link href="/waiting-list/signup">
+            <Button
+              variant="outline"
+              className="flex-1 sm:flex-none rounded-full px-6 py-2 h-auto border-gray-300 text-brand-dark hover:bg-gray-50 text-sm font-semibold"
+            >
+              Sign up
+            </Button>
+          </Link>
+          <Link href="/waiting-list/login">
+            <Button className="flex-1 sm:flex-none px-6 py-2 h-auto text-sm font-semibold shadow-none bg-amber-600 rounded-full hover:bg-amber-600/80">
+              Login
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

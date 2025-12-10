@@ -9,7 +9,7 @@ export default function YouTubeSection() {
       </CustomBadge>
 
       {/* Title */}
-      <h2 className="text-3xl md:text-5xl font-bold text-emerald-900 mb-10 leading-tight">
+      <h2 className="text-2xl md:text-5xl font-bold text-emerald-900 mb-10 leading-tight">
         Join Our YouTube Community
       </h2>
 

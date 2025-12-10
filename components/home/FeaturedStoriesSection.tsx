@@ -59,7 +59,7 @@ export default function FeaturedStoriesSection() {
       <div className="flex justify-between items-end px-4 md:px-0 mb-10">
         <div>
           <CustomBadge>OUR BLOG</CustomBadge>
-          <h2 className="text-3xl md:text-4xl font-bold text-emerald-900">
+          <h2 className="text-2xl md:text-4xl font-bold text-emerald-900">
             Featured Stories / Articles
           </h2>
         </div>
@@ -68,14 +68,14 @@ export default function FeaturedStoriesSection() {
         <div className="flex gap-3 md:hidden">
           <button
             onClick={() => scroll("left")}
-            className="w-12 h-12 rounded-full border border-amber-900 flex items-center justify-center text-amber-900 hover:bg-amber-800 hover:text-white transition-colors"
+            className="p-4 rounded-full border border-orange-900 hover:bg-orange-900 hover:text-white text-orange-900 cursor-pointer transition-colors"
             aria-label="Scroll left"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <button
             onClick={() => scroll("right")}
-            className="w-12 h-12 rounded-full bg-orange-900 flex items-center justify-center text-white hover:bg-orange-800 transition-colors"
+            className="p-4 rounded-full border border-orange-900 hover:bg-orange-900 hover:text-white text-orange-900 cursor-pointer transition-colors"
             aria-label="Scroll right"
           >
             <ArrowRight className="w-5 h-5" />

@@ -8,10 +8,8 @@ import AfricanArchitectureHero from "@/components/home/AfricanArchitectureHero";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen lg:px-0 px-4 max-w-7xl mx-auto space-y-24">
+    <div className="flex flex-col min-h-screen lg:px-0 px-4 max-w-7xl mx-auto lg:space-y-24 space-y-14">
       <AfricanArchitectureHero />
-
-      {/* <HeroSection /> */}
       <RebuildingSection />
       <OurWorkSection />
       <GetInvolvedSection />

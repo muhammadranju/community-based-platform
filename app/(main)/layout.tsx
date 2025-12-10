@@ -2,8 +2,8 @@ import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
 
 export const metadata = {
-  title: "Community Based Platform",
-  description: "Community Based Platform",
+  title: "African Traditional Architecture",
+  description: "African Traditional Architecture",
 };
 
 export default function MainLayout({

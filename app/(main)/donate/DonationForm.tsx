@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Check } from "lucide-react";
 import { CustomSelect } from "./CustomSelect";
 import { RadioSection } from "./RadioSection";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export enum DonationCategory {
   MONETARY = "MONETARY",
@@ -11,6 +13,10 @@ export enum DonationCategory {
 export enum VolunteerType {
   AMOUNT = "AMOUNT",
   HOW_TO = "HOW_TO",
+}
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  required?: boolean;
 }
 
 export const DonationForm: React.FC = () => {
@@ -25,7 +31,7 @@ export const DonationForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-[#f4fbf6] border border-green-200 rounded-3xl p-6 md:p-8 lg:p-10 shadow-sm h-full flex flex-col">
+    <div className="w-full bg-accent-bg border border-lime-500 rounded-3xl p-6 md:p-8 lg:p-10 shadow-sm h-full flex flex-col">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         {/* Name Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -78,7 +84,7 @@ export const DonationForm: React.FC = () => {
             <CustomSelect
               value=""
               onChange={() => {}}
-              // placeholder="Content contribution"
+              placeholder="Content contribution"
               className="opacity-60 bg-gray-50"
               disabled
             />
@@ -114,7 +120,7 @@ export const DonationForm: React.FC = () => {
             <CustomSelect
               value=""
               onChange={() => {}}
-              // placeholder="Leave a brief comment here"
+              placeholder="Leave a brief comment here"
               className="text-gray-500"
             />
           </div>
@@ -123,39 +129,20 @@ export const DonationForm: React.FC = () => {
         {/* Payment Method */}
         <div className="flex flex-col gap-2 mt-2">
           <div className="flex justify-between items-center">
-            <label className="text-sm font-semibold text-green-900 ml-1">
+            <label className="text-sm font-semibold text-emerald-900 ml-1">
               Payment Method
             </label>
             <div className="flex gap-1">
-              {/* Simulating the payment icons strip */}
-              <div className="h-5 w-8 bg-green-600 rounded flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-white opacity-50"></div>
-              </div>
-              <div className="h-5 w-8 bg-blue-600 rounded flex items-center justify-center">
-                <div className="w-2 h-2 rounded-sm bg-white opacity-50"></div>
-              </div>
-              <div className="h-5 w-8 bg-red-500 rounded flex items-center justify-center">
-                <div className="w-3 h-3 rounded-full bg-yellow-400 opacity-70 -ml-1"></div>
-              </div>
-              <div className="h-5 w-8 bg-blue-500 rounded flex items-center justify-center font-bold text-[8px] text-white">
-                AMEX
-              </div>
-              <div className="h-5 w-8 bg-black rounded flex items-center justify-center text-white text-[8px]">
-                Pay
-              </div>
-              <div className="h-5 w-8 bg-white border border-gray-300 rounded flex items-center justify-center text-[6px] font-bold text-gray-600">
-                DISC
-              </div>
-              <div className="h-5 w-8 bg-white border border-gray-300 rounded flex items-center justify-center text-[6px] font-bold text-blue-600">
-                G Pay
-              </div>
-              <div className="h-5 w-8 bg-white border border-gray-300 rounded flex items-center justify-center text-[6px] font-bold text-blue-800">
-                VISA
-              </div>
+              <Image
+                src="/bg/payment-methods.png"
+                alt=""
+                width={400}
+                height={500}
+              />
             </div>
           </div>
           <CustomSelect
-            // placeholder="Select a Payment Method"
+            placeholder="Select a Payment Method"
             value=""
             onChange={() => {}}
           />
@@ -163,14 +150,14 @@ export const DonationForm: React.FC = () => {
 
         {/* Privacy Checkbox */}
         <div className="flex flex-col gap-2 mt-2">
-          <label className="text-sm font-semibold text-green-900 ml-1">
+          <label className="text-sm font-bold text-emerald-900 ml-1">
             May we thank you publicly?
           </label>
           <label className="flex items-center gap-3 cursor-pointer group">
             <div
               className={`w-6 h-6 rounded flex items-center justify-center transition-colors ${
                 isAnonymous
-                  ? "bg-brand-green"
+                  ? "bg-emerald-900"
                   : "bg-white border-2 border-gray-300"
               }`}
               onClick={(e) => {
@@ -189,21 +176,16 @@ export const DonationForm: React.FC = () => {
         </div>
 
         {/* Submit Button */}
-        <button
+        <Button
           type="submit"
-          className="w-full mt-4 bg-brand-orange hover:bg-brand-orangeHover text-white font-bold py-4 rounded-full shadow-lg transition-transform transform active:scale-[0.99]"
+          className="w-full mt-4 bg-secondary-color hover:bg-secondary-color/90 text-white font-bold py-6  rounded-full shadow-lg transition-transform transform active:scale-[0.99]"
         >
           Submit
-        </button>
+        </Button>
       </form>
     </div>
   );
 };
-
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  required?: boolean;
-}
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -213,7 +195,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-1.5 w-full">
-      <label className="text-sm font-semibold text-green-900 ml-1">
+      <label className="text-sm font-semibold text-emerald-900 ml-1">
         {label}
         {required && "*"}
       </label>

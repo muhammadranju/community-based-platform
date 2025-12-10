@@ -79,7 +79,7 @@ const SectionHeader: React.FC<{ number: string; title: string }> = ({
   title,
 }) => (
   <div className="flex items-center gap-4 mb-8">
-    <div className="flex-shrink-0 w-16 h-16 bg-[#8cc63f] rounded-full flex items-center justify-center shadow-sm">
+    <div className="flex-shrink-0 w-16 h-16 bg-lime-500 rounded-full flex items-center justify-center shadow-sm">
       <span className="text-white text-3xl font-bold">{number}</span>
     </div>
     <h2 className="text-3xl md:text-4xl font-bold text-[#022c22] tracking-tight">
@@ -95,12 +95,12 @@ const DonationCard: React.FC<DonationOption> = ({
   icon,
 }) => {
   return (
-    <div className="flex flex-col h-full bg-white border border-[#8cc63f] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-lg transition-shadow duration-300">
+    <div className="flex flex-col h-full bg-white border border-lime-500 rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-lg transition-shadow duration-300">
       <div className="mb-5">
-        <div className="w-14 h-14 bg-[#064e3b] rounded-full flex items-center justify-center mb-4">
+        <div className="w-14 h-14 bg-emerald-900 rounded-full flex items-center justify-center mb-4">
           {icon}
         </div>
-        <h3 className="text-xl font-bold text-[#064e3b] mb-2">{title}</h3>
+        <h3 className="text-xl font-bold text-emerald-900 mb-2">{title}</h3>
         <p className="text-gray-600 text-sm leading-relaxed min-h-[40px]">
           {description}
         </p>
@@ -108,10 +108,10 @@ const DonationCard: React.FC<DonationOption> = ({
 
       <div className="mt-auto">
         <div className="bg-[#f3f4f6] rounded-lg p-3 px-4 mb-6">
-          <p className="text-xs font-semibold text-[#064e3b] underline decoration-[#064e3b] decoration-1 underline-offset-2 mb-1">
+          <p className="text-xs font-semibold text-emerald-900 underline decoration-emerald-900 decoration-1 underline-offset-2 mb-1">
             Total Raised
           </p>
-          <p className="text-[#064e3b] font-bold text-lg">{totalRaised}</p>
+          <p className="text-emerald-900 font-bold text-lg">{totalRaised}</p>
         </div>
 
         <button className="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm">
@@ -128,12 +128,12 @@ const VolunteerCard: React.FC<VolunteerOption> = ({
   icon,
 }) => {
   return (
-    <div className="flex flex-col h-full bg-white border border-[#8cc63f] rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-lg transition-shadow duration-300">
+    <div className="flex flex-col h-full bg-white border border-lime-500 rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-lg transition-shadow duration-300">
       <div className="mb-4">
-        <div className="w-14 h-14 bg-[#064e3b] rounded-full flex items-center justify-center mb-4">
+        <div className="w-14 h-14 bg-emerald-900 rounded-full flex items-center justify-center mb-4">
           {icon}
         </div>
-        <h3 className="text-xl font-bold text-[#064e3b] mb-3">{title}</h3>
+        <h3 className="text-xl font-bold text-emerald-900 mb-3">{title}</h3>
         <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
       </div>
 

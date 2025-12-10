@@ -6,12 +6,13 @@ interface CustomSelectProps
   label?: string;
   options?: { value: string; label: string }[];
   icon?: React.ReactNode;
+  placeholder?: string;
 }
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({
   label,
   options,
-  //   placeholder,
+  placeholder,
   value,
   onChange,
   className = "",
@@ -28,14 +29,14 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
         <select
           value={value}
           onChange={onChange}
-          className={`w-full px-4 py-3 pr-12 rounded-lg border border-gray-200 bg-white text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all cursor-pointer ${className}`}
+          className={`w-full px-4 py-3 pr-12 rounded-lg border border-gray-200 bg-white text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-900/20 focus:border-emerald-900 transition-all cursor-pointer ${className}`}
           {...props}
         >
-          {/* {placeholder && (
+          {placeholder && (
             <option value="" disabled>
               {placeholder}
             </option>
-          )} */}
+          )}
           {options?.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}
@@ -43,7 +44,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
           ))}
         </select>
         {/* Custom Arrow Box */}
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#84cc16] rounded flex items-center justify-center pointer-events-none shadow-sm">
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-lime-500 rounded flex items-center justify-center pointer-events-none shadow-sm">
           <ChevronDown className="w-5 h-5 text-white" strokeWidth={3} />
         </div>
       </div>

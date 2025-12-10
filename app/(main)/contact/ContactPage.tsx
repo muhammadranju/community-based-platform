@@ -13,21 +13,19 @@ import { MdPhone } from "react-icons/md";
 
 const ContactPage: React.FC = () => {
   return (
-    <div>
+    <div className="lg:mb-20 mb-10">
       {/* Header Section */}
-      <div className="">
-        <div className="w-full lg:min-h-[400px] h-[150px] rounded-3xl flex items-center justify-center relative overflow-hidden ">
-          <Image
-            src="/bg/our_work_bg.png"
-            alt="Contact Hero"
-            fill
-            className="object-cover absolute inset-0"
-            priority
-          />
-          <h1 className="text-white text-3xl md:text-5xl font-bold z-10 tracking-tight">
-            Get In Touch With Us
-          </h1>
-        </div>
+      <div className="w-full lg:min-h-[400px] h-[150px] rounded-3xl flex items-center justify-center relative overflow-hidden ">
+        <Image
+          src="/bg/our_work_bg.png"
+          alt="Contact Hero"
+          fill
+          className="object-cover absolute inset-0"
+          priority
+        />
+        <h1 className="text-white text-3xl md:text-5xl font-bold z-10 tracking-tight">
+          Get In Touch With Us
+        </h1>
       </div>
 
       {/* Main Content Section */}

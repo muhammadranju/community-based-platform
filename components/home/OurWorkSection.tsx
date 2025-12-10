@@ -46,7 +46,7 @@ export default function OurWorkSection() {
       description:
         "This is a database of Indigenous African builders, designers and architects who are passionate about helping the community to build their homes. Our goal is to connect home owners to African professionals that specialize in preserving, and rebuilding indigenous African Architecture.",
       image: "/bg/Rectangle1.png", // Placeholder for village
-      link: "#",
+      link: "waiting-list/login",
       buttonText: "Join Our Database",
     },
   ];

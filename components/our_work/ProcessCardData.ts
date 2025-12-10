@@ -264,7 +264,7 @@ export const ARCHIVE_ITEMS: ArchiveItem[] = [
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
     image:
-      "https://images.unsplash.com/photo-1547471080-7541e8856987?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
@@ -272,7 +272,7 @@ export const ARCHIVE_ITEMS: ArchiveItem[] = [
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
     image:
-      "https://images.unsplash.com/photo-1481277542470-605612bd2d61?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
@@ -280,7 +280,7 @@ export const ARCHIVE_ITEMS: ArchiveItem[] = [
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
     image:
-      "https://images.unsplash.com/photo-1599578705716-9736775f05b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
@@ -288,7 +288,7 @@ export const ARCHIVE_ITEMS: ArchiveItem[] = [
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
     image:
-      "https://images.unsplash.com/photo-1533669955278-6623e712792d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+      "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
