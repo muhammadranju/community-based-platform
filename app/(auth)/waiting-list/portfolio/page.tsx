@@ -8,6 +8,11 @@ import WaitingHeroSection from "../WaitingHeroSection";
 
 // --- Internal Reusable UI Components (simulating shadcn/ui) ---
 
+export const metadata = {
+  title: "Portfolio - African Traditional Architecture",
+  description: "Portfolio",
+};
+
 const Label: React.FC<React.LabelHTMLAttributes<HTMLLabelElement>> = ({
   className,
   ...props

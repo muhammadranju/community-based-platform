@@ -1,10 +1,14 @@
-import HeroSection from "@/components/home/HeroSection";
-import RebuildingSection from "@/components/home/RebuildingSection";
-import OurWorkSection from "@/components/home/OurWorkSection";
-import GetInvolvedSection from "@/components/home/GetInvolvedSection";
-import FeaturedStoriesSection from "@/components/home/FeaturedStoriesSection";
-import YouTubeSection from "@/components/home/YouTubeSection";
 import AfricanArchitectureHero from "@/components/home/AfricanArchitectureHero";
+import FeaturedStoriesSection from "@/components/home/FeaturedStoriesSection";
+import GetInvolvedSection from "@/components/home/GetInvolvedSection";
+import OurWorkSection from "@/components/home/OurWorkSection";
+import RebuildingSection from "@/components/home/RebuildingSection";
+import YouTubeSection from "@/components/home/YouTubeSection";
+
+export const metadata = {
+  title: "Home - African Traditional Architecture",
+  description: "Home African Traditional Architecture",
+};
 
 export default function Home() {
   return (

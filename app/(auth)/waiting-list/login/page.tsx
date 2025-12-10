@@ -1,8 +1,8 @@
 import WaitingListPage from "./WaitingListPage";
 
 export const metadata = {
-  title: "Waiting List",
-  description: "Waiting List",
+  title: "Waiting List Login - African Traditional Architecture",
+  description: "Waiting List Login",
 };
 
 function page() {

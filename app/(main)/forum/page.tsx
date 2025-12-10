@@ -1,8 +1,8 @@
 import ForumPage from "./ForumPage";
 
 export const metadata = {
-  title: "Forum - ATA",
-  description: "Forum ATA",
+  title: "Forum - African Traditional Architecture",
+  description: "Forum African Traditional Architecture",
 };
 
 export default function page() {

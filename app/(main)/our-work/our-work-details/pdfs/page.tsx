@@ -9,6 +9,11 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { DocumentGallery } from "./PDFDocumentGallery";
 
+export const metadata = {
+  title: "PDFs - African Traditional Architecture",
+  description: "PDFs African Traditional Architecture",
+};
+
 export interface DocumentItem {
   id: string;
   name: string;

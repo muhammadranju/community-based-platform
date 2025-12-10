@@ -2,21 +2,29 @@
 import CustomBadge from "@/components/shared/SharedBadge";
 import React, { useState } from "react";
 import WaitingHeader from "../WaitingHeader";
+import { useRouter } from "next/navigation";
 import WaitingHeroSection from "../WaitingHeroSection";
 
 // --- Internal Reusable UI Components (simulating shadcn/ui) ---
-
-export const metadata = {
-  title: "Commnuity - African Traditional Architecture",
-  description: "Community & Availability",
-};
 
 const Label: React.FC<React.LabelHTMLAttributes<HTMLLabelElement>> = ({
   className,
   ...props
 }) => (
   <label
-    className={`text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700 ${
+    className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700 ${
+      className || ""
+    }`}
+    {...props}
+  />
+);
+
+const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
+  className,
+  ...props
+}) => (
+  <input
+    className={`flex h-12 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d97706] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
       className || ""
     }`}
     {...props}
@@ -53,63 +61,25 @@ const Button: React.FC<
   );
 };
 
-// Custom Toggle Component (Yes/No Pills)
-const YesNoToggle = ({
-  value,
-  onChange,
-}: {
-  value: boolean | null;
-  onChange: (val: boolean) => void;
-}) => {
-  return (
-    <div className="flex items-center gap-3">
-      <button
-        type="button"
-        onClick={() => onChange(true)}
-        className={`px-8 py-2 rounded-full border text-base transition-colors ${
-          value === true
-            ? "border-[#065f46] text-[#065f46] font-medium"
-            : "border-gray-300 text-gray-500 hover:border-gray-400"
-        }`}
-      >
-        Yes
-      </button>
-      <span className="text-gray-500 text-lg">or</span>
-      <button
-        type="button"
-        onClick={() => onChange(false)}
-        className={`px-8 py-2 rounded-full border text-base transition-colors ${
-          value === false
-            ? "border-[#065f46] text-[#065f46] font-medium"
-            : "border-gray-300 text-gray-500 hover:border-gray-400"
-        }`}
-      >
-        No
-      </button>
-    </div>
-  );
-};
-
 // --- Main Application Component ---
 
-export default function page() {
+export default function ProfessionalDetailsPage() {
   const [formData, setFormData] = useState({
-    isRoleTitle: null as boolean | null,
-    isAvailable: null as boolean | null,
-    agreedToTerms: false,
+    roleTitle: "",
+    areaOfExpertise: "",
+    yearsOfExperience: "",
   });
+  const router = useRouter();
 
-  const handleToggleChange = (field: keyof typeof formData, val: boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: val }));
-  };
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, agreedToTerms: e.target.checked }));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
+    router.push("/waiting-list/portfolio");
     alert("Form submitted! Check console for data.");
   };
 
@@ -145,46 +115,53 @@ export default function page() {
               {/* Form Section */}
               <div className="space-y-8">
                 <h3 className="text-primary-color text-2xl font-bold">
-                  Community & Availability
+                  Professional Details
                 </h3>
 
                 <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Role/Title Toggle */}
-                  <div className="space-y-4">
-                    <Label>
-                      Role/Title (Builder, Architect, Designer, Student, Other)
-                    </Label>
-                    <YesNoToggle
-                      value={formData.isRoleTitle}
-                      onChange={(val) => handleToggleChange("isRoleTitle", val)}
-                    />
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    {/* Role/Title (Builder, Architect, Designer, Student, Other) */}
+                    <div className="space-y-2">
+                      <Label htmlFor="fullName">
+                        Role/Title (Builder, Architect, Designer, Student,
+                        Other)
+                      </Label>
+                      <Input
+                        id="fullName"
+                        name="fullName"
+                        value={formData.roleTitle}
+                        onChange={handleInputChange}
+                        placeholder=""
+                      />
+                    </div>
 
-                  {/* Availability Toggle */}
-                  <div className="space-y-4">
-                    <Label>Available for mentorship or training?</Label>
-                    <YesNoToggle
-                      value={formData.isAvailable}
-                      onChange={(val) => handleToggleChange("isAvailable", val)}
-                    />
-                  </div>
+                    {/* Area of Expertise (e.g., mud houses, stone, bamboo, thatch, etc.) */}
+                    <div className="space-y-2">
+                      <Label htmlFor="email">
+                        Area of Expertise (e.g., mud houses, stone, bamboo,
+                        thatch, etc.)
+                      </Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.areaOfExpertise}
+                        onChange={handleInputChange}
+                        placeholder=""
+                      />
+                    </div>
 
-                  {/* Checkbox */}
-                  <div className="flex items-start space-x-3 pt-2">
-                    <input
-                      type="checkbox"
-                      id="agreedToTerms"
-                      checked={formData.agreedToTerms}
-                      onChange={handleCheckboxChange}
-                      className="mt-1 h-5 w-5 rounded border-gray-300 text-[#d97706] focus:ring-[#d97706]"
-                    />
-                    <label
-                      htmlFor="agreedToTerms"
-                      className="text-gray-600 text-base leading-tight"
-                    >
-                      I agree to be listed in the public database and contacted
-                      about opportunities.
-                    </label>
+                    {/* Years of Experience */}
+                    <div className="space-y-2">
+                      <Label htmlFor="location">Years of Experience</Label>
+                      <Input
+                        id="location"
+                        name="location"
+                        value={formData.yearsOfExperience}
+                        onChange={handleInputChange}
+                        placeholder=""
+                      />
+                    </div>
                   </div>
 
                   {/* Submit Button */}

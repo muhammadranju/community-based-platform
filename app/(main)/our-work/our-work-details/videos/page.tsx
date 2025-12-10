@@ -8,6 +8,11 @@ import { useRouter } from "next/navigation";
 import VideoGallery from "./VideoGallery";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 
+export const metadata = {
+  title: "Videos - African Traditional Architecture",
+  description: "Videos African Traditional Architecture",
+};
+
 export interface Video {
   id: number;
   thumbnailUrl: string;

@@ -1,7 +1,7 @@
 import ContactPage from "./ContactPage";
 
 export const metadata = {
-  title: "Contact Us",
+  title: "Contact Us - African Traditional Architecture",
   description: "Contact Us",
 };
 
