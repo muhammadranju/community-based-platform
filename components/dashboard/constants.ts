@@ -63,6 +63,16 @@ export interface MyUploadItem {
   updated: string;
 }
 
+export interface WaitingListItem {
+  id: string;
+  fullName: string;
+  email: string;
+  location: string;
+  role: string;
+  expertise: string;
+  experience: string;
+}
+
 export const CONTENT_ITEMS: ContentItem[] = [
   { id: '1', title: 'African architecture House', contentId: 'AFID023', type: 'Image', owner: 'Dim Moi', updated: '2025-12-06', status: 'Approved' },
   { id: '2', title: 'African architecture House', contentId: 'AFID023', type: 'Image', owner: 'Dim Moi', updated: '2025-12-06', status: 'Flagged' },
@@ -176,4 +186,21 @@ export const MY_UPLOADS_ITEMS: MyUploadItem[] = [
   { id: '6', title: 'African architecture House', type: 'Image', status: 'Approved', updated: '20/12/25' },
   { id: '7', title: 'African architecture House', type: 'Image', status: 'Approved', updated: '20/12/25' },
   { id: '8', title: 'African architecture House', type: 'Image', status: 'Pending', updated: '20/12/25' },
+];
+
+
+export const WAITING_LIST_ITEMS: WaitingListItem[] = [
+  { id: '1', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Builder', expertise: 'Interior', experience: '2 Year' },
+  { id: '2', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Architect', expertise: 'Interior', experience: '2 Year' },
+  { id: '3', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Designer', expertise: 'Interior', experience: '2 Year' },
+  { id: '4', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Student', expertise: 'Interior', experience: '2 Year' },
+  { id: '5', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Architect', expertise: 'Interior', experience: '2 Year' },
+  { id: '6', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Designer', expertise: 'Interior', experience: '2 Year' },
+  { id: '7', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Designer', expertise: 'Interior', experience: '2 Year' },
+  { id: '8', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Student', expertise: 'Interior', experience: '2 Year' },
+  { id: '9', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Student', expertise: 'Interior', experience: '2 Year' },
+  { id: '10', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Student', expertise: 'Interior', experience: '2 Year' },
+  { id: '11', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Student', expertise: 'Interior', experience: '2 Year' },
+  { id: '12', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Architect', expertise: 'Interior', experience: '2 Year' },
+  { id: '13', fullName: 'Md. Rafiul Islam', email: 'example@gmail.com', location: 'South Africa ( Uganda)', role: 'Architect', expertise: 'Interior', experience: '2 Year' },
 ];

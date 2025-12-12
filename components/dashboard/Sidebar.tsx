@@ -1,25 +1,99 @@
 "use client";
 
-import { ChartNoAxesColumn, LogOut, Upload, Users } from "lucide-react";
+import {
+  ChartNoAxesColumn,
+  LogOut,
+  NotebookPen,
+  Upload,
+  Users,
+} from "lucide-react";
+import { AiFillPieChart } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
+import { IoCloudUploadOutline, IoSettingsOutline } from "react-icons/io5";
+import { RiShoppingBag4Line } from "react-icons/ri";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
-import { AiFillPieChart } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { IoSettingsOutline } from "react-icons/io5";
-import { RiShoppingBag4Line } from "react-icons/ri";
 
 interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
 }
 
+type NavItem = {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+};
+
+const navItems: NavItem[] = [
+  {
+    href: "/dashboard/overview",
+    label: "Overview",
+    icon: <AiFillPieChart size={20} />,
+  },
+  {
+    href: "/dashboard/contnets",
+    label: "Content",
+    icon: <ChartNoAxesColumn size={20} />,
+  },
+  { href: "/dashboard/users", label: "Users", icon: <Users size={20} /> },
+  {
+    href: "/dashboard/users/overview",
+    label: "Users Overview",
+    icon: <AiFillPieChart size={20} />,
+  },
+  {
+    href: "/dashboard/moderations",
+    label: "Moderations",
+    icon: <RiShoppingBag4Line size={20} />,
+  },
+  {
+    href: "/dashboard/waiting-list",
+    label: "Waiting List",
+    icon: <NotebookPen size={20} />,
+  },
+  {
+    href: "/dashboard/upload-content",
+    label: "Upload Content",
+    icon: <IoCloudUploadOutline size={20} />,
+  },
+  {
+    href: "/dashboard/profile",
+    label: "Profile",
+    icon: <CgProfile size={20} />,
+  },
+  {
+    href: "/dashboard/my-upload",
+    label: "My Uploads",
+    icon: <Upload size={20} />,
+  },
+  {
+    href: "/dashboard/settings",
+    label: "Settings",
+    icon: <IoSettingsOutline size={20} />,
+  },
+];
+
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const pathname = usePathname();
 
-  // Helper function to check if the link is active
-  const isActive = (path: string) => pathname === path;
+  const NavLink = ({ item }: { item: NavItem }) => {
+    const isActive = pathname === item.href;
+    return (
+      <Link
+        href={item.href}
+        className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
+          isActive
+            ? "bg-lime-500 text-white"
+            : "text-gray-300 hover:text-white hover:bg-teal-800"
+        }`}
+      >
+        {item.icon}
+        <span>{item.label}</span>
+      </Link>
+    );
+  };
 
   return (
     <>
@@ -31,126 +105,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         />
       )}
 
-      {/* Sidebar Content - Now floating with margins */}
+      {/* Sidebar */}
       <aside
-        className={`fixed lg:left-4 left-0 lg:top-4 top-0 lg:bottom-4 bottom-0 z-50 w-64 bg-primary-color text-white lg:rounded-2xl shadow-2xl overflow-hidden flex flex-col justify-between transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-primary-color text-white flex flex-col justify-between transition-transform duration-300 lg:translate-x-0 lg:left-4 lg:top-4 lg:bottom-4 lg:rounded-2xl lg:shadow-2xl ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
+        {/* Top Section */}
         <div className="p-6">
-          {/* Logo Area */}
-          <div className="bg-white rounded-xl p-4 mb-8 flex justify-center items-center shadow-lg">
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              width={100}
-              height={100}
-              className="mb-2"
-            />
+          <div className="bg-white rounded-xl p-4 mb-8 shadow-lg flex justify-center">
+            <Image src="/logo.png" alt="Logo" width={100} height={100} />
           </div>
 
-          {/* Navigation */}
-          <nav className="space-y-4">
-            <Link
-              href="/dashboard/overview"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors ${
-                isActive("/dashboard/overview")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <AiFillPieChart size={18} className="text-current" />
-              <span>Overview</span>
-            </Link>
-
-            <Link
-              href="/dashboard/contnets"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive("/dashboard/contnets")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <ChartNoAxesColumn size={20} />
-              <span>Content</span>
-            </Link>
-
-            <Link
-              href="/dashboard/users"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive("/dashboard/users")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <Users size={20} />
-              <span>Users</span>
-            </Link>
-
-            <Link
-              href="/dashboard/users/overview"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive("/dashboard/users/overview")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <AiFillPieChart size={20} />
-              <span>Users Overview</span>
-            </Link>
-
-            <Link
-              href="/dashboard/moderations"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive("/dashboard/moderations")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <RiShoppingBag4Line size={20} />
-              <span>Moderations</span>
-            </Link>
-
-            <Link
-              href="/dashboard/profile"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive("/dashboard/profile")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <CgProfile size={20} />
-              <span>Profile</span>
-            </Link>
-
-            <Link
-              href="/dashboard/my-upload"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive("/dashboard/my-upload")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <Upload size={20} />
-              <span>My Uploads</span>
-            </Link>
-
-            <Link
-              href="/dashboard/settings"
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive("/dashboard/settings")
-                  ? "bg-lime-500 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-teal-800"
-              }`}
-            >
-              <IoSettingsOutline size={20} />
-              <span>Settings</span>
-            </Link>
+          <nav className="space-y-2">
+            {navItems.map((item) => (
+              <NavLink key={item.href} item={item} />
+            ))}
           </nav>
         </div>
 
+        {/* Bottom Section */}
         <div className="p-6">
-          <button className="flex items-center space-x-3 text-gray-300 hover:text-white w-full px-4 py-3 transition-colors rounded-lg">
+          <button className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-teal-800/50 rounded-lg transition-colors">
             <LogOut size={20} className="rotate-180" />
             <span>Sign Out</span>
           </button>

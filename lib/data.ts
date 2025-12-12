@@ -138,3 +138,159 @@ export const GUIDE_DATA: GuideSectionData[] = [
     ],
   },
 ];
+
+// --- Interfaces ---
+export interface FloatingLabel {
+  text: string;
+  subText: string;
+  positionClass: string; // Tailwind classes for positioning (e.g., "top-8 left-8")
+}
+
+export interface ArchitectureRegion {
+  id: string;
+  title: string;
+  shortTitle: string; // For the card
+  description: string;
+  colorHex: string; // The main background color
+  accentColorHex: string; // A slightly darker/lighter shade for accents if needed
+  bgImage: string;
+  mainImage: string;
+  iconPath: string; // Path to the icon image
+  labels: FloatingLabel[];
+}
+
+export const REGIONS: ArchitectureRegion[] = [
+  {
+    id: "east",
+    title: "East African",
+    shortTitle: "East African Architecture",
+    description: "Explore the diverse structures of East Africa.",
+    colorHex: "#B20500", // Red
+    accentColorHex: "#8B0000",
+    bgImage: "/bg/bg-1.jpg",
+    mainImage: "/bg/east.png",
+    iconPath: "East",
+    labels: [
+      {
+        text: "Dorze Architecture",
+        subText: "Ethiopia",
+        positionClass: "top-1/3 left-8",
+      },
+      {
+        text: "Guraghe Tukul",
+        subText: "Ethiopia",
+        positionClass: "top-12 right-12",
+      },
+    ],
+  },
+  {
+    id: "central",
+    title: "Central African",
+    shortTitle: "Central African Architecture",
+    description: "Discover the intricate earth architecture.",
+    colorHex: "#37893C", // Green
+    accentColorHex: "#1a5d1a",
+    bgImage: "/bg/bg-2.jpg",
+    mainImage: "/bg/central.png",
+    iconPath: "Central",
+    labels: [
+      {
+        text: "Mousgoum Architecture",
+        subText: "Cameroon",
+        positionClass: "top-10 left-10",
+      },
+      {
+        text: "Bamum Architecture",
+        subText: "Cameroon",
+        positionClass: "bottom-20 right-10",
+      },
+    ],
+  },
+  {
+    id: "west",
+    title: "West African",
+    shortTitle: "West African Architecture",
+    description: "From the mud mosques of Mali to the Ashanti palaces.",
+    colorHex: "#063391", // Blue
+    accentColorHex: "#041E55",
+    bgImage: "/bg/bg-3.jpg",
+    mainImage: "/bg/west.png",
+    iconPath: "West",
+    labels: [
+      {
+        text: "Tiébélé Architecture",
+        subText: "Burkina Faso",
+        positionClass: "top-8 left-1/4",
+      },
+      {
+        text: "Great Djenne Mosque",
+        subText: "Mali",
+        positionClass: "bottom-12 right-8",
+      },
+    ],
+  },
+  {
+    id: "south",
+    title: "South African",
+    shortTitle: "South African Architecture",
+    description: "Experience the unique designs of Southern Africa.",
+    colorHex: "#C89D1F", // Yellow/Gold
+    accentColorHex: "#9E7B15",
+    bgImage: "/bg/bg-4.jpg",
+    mainImage: "/bg/south.png",
+    iconPath: "South",
+    labels: [
+      {
+        text: "Eswatini Architecture",
+        subText: "Eswatini",
+        positionClass: "top-20 left-12",
+      },
+      {
+        text: "Besakana Architecture",
+        subText: "Madagascar",
+        positionClass: "bottom-24 right-16",
+      },
+    ],
+  },
+  {
+    id: "north",
+    title: "North African",
+    shortTitle: "North African Architecture",
+    description: "The ancient medinas and desert fortresses.",
+    colorHex: "#E26513", // Orange
+    accentColorHex: "#A3460A",
+    bgImage: "/bg/bg-5.jpg",
+    mainImage: "/bg/north.png",
+    iconPath: "North",
+    labels: [
+      {
+        text: "Tamnit Palace",
+        subText: "Adrar Algeria",
+        positionClass: "top-16 left-16",
+      },
+      {
+        text: "Berber Architecture",
+        subText: "Algeria",
+        positionClass: "bottom-32 right-8",
+      },
+    ],
+  },
+  {
+    id: "global",
+    title: "Global - African",
+    shortTitle: "Global - African Architecture",
+    description: "The influence of African architecture spreads globally.",
+    colorHex: "#6C0544", // Purple
+    accentColorHex: "#4A022E",
+    bgImage: "/bg/bg-6.jpg",
+    mainImage: "/bg/global.png",
+    iconPath: "Global",
+    labels: [
+      {
+        text: "Oyotunji African Village",
+        subText: "South Carolina, USA",
+        positionClass: "top-12 left-12",
+      },
+    ],
+  },
+];

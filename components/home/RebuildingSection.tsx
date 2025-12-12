@@ -1,7 +1,7 @@
 export default function RebuildingSection() {
   return (
-    <section className="">
-      <div className="lg:-mb-20">
+    <section>
+      <>
         <span className="inline-block bg-lime-500 text-white text-xs font-semibold px-5 py-2 rounded-full mb-4">
           OUR MISSION
         </span>
@@ -11,7 +11,7 @@ export default function RebuildingSection() {
         <h2 className="text-2xl md:text-4xl font-bold text-emerald-900">
           Indigenous African Architecture
         </h2>
-      </div>
+      </>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-12 items-center">
         {/* Image */}
@@ -35,10 +35,7 @@ export default function RebuildingSection() {
             knowledge. Our open forum encourages meaningful dialogue, while our
             investment in research, digitization and resource hubs ensures that
             indigenous building traditions are documented, shared and passed on
-            to future generations. Our open forum encourages meaningful
-            dialogue, while our investment in research, digitization and
-            resource hubs ensures that indigenous building traditions are
-            documented, shared and passed on to future generations.
+            to future generations.
           </p>
         </div>
       </div>

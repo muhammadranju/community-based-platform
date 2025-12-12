@@ -2,6 +2,7 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import HomeBadge from "./HomeBadge";
+import Link from "next/link";
 
 interface WorkItem {
   title: string;
@@ -122,12 +123,12 @@ export default function OurWorkSection() {
                     {work.description}
                   </p>
                   <div>
-                    <a
+                    <Link
                       href={work.link}
                       className="inline-flex items-center justify-center text-emerald-900 font-semibold px-6 text-sm border border-orange-400 rounded-full py-2.5 hover:bg-orange-50 transition-colors duration-200"
                     >
                       {work.buttonText}
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
