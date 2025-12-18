@@ -1,4 +1,4 @@
-import CustomBadge from "./HomeBadge";
+import CustomBadge from "../shared/SharedBadge";
 
 export default function YouTubeSection() {
   return (

@@ -1,10 +1,31 @@
+"use client";
+
 import { ChevronRight, HeartHandshake, Home, Send } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaFacebook, FaLinkedin, FaTiktok, FaYoutube } from "react-icons/fa";
 import { PiInstagramLogoFill } from "react-icons/pi";
+import { toast } from "sonner";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 const Footer: React.FC = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = () => {
+    if (!email) {
+      toast.error("Email is required", {
+        description: "Please enter your email address",
+      });
+      return;
+    }
+    // Simulate submission
+    toast.success("Subscribed successfully!", {
+      description: "You will receive a confirmation email",
+    });
+    setEmail("");
+  };
+
   return (
     <footer className="w-full">
       {/* Top CTA Section */}
@@ -20,7 +41,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Divider Line */}
-          <div className="hidden md:block h-16 w-px bg-gray-400 opacity-50"></div>
+          <div className="hidden md:block h-16 bg-gray-400 opacity-50"></div>
 
           {/* Right CTA */}
           <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start">
@@ -49,13 +70,13 @@ const Footer: React.FC = () => {
           />
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
             {/* Column 1: Social */}
             <div>
               <h4 className="text-xl font-semibold mb-6">Lets Get Social</h4>
-              <p className="text-sm text-gray-200 mb-6 font-light leading-relaxed">
-                Follow us on our social media channels
+              <p className="text-lg text-gray-200 mb-6 font-light leading-relaxed">
+                Follow us on our <br /> social media channels
               </p>
               <div className="flex gap-3">
                 <SocialLink icon={<FaYoutube size={20} />} />
@@ -96,32 +117,47 @@ const Footer: React.FC = () => {
                 techniques centered on African Indigenous Architecture
               </p>
               <div className="relative w-full">
-                <input
+                <Input
                   type="email"
                   placeholder="Enter Email"
-                  className="w-full bg-white text-gray-800 rounded-full py-3 px-5 pr-14 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-white text-gray-800 rounded-full py-6 px-5 pr-14 focus:outline-none focus:ring-2 focus:ring-lime-500"
                 />
-                <button className="absolute right-1 top-1 bottom-1 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:opacity-90 bg-lime-500">
+                <Button
+                  onClick={handleSubscribe}
+                  className="absolute right-1 top-1 bottom-1 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:opacity-90 bg-lime-500 hover:bg-lime-600"
+                >
                   <Send size={18} className="text-white ml-1" />{" "}
                   {/* ml-1 to visually center the icon better */}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
 
           {/* Bottom Divider */}
-          <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-xs md:text-sm font-light text-gray-300">
-            <p className="mb-4 md:mb-0 lg:w-full w-1/2">
+
+          <div className="border-t border-white/20 pt-8 flex">
+            <p className="mb-4 md:mb-0 flex-1">
               © Africa Traditional Architecture 2025| All Rights Reserved
             </p>
-            <div className="flex gap-8">
-              <Link href="#" className="hover:text-white transition-colors">
+            <div className="flex gap-x-10 ">
+              <Link
+                href="/terms-and-conditions"
+                className="hover:text-white transition-colors"
+              >
                 Terms & Conditions
               </Link>
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link
+                href="/privacy-policy"
+                className="hover:text-white transition-colors"
+              >
                 Privacy Policy
               </Link>
-              <Link href="#" className="hover:text-white transition-colors">
+              <Link
+                href="/contact"
+                className="hover:text-white transition-colors"
+              >
                 Contact Us
               </Link>
             </div>
@@ -147,7 +183,7 @@ const LinkItem = ({ text }: { text: string }) => (
 
     <Link
       href="#"
-      className="text-sm font-light leading-relaxed text-gray-200 group-hover:text-white transition-colors"
+      className="text-xs font-light leading-relaxed text-gray-200 group-hover:text-white transition-colors"
     >
       {text}
     </Link>

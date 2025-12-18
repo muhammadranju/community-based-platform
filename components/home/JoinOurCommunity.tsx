@@ -8,7 +8,7 @@ import {
   Video,
 } from "lucide-react";
 import Link from "next/link";
-import HomeBadge from "./HomeBadge";
+import CustomBadge from "../shared/SharedBadge";
 
 export default function GetInvolvedSection() {
   const actions = [
@@ -42,7 +42,7 @@ export default function GetInvolvedSection() {
   return (
     <section className=" bg-white">
       <div className="mb-12">
-        <HomeBadge>JOIN OUR COMMUNITY</HomeBadge>
+        <CustomBadge>JOIN OUR COMMUNITY</CustomBadge>
         <h2 className="text-3xl md:text-4xl max-w-2xl font-bold text-emerald-900">
           Here are a few ways you can become a part of the village
         </h2>
@@ -100,7 +100,9 @@ export default function GetInvolvedSection() {
             </h3>
             <p
               className={`text-sm mb-8 lg:block hidden ${
-                index === 0 ? "text-gray-300" : "text-gray-600 "
+                index === 0
+                  ? "text-gray-300 "
+                  : "text-gray-600 lg:pr-4 text-start"
               }`}
             >
               {action.description}
@@ -108,7 +110,7 @@ export default function GetInvolvedSection() {
 
             <Link
               href={action.link}
-              className={`inline-flex items-center px-6 py-2 rounded-full text-sm font-bold border transition-colors ${
+              className={`inline-flex items-center px-6 py-3 rounded-full text-sm font-bold border transition-colors ${
                 index === 0
                   ? "border-white text-white hover:bg-white hover:text-emerald-900"
                   : "border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white"

@@ -46,7 +46,7 @@ const CountrySidebar: React.FC = () => {
                     setSelectedCountry(country);
                     setIsOpen(false);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-accent-bg hover:text-emerald-900 transition-colors"
+                  className="w-full text-left px-4 py-2 text-sm text-emerald-900 hover:bg-accent-bg hover:text-emerald-900 transition-colors"
                 >
                   {country}
                 </button>
@@ -78,14 +78,14 @@ const CountrySidebar: React.FC = () => {
               className={`group flex items-center gap-3 w-full text-left px-5 py-2 rounded-full border transition-all duration-200 ${
                 index === 0
                   ? "border-emerald-900 bg-white ring-1 ring-emerald-900"
-                  : "border-lime-500 bg-[#F2F6EF] hover:border-emerald-900/30 hover:bg-white"
+                  : "border-lime-500 bg-[#F2F6EF] hover:border-emerald-900 hover:bg-white"
               }`}
             >
               <div
                 className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${
                   index === 0
                     ? "border-emerald-900"
-                    : "border-gray-400 group-hover:border-emerald-900/50"
+                    : "border-emerald-900 group-hover:border-emerald-900"
                 }`}
               >
                 {index === 0 && (
@@ -93,8 +93,10 @@ const CountrySidebar: React.FC = () => {
                 )}
               </div>
               <span
-                className={`text-xs font-medium ${
-                  index === 0 ? "text-emerald-900 font-bold" : "text-gray-700"
+                className={`text-xs font-semibold ${
+                  index === 0
+                    ? "text-emerald-900 font-bold"
+                    : "text-emerald-900 "
                 }`}
               >
                 {country}

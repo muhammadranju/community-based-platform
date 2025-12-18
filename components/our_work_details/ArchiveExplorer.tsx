@@ -11,8 +11,12 @@ import {
 import ArchiveCard from "./ArchiveCard";
 import ArchiveHeader from "./ArchiveHeader";
 import CountrySidebar from "./CountrySidebar";
+import { usePathname } from "next/navigation";
 
 const ArchiveExplorer: React.FC = () => {
+  const pathname = usePathname();
+  const region = pathname.split("/")[2];
+
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
       {/* Sidebar - Countries */}
@@ -26,7 +30,7 @@ const ArchiveExplorer: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {ARCHIVE_ITEMS.map((item) => (
-            <ArchiveCard key={item.id} item={item} />
+            <ArchiveCard key={item.id} item={item} region={region} />
           ))}
         </div>
         <div className="flex justify-center mt-5">

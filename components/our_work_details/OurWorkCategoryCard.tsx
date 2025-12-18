@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface CategoryCardProps {
   title: string;
@@ -12,8 +15,21 @@ export default function OurWorkCategoryCard({
   icon,
   slug,
 }: CategoryCardProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("region");
+  const fullSlug = `/our-work${slug}`;
+  const fullSearchSlug = `/our-work/${search}`;
+
+  console.log(fullSearchSlug);
+  console.log(fullSlug);
+  // Hide the card if the current page matches the category slug
+  if (pathname === fullSlug || pathname.endsWith(slug)) {
+    return null;
+  }
+
   return (
-    <Link href={`/our-work${slug}`} className="w-full">
+    <Link href={fullSlug} className="w-full">
       <div
         className="rounded-2xl p-4 md:p-8 flex flex-row md:flex-col items-center gap-4 text-white w-full md:w-48 cursor-pointer hover:shadow-lg transition-shadow h-full"
         style={{ backgroundColor }}

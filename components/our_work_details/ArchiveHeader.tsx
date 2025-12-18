@@ -14,7 +14,7 @@ const ArchiveHeader: React.FC = () => {
         <Link href="/submit-content">
           <Button
             variant="outline"
-            className="px-8 py-2 h-auto text-sm font-semibold w-full sm:w-auto rounded-full border-secondary-color"
+            className="px-8 py-2 h-auto text-sm font-semibold w-full sm:w-auto rounded-full border-secondary-color text-emerald-900"
           >
             Submit Content
           </Button>

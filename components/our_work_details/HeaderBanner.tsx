@@ -66,7 +66,7 @@ function HeaderBanner() {
 
             {/* Content */}
             <div className="flex-1 text-white text-center md:text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold mb-6">
+              <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-6">
                 East African Traditional Architecture
               </h1>
 
@@ -77,7 +77,7 @@ function HeaderBanner() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Explore our digital archive by searching for your favourite Indigenous architecture here"
-                  className="w-full pl-12 pr-6 py-3 md:py-4 rounded-full bg-black/20 border-2 border-red-300 border-opacity-60 text-white placeholder-red-100 focus:outline-none focus:border-white focus:bg-opacity-70 transition text-sm md:text-base"
+                  className="lg:w-[650px] w-full pl-12 pr-6 py-3 md:py-4 rounded-full bg-black/20 border-2 border-red-300 border-opacity-60 text-white placeholder-red-100 focus:outline-none focus:border-white focus:bg-opacity-70 transition text-sm md:text-base"
                 />
               </div>
             </div>
@@ -86,7 +86,10 @@ function HeaderBanner() {
       </div>
 
       <div className="py-12 md:py-16">
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-6 gap-4 md:gap-6 md:flex-wrap md:justify-center">
+        <div
+          className="grid grid-cols-2 gap-4 md:gap-8 
+                  md:grid-cols-5 md:max-w-5xl md:mx-auto"
+        >
           {categories.map((category) => (
             <OurWorkCategoryCard key={category.id} {...category} />
           ))}

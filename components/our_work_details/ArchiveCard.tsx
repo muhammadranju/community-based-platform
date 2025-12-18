@@ -3,14 +3,13 @@ import { Heart, Image as ImageIcon, Video, FileText } from "lucide-react";
 import { ArchiveItem } from "@/types/types";
 import { Button } from "../ui/button";
 import Link from "next/link";
-// import { ArchiveItem } from "../types";
-// import Button from "./Button";
 
 interface ArchiveCardProps {
   item: ArchiveItem;
+  region: string;
 }
 
-const ArchiveCard: React.FC<ArchiveCardProps> = ({ item }) => {
+const ArchiveCard: React.FC<ArchiveCardProps> = ({ item, region }) => {
   return (
     <div className=" rounded-2xl overflow-hidden border border-emerald-900/80 flex flex-col h-full hover:shadow-lg transition-all duration-300 group">
       {/* Image Container */}
@@ -52,7 +51,7 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item }) => {
 
         {/* Footer Action */}
         <div className="mt-auto">
-          <Link href={"/our-work/our-work-details"}>
+          <Link href={`/our-work/our-work-details?region=${region}`}>
             <Button
               variant="outline"
               className="w-auto px-6 py-2 h-9 text-xs font-semibold hover:bg-amber-600 hover:text-white transition-colors rounded-full bg-transparent border-secondary-color text-emerald-900"

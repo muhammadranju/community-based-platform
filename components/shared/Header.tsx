@@ -74,9 +74,6 @@ export default function Header() {
                     }`}
                   >
                     {link.name}
-                    {isActive(link.href) && (
-                      <ChevronDown className="ml-1 h-3 w-3" />
-                    )}
                   </Link>
                 ))}
               </nav>

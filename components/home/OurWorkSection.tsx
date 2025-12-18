@@ -1,8 +1,8 @@
 "use client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useRef } from "react";
-import HomeBadge from "./HomeBadge";
 import Link from "next/link";
+import { useRef } from "react";
+import CustomBadge from "../shared/SharedBadge";
 
 interface WorkItem {
   title: string;
@@ -63,10 +63,10 @@ export default function OurWorkSection() {
         <h2 className="text-3xl md:text-4xl font-bold text-emerald-900 mb-6">
           Our Work
         </h2>
-        <HomeBadge>BE PART OF THE CHANGE</HomeBadge>
+        <CustomBadge>BE PART OF THE CHANGE</CustomBadge>
 
-        <div className="flex flex-col md:flex-row justify-between items-end gap-4 mt-4">
-          <h3 className="text-3xl md:text-4xl font-bold text-emerald-900 leading-tight max-w-2xl">
+        <div className="flex flex-col md:flex-row justify-between items-end gap-4 ">
+          <h3 className="text-2xl md:text-3xl font-bold text-emerald-900 leading-tight max-w-3xl">
             Learn about our key initiatives and resource hubs
           </h3>
 
@@ -106,26 +106,26 @@ export default function OurWorkSection() {
           return (
             <div
               key={index}
-              className="bg-white rounded-4xl p-5 shadow-sm flex flex-col h-full relative group transition-transform duration-300 hover:-translate-y-1 min-w-[85vw] md:min-w-0 snap-center"
+              className="bg-white rounded-4xl p-6 shadow-sm flex flex-col h-full relative group transition-transform duration-300 hover:-translate-y-1 min-w-[85vw] md:min-w-0 snap-center"
             >
               {/* Content Wrapper */}
               <div className={`flex h-full ${layoutClass}`}>
                 {/* Text Section */}
                 <div
                   className={`flex flex-col ${
-                    isMiddleCard ? "mt-6 pt-2" : "mb-6 md:mb-6 mt-6 md:mt-0"
+                    isMiddleCard ? "mt-6 " : "mb-6  md:mb-6 mt-6 md:mt-0"
                   }`}
                 >
-                  <h4 className="font-bold text-emerald-900 text-xl mb-4 leading-tight min-h-[3.5rem]">
+                  <h4 className="font-bold text-emerald-900 text-xl mb-2 leading-tight min-h-[3.5rem]">
                     {work.title}
                   </h4>
-                  <p className="text-[0.95rem] text-gray-600 mb-6 leading-relaxed flex-grow">
+                  <p className="text-xs text-gray-600 mb-4 leading-relaxed flex-grow">
                     {work.description}
                   </p>
                   <div>
                     <Link
                       href={work.link}
-                      className="inline-flex items-center justify-center text-emerald-900 font-semibold px-6 text-sm border border-orange-400 rounded-full py-2.5 hover:bg-orange-50 transition-colors duration-200"
+                      className="inline-flex items-center justify-center text-emerald-900 font-semibold px-6 text-sm border border-orange-400 rounded-full py-2.5 hover:bg-orange-50 transition-colors duration-200 -mb-2"
                     >
                       {work.buttonText}
                     </Link>
@@ -135,7 +135,7 @@ export default function OurWorkSection() {
                 {/* Image Section */}
                 <div
                   className={`relative w-full rounded-2xl overflow-hidden mt-auto ${
-                    isMiddleCard ? "h-64" : "h-64"
+                    isMiddleCard ? "h-72" : "h-72"
                   }`}
                 >
                   <img

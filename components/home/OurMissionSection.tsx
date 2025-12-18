@@ -2,6 +2,7 @@ export default function RebuildingSection() {
   return (
     <section>
       <>
+        OurMission
         <span className="inline-block bg-lime-500 text-white text-xs font-semibold px-5 py-2 rounded-full mb-4">
           OUR MISSION
         </span>
@@ -16,7 +17,7 @@ export default function RebuildingSection() {
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-12 items-center">
         {/* Image */}
         <div className="relative lg:h-[300px] ">
-          <img src="./Icons/icon-7.png" className="mb-5" alt="" />
+          <img src="./Icons/icon-7.png" className="lg:my-5 my-2 " alt="" />
           {/* Placeholder for the carved door/person image */}
           <img
             src="/person/person-1.png"
@@ -27,7 +28,7 @@ export default function RebuildingSection() {
 
         {/* Text Content */}
         <div className="space-y-6 lg:mt-0 mt-5">
-          <p className="text-gray-600 max-w-2xl font-normal text-xl lg:text-2xl leading-relaxed">
+          <p className="text-gray-600 max-w-2xl font-normal text-xl lg:text-2xl leading-relaxed lg:-mt-20">
             We are a passionate community committed to preserving, celebrating,
             and reimagining indigenous African Architecture. Through travel,
             conversation, and cultural exchange, we create opportunities for

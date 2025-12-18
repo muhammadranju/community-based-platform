@@ -1,7 +1,7 @@
 "use client";
-import React, { useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import CustomBadge from "./HomeBadge";
+import { useRef } from "react";
+import CustomBadge from "../shared/SharedBadge";
 
 interface Story {
   title: string;
@@ -56,6 +56,7 @@ export default function FeaturedStoriesSection() {
 
   return (
     <>
+      OurBlog
       <div className="flex justify-between items-end px-4 md:px-0 mb-10">
         <div>
           <CustomBadge>OUR BLOG</CustomBadge>
@@ -100,7 +101,6 @@ export default function FeaturedStoriesSection() {
           </button>
         </div>
       </div>
-
       <div
         ref={scrollContainerRef}
         className="flex overflow-x-auto snap-x snap-mandatory gap-6 px-4 md:px-0 pb-4 no-scrollbar md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
