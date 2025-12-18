@@ -1,7 +1,6 @@
 "use client";
-import CustomBadge from "@/components/home/HomeBadge";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
-import OurWorkCategoryCard from "@/components/our_work_details/OurWorkCategoryCard";
+import CustomBadge from "@/components/shared/SharedBadge";
 import { CommentsSection } from "@/components/sub_our_work/Comments";
 import {
   DocumentItem,

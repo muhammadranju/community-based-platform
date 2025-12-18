@@ -1,4 +1,4 @@
-import SubOurWork from "./SubOurWork";
+import OurWorkDetailsPage from "./OurWorkDetailsPage";
 
 export const metadata = {
   title: "Our Work Details - African Traditional Architecture",
@@ -8,7 +8,7 @@ export const metadata = {
 function page() {
   return (
     <div className="flex flex-col min-h-screen lg:px-0 px-4 max-w-7xl mx-auto">
-      <SubOurWork />
+      <OurWorkDetailsPage />
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import React from "react";
 import { ThumbsUp, ThumbsDown, MessageSquare, Share2 } from "lucide-react";
-import CustomBadge from "@/components/home/HomeBadge";
+
 import { Button } from "@/components/ui/button";
+import CustomBadge from "@/components/shared/SharedBadge";
 
 interface MainContentProps {
   details: CurrentVideoDetails;

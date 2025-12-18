@@ -1,5 +1,4 @@
 "use client";
-import CustomBadge from "@/components/home/HomeBadge";
 import YouTubeSection from "@/components/home/YouTubeSection";
 import ArchiveCard from "@/components/our_work/ArchiveCard";
 import PopularContent from "@/components/our_work/PopularContent";
@@ -9,6 +8,7 @@ import {
   CONTRIBUTE_DATA,
   EXPLORE_DATA,
 } from "@/components/our_work/ProcessCardData";
+import CustomBadge from "@/components/shared/SharedBadge";
 import SharedTitle from "@/components/shared/SharedTitle";
 import Image from "next/image";
 
@@ -17,7 +17,7 @@ function OurWork() {
     <>
       {/* Top Hero Section */}
       <section className="relative w-full flex items-center justify-center text-white max-w-7xl lg:px-0 px-4 mx-auto mt-4 md:mt-0 mb-24">
-        <div className="relative w-full h-full lg:min-h-[400px] rounded-3xl overflow-hidden flex items-center justify-center lg:py-20 py-16 lg:px-6 px-4">
+        <div className="relative w-full h-full lg:min-h-[350px] rounded-3xl overflow-hidden flex items-center justify-center lg:py-20 py-16 lg:px-6 px-4">
           <Image
             src={"/bg/our_work_bg.png"}
             alt="Hero"
@@ -26,11 +26,11 @@ function OurWork() {
             priority
           />
           {/* Overlay for better text contrast */}
-          <div className="relative z-10 max-w-4xl text-center flex flex-col items-center">
-            <h1 className="text-2xl md:text-5xl font-medium mb-6  tracking-tight">
+          <div className="relative z-10  text-center flex flex-col items-center">
+            <h1 className="text-2xl md:text-5xl font-semibold mb-4  tracking-tight">
               African Indigenous Architecture Digital Archive
             </h1>
-            <p className="text-gray-200 text-base md:text-lg max-w-2xl font-light leading-relaxed">
+            <p className="text-gray-200 text-base md:text-lg max-w-xl font-light leading-relaxed">
               A digital repository of indigenous African architecture,
               preserving cultural heritage through community contributions.
             </p>
@@ -55,7 +55,7 @@ function OurWork() {
 
       <section className="w-full py-12 lg:py-24 max-w-7xl mx-auto lg:px-0 px-4">
         {/* Header Section */}
-        <div className="flex flex-col items-center gap-6 ">
+        <div className="flex flex-col items-center ">
           {/* Badge */}
 
           <CustomBadge>Digital Archive</CustomBadge>

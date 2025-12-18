@@ -53,7 +53,7 @@ function OurWorkDetails() {
       <HeaderBanner />
 
       {/* Archive Explorer Section */}
-      <section className="py-16 md:py-24">
+      <section className="py-12 md:py-10">
         <ArchiveExplorer />
       </section>
     </main>
