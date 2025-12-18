@@ -1,5 +1,7 @@
+"use client";
+
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import OurWorkCategoryCard from "./OurWorkCategoryCard";
 const categories = [
   {
@@ -90,9 +92,11 @@ function HeaderBanner() {
           className="grid grid-cols-2 gap-4 md:gap-8 
                   md:grid-cols-5 md:max-w-5xl md:mx-auto"
         >
-          {categories.map((category) => (
-            <OurWorkCategoryCard key={category.id} {...category} />
-          ))}
+          <Suspense fallback={null}>
+            {categories.map((category) => (
+              <OurWorkCategoryCard key={category.id} {...category} />
+            ))}
+          </Suspense>
         </div>
       </div>
     </>
