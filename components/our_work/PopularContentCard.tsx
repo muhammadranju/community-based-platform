@@ -11,7 +11,7 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
   return (
     <div className="bg-[#F2F6EF] border border-lime-500 rounded-2xl p-6 flex flex-col h-full hover:shadow-md  hover:bg-white hover:border-white transition-colors duration-400">
       <div className="flex-1 mb-6">
-        <h3 className="text-xl font-bold text-brand-dark mb-3  tracking-tight">
+        <h3 className="text-xl font-bold text-emerald-900 mb-3  tracking-tight">
           {item.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed font-light">
@@ -20,19 +20,27 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
       </div>
 
       {/* Divider */}
-      <div className="h-px bg-lime-500/30 w-full mb-4" />
+      <div className="h-px bg-lime-500 w-full mb-4" />
 
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-3 md:gap-4 text-xs font-medium text-gray-700">
           <div className="flex items-center gap-1.5">
-            <div className="bg-emerald-900rounded-full p-1 shrink-0">
-              <MapPin size={10} className="text-white" strokeWidth={3} />
+            <div className="bg-emerald-900 rounded-full p-1 shrink-0">
+              <MapPin
+                size={12}
+                className="text-white text-lg"
+                strokeWidth={3}
+              />
             </div>
             <span>{item.location}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="bg-emerald-900 rounded-full p-1 shrink-0">
-              <Calendar size={10} className="text-white" strokeWidth={3} />
+              <Calendar
+                size={12}
+                className="text-white text-lg"
+                strokeWidth={3}
+              />
             </div>
             <span className="whitespace-nowrap">{item.date}</span>
           </div>
@@ -40,7 +48,7 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
 
         <Button
           //   variant="orange-outline"
-          className="text-xs px-4 py-3 h-auto font-semibold shrink-0 rounded-full bg-transparent border border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white transition-colors duration-200"
+          className="text-xs px-4 py-3 h-auto font-medium shrink-0 rounded-full bg-transparent border border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white transition-colors duration-200"
         >
           Read Post
         </Button>

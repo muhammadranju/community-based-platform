@@ -27,9 +27,9 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="w-full">
+    <footer className="w-full ">
       {/* Top CTA Section */}
-      <div className="w-full py-12 bg-accent-bg lg:px-0 px-4">
+      <div className="w-full lg:py-12 py-8 bg-accent-bg lg:px-0 px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
           <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start">
             <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-lime-500">
@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Section */}
-      <div className="relative w-full text-white pt-16 pb-8 overflow-hidden bg-emerald-900">
+      <div className="relative w-full text-white pt-16 pb-8 overflow-hidden bg-emerald-900 lg:px-0 px-4">
         {/* World Map Background with low opacity */}
         <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
           <img
@@ -71,10 +71,12 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 lg:mb-16 mb-8">
             {/* Column 1: Social */}
             <div>
-              <h4 className="text-xl font-semibold mb-6">Lets Get Social</h4>
+              <h4 className="text-2xl lg:text-3xl font-semibold lg:mb-6 mb-2">
+                Lets Get Social
+              </h4>
               <p className="text-lg text-gray-200 mb-6 font-light leading-relaxed">
                 Follow us on our <br /> social media channels
               </p>
@@ -89,7 +91,7 @@ const Footer: React.FC = () => {
 
             {/* Column 2: Our Work */}
             <div>
-              <h4 className="text-xl font-semibold mb-6">Our Work</h4>
+              <h4 className="text-xl font-semibold lg:mb-6 mb-2">Our Work</h4>
               <ul className="space-y-4">
                 <LinkItem text="African Indigenous Architecture Digital Archive" />
                 <LinkItem text="African Traditional Decor & Interior Design" />
@@ -99,7 +101,9 @@ const Footer: React.FC = () => {
 
             {/* Column 3: Join The Village */}
             <div>
-              <h4 className="text-xl font-semibold mb-6">Join The Village</h4>
+              <h4 className="text-xl font-semibold lg:mb-6 mb-2">
+                Join The Village
+              </h4>
               <ul className="space-y-4">
                 <LinkItem text="Join conversations on our forum and start new topics" />
                 <LinkItem text="Upload content to our African Architecture digital archive" />
@@ -109,10 +113,10 @@ const Footer: React.FC = () => {
 
             {/* Column 4: Newsletter */}
             <div>
-              <h4 className="text-xl font-semibold mb-6">
+              <h4 className="lg:text-xl text-2xl font-semibold lg:mb-6 mb-2">
                 Subscribe Our Newsletter
               </h4>
-              <p className="text-xs text-gray-200 mb-6 font-light leading-relaxed">
+              <p className="lg:text-xs text-sm text-gray-200 mb-6 font-light leading-relaxed">
                 Subscribe to our newsletter and explore designs and building
                 techniques centered on African Indigenous Architecture
               </p>
@@ -128,7 +132,7 @@ const Footer: React.FC = () => {
                   onClick={handleSubscribe}
                   className="absolute right-1 top-1 bottom-1 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:opacity-90 bg-lime-500 hover:bg-lime-600"
                 >
-                  <Send size={18} className="text-white ml-1" />{" "}
+                  <Send size={18} className="text-white ml-1" />
                   {/* ml-1 to visually center the icon better */}
                 </Button>
               </div>
@@ -137,26 +141,26 @@ const Footer: React.FC = () => {
 
           {/* Bottom Divider */}
 
-          <div className="border-t border-white/20 pt-8 flex">
-            <p className="mb-4 md:mb-0 flex-1">
+          <div className="border-t border-white/20 pt-4 flex lg:px-0  flex-col md:flex-row items-center justify-between">
+            <p className="mb-4 md:mb-0 flex-1 text-center md:text-left px-4">
               © Africa Traditional Architecture 2025| All Rights Reserved
             </p>
-            <div className="flex gap-x-10 ">
+            <div className="flex lg:gap-x-10 gap-x-6 text-center md:text-left">
               <Link
                 href="/terms-and-conditions"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors text-xs lg:text-base"
               >
                 Terms & Conditions
               </Link>
               <Link
                 href="/privacy-policy"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors text-xs lg:text-base"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/contact"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors text-xs lg:text-base"
               >
                 Contact Us
               </Link>

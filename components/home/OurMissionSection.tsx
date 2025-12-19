@@ -2,7 +2,6 @@ export default function RebuildingSection() {
   return (
     <section>
       <>
-        OurMission
         <span className="inline-block bg-lime-500 text-white text-xs font-semibold px-5 py-2 rounded-full mb-4">
           OUR MISSION
         </span>

@@ -118,7 +118,7 @@ export const ARCHIVE_DATA = [
     icon: "/bg/pattern_bg_3.png",
     description:
       "Nigeria, Niger, Burkina Faso, Benin, Liberia, Ghana, The Gambia, Mali, Côte d'Ivoire, Senegal, Guinea, Togo, Sierra Leone, Guinea-Bissau, Mauritania, Cabot Verde, Saint-Helena, Ascension and Tristan da Cunha",
-    borderColor: "border-[#27662B]",
+    borderColor: "border-[#254D82]",
     link: "/our-work/west-african-architecture",
   },
   {
