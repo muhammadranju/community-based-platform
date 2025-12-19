@@ -17,60 +17,9 @@ interface TopicData {
 
 interface SectionData {
   title: string;
-  theme: "gold" | "orange";
+  theme: "purple" | "red";
   items: TopicData[];
 }
-
-// --- Icons ---
-
-// The geometric knot icon for the "Rebuilding" section
-const KnotIcon = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
-    <path
-      d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M7 10v4m4-10v4m6 6v4m-4-10h4m-10 6h4m0-4h-4"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-// The scale/balance icon for the "Materials" section
-const ScaleIcon = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
-    <path
-      d="M12 3v18"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <path
-      d="M6 8h12"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <path d="M6 8v6a3 3 0 006 0" stroke="currentColor" strokeWidth="2" />
-    <path d="M18 8v6a3 3 0 01-6 0" stroke="currentColor" strokeWidth="2" />
-  </svg>
-);
 
 // --- Internal Components ---
 
@@ -107,23 +56,23 @@ const TopicCard = ({
   theme,
 }: {
   item: TopicData;
-  theme: "gold" | "orange";
+  theme: "purple" | "red";
 }) => {
   // Theme configuration
   const styles = {
-    gold: {
-      border: "border-[#E8DAB2] ",
+    purple: {
+      border: "border-[#6C0544] ",
       iconBg: "bg-white",
-      iconBorder: "border-[#D4AF37] p-2 ",
-      iconColor: "text-[#2C3E30]", // Dark greenish/black for the symbol itself
-      ringColor: "ring-[#D4AF37]",
+      iconBorder: "border-[#6C0544] p-2 ",
+      iconColor: "text-[#6C0544]", // Dark greenish/black for the symbol itself
+      ringColor: "ring-[#6C0544]",
     },
-    orange: {
-      border: "border-[#F2D0B8] ",
+    red: {
+      border: "border-[#B20500] ",
       iconBg: "bg-white",
-      iconBorder: "border-[#E86C30] p-2 ",
-      iconColor: "text-[#E86C30]",
-      ringColor: "ring-[#E86C30]",
+      iconBorder: "border-[#B20500] p-2 ",
+      iconColor: "text-[#B20500]",
+      ringColor: "ring-[#B20500]",
     },
   };
 
@@ -138,13 +87,13 @@ const TopicCard = ({
         <div
           className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full border-6 ${currentStyle.iconBorder} flex items-center justify-center ${currentStyle.iconBg}`}
         >
-          {theme === "gold" ? (
-            <img src="/Icons/Rebuilding.png" alt="" />
+          {theme === "purple" ? (
+            <img src="/Icons/Interactive.png" alt="" />
           ) : (
             // <KnotIcon
             //   className={`w-6 h-6 sm:w-7 sm:h-7 ${currentStyle.iconColor}`}
             // />
-            <img src="/Icons/Materials.png" alt="" />
+            <img src="/Icons/Community.png" alt="" />
             // <ScaleIcon
             //   className={`w-6 h-6 sm:w-7 sm:h-7 ${currentStyle.iconColor}`}
             // />
@@ -196,11 +145,11 @@ const SectionHeader = ({
   theme,
 }: {
   title: string;
-  theme: "gold" | "orange";
+  theme: "purple" | "red";
 }) => {
   const textColors = {
-    gold: "text-[#C59B26]", // Muted gold
-    orange: "text-[#E86C30]", // Burnt orange
+    purple: "text-[#C59B26]", // Muted gold
+    red: "text-[#E86C30]", // Burnt orange
   };
 
   return (
@@ -214,18 +163,18 @@ const SectionHeader = ({
 
 // --- Main Application ---
 
-const RebuildingInnovation: React.FC = () => {
+const InteractiveEngagementSpaces: React.FC = () => {
   // Data definition matching the image
   const sections: SectionData[] = [
     {
-      title: "Rebuilding & Innovation",
-      theme: "gold",
+      title: "Interactive & Engagement Spaces",
+      theme: "purple",
       items: [
         {
           id: "1",
-          title: "Rebuilding African Indigenous Architecture Today",
+          title: "Q&A – Ask an Expert",
           description:
-            "How are people restoring or reviving old architectural practices in the 21st century?",
+            "Need advice? Have a question? Tag an expert or crowdsource knowledge.",
           stats: {
             posts: 59,
             views: "1,441",
@@ -234,9 +183,9 @@ const RebuildingInnovation: React.FC = () => {
         },
         {
           id: "2",
-          title: "The Future of African Architecture",
+          title: "Workshops, Webinars & Learning Opportunities",
           description:
-            "Innovations, design philosophies, and emerging architects who are reshaping Africa's skyline with traditional roots.",
+            "Promote events, training, conferences, or community-led build sessions.",
           stats: {
             posts: 59,
             views: "1,441",
@@ -245,31 +194,9 @@ const RebuildingInnovation: React.FC = () => {
         },
         {
           id: "3",
-          title: "Blending INDIGENOUS & Modern Techniques",
+          title: "Showcase Your Project, Research or Traditional Home",
           description:
-            "List architecture around the world that has been heavily inspired by African Indigenous Architecture. This is to help us understand how African Indigenous knowledge has influenced and shaped architecture worldwide.",
-          stats: {
-            posts: 59,
-            views: "1,441",
-            lastUpdated: "Yesterday at 2:02 PM",
-          },
-        },
-        {
-          id: "4",
-          title: "Global architecture Inspired by African building designs",
-          description:
-            "Talk about the big picture. Ideas, opinions, questions, and trends related to traditional architecture across the continent.",
-          stats: {
-            posts: 59,
-            views: "1,441",
-            lastUpdated: "Yesterday at 2:02 PM",
-          },
-        },
-        {
-          id: "5",
-          title: "Reviving Lost Techniques and Materials",
-          description:
-            "How do we decolonize our education system so that we start recognizing our indigenous African ways of building? How do we unlearn and relearn our indigenous ways of building?",
+            "Upload images, walk us through your construction, or share architectural case studies.",
           stats: {
             posts: 59,
             views: "1,441",
@@ -280,14 +207,14 @@ const RebuildingInnovation: React.FC = () => {
     },
 
     {
-      title: "Materials, Construction & Design",
-      theme: "orange",
+      title: "Community & Professional Networking",
+      theme: "red",
       items: [
         {
           id: "6",
-          title: "Traditional Building Materials Across Africa",
+          title: "New and Prospective Homeowners Corner",
           description:
-            "Explore how different regions use local materials like bamboo, stone, mud, thatch, or animal hide to build Indigenous African homes.",
+            "Planning to build a home inspired by African traditions? Ask questions, share progress, get help.",
           stats: {
             posts: 59,
             views: "1,441",
@@ -297,33 +224,9 @@ const RebuildingInnovation: React.FC = () => {
         },
         {
           id: "6",
-          title: "Traditional Building Materials Across Africa",
+          title: "Professional Networking Hub",
           description:
-            "Explore how different regions use local materials like bamboo, stone, mud, thatch, or animal hide to build Indigenous African homes.",
-          stats: {
-            posts: 59,
-            views: "1,441",
-            lastUpdated: "Yesterday at 2:02 PM",
-            updatedBy: "icantcomeupwithausername",
-          },
-        },
-        {
-          id: "6",
-          title: "Traditional Building Materials Across Africa",
-          description:
-            "Explore how different regions use local materials like bamboo, stone, mud, thatch, or animal hide to build Indigenous African homes.",
-          stats: {
-            posts: 59,
-            views: "1,441",
-            lastUpdated: "Yesterday at 2:02 PM",
-            updatedBy: "icantcomeupwithausername",
-          },
-        },
-        {
-          id: "6",
-          title: "Traditional Building Materials Across Africa",
-          description:
-            "Explore how different regions use local materials like bamboo, stone, mud, thatch, or animal hide to build Indigenous African homes.",
+            "Find collaborators, hire talent, or share your portfolio.",
           stats: {
             posts: 59,
             views: "1,441",
@@ -355,4 +258,4 @@ const RebuildingInnovation: React.FC = () => {
   );
 };
 
-export default RebuildingInnovation;
+export default InteractiveEngagementSpaces;

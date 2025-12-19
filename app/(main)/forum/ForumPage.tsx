@@ -1,6 +1,8 @@
+import { CommunityStatistics } from "./CommunityStatistics";
 import CulturalHistoricalDiscussions from "./CulturalHistoricalDiscussions";
 import { ForumCard } from "./ForumCard";
 import { HeaderSection } from "./ForumHeaderSection";
+import InteractiveEngagementSpaces from "./InteractiveEngagementSpaces";
 import RebuildingInnovation from "./RebuildingInnovation";
 
 function ForumPage() {
@@ -20,6 +22,8 @@ function ForumPage() {
       <ForumCard />
       <CulturalHistoricalDiscussions />
       <RebuildingInnovation />
+      <InteractiveEngagementSpaces />
+      <CommunityStatistics />
     </>
   );
 }

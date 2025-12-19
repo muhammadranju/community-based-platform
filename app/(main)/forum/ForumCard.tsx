@@ -6,7 +6,7 @@ import React from "react";
 
 export const ForumCard: React.FC = () => {
   return (
-    <div className="w-full bg-primary-color rounded-3xl px-12 py-16 text-white relative overflow-hidden mt-10 shadow-xl">
+    <div className="w-full bg-primary-color rounded-3xl px-12 py-16 text-white relative overflow-hidden my-10 shadow-xl">
       <div className="flex flex-col lg:flex-row gap-12 items-start justify-between">
         {/* Left Content */}
         <div className="flex-1 space-y-6 lg:max-w-2xl">

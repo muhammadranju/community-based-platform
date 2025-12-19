@@ -74,12 +74,12 @@ function OurWork() {
 
       {/* Popular Content Section */}
       <section className="bg-accent-bg py-16 border-t border-brand-green/10 ">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto  px-4 lg:px-0">
           <PopularContent />
         </div>
       </section>
 
-      <div className="w-7xl mx-auto mt-20">
+      <div className="lg:w-7xl w-full mx-auto mt-20 px-4 lg:px-0">
         <YouTubeSection />
       </div>
     </>

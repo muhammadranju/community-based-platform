@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   ArrowRight,
   Bird,
@@ -112,10 +114,10 @@ const StatBlock = ({
       !isLast ? "border-r border-gray-200 hidden md:flex" : ""
     }`}
   >
-    <span className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">
+    <span className="text-[10px] md:text-[11px] font-bold text-emerald-900 uppercase tracking-wider mb-1">
       {label}
     </span>
-    <span className="text-xs md:text-sm font-semibold text-gray-700 truncate max-w-[120px]">
+    <span className="text-xs md:text-sm font-semibold text-emerald-900 truncate max-w-[120px]">
       {value}
     </span>
   </div>
@@ -159,15 +161,15 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
   const isBlue = data.variant === "blue";
 
   // Styles based on variant
-  const containerBorder = isBlue ? "border-blue-200" : "border-green-200";
+  const containerBorder = isBlue
+    ? "border-blue-700/50"
+    : "border-emerald-700/50";
   const containerHover = isBlue
     ? "hover:border-blue-300"
-    : "hover:border-green-300";
+    : "hover:border-emerald-300";
   const iconBg = isBlue
-    ? "bg-white border-2 border-blue-900"
-    : "bg-white border-2 border-green-800";
-  const iconColor = isBlue ? "text-blue-900" : "text-green-800";
-  const titleColor = isBlue ? "text-blue-900" : "text-green-900";
+    ? "bg-white border-6 border-blue-900 p-2"
+    : "bg-white border-6 border-emerald-700 p-2";
 
   return (
     <div
@@ -177,18 +179,12 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
         {/* Icon Section */}
         <div className="flex-shrink-0">
           <div
-            className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center ${iconBg}`}
+            className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center ${iconBg}  `}
           >
             {data.iconType === "intro" ? (
-              <Infinity
-                className={`w-6 h-6 md:w-8 md:h-8 ${iconColor}`}
-                strokeWidth={2.5}
-              />
+              <img src="/Icons/Introductions.png" alt="" />
             ) : (
-              <Bird
-                className={`w-6 h-6 md:w-8 md:h-8 ${iconColor}`}
-                strokeWidth={2}
-              />
+              <img src="/Icons/Cultural.png" alt="" />
             )}
           </div>
         </div>
@@ -197,7 +193,7 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
         <div className="flex-grow min-w-0 pr-4">
           <Link href={data?.link || "#"}>
             <h3
-              className={`text-lg md:text-xl font-bold ${titleColor} mb-2 leading-tight`}
+              className={`text-lg md:text-xl font-bold text-emerald-900 mb-2 leading-tight`}
             >
               {data.title}
             </h3>
@@ -220,14 +216,14 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
           <StatBlock label="POSTS" value={data.posts} />
           <StatBlock label="VIEWS" value={data.views} />
           <div className="flex flex-col justify-center px-6">
-            <span className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">
+            <span className="text-[10px] md:text-[11px] font-bold text-emerald-900 uppercase tracking-wider mb-1">
               LAST UPDATED
             </span>
-            <span className="text-xs md:text-sm font-semibold text-gray-700 mb-1">
+            <span className="text-xs md:text-sm font-semibold text-emerald-900 mb-1">
               {data.lastUpdated}
             </span>
             {data.updatedBy && (
-              <span className="text-[10px] text-green-700 font-medium">
+              <span className="text-[10px] text-emerald-900 font-medium">
                 {data.updatedBy}
               </span>
             )}
@@ -240,7 +236,7 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
 
 export default function CulturalHistoricalDiscussions() {
   return (
-    <div className="space-y-10 lg:py-24 py-12">
+    <div className="space-y-10 mb-10">
       {/* Header Section */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
         <div className="max-w-xl">
@@ -252,28 +248,28 @@ export default function CulturalHistoricalDiscussions() {
 
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
           {/* Search Input */}
-          <div className="relative w-full sm:w-80 md:w-96 group border border-black rounded-xl">
+          <div className="relative w-full sm:w-80 md:w-96 group  rounded-xl">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-orange-400" />
             </div>
-            <input
-              type="text"
+
+            <Input
               placeholder="Search Forum"
-              className="block w-full pl-10 pr-12 py-3 bg-neutral-100 border-none  rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:bg-white transition-all"
+              className="w-full pl-10 pr-12 py-6 rounded-lg border bg-accent-bg border-emerald-900 text-sm placeholder-gray-500 transition-all"
             />
-            <button className="absolute inset-y-1 right-1 px-3 bg-amber-700 hover:bg-amber-600 text-white rounded-md flex items-center justify-center transition-colors">
-              <ArrowRight className="h-4 w-4" />
-            </button>
+            <Button className="absolute inset-y-[7px] right-1 px-3  bg-amber-700 hover:bg-amber-600 text-white rounded-md flex items-center justify-center transition-colors">
+              <ArrowRight className="h-4 w-4 " />
+            </Button>
           </div>
 
           {/* Filter Buttons */}
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
+            <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
               Topics
-            </button>
-            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
+            </Button>
+            <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
               Posts
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -291,7 +287,7 @@ export default function CulturalHistoricalDiscussions() {
 
         {/* Section 2: Cultural & Historical */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-green-600 tracking-tight">
+          <h2 className="text-2xl font-bold text-emerald-700 tracking-tight">
             Cultural & Historical Discussions
           </h2>
 

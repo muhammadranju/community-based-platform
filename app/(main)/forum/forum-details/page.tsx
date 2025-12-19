@@ -14,6 +14,7 @@ import Link from "next/link";
 import { HeaderSection } from "../ForumHeaderSection";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 // --- Types ---
 interface DiscussionData {
@@ -169,15 +170,17 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
   const isBlue = data.variant === "blue";
 
   // Styles based on variant
-  const containerBorder = isBlue ? "border-blue-200" : "border-green-200";
+  const containerBorder = isBlue
+    ? "border-blue-700/50"
+    : "border-emerald-700/50";
   const containerHover = isBlue
     ? "hover:border-blue-300"
-    : "hover:border-green-300";
+    : "hover:border-emerald-300";
   const iconBg = isBlue
-    ? "bg-white border-2 border-blue-900"
-    : "bg-white border-2 border-green-800";
-  const iconColor = isBlue ? "text-blue-900" : "text-green-800";
-  const titleColor = isBlue ? "text-blue-900" : "text-green-900";
+    ? "bg-white border-6 border-blue-900 p-2"
+    : "bg-white border-6 border-emerald-700 p-2";
+  const iconColor = isBlue ? "text-blue-900" : "text-emerald-700";
+  const titleColor = isBlue ? "text-blue-900" : "text-emerald-700";
 
   return (
     <div
@@ -190,15 +193,9 @@ const ForumCard = ({ data }: { data: DiscussionData }) => {
             className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center ${iconBg}`}
           >
             {data.iconType === "intro" ? (
-              <Infinity
-                className={`w-6 h-6 md:w-8 md:h-8 ${iconColor}`}
-                strokeWidth={2.5}
-              />
+              <img src="/Icons/Introductions.png" alt="" />
             ) : (
-              <Bird
-                className={`w-6 h-6 md:w-8 md:h-8 ${iconColor}`}
-                strokeWidth={2}
-              />
+              <img src="/Icons/Cultural.png" alt="" />
             )}
           </div>
         </div>
@@ -281,28 +278,28 @@ export default function page() {
 
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
             {/* Search Input */}
-            <div className="relative w-full sm:w-80 md:w-96 group">
+            <div className="relative w-full sm:w-80 md:w-96 group  rounded-xl">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-orange-400" />
               </div>
-              <input
-                type="text"
+
+              <Input
                 placeholder="Search Forum"
-                className="block w-full pl-10 pr-12 py-3 bg-[#f2f4f1] border border-transparent rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:bg-white transition-all"
+                className="w-full pl-10 pr-12 py-6 rounded-lg border bg-accent-bg border-emerald-900 text-sm placeholder-gray-500 transition-all"
               />
-              <button className="absolute inset-y-1 right-1 px-3 bg-[#d97706] hover:bg-[#b45309] text-white rounded-md flex items-center justify-center transition-colors">
-                <ArrowRight className="h-4 w-4" />
-              </button>
+              <Button className="absolute inset-y-[7px] right-1 px-3  bg-amber-700 hover:bg-amber-600 text-white rounded-md flex items-center justify-center transition-colors">
+                <ArrowRight className="h-4 w-4 " />
+              </Button>
             </div>
 
             {/* Filter Buttons */}
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-gray-300 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
+              <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
                 Topics
-              </button>
-              <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full border border-orange-200 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
+              </Button>
+              <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
                 Posts
-              </button>
+              </Button>
             </div>
           </div>
         </div>
