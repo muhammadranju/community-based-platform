@@ -6,7 +6,7 @@ export const MOCK_DOCUMENTS: DocumentItem[] = Array.from({ length: 10 }).map(
     companyName: "Liceria Real Estate",
     title: "Property management for all your needs",
     // Using an architectural image to mimic the building in the reference
-    imageUrl: `https://picsum.photos/id/122/400/300`,
+    imageUrl: `/bg/bg111.png`,
     website: "reallygreatsite.com",
   })
 );

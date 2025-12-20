@@ -255,48 +255,42 @@ export const ARCHIVE_ITEMS: ArchiveItem[] = [
     id: "a1",
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
-    image:
-      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    image: "/bg/folder-img-1.png",
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
     id: "a2",
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
-    image:
-      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    image: "/bg/folder-img-2.png",
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
     id: "a3",
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
-    image:
-      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    image: "/bg/folder-img-1.png",
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
     id: "a4",
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
-    image:
-      "https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    image: "/bg/folder-img-2.png",
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
     id: "a5",
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
-    image:
-      "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    image: "/bg/folder-img-1.png",
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
   {
     id: "a6",
     title: "Manyatta",
     subtitle: "Maasai Traditional home",
-    image:
-      "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Placeholder
+    image: "/bg/folder-img-2.png",
     stats: { photos: 6, videos: 6, pdfs: 6 },
   },
 ];

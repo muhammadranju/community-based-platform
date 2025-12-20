@@ -87,8 +87,7 @@ export const CURRENT_DOCUMENT: DocumentDetails = {
   companyName: "Liceria Real Estate",
   title: "Property management for all your needs",
   // Using a distinct architectural image similar to the Lalibela church in the screenshot
-  coverImage:
-    "https://images.unsplash.com/photo-1565035010268-a3816f98589a?q=80&w=1000&auto=format&fit=crop",
+  coverImage: "/bg/bg111.png",
   totalPages: 20,
   currentPage: 1,
   website: "reallygreatsite.com",
@@ -98,8 +97,7 @@ export const THUMBNAILS: PageThumbnail[] = [
   {
     id: 1,
     pageNumber: 1,
-    image:
-      "https://images.unsplash.com/photo-1565035010268-a3816f98589a?q=80&w=200&auto=format&fit=crop",
+    image: "/bg/bg111.png",
     isActive: true,
   },
   {

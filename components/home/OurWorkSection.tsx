@@ -31,7 +31,7 @@ export default function OurWorkSection() {
       description:
         "We are building a comprehensive database of Indigenous African architecture from pre-colonial Africa to date. Our goal is to preserve the knowledge, and inspire future generations to live sustainably. Anyone can upload photos and contribute towards the database.",
       image: "/bg/Rectangle1.png", // Placeholder for castle/hut
-      link: "#",
+      link: "/our-work",
       buttonText: "Read More",
     },
     {
@@ -47,7 +47,7 @@ export default function OurWorkSection() {
       description:
         "This is a database of Indigenous African builders, designers and architects who are passionate about helping the community to build their homes. Our goal is to connect home owners to African professionals that specialize in preserving, and rebuilding indigenous African Architecture.",
       image: "/bg/Rectangle1.png", // Placeholder for village
-      link: "waiting-list/login",
+      link: "waiting-list/signup",
       buttonText: "Join Our Database",
     },
   ];

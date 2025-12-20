@@ -29,34 +29,33 @@ export default function FeaturedStoriesSection() {
       description:
         "If you desire to start building your dream home based on the foundation of our ancestors knowledge, but don’t know where to start. We hope the design inspirations here will help you get started.",
       image: "/bg/Rectangle2.png",
-      link: "#",
+      link: "/our-work",
     },
     {
       title: "Modern Safari Living Room Concepts",
       description:
         "Explore how to blend modern aesthetics with traditional safari elements. Create a space that feels both adventurous and comfortably luxurious.",
       image: "/bg/Rectangle3.png",
-      link: "#",
+      link: "/our-work",
     },
     {
       title: "Clay & Earth: Sustainable Building",
       description:
         "Discover the ancient techniques of building with earth and clay, reimagined for contemporary sustainable living in urban environments.",
       image: "/bg/Rectangle4.png",
-      link: "#",
+      link: "/our-work",
     },
     {
       title: "Textiles of the West Coast",
       description:
         "A deep dive into the patterns, fabrics, and weaving techniques that define the vibrant interior styles of West African coastal homes.",
       image: "/bg/Rectangle2.png",
-      link: "#",
+      link: "/our-work",
     },
   ];
 
   return (
     <>
-      OurBlog
       <div className="flex justify-between items-end px-4 md:px-0 mb-10">
         <div>
           <CustomBadge>OUR BLOG</CustomBadge>
