@@ -81,11 +81,26 @@ const Footer: React.FC = () => {
                 Follow us on our <br /> social media channels
               </p>
               <div className="flex gap-3">
-                <SocialLink icon={<FaYoutube size={20} />} />
-                <SocialLink icon={<FaTiktok size={20} />} />
-                <SocialLink icon={<FaLinkedin size={20} />} />
-                <SocialLink icon={<PiInstagramLogoFill size={20} />} />
-                <SocialLink icon={<FaFacebook size={20} />} />
+                <SocialLink
+                  link="https://www.youtube.com/@mudhouses/videos"
+                  icon={<FaYoutube size={20} />}
+                />
+                <SocialLink
+                  link="https://www.tiktok.com/@african_mudarchitecture"
+                  icon={<FaTiktok size={20} />}
+                />
+                <SocialLink
+                  link="https://www.linkedin.com/company/african-traditional-architecture/?viewAsMember=true"
+                  icon={<FaLinkedin size={20} />}
+                />
+                <SocialLink
+                  link="https://www.instagram.com/african_mudarchitecture"
+                  icon={<PiInstagramLogoFill size={20} />}
+                />
+                <SocialLink
+                  link="https://www.facebook.com"
+                  icon={<FaFacebook size={20} />}
+                />
               </div>
             </div>
 
@@ -172,9 +187,12 @@ const Footer: React.FC = () => {
   );
 };
 
-const SocialLink = ({ icon }: { icon: React.ReactNode }) => (
+const SocialLink: React.FC<{ icon: React.ReactNode; link: string }> = ({
+  icon,
+  link,
+}) => (
   <Link
-    href="#"
+    href={link}
     className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-900 hover:bg-lime-500 hover:text-white transition-all duration-300"
   >
     {icon}
