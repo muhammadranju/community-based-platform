@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import OurWorkDetailsPage from "./OurWorkDetailsPage";
 
 export const metadata = {
@@ -8,7 +9,9 @@ export const metadata = {
 function page() {
   return (
     <div className="flex flex-col min-h-screen lg:px-0 px-4 max-w-7xl mx-auto">
-      <OurWorkDetailsPage />
+      <Suspense fallback={<div>Loading...</div>}>
+        <OurWorkDetailsPage />
+      </Suspense>
     </div>
   );
 }

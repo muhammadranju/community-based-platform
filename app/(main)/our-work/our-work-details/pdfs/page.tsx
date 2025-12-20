@@ -1,10 +1,13 @@
+import { Suspense } from "react";
 import PdfsPage from "./PdfsPage";
 
 function page() {
   return (
     <>
       <title>PDFs - African Traditional Architecture</title>
-      <PdfsPage />
+      <Suspense fallback={<div>Loading...</div>}>
+        <PdfsPage />
+      </Suspense>
     </>
   );
 }
