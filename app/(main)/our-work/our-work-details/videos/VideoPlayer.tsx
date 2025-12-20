@@ -42,7 +42,7 @@ export const RELATED_VIDEOS: VideoData[] = Array(8)
     title: "The Lies About African Traditional Architecture",
     author: "The Lies",
     duration: "20:20",
-    thumbnail: `https://picsum.photos/seed/arch${i + 10}/300/170`, // Consistent seed for stable images
+    thumbnail: `/bg/our-page-bg-2.png`, // Consistent seed for stable images
   }));
 
 export const VideoPlayer: React.FC = () => {
@@ -55,7 +55,7 @@ export const VideoPlayer: React.FC = () => {
     <div className="group relative w-full overflow-hidden rounded-2xl bg-black aspect-video shadow-lg ring-1 ring-black/5">
       {/* Main Video Image */}
       <img
-        src="https://picsum.photos/seed/architecture_hero/1280/720"
+        src="/bg/our-page-bg-11.png"
         alt="Video content"
         className="h-full w-full object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-80"
       />

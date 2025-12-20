@@ -191,12 +191,13 @@ const SocialLink: React.FC<{ icon: React.ReactNode; link: string }> = ({
   icon,
   link,
 }) => (
-  <Link
+  <a
     href={link}
+    target="_blank"
     className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-900 hover:bg-lime-500 hover:text-white transition-all duration-300"
   >
     {icon}
-  </Link>
+  </a>
 );
 
 const LinkItem = ({ text }: { text: string }) => (

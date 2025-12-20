@@ -6,43 +6,37 @@ import { Video, VideoCard } from "./VideosPage";
 const MOCK_VIDEOS: Video[] = [
   {
     id: 1,
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=1000&auto=format&fit=crop",
+    thumbnailUrl: "/bg/our-page-bg-2.png",
     duration: "10:05",
     title: "Village Life",
   },
   {
     id: 2,
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1481492020427-40a9622048cd?q=80&w=1000&auto=format&fit=crop",
+    thumbnailUrl: "/bg/our-page-bg-1.png",
     duration: "08:30",
     title: "Tribal Walk",
   },
   {
     id: 3,
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1523805009345-7448845a9e53?q=80&w=1000&auto=format&fit=crop",
+    thumbnailUrl: "/bg/folder-img-2.png",
     duration: "12:15",
     title: "Aerial View",
   },
   {
     id: 4,
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1544983870-692550cb5287?q=80&w=1000&auto=format&fit=crop",
+    thumbnailUrl: "/bg/folder-img-1.png",
     duration: "05:45",
     title: "Huts in Sunlight",
   },
   {
     id: 5,
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1533646560942-069a5a40e671?q=80&w=1000&auto=format&fit=crop",
+    thumbnailUrl: "/bg/folder-img-2.png",
     duration: "09:20",
     title: "Community Gathering",
   },
   {
     id: 6,
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1547471080-7528185270d4?q=80&w=1000&auto=format&fit=crop",
+    thumbnailUrl: "/bg/folder-img-1.png",
     duration: "15:00",
     title: "Desert Patterns",
   },

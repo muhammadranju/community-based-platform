@@ -25,7 +25,7 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item, region }) => {
       </div>
 
       {/* Content */}
-      <div className="p-5 flex-1 flex flex-col bg-[#F2F6EF] rounded-t-2xl border-t border-emerald-900">
+      <div className="p-5 flex-1 flex flex-col bg-[#F2F6EF]  border-emerald-900">
         <div className="mb-4">
           <h3 className="text-xl font-bold text-secondary-color mb-1 ">
             {item.title}

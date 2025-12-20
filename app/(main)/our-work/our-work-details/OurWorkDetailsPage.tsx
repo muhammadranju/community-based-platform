@@ -79,7 +79,7 @@ function OurWorkDetailsPage() {
                 label="Photos"
                 type="photos"
                 // Using a distinct image of Maasai or similar landscape
-                imageUrl="https://picsum.photos/seed/maasai1/800/1000"
+                imageUrl="/bg/our-page-bg-1.png"
                 url={`/our-work/our-work-details/photos?region=/${search}`}
               />
               <MediaCard
@@ -87,7 +87,7 @@ function OurWorkDetailsPage() {
                 label="Videos"
                 type="videos"
                 // Using a distinct image of Maasai people walking or gathering
-                imageUrl="https://picsum.photos/seed/maasai2/800/1000"
+                imageUrl="/bg/our-page-bg-2.png"
                 url={`/our-work/our-work-details/videos?region=/${search}`}
               />
               <DocumentsCard
@@ -122,7 +122,7 @@ function OurWorkDetailsPage() {
             <div className="flex-1">
               <div className="relative w-full h-[400px] md:h-[500px] rounded-4xl overflow-hidden shadow-sm">
                 <img
-                  src="https://picsum.photos/seed/hut/1000/800"
+                  src="/bg/our-page-bg-3.png"
                   alt="Maasai Manyatta Hut"
                   className="absolute inset-0 w-full h-full object-cover"
                 />

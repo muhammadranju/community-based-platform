@@ -67,7 +67,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
       <img
         src={video.thumbnailUrl}
         alt={video.title}
-        className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-90"
+        className="w-full h-[500px] object-cover transition-opacity duration-300 group-hover:opacity-90"
       />
 
       {/* Overlay Gradient (Optional for better visibility) */}

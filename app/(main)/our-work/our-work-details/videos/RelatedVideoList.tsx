@@ -12,10 +12,6 @@ export const RelatedVideoList: React.FC<RelatedVideoListProps> = ({
 }) => {
   return (
     <div className="flex flex-col h-full">
-      <h3 className="mb-4 px-2 text-lg font-bold text-brand-green font-serif">
-        Related Videos
-      </h3>
-
       <div className="flex flex-col gap-4 overflow-y-auto pr-2 pb-4 scrollbar-thin lg:max-h-[calc(100vh-140px)]">
         {videos.map((video, idx) => (
           <div
@@ -31,7 +27,7 @@ export const RelatedVideoList: React.FC<RelatedVideoListProps> = ({
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
 
-              <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
+              <span className="absolute bottom-1 right-1 rounded bg-emerald-900 px-1.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
                 {video.duration}
               </span>
 
@@ -43,14 +39,11 @@ export const RelatedVideoList: React.FC<RelatedVideoListProps> = ({
 
             {/* Meta */}
             <div className="flex flex-col py-1 justify-center">
-              <h4 className="line-clamp-2 text-sm font-bold text-slate-800 leading-snug group-hover:text-brand-green transition-colors">
+              <h4 className="line-clamp-2 text-sm font-bold text-emerald-900   leading-snug group-hover:text-brand-green transition-colors">
                 {video.title}
               </h4>
-              <p className="mt-1 text-xs font-semibold text-brand-lime-dark">
+              <p className="mt-1 text-xs font-semibold text-gray-500">
                 {video.author}
-              </p>
-              <p className="mt-0.5 text-[10px] text-slate-400">
-                {10 + idx}K views • {idx + 1} days ago
               </p>
             </div>
           </div>
