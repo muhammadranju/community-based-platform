@@ -136,8 +136,8 @@ export const DonationForm: React.FC = () => {
               <Image
                 src="/bg/payment-methods.png"
                 alt=""
-                width={400}
-                height={500}
+                width={550}
+                height={550}
               />
             </div>
           </div>
