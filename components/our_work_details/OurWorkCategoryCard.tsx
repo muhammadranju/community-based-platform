@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 interface CategoryCardProps {
   title: string;
@@ -17,29 +18,51 @@ export default function OurWorkCategoryCard({
 }: CategoryCardProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isHovered, setIsHovered] = useState(false);
+
   const search = searchParams.get("region");
   const fullSlug = `/our-work${slug}`;
   const fullSearchSlug = `/our-work/${search}`;
 
-  console.log(fullSearchSlug);
-  console.log(fullSlug);
   // Hide the card if the current page matches the category slug
-  if (pathname === fullSlug || pathname.endsWith(slug)) {
+  const regionParam = searchParams.get("region");
+  const isCurrentCategory =
+    (pathname && pathname.includes(slug)) ||
+    (regionParam &&
+      (regionParam === slug ||
+        regionParam.includes(slug) ||
+        slug.includes(regionParam)));
+
+  if (isCurrentCategory) {
     return null;
   }
 
   return (
     <Link href={fullSlug} className="w-full">
       <div
-        className="rounded-2xl p-4 md:p-8 flex flex-row md:flex-col items-center gap-4 text-white w-full md:w-48 cursor-pointer hover:shadow-lg transition-shadow h-full"
-        style={{ backgroundColor }}
+        className="rounded-2xl p-4 md:p-8 flex flex-row md:flex-col items-center gap-4 w-full md:w-48 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 h-full border border-transparent"
+        style={{
+          backgroundColor: isHovered ? "#ffffff" : backgroundColor,
+          color: isHovered ? backgroundColor : "#ffffff",
+          borderColor: isHovered ? backgroundColor : "transparent",
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         {/* Icon Circle Background */}
-        <div className="w-12 h-12 md:w-20 md:h-20 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+        <div
+          className="w-12 h-12 p-3 md:w-20 md:h-20 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300"
+          style={{
+            backgroundColor: isHovered ? backgroundColor : "#ffffff",
+          }}
+        >
           <img
             src={icon}
             alt=""
-            className="w-6 h-6 md:w-20 md:h-20 object-contain"
+            className="w-6 h-6 md:w-20 md:h-20 object-contain transition-all duration-300"
+            style={{
+              filter: isHovered ? "brightness(0) invert(1)" : "none",
+            }}
           />
         </div>
 

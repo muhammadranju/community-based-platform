@@ -1,75 +1,125 @@
 "use client";
 
 import { Search } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import OurWorkCategoryCard from "./OurWorkCategoryCard";
+
 const categories = [
   {
     id: 1,
     title: "East African Architecture",
     backgroundColor: "#B20500",
-    icon: "/Frame/Frame-1.png",
+    icon: "/Icons/Vector-1.png",
     slug: "/east-african-architecture",
+    key: "east",
   },
   {
     id: 2,
-    title: "Central African\nArchitecturess",
+    title: "Central African Architecturess",
     backgroundColor: "#37893C",
-    icon: "/Frame/Frame-2-2.png",
+    icon: "/Icons/Vector-2.png",
     slug: "/central-african-architecture",
+    key: "central",
   },
   {
     id: 3,
-    title: "West African\nArchitecture",
+    title: "West African Architecture",
     backgroundColor: "#063391",
-    icon: "/Frame/Frame-3.png",
+    icon: "/Icons/Vector-3.png",
     slug: "/west-african-architecture",
+    key: "west",
   },
   {
     id: 4,
-    title: "South African\nArchitecture",
+    title: "South African Architecture",
     backgroundColor: "#C89D1F",
-    icon: "/Frame/Frame-4.png",
+    icon: "/Icons/Vector-4.png",
     slug: "/south-african-architecture",
+    key: "south",
   },
   {
     id: 5,
-    title: "North African\nArchitecture",
+    title: "North African Architecture",
     backgroundColor: "#E26513",
-    icon: "/Frame/Frame-5.png",
+    icon: "/Icons/Vector-5.png",
     slug: "/north-african-architecture",
+    key: "north",
   },
   {
     id: 6,
-    title: "Global - African\nArchitecture",
+    title: "Global - African Architecture",
     backgroundColor: "#6C0544",
-    icon: "/Frame/Frame-6.png",
+    icon: "/Icons/Vector-6.png",
     slug: "/global-african-architecture",
+    key: "global",
   },
 ];
 
+const bgImagesAndFrames: Record<string, { bg: string; frame: string }> = {
+  east: {
+    bg: "/bg/bg-1.jpg",
+    frame: "/Frame/Frame-1.png",
+  },
+  central: {
+    bg: "/bg/bg-2.jpg",
+    frame: "/Frame/Frame-2.png",
+  },
+  west: {
+    bg: "/bg/bg-3.jpg",
+    frame: "/Frame/Frame-3.png",
+  },
+  south: {
+    bg: "/bg/bg-4.jpg",
+    frame: "/Frame/Frame-4.png",
+  },
+  north: {
+    bg: "/bg/bg-5.jpg",
+    frame: "/Frame/Frame-5.png",
+  },
+  global: {
+    bg: "/bg/bg-6.jpg",
+    frame: "/Frame/Frame-6.png",
+  },
+};
+
 function HeaderBanner() {
   const [searchQuery, setSearchQuery] = useState("");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const regionParam = searchParams.get("region");
+
+  // Find the active category based on the current URL or search param
+  const activeCategory =
+    categories.find((cat) => {
+      // Check if pathname matches
+      if (pathname?.includes(cat.slug)) return true;
+      // Check if search param matches
+      if (regionParam && cat.slug.includes(regionParam)) return true;
+      return false;
+    }) || categories[0];
+
+  const { bg, frame } = bgImagesAndFrames[activeCategory.key];
+
   return (
     <>
-      <div className="bg-[url('/bg/our_work_bg_red.jpg')] rounded-3xl  p-8 md:p-12 lg:p-24">
+      <div
+        className={`rounded-3xl p-8 md:p-12 lg:p-24 bg-cover bg-center transition-all duration-500`}
+        style={{ backgroundImage: `url('${bg}')` }}
+      >
         <div className="mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             {/* Icon Circle */}
             <div className="shrink-0">
               <div className="w-24 h-24 md:w-44 md:h-44 rounded-full flex items-center justify-center">
-                <img
-                  src="/Frame/Frame-1.png"
-                  className="w-full h-full"
-                  alt=""
-                />
+                <img src={frame} className="w-full h-full" alt="" />
               </div>
             </div>
 
             {/* Content */}
             <div className="flex-1 text-white text-center md:text-left">
-              <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-6">
-                East African Traditional Architecture
+              <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold mb-6 whitespace-pre-line">
+                {activeCategory.title}
               </h1>
 
               <div className="relative">
@@ -94,7 +144,13 @@ function HeaderBanner() {
         >
           <Suspense fallback={null}>
             {categories.map((category) => (
-              <OurWorkCategoryCard key={category.id} {...category} />
+              <OurWorkCategoryCard
+                key={category.id}
+                title={category.title}
+                backgroundColor={category.backgroundColor}
+                icon={category.icon}
+                slug={category.slug}
+              />
             ))}
           </Suspense>
         </div>

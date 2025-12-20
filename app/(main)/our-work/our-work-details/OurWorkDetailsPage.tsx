@@ -10,6 +10,7 @@ import {
 import { SectionCard } from "@/components/sub_our_work/SectionCard";
 import { GUIDE_DATA } from "@/lib/data";
 import { HeartIcon, ShareIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 // Mock Data
 const MOCK_DOCS: DocumentItem[] = [
@@ -34,6 +35,11 @@ const MOCK_DOCS: DocumentItem[] = [
 ];
 
 function OurWorkDetailsPage() {
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("region");
+
+  console.log(search);
   return (
     <>
       <div className="text-gray-800">
@@ -74,7 +80,7 @@ function OurWorkDetailsPage() {
                 type="photos"
                 // Using a distinct image of Maasai or similar landscape
                 imageUrl="https://picsum.photos/seed/maasai1/800/1000"
-                url="/our-work/our-work-details/photos"
+                url={`/our-work/our-work-details/photos?region=/${search}`}
               />
               <MediaCard
                 count={10}
@@ -82,12 +88,12 @@ function OurWorkDetailsPage() {
                 type="videos"
                 // Using a distinct image of Maasai people walking or gathering
                 imageUrl="https://picsum.photos/seed/maasai2/800/1000"
-                url="/our-work/our-work-details/videos"
+                url={`/our-work/our-work-details/videos?region=/${search}`}
               />
               <DocumentsCard
                 documents={MOCK_DOCS}
                 totalCount={7}
-                url="/our-work/our-work-details/pdfs"
+                url={`/our-work/our-work-details/pdfs?region=/${search}`}
               />
             </section>
           </div>
@@ -96,7 +102,7 @@ function OurWorkDetailsPage() {
             <div className="flex-1 space-y-6">
               <CustomBadge>Learn More</CustomBadge>
 
-              <h2 className="text-4xl md:text-5xl font-bold text-maasai-green">
+              <h2 className="text-4xl md:text-5xl font-bold text-emerald-900">
                 About the Maasai people
               </h2>
               <p className="text-gray-600 leading-relaxed text-lg">
@@ -130,10 +136,10 @@ function OurWorkDetailsPage() {
         <div className="max-w-7xl mx-auto">
           {/* Main Header Section */}
           <header className="mb-12 md:mb-16">
-            <h1 className="text-3xl md:text-4xl lg:text-[40px] font-bold text-[#064e3b] leading-tight mb-2">
+            <h1 className="text-3xl md:text-4xl lg:text-[40px] font-bold text-emerald-900 leading-tight mb-2">
               Step-by-Step Guide:
             </h1>
-            <h2 className="text-xl md:text-2xl lg:text-[28px] font-semibold text-[#15803d] leading-snug">
+            <h2 className="text-xl md:text-2xl lg:text-[28px] font-semibold text-emerald-900 leading-snug">
               How the Maasai Build Their Traditional Homes (Enkaji/Manyatta)
             </h2>
           </header>

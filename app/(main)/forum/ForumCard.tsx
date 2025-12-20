@@ -183,7 +183,7 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
     >
       <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
         {/* Icon Section */}
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <div
             className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center ${currentStyle.iconBg}`}
           >
@@ -192,7 +192,7 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
         </div>
 
         {/* Content Section */}
-        <div className="flex-grow min-w-0 pr-4">
+        <div className="grow min-w-0 pr-4">
           <Link href={data?.link || "#"}>
             <h3
               className={`text-lg md:text-xl font-bold ${currentStyle.title} mb-2 leading-tight group-hover:opacity-80 transition-opacity`}
@@ -213,7 +213,7 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
         </div>
 
         {/* Desktop Stats Section */}
-        <div className="hidden md:flex items-center flex-shrink-0 border-l border-gray-200 pl-2 h-full min-h-[60px]">
+        <div className="hidden md:flex items-center shrink-0 border-l border-gray-200 pl-2 h-full min-h-[60px]">
           <StatBlock
             label="POSTS"
             value={data.stats.posts}

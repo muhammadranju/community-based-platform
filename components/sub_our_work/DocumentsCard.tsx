@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ArrowRightIcon, GridIcon, PlayIcon } from "lucide-react";
+import { ChevronRight, GridIcon, Grip, PlayIcon } from "lucide-react";
+import Link from "next/link";
 import { PdfIcon } from "./Icons";
 import { GlassButton, PrimaryButton } from "./PrimaryButton";
-import Link from "next/link";
 // import { GridIcon, PlayIcon, PdfIcon, ArrowRightIcon } from './Icons';
 
 export interface DocumentItem {
@@ -71,9 +71,9 @@ export const MediaCard: React.FC<MediaCardProps> = ({
             label={`View all ${label}`}
             icon={
               type === "photos" ? (
-                <GridIcon className="w-4 h-4" />
+                <Grip className="w-4 h-4" />
               ) : (
-                <PlayIcon className="w-4 h-4" />
+                <Grip className="w-4 h-4" />
               )
             }
           />
@@ -97,7 +97,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
 }) => {
   return (
     <div className="h-full min-h-[450px] bg-white rounded-4xl p-8 flex flex-col shadow-sm">
-      <h3 className="text-2xl font-bold text-gray-900 mb-6">
+      <h3 className="text-2xl font-bold text-emerald-900 mb-6">
         {totalCount} PDF Documents
       </h3>
 
@@ -112,7 +112,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
                 <PdfIcon className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-gray-900 text-sm">
+                <span className="font-bold text-emerald-900 text-sm">
                   {doc.title}
                 </span>
                 <span className="text-xs text-gray-500">{doc.subtitle}</span>
@@ -120,7 +120,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
             </div>
 
             <div className="w-8 h-8 rounded-full bg-emerald-900 text-white flex items-center justify-center opacity-100 transition-opacity">
-              <ArrowRightIcon className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4" />
             </div>
           </div>
         ))}
@@ -130,7 +130,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
         <Link href={url}>
           <PrimaryButton
             label="View all Documents"
-            icon={<GridIcon className="w-4 h-4" />}
+            icon={<Grip className="w-4 h-4" />}
             fullWidth
           />
         </Link>

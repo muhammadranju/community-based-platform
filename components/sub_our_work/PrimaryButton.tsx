@@ -1,5 +1,5 @@
+import { ChevronRight } from "lucide-react";
 import React from "react";
-import { ArrowRightIcon } from "./Icons";
 import { Button } from "../ui/button";
 
 interface ActionButtonProps {
@@ -27,8 +27,9 @@ export const PrimaryButton: React.FC<ActionButtonProps> = ({
     >
       {icon}
       <span>{label}</span>
-      <div className="bg-white/20 rounded-full p-1 ml-1">
-        <ArrowRightIcon className="w-3 h-3" />
+
+      <div className="bg-emerald-900 rounded-full p-1 ml-1">
+        <ChevronRight className="w-3 h-3" />
       </div>
     </Button>
   );
@@ -46,8 +47,8 @@ export const GlassButton: React.FC<ActionButtonProps> = ({
     >
       {icon}
       <span>{label}</span>
-      <div className="bg-black/20 rounded-full p-0.5 ml-1">
-        <ArrowRightIcon className="w-3 h-3" />
+      <div className="bg-emerald-900 rounded-full p-1 ml-1">
+        <ChevronRight className="w-3 h-3" />
       </div>
     </Button>
   );

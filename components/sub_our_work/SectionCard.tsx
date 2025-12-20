@@ -18,16 +18,16 @@ export const SectionCard: React.FC<SectionCardProps> = ({ data }) => {
           onClick={() => setIsOpen(!isOpen)}
           className="w-full flex items-center justify-between group md:cursor-default"
         >
-          <h2 className="text-xl md:text-2xl font-bold text-primary-color mb-3 text-left">
+          <h2 className="text-xl md:text-2xl font-bold text-emerald-900 mb-3 text-left">
             {data.id}. {data.title}
           </h2>
           <ChevronDown
-            className={`w-6 h-6 text-primary-color transition-transform duration-300 md:hidden ${
+            className={`w-6 h-6 text-emerald-900 transition-transform duration-300 md:hidden ${
               isOpen ? "rotate-180" : ""
             }`}
           />
         </button>
-        <div className="w-full border-b-2 border-dotted border-primary-color/30"></div>
+        <div className="w-full border-b-2 border-dotted border-emerald-900/30"></div>
       </div>
 
       {/* Content - Hidden on mobile unless open, always visible on desktop */}

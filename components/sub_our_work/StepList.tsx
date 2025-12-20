@@ -19,7 +19,7 @@ export const StepList: React.FC<StepListProps> = ({ steps }) => {
           </div>
 
           {/* Text Content */}
-          <div className="text-emerald-900 text-[15px] leading-relaxed font-normal">
+          <div className="text-gray-500 text-[15px] leading-relaxed font-normal">
             {step.boldPrefix && (
               <span className="font-bold text-emerald-900 mr-1">
                 {step.boldPrefix}
