@@ -1,49 +1,243 @@
-import CustomBadge from "@/components/shared/SharedBadge";
-import { Button } from "@/components/ui/button";
+import { Clock, Eye, MessageSquare, User } from "lucide-react";
 import Link from "next/link";
-
 import React from "react";
+import { TopicData } from "./forumData";
 
-export const ForumCard: React.FC = () => {
+interface ForumCardProps {
+  data: TopicData;
+  theme: "blue" | "green" | "purple" | "red" | "gold" | "orange";
+}
+
+// Stats Block for Desktop
+const StatBlock = ({
+  label,
+  value,
+  isLast = false,
+  colorClass,
+}: {
+  label: string;
+  value: string | number;
+  isLast?: boolean;
+  colorClass: string;
+}) => (
+  <div
+    className={`flex flex-col justify-center px-4 md:px-6 ${
+      !isLast ? "border-r border-gray-200 hidden md:flex" : ""
+    }`}
+  >
+    <span
+      className={`text-[10px] md:text-[11px] font-bold uppercase tracking-wider mb-1 ${colorClass}`}
+    >
+      {label}
+    </span>
+    <span
+      className={`text-xs md:text-sm font-semibold truncate max-w-[120px] text-gray-700`}
+    >
+      {value}
+    </span>
+  </div>
+);
+
+// Mobile Stats Row
+const MobileStatRow = ({
+  posts,
+  views,
+  lastUpdated,
+  updatedBy,
+}: {
+  posts: string | number;
+  views: string;
+  lastUpdated: string;
+  updatedBy?: string;
+}) => (
+  <div className="flex flex-wrap items-center gap-y-2 gap-x-4 mt-4 md:hidden text-xs text-gray-500 border-t border-gray-100 pt-3 w-full">
+    <div className="flex items-center gap-1">
+      <MessageSquare className="w-3 h-3" />
+      <span className="font-medium">{posts} Posts</span>
+    </div>
+    <div className="flex items-center gap-1">
+      <MessageSquare className="w-3 h-3" />
+      <span className="font-medium">{views} Views</span>
+    </div>
+    <div className="flex items-center gap-1 w-full sm:w-auto">
+      <Clock className="w-3 h-3" />
+      <span className="truncate">Updated: {lastUpdated}</span>
+    </div>
+    {updatedBy && (
+      <div className="flex items-center gap-1 w-full sm:w-auto">
+        <User className="w-3 h-3" />
+        <span className="truncate">By: {updatedBy}</span>
+      </div>
+    )}
+  </div>
+);
+
+export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
+  // Theme Configuration
+  const themeStyles = {
+    blue: {
+      border: "border-blue-700/50",
+      hover: "hover:border-blue-300",
+      iconBg: "bg-white border-blue-900 border-4",
+      title: "text-blue-900",
+      statLabel: "text-blue-900",
+    },
+    green: {
+      border: "border-emerald-700/50",
+      hover: "hover:border-emerald-300",
+      iconBg: "bg-white border-emerald-700 border-4",
+      title: "text-emerald-900",
+      statLabel: "text-emerald-900",
+    },
+    purple: {
+      border: "border-[#6C0544]",
+      hover: "hover:border-purple-300",
+      iconBg: "bg-white border-[#6C0544] border-4",
+      title: "text-[#1B4D3E]",
+      statLabel: "text-gray-800",
+    },
+    red: {
+      border: "border-[#B20500]",
+      hover: "hover:border-red-300",
+      iconBg: "bg-white border-[#B20500] border-4",
+      title: "text-[#1B4D3E]",
+      statLabel: "text-gray-800",
+    },
+    gold: {
+      border: "border-[#E8DAB2]",
+      hover: "hover:border-[#D4AF37]",
+      iconBg: "bg-white border-[#D4AF37] border-4",
+      title: "text-[#1B4D3E]",
+      statLabel: "text-gray-800",
+    },
+    orange: {
+      border: "border-[#F2D0B8]",
+      hover: "hover:border-[#E86C30]",
+      iconBg: "bg-white border-[#E86C30] border-4",
+      title: "text-[#1B4D3E]",
+      statLabel: "text-gray-800",
+    },
+  };
+
+  const currentStyle = themeStyles[theme];
+
+  // Helper to get Icon
+  const getIcon = () => {
+    switch (data.iconType) {
+      case "intro":
+        return (
+          <img
+            src="/Icons/Introductions.png"
+            alt="Intro"
+            className="w-full h-full object-contain p-2"
+          />
+        );
+      case "bird":
+        return (
+          <img
+            src="/Icons/Cultural.png"
+            alt="Cultural"
+            className="w-full h-full object-contain p-2"
+          />
+        );
+      case "interactive":
+        return (
+          <img
+            src="/Icons/Interactive.png"
+            alt="Interactive"
+            className="w-full h-full object-contain p-2"
+          />
+        );
+      case "community":
+        return (
+          <img
+            src="/Icons/Community.png"
+            alt="Community"
+            className="w-full h-full object-contain p-2"
+          />
+        );
+      case "rebuilding":
+        return (
+          <img
+            src="/Icons/Rebuilding.png"
+            alt="Rebuilding"
+            className="w-full h-full object-contain p-2"
+          />
+        );
+      case "materials":
+        return (
+          <img
+            src="/Icons/Materials.png"
+            alt="Materials"
+            className="w-full h-full object-contain p-2"
+          />
+        );
+      default:
+        return <MessageSquare className="w-6 h-6 text-gray-500" />;
+    }
+  };
+
   return (
-    <div className="w-full bg-primary-color rounded-3xl px-12 py-16 text-white relative overflow-hidden my-10 shadow-xl">
-      <div className="flex flex-col lg:flex-row gap-12 items-start justify-between">
-        {/* Left Content */}
-        <div className="flex-1 space-y-6 lg:max-w-2xl">
-          <CustomBadge>EXPLORE CONTENT IN THE ARCHIVE</CustomBadge>
-
-          <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-[1.1] tracking-tight text-white">
-            African Traditional Architecture Discussions
-          </h2>
-
-          <p className="text-white text-sm md:text-base leading-relaxed  max-w-xl">
-            You can join ongoing discussions in the forum or create new topics
-            and invite your friends to join the conversation.
-          </p>
+    <div
+      className={`group relative bg-white rounded-2xl border ${currentStyle.border} ${currentStyle.hover} transition-all duration-200 shadow-sm p-5 md:p-6 mb-4`}
+    >
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
+        {/* Icon Section */}
+        <div className="flex-shrink-0">
+          <div
+            className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center ${currentStyle.iconBg}`}
+          >
+            {getIcon()}
+          </div>
         </div>
 
-        {/* Right Auth Card */}
-        <div className="w-full lg:w-auto shrink-0 flex justify-center lg:justify-end">
-          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl">
-            <h3 className="text-2xl font-bold text-primary-color mb-2">
-              Join Us
+        {/* Content Section */}
+        <div className="flex-grow min-w-0 pr-4">
+          <Link href={data?.link || "#"}>
+            <h3
+              className={`text-lg md:text-xl font-bold ${currentStyle.title} mb-2 leading-tight group-hover:opacity-80 transition-opacity`}
+            >
+              {data.title}
             </h3>
-            <p className="text-primary-color font-semibold text-base mb-8 leading-relaxed">
-              By registering for a new account or logging to an existing account
-            </p>
+          </Link>
+          <p className="text-gray-500 text-sm leading-relaxed">
+            {data.description}
+          </p>
 
-            <div className="flex gap-4">
-              <Link href="/login">
-                <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
-                  Login
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button className="px-6 py-5 text-black rounded-full hover:bg-gray-100 border border-orange-600 bg-transparent">
-                  Register
-                </Button>
-              </Link>
-            </div>
+          <MobileStatRow
+            posts={data.stats.posts}
+            views={data.stats.views}
+            lastUpdated={data.stats.lastUpdated}
+            updatedBy={data.stats.updatedBy}
+          />
+        </div>
+
+        {/* Desktop Stats Section */}
+        <div className="hidden md:flex items-center flex-shrink-0 border-l border-gray-200 pl-2 h-full min-h-[60px]">
+          <StatBlock
+            label="POSTS"
+            value={data.stats.posts}
+            colorClass={currentStyle.statLabel}
+          />
+          <StatBlock
+            label="VIEWS"
+            value={data.stats.views}
+            colorClass={currentStyle.statLabel}
+          />
+          <div className="flex flex-col justify-center px-6">
+            <span
+              className={`text-[10px] md:text-[11px] font-bold uppercase tracking-wider mb-1 ${currentStyle.statLabel}`}
+            >
+              LAST UPDATED
+            </span>
+            <span className="text-xs md:text-sm font-semibold text-gray-700 mb-1">
+              {data.stats.lastUpdated}
+            </span>
+            {data.stats.updatedBy && (
+              <span className="text-[10px] text-gray-500 font-medium">
+                {data.stats.updatedBy}
+              </span>
+            )}
           </div>
         </div>
       </div>
