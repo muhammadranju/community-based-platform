@@ -40,7 +40,7 @@ export default function OurWorkCategoryCard({
   return (
     <Link href={fullSlug} className="w-full">
       <div
-        className="rounded-2xl p-4 md:p-8 flex flex-row md:flex-col items-center gap-4 w-full md:w-48 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 h-full border border-transparent"
+        className="rounded-2xl px-2 py-4  flex flex-row md:flex-col items-center gap-4 w-full md:w-48 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 h-full border border-transparent"
         style={{
           backgroundColor: isHovered ? "#ffffff" : backgroundColor,
           color: isHovered ? backgroundColor : "#ffffff",
@@ -67,7 +67,7 @@ export default function OurWorkCategoryCard({
         </div>
 
         {/* Title */}
-        <h3 className="text-left md:text-center font-bold text-sm md:text-base leading-tight whitespace-pre-line">
+        <h3 className="text-left md:text-center font-semibold text-sm md:text-lg leading-tight whitespace-pre-line lg:ml-2 -ml-2">
           {title}
         </h3>
       </div>

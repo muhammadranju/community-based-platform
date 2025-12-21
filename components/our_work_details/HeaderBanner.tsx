@@ -137,10 +137,10 @@ function HeaderBanner() {
         </div>
       </div>
 
-      <div className="py-12 md:py-16">
+      <div className="py-12 md:py-16 lg:ml- ">
         <div
-          className="grid grid-cols-2 gap-4 md:gap-8 
-                  md:grid-cols-5 md:max-w-5xl md:mx-auto"
+          className="grid grid-cols-2 gap-4 md:gap-8 lg:gap-60  
+                  md:grid-cols-3 lg:grid-cols-6 lg:max-w-6xl md:max-w-5xl md:mx-auto w-full"
         >
           <Suspense fallback={null}>
             {categories.map((category) => (

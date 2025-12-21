@@ -103,39 +103,37 @@ export const THUMBNAILS: PageThumbnail[] = [
   {
     id: 2,
     pageNumber: 2,
-    image:
-      "https://images.unsplash.com/photo-1565035010268-a3816f98589a?q=80&w=200&auto=format&fit=crop",
+    image: "/bg/bg111.png",
     isActive: false,
   },
   {
     id: 3,
     pageNumber: 3,
-    image:
-      "https://images.unsplash.com/photo-1565035010268-a3816f98589a?q=80&w=200&auto=format&fit=crop",
+    image: "/bg/bg111.png",
     isActive: false,
   },
   {
     id: 4,
     pageNumber: 4,
-    image:
-      "https://images.unsplash.com/photo-1565035010268-a3816f98589a?q=80&w=200&auto=format&fit=crop",
+    image: "/bg/bg111.png",
     isActive: false,
   },
   {
     id: 5,
     pageNumber: 5,
-    image:
-      "https://images.unsplash.com/photo-1565035010268-a3816f98589a?q=80&w=200&auto=format&fit=crop",
+    image: "/bg/bg111.png",
     isActive: false,
   },
 ];
 function PdfsPage() {
   const router = useRouter();
   return (
-    <div className="flex flex-col min-h-screen lg:px-0 px-4 max-w-7xl mx-auto">
-      <HeaderBanner />
+    <div className="flex flex-col min-h-screen lg:px-0 px-4 lg:max-w-[1300px] mx-auto">
+      <div className="max-w-7xl mx-auto">
+        <HeaderBanner />
+      </div>
       <div className="">
-        <div className="max-w-[1600px] mx-auto h-[calc(100vh-4rem)] flex flex-col">
+        <div className="max-w-[1580px] mx-auto h-[calc(100vh-4rem)] flex flex-col">
           {/* Top Navigation / Back Button */}
           <Button
             onClick={() => router.back()}

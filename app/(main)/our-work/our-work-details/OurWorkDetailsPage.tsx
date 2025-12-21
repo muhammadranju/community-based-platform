@@ -52,20 +52,21 @@ function OurWorkDetailsPage() {
               {/* Badge */}
               <CustomBadge>Explore Content in the Archive</CustomBadge>
 
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold max-w-4xl leading-tight mb-8">
+              <h1 className="text-3xl md:text-5xl lg:text-[40px] font-semibold max-w-4xl leading-tight mb-8">
                 Manyatta - Indigenous home of the Maasai people in Kenya
               </h1>
 
               <div className="flex items-center gap-6">
-                <button className="flex items-center gap-2 hover:text-gray-200 transition-colors group">
-                  <div className="p-2 rounded-full border border-white/30 group-hover:bg-white/10 transition-colors">
-                    <HeartIcon className="w-5 h-5" />
+                <button className="flex items-center gap-2 hover:text-gray-200 transition-colors group cursor-pointer">
+                  <div className="p-2 rounded-full bg-white border border-white/30 group-hover:bg-white/90 transition-colors">
+                    <HeartIcon className="w-5 h-5 text-emerald-900" />
                   </div>
                   <span className="text-sm font-medium">Save</span>
                 </button>
-                <button className="flex items-center gap-2 hover:text-gray-200 transition-colors group">
-                  <div className="p-2 rounded-full border border-white/30 group-hover:bg-white/10 transition-colors">
-                    <ShareIcon className="w-5 h-5" />
+
+                <button className="flex items-center gap-2 hover:text-gray-200 transition-colors group cursor-pointer">
+                  <div className="p-2 rounded-full bg-white border border-white/30 group-hover:bg-white/10 transition-colors">
+                    <ShareIcon className="w-5 h-5 text-emerald-900" />
                   </div>
                   <span className="text-sm font-medium">Share</span>
                 </button>

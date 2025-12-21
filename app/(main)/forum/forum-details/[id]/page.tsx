@@ -3,6 +3,7 @@ import CustomBadge from "@/components/shared/SharedBadge";
 import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
+  ChevronRight,
   Heart,
   Loader2,
   MessageSquare,
@@ -12,7 +13,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-// import { GoogleGenAI } from "@google/genai";
 
 // --- Types ---
 
@@ -45,13 +45,18 @@ const ActionButton = ({
 }) => (
   <button
     onClick={onClick}
-    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors ${
+    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors   ${
       active
         ? "text-green-700 bg-green-50 font-medium"
         : "text-gray-600 hover:text-green-800 hover:bg-gray-50"
     }`}
   >
-    <Icon size={18} className={active ? "fill-current" : ""} />
+    <div className="bg-emerald-900 rounded-full p-2">
+      <Icon
+        size={18}
+        className={active ? "fill-current text-white" : " text-white"}
+      />
+    </div>
     <span className="text-xs sm:text-sm font-medium">{label}</span>
   </button>
 );
@@ -277,6 +282,7 @@ export default function page() {
 
             {/* Gemini Integration Section */}
             <AIResponseSection post={postData} prompt="" />
+            {/* Bottom Pagination */}
           </div>
         </div>
       </div>

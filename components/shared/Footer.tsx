@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
     <footer className="w-full ">
       {/* Top CTA Section */}
       <div className="w-full lg:py-12 py-8 bg-accent-bg lg:px-0 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
+        <div className="lg:max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
           <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start">
             <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-lime-500">
               <Home className="text-white w-8 h-8" strokeWidth={1.5} />
@@ -41,10 +41,10 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Divider Line */}
-          <div className="hidden md:block h-16 bg-gray-400 opacity-50"></div>
+          <div className="hidden md:block h-24 border w-1 bg-gray-400"></div>
 
           {/* Right CTA */}
-          <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start">
+          <div className="flex flex-row items-center gap-6  md:text-left flex-1 justify-start lg:ml-10">
             <div className="w-16 h-16 rounded-full flex items-center justify-center shrink-0 shadow-sm bg-lime-500">
               <HeartHandshake
                 className="text-white w-8 h-8"
@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Section */}
-      <div className="relative w-full text-white pt-16 pb-8 overflow-hidden bg-emerald-900 lg:px-0 px-4">
+      <div className="relative w-full text-white pt-10 pb-8 overflow-hidden bg-emerald-900 lg:px-0 px-4">
         {/* World Map Background with low opacity */}
         <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
           <img
@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 lg:mb-16 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 lg:mb-16 mb-8">
             {/* Column 1: Social */}
             <div>
               <h4 className="text-2xl lg:text-3xl font-semibold lg:mb-6 mb-2">
@@ -145,9 +145,9 @@ const Footer: React.FC = () => {
                 />
                 <Button
                   onClick={handleSubscribe}
-                  className="absolute right-1 top-1 bottom-1 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:opacity-90 bg-lime-500 hover:bg-lime-600"
+                  className="absolute right-0 top-px bottom-0 w-12 h-12 rounded-full flex items-center justify-center transition-colors hover:opacity-90 bg-lime-500 hover:bg-lime-600"
                 >
-                  <Send size={18} className="text-white ml-1" />
+                  <Send size={50} className="text-white" />
                   {/* ml-1 to visually center the icon better */}
                 </Button>
               </div>

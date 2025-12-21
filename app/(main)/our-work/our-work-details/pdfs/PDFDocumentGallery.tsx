@@ -15,7 +15,7 @@ export const DocumentGallery: React.FC = () => {
   const [page, setPage] = useState(1);
 
   return (
-    <div className="flex justify-center items-start bg-white my-20">
+    <div className="flex justify-center items-start bg-white my-20 border-[0.5px] border-lime-500  rounded-4xl">
       {/* 
         The main green container. 
         Matches the screenshot: rounded corners, light lime background.

@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Bird,
   ChevronLeft,
+  ChevronRight,
   Clock,
   Eye,
   Infinity,
@@ -15,6 +16,7 @@ import { HeaderSection } from "../ForumHeaderSection";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { ForumBanner } from "../ForumBanner";
 
 // --- Types ---
 interface DiscussionData {
@@ -32,19 +34,6 @@ interface DiscussionData {
 
 // --- Mock Data ---
 const discussions: DiscussionData[] = [
-  {
-    id: 1,
-    title: "Introductions",
-    description:
-      "Share stories, ideas, pictures and anything related to topics Indigenous African Architecture.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    updatedBy: "Historyenjoyer822",
-    variant: "green",
-    iconType: "intro",
-    link: "/forum/forum-details/1",
-  },
   {
     id: 2,
     title: "General Discussion on African Indigenous Architecture",
@@ -252,7 +241,7 @@ export default function page() {
       {/* Top Hero Image - Using a landscape placeholder that mimics the aerial village view */}
       <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
         <img
-          src="/bg/Rectangle7.png"
+          src="/bg/Rectangle8.png"
           alt="Aerial view of African village architecture"
           className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
         />
@@ -265,7 +254,12 @@ export default function page() {
       >
         <ChevronLeft size={20} />
       </Button>
-      <HeaderSection />
+      {/* Content Section */}
+      <HeaderSection
+        title="Cultural & Historical Discussions"
+        description="General Discussion on African Indigenous Architecture"
+      />
+      <ForumBanner />
       <div className="space-y-10">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
@@ -306,21 +300,8 @@ export default function page() {
 
         {/* Discussions List */}
         <div className="space-y-8">
-          {/* Section 1: Introductions */}
-          <div>
-            {discussions
-              .filter((d) => d.variant === "blue")
-              .map((discussion) => (
-                <ForumCard key={discussion.id} data={discussion} />
-              ))}
-          </div>
-
           {/* Section 2: Cultural & Historical */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-green-600 tracking-tight">
-              Cultural & Historical Discussions
-            </h2>
-
             <div className="space-y-4">
               {discussions
                 .filter((d) => d.variant === "green")
@@ -331,6 +312,42 @@ export default function page() {
           </div>
         </div>
       </div>
+      <div className="mt-5">
+        <Pagination />
+      </div>
     </div>
   );
 }
+
+const Pagination = () => {
+  return (
+    <div className="flex items-center gap-1.5 sm:gap-2">
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-primary-color transition-colors">
+        <ChevronLeft size={20} />
+      </button>
+
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-highlight bg-lime-50 text-primary font-medium flex items-center justify-center">
+        1
+      </button>
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
+        2
+      </button>
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
+        3
+      </button>
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
+        4
+      </button>
+
+      <div className="text-gray-400 font-bold px-1 text-lg">...</div>
+
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
+        21
+      </button>
+
+      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-primary-color transition-colors">
+        <ChevronRight size={20} />
+      </button>
+    </div>
+  );
+};

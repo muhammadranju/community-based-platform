@@ -37,7 +37,10 @@ function ForumPage() {
       </div>
 
       {/* Content Section */}
-      <HeaderSection />
+      <HeaderSection
+        title="Forum"
+        description="Join the village and start or contribute to ongoing discussions about Indigenous African Architecture"
+      />
       <ForumBanner />
 
       {/* Search and Filters Section */}

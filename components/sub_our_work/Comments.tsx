@@ -174,7 +174,7 @@ const COMMENTS: CommentData[] = [
 
 // --- Components ---
 
-const Pagination = () => {
+export const Pagination = () => {
   return (
     <div className="flex items-center gap-1.5 sm:gap-2">
       <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-primary-color transition-colors">
