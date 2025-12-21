@@ -128,12 +128,12 @@ export const THUMBNAILS: PageThumbnail[] = [
 function PdfsPage() {
   const router = useRouter();
   return (
-    <div className="flex flex-col min-h-screen lg:px-0 px-4 lg:max-w-[1300px] mx-auto">
+    <div className="flex flex-col  lg:px-0 px-4 lg:max-w-[1300px] mx-auto">
       <div className="max-w-7xl mx-auto">
         <HeaderBanner />
       </div>
       <div className="">
-        <div className="max-w-[1580px] mx-auto h-[calc(100vh-4rem)] flex flex-col">
+        <div className="max-w-[1580px] mx-auto h-[calc(100vh-1rem)] flex flex-col">
           {/* Top Navigation / Back Button */}
           <Button
             onClick={() => router.back()}

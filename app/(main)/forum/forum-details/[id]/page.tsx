@@ -3,7 +3,6 @@ import CustomBadge from "@/components/shared/SharedBadge";
 import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
-  ChevronRight,
   Heart,
   Loader2,
   MessageSquare,
@@ -76,7 +75,7 @@ const Header = ({ onClick }: { onClick: () => void }) => (
       </h1>
     </div>
 
-    <div className="flex items-center gap-2 sm:gap-4 ml-11 sm:ml-0 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0">
+    <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
       <ActionButton icon={ThumbsUp} label="Like" />
       <ActionButton icon={ThumbsDown} label="Dislike" />
       <ActionButton icon={Heart} label="Save" />
@@ -233,8 +232,17 @@ export default function page() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-800  selection:bg-green-100">
+    <div className="min-h-screen bg-white text-gray-800  selection:bg-green-100 lg:px-0 px-4">
       <div className="max-w-7xl mx-auto ">
+        {/* Top Hero Image - Using a landscape placeholder that mimics the aerial village view */}
+        <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
+          <img
+            src="/bg/Rectangle22.png"
+            alt="Aerial view of African village architecture"
+            className="w-full h-full object-cover transform hover:scale-101 transition-transform duration-700"
+          />
+        </div>
+
         {/* Header Section */}
         <Header onClick={() => router.back()} />
 

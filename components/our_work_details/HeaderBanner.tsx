@@ -108,10 +108,10 @@ function HeaderBanner() {
         style={{ backgroundImage: `url('${bg}')` }}
       >
         <div className="mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          <div className="flex flex-col md:flex-row items-center gap-5">
             {/* Icon Circle */}
             <div className="shrink-0">
-              <div className="w-24 h-24 md:w-44 md:h-44 rounded-full flex items-center justify-center">
+              <div className="w-24 h-24 md:w-56 md:h-44 rounded-full flex items-center justify-center">
                 <img src={frame} className="w-full h-full" alt="" />
               </div>
             </div>
@@ -129,7 +129,7 @@ function HeaderBanner() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Explore our digital archive by searching for your favourite Indigenous architecture here"
-                  className="lg:w-[650px] w-full pl-12 pr-6 py-3 md:py-4 rounded-full bg-black/20 border-2 border-red-300 border-opacity-60 text-white placeholder-red-100 focus:outline-none focus:border-white focus:bg-opacity-70 transition text-sm md:text-base"
+                  className="lg:w-[650px] w-full pl-12 pr-6 py-3 md:py-4 rounded-full bg-black/20 border-2 border-white border-opacity-60 text-white placeholder-white focus:outline-none focus:border-white focus:bg-opacity-70 transition text-sm md:text-base"
                 />
               </div>
             </div>
