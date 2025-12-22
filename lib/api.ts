@@ -1,7 +1,8 @@
+"use server";
 import { cookies } from "next/headers";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
 export type ApiResponse<T = any> = {
   data?: T;

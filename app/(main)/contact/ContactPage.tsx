@@ -5,13 +5,66 @@ import {
 } from "@/components/contact/InputsTextArea";
 import CustomBadge from "@/components/shared/SharedBadge";
 import { Button } from "@/components/ui/button";
+import { authFetch } from "@/lib/authFetch";
+import { User2Icon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { IoIosSend, IoMdMail } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
 import { MdPhone } from "react-icons/md";
+import { toast } from "sonner";
 
 const ContactPage: React.FC = () => {
+  const [data, setData] = React.useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await authFetch("/user-contacts", {
+        method: "POST",
+        body: JSON.stringify(data),
+        auth: false,
+      });
+      if (!response.ok) {
+        toast.error("Failed to send message");
+        throw new Error("Failed to send message");
+      }
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success("Message sent successfully", {
+          description: "We will get back to you as soon as possible",
+        });
+        setData({
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          message: "",
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to send message");
+    }
+  };
+
   return (
     <div className="lg:mb-20 mb-10">
       {/* Header Section */}
@@ -52,18 +105,32 @@ const ContactPage: React.FC = () => {
             We'd love to hear from you
           </h2>
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <CustomInput
+              label="Name"
+              placeholder="Enter your name"
+              name="name"
+              value={data.name}
+              onChange={handleChange}
+              icon={User2Icon}
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <CustomInput
                 label="Your Email"
                 placeholder="Your Email"
                 type="email"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
                 icon={IoIosSend}
               />
               <CustomInput
                 label="Your Phone"
                 placeholder="Your Phone"
                 type="tel"
+                name="phone"
+                value={data.phone}
+                onChange={handleChange}
                 icon={MdPhone}
               />
             </div>
@@ -71,12 +138,18 @@ const ContactPage: React.FC = () => {
             <CustomInput
               label="Your Address"
               placeholder="Your Address"
+              name="address"
+              value={data.address}
+              onChange={handleChange}
               icon={IoLocationSharp}
             />
 
             <CustomTextarea
               label="Message"
               placeholder="Write Message.."
+              name="message"
+              value={data.message}
+              onChange={handleChange}
               icon={IoMdMail}
             />
 

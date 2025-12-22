@@ -14,12 +14,14 @@ export interface InputProps
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   icon?: React.FC<IconProps>;
 }
 
 export const CustomInput: React.FC<InputProps> = ({
   label,
   icon: Icon,
+  onChange,
   className = "",
   ...props
 }) => {
@@ -41,6 +43,8 @@ export const CustomInput: React.FC<InputProps> = ({
             Icon ? "pl-12 pr-6" : "px-6"
           } placeholder:text-primary-color focus:outline-none focus:ring-2 focus:ring-teal-600/20 transition-all shadow-sm ${className}`}
           {...props}
+          onChange={onChange}
+          required
         />
       </div>
     </div>
