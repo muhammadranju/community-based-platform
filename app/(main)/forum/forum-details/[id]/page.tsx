@@ -1,5 +1,6 @@
 "use client";
 import CustomBadge from "@/components/shared/SharedBadge";
+import { CommentsSection } from "@/components/sub_our_work/Comments";
 import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
@@ -292,6 +293,9 @@ export default function page() {
             <AIResponseSection post={postData} prompt="" />
             {/* Bottom Pagination */}
           </div>
+        </div>
+        <div className="my-10">
+          <CommentsSection />
         </div>
       </div>
     </div>
