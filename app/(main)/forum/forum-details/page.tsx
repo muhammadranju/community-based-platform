@@ -312,7 +312,7 @@ export default function page() {
           </div>
         </div>
       </div>
-      <div className="mt-5">
+      <div className=" my-10">
         <Pagination />
       </div>
     </div>
