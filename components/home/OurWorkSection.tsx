@@ -35,9 +35,9 @@ export default function OurWorkSection() {
       buttonText: "Read More",
     },
     {
-      title: "African Traditional Decor & Interior Design",
+      title: "Indigenous Building Workshops & Interior Design",
       description:
-        "If you desire to start building your dream home based on the foundation of our ancestors knowledge, but don't know where to start. We hope the design inspirations here will help you get started. We have a combination of paid and free resources based on the contributions of our experts.",
+        "Access specialized workshops and building courses rooted in ancestral techniques to construct your home. Alongside architectural training, discover interior design resources and decor inspiration tailored for new homeowners. Our expert-led materials offer a blend of free and premium assets, empowering you to create culturally authentic and beautiful living spaces.",
       image: "/bg/Rectangle2.png", // Vertical image
       link: "/waiting-list/signup",
       buttonText: "Join The Waiting List",
