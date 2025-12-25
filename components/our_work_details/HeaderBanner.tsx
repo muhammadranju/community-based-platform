@@ -9,6 +9,7 @@ const categories = [
   {
     id: 1,
     title: "East African Traditional Architecture",
+    subtitle: "East African Architecture",
     backgroundColor: "#B20500",
     icon: "/Icons/Vector-1.png",
     slug: "/east-african-architecture",
@@ -17,6 +18,7 @@ const categories = [
   {
     id: 2,
     title: "Central African Traditional Architecture",
+    subtitle: "Central African Architecture",
     backgroundColor: "#37893C",
     icon: "/Icons/Vector-2.png",
     slug: "/central-african-architecture",
@@ -25,6 +27,7 @@ const categories = [
   {
     id: 3,
     title: "West African Traditional Architecture",
+    subtitle: "West African Architecture",
     backgroundColor: "#063391",
     icon: "/Icons/Vector-3.png",
     slug: "/west-african-architecture",
@@ -33,6 +36,7 @@ const categories = [
   {
     id: 4,
     title: "South African Traditional Architecture",
+    subtitle: "South African Architecture",
     backgroundColor: "#C89D1F",
     icon: "/Icons/Vector-4.png",
     slug: "/south-african-architecture",
@@ -41,6 +45,7 @@ const categories = [
   {
     id: 5,
     title: "North African Traditional Architecture",
+    subtitle: "North African Architecture",
     backgroundColor: "#E26513",
     icon: "/Icons/Vector-5.png",
     slug: "/north-african-architecture",
@@ -49,6 +54,7 @@ const categories = [
   {
     id: 6,
     title: "Global African Traditional Architecture",
+    subtitle: "Global African Architecture",
     backgroundColor: "#6C0544",
     icon: "/Icons/Vector-6.png",
     slug: "/global-african-architecture",
@@ -146,7 +152,7 @@ function HeaderBanner() {
             {categories.map((category) => (
               <OurWorkCategoryCard
                 key={category.id}
-                title={category.title}
+                title={category.subtitle}
                 backgroundColor={category.backgroundColor}
                 icon={category.icon}
                 slug={category.slug}
