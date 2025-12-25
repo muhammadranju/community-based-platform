@@ -7,7 +7,7 @@ function WaitingHeader() {
   return (
     <>
       {/* Navbar */}
-      <header className="container mx-auto px-4 py-6 flex items-center justify-between">
+      <header className="container mx-auto px-4 pt-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {/* Logo Recreation */}
           <div className="relative  flex items-center justify-center">
@@ -20,20 +20,12 @@ function WaitingHeader() {
                     alt="ATA Logo"
                     width={120}
                     height={120}
-                    className="lg:h-16 w-auto object-contain"
+                    className="lg:h-16 h-12 w-auto object-contain"
                   />
                 </Link>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <Link href="/waiting-list/login">
-            <Button className="bg-amber-600 hover:bg-amber-600 text-white rounded-full px-6 h-9 text-sm font-semibold">
-              Login
-            </Button>
-          </Link>
         </div>
       </header>
     </>

@@ -17,20 +17,27 @@ export interface ContentItem {
   id: string;
   title: string;
   description: string;
-  location: string;
-  date: string;
+  country: string;
+  createdAt: string;
+  shortDescription: string;
+  slug?: string;
+  region?: string;
+  coverImage?: string;
+  images?: string[];
+  medias?: string[];
+  pdfs?: string[];
 }
 
 export interface ArchiveItem {
   id: string;
   title: string;
-  subtitle: string;
-  image: string;
-  stats: {
-    photos: number;
-    videos: number;
-    pdfs: number;
-  };
+  slug: string;
+  shortDescription: string;
+  coverImage: string;
+  images?: string[];
+  region?: string;
+  medias?: string[];
+  pdfs?: string[];
 }
 
 export interface StepItem {

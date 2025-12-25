@@ -4,6 +4,9 @@ import { Heart, Share2 } from "lucide-react";
 // import { GalleryItem } from '../types';
 import { cn } from "@/lib/utils";
 import { GalleryItem } from "./PhotoHeader";
+import { toast } from "sonner";
+import { usePathname } from "next/navigation";
+import CopyPath from "@/components/shared/CopyPath";
 
 interface ImageCardProps {
   item: GalleryItem;
@@ -11,6 +14,11 @@ interface ImageCardProps {
 
 export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const copy = () => {
+    CopyPath();
+    toast.success("Link copied to clipboard");
+  };
 
   return (
     <div
@@ -34,8 +42,12 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
 
       {/* Overlay controls - Top Left */}
       <div className="absolute top-4 left-4 flex gap-3 z-10">
-        <OverlayButton icon={Heart} label="Save" />
-        <OverlayButton icon={Share2} label="Share" />
+        <OverlayButton
+          icon={Heart}
+          label="Save"
+          onClick={() => toast.success("Saved to your library")}
+        />
+        <OverlayButton icon={Share2} label="Share" onClick={copy} />
       </div>
 
       {/* Gradient Overlay for text readability (optional, subtle) */}
@@ -47,11 +59,19 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
 interface OverlayButtonProps {
   icon: React.ElementType;
   label: string;
+  onClick: () => void;
 }
 
-const OverlayButton: React.FC<OverlayButtonProps> = ({ icon: Icon, label }) => {
+const OverlayButton: React.FC<OverlayButtonProps> = ({
+  icon: Icon,
+  label,
+  onClick,
+}) => {
   return (
-    <button className="flex items-center gap-1.5 px-3 py-1.5 bg-black/20 hover:bg-black/30 backdrop-blur-md rounded-full transition-all duration-200 border border-white/20 active:scale-95">
+    <button
+      className="flex items-center gap-1.5 px-3 py-1.5 bg-black/20 hover:bg-black/30 backdrop-blur-md rounded-full transition-all duration-200 border border-white/20 active:scale-95 cursor-pointer"
+      onClick={onClick}
+    >
       <Icon className="w-4 h-4 text-white" strokeWidth={2.5} />
       <span className="text-[10px] md:text-xs font-medium text-white tracking-wide uppercase">
         {label}

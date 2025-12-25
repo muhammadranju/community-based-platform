@@ -87,12 +87,14 @@ export const MediaCard: React.FC<MediaCardProps> = ({
 interface DocumentsCardProps {
   documents: DocumentItem[];
   totalCount: number;
+  owner: string;
   url: string;
 }
 
 export const DocumentsCard: React.FC<DocumentsCardProps> = ({
   documents,
   totalCount,
+  owner,
   url,
 }) => {
   return (
@@ -102,7 +104,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
       </h3>
 
       <div className="flex-1 flex flex-col gap-4">
-        {documents.map((doc) => (
+        {documents?.map((doc) => (
           <div
             key={doc.id}
             className="flex items-center justify-between p-4 bg-accent-bg/50 rounded-2xl group hover:bg-gray-100 transition-colors cursor-pointer"
@@ -115,7 +117,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
                 <span className="font-bold text-emerald-900 text-sm">
                   {doc.title}
                 </span>
-                <span className="text-xs text-gray-500">{doc.subtitle}</span>
+                <span className="text-xs text-gray-500">{owner}</span>
               </div>
             </div>
 

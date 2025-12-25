@@ -11,7 +11,7 @@ const ArchiveHeader: React.FC = () => {
       </h2>
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <Link href="/submit-content">
+        <Link href="/dashboard/upload-content">
           <Button
             variant="outline"
             className="px-8 py-2 h-auto text-sm font-semibold w-full sm:w-auto rounded-full border-secondary-color text-emerald-900"
@@ -21,7 +21,7 @@ const ArchiveHeader: React.FC = () => {
         </Link>
 
         <div className="flex items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
-          <Link href="/waiting-list/signup">
+          <Link href="/signup">
             <Button
               variant="outline"
               className="flex-1 sm:flex-none rounded-full px-6 py-2 h-auto border-gray-300 text-brand-dark hover:bg-gray-50 text-sm font-semibold"
@@ -29,7 +29,7 @@ const ArchiveHeader: React.FC = () => {
               Sign up
             </Button>
           </Link>
-          <Link href="/waiting-list/login">
+          <Link href="/login">
             <Button className="flex-1 sm:flex-none px-6 py-2 h-auto text-sm font-semibold shadow-none bg-amber-600 rounded-full hover:bg-amber-600/80">
               Login
             </Button>

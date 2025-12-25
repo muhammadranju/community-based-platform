@@ -1,53 +1,114 @@
-import React from "react";
-import { Home } from "lucide-react";
-import { CURRENT_DOCUMENT } from "./PdfsPage";
-// import { CURRENT_DOCUMENT } from "./page";
+import { Home, Loader2 } from "lucide-react";
+import React, { useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 
-export const PDFDocumentViewer: React.FC = () => {
+// CORRECT worker configuration for module environment
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
+
+interface PDFDocumentViewerProps {
+  url: string;
+  title: string;
+  companyName: string;
+}
+
+export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
+  url,
+  title,
+  companyName,
+}) => {
+  const [numPages, setNumPages] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [error, setError] = useState<string | null>(null);
+
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+    setNumPages(numPages);
+    setError(null);
+  }
+
+  function onDocumentLoadError(error: Error) {
+    console.error("PDF Load Error:", error);
+    setError(error.message);
+  }
+
   return (
-    <div className="flex flex-col h-screen bg-gray-100 rounded-4xl shadow-inner p-8 md:p-12 relative overflow-hidden">
-      {/* Background gradient/shadow effect overlay */}
-      <div className="absolute inset-0 bg-linear-gradient-to-b from-gray-200/50 to-transparent pointer-events-none" />
+    <div className="flex flex-col h-full bg-gray-100 rounded-4xl shadow-inner p-8 md:p-12 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-200/50 to-transparent pointer-events-none" />
 
-      <div className="relative z-10 flex flex-col h-[calc(100vh-5rem)]">
+      <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-6 text-gray-600">
+        <div className="flex items-center gap-3 mb-4 text-gray-600">
           <Home className="w-5 h-5 text-gray-500" />
           <span className="text-sm md:text-base font-medium text-gray-700 tracking-wide">
-            {CURRENT_DOCUMENT.companyName}
+            {companyName}
           </span>
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl md:text-5xl font-bold text-emerald-900 mb-10 leading-tight max-w-2xl">
-          {CURRENT_DOCUMENT.title}
+        <h1 className="text-2xl md:text-4xl font-bold text-emerald-900 mb-6 leading-tight">
+          {title}
         </h1>
 
-        {/* Image Container */}
-        <div className="flex-grow w-full rounded-2xl overflow-hidden shadow-2xl relative group ">
-          <img
-            src={CURRENT_DOCUMENT.coverImage}
-            alt="Document Cover"
-            className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-          />
-          {/* Overlay gradient at bottom of image for text readability if needed, though design is clean */}
-          {/* <div className="absolute inset-0 bg-black/10"></div> */}
-        </div>
+        {/* PDF Viewer */}
+        <div className="flex-grow w-full rounded-2xl overflow-hidden shadow-2xl relative bg-white flex items-center justify-center">
+          {error ? (
+            <div className="flex flex-col items-center gap-4 p-8 text-center">
+              <div className="text-red-500 font-medium text-lg">
+                Failed to load PDF
+              </div>
+              <div className="text-sm text-gray-600">{error}</div>
+            </div>
+          ) : (
+            <div className="w-full h-full overflow-auto flex flex-col items-center p-4">
+              <Document
+                file={url}
+                onLoadSuccess={onDocumentLoadSuccess}
+                onLoadError={onDocumentLoadError}
+                loading={
+                  <div className="flex flex-col items-center gap-2 py-20">
+                    <Loader2 className="w-8 h-8 animate-spin text-emerald-900" />
+                    <span className="text-sm text-gray-500">
+                      Loading PDF...
+                    </span>
+                  </div>
+                }
+              >
+                <Page
+                  pageNumber={pageNumber}
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  className="shadow-lg"
+                />
+              </Document>
 
-        {/* Footer inside preview */}
-        <div className="flex items-center justify-between mt-8">
-          {/* Horizontal Divider Line */}
-          <div className="h-px bg-gray-400 w-1/3 md:w-1/2" />
-
-          {/* Pagination Pill */}
-          <div className="bg-white/80 backdrop-blur-sm border border-gray-300 px-4 py-2 rounded-full text-emerald-900 font-semibold text-sm shadow-sm z-20 mx-auto -mt-0">
-            {CURRENT_DOCUMENT.currentPage} of {CURRENT_DOCUMENT.totalPages}
-          </div>
-
-          {/* Website Link */}
-          <span className="text-red-400 font-medium text-sm md:text-base w-1/2 md:w-1/2 text-right">
-            {CURRENT_DOCUMENT.website}
-          </span>
+              {/* Page navigation */}
+              {numPages > 1 && (
+                <div className="mt-4 flex items-center gap-4 bg-white rounded-full px-6 py-3 shadow-md">
+                  <button
+                    onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
+                    disabled={pageNumber === 1}
+                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-800 transition-colors"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-emerald-900 font-semibold">
+                    Page {pageNumber} of {numPages}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setPageNumber(Math.min(numPages, pageNumber + 1))
+                    }
+                    disabled={pageNumber === numPages}
+                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-800 transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -2,12 +2,19 @@ import { SectionData } from "@/types/types";
 import React from "react";
 import SharedButton from "../shared/SharedButton";
 import TimelineStep from "./TimelineStep";
+import Link from "next/link";
 
 interface ProcessCardProps {
   data: SectionData;
+  link: string;
+  buttonText: string;
 }
 
-const ProcessCard: React.FC<ProcessCardProps> = ({ data }) => {
+const ProcessCard: React.FC<ProcessCardProps> = ({
+  data,
+  link,
+  buttonText,
+}) => {
   return (
     <div className="bg-accent-bg rounded-[2.5rem] p-6 md:p-10  w-full h-full flex flex-col">
       {/* Header of the Card */}
@@ -15,8 +22,9 @@ const ProcessCard: React.FC<ProcessCardProps> = ({ data }) => {
         <h2 className="text-xl md:text-3xl font-bold text-emerald-900  tracking-tight">
           {data.title}
         </h2>
-
-        <SharedButton>{data.buttonText}</SharedButton>
+        <Link href={link}>
+          <SharedButton>{buttonText}</SharedButton>
+        </Link>
       </div>
 
       {/* Timeline Steps */}

@@ -61,7 +61,6 @@ const categories = [
     key: "global",
   },
 ];
-
 const bgImagesAndFrames: Record<string, { bg: string; frame: string }> = {
   east: {
     bg: "/bg/bg-1.jpg",

@@ -15,12 +15,12 @@ export const DocumentGallery: React.FC = () => {
   const [page, setPage] = useState(1);
 
   return (
-    <div className="flex justify-center items-start bg-white my-20 border-[0.5px] border-lime-500  rounded-4xl mt-28">
+    <div className="flex justify-center items-start bg-white my-20  mt-44">
       {/* 
         The main green container. 
         Matches the screenshot: rounded corners, light lime background.
       */}
-      <div className="w-full max-w-7xl bg-[#f4fde8] rounded-[40px] border border-[#e2f5d3] p-5 md:p-12 shadow-sm">
+      <div className="w-full bg-[#f4fde8] rounded-[40px] border border-[#e2f5d3] p-5 md:p-12 shadow-sm">
         {/* Header */}
         <div className="mb-10">
           <h1 className="text-3xl md:text-5xl font-semibold text-[#064e3b] tracking-tight">

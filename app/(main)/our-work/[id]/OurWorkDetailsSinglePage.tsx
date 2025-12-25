@@ -1,5 +1,6 @@
 "use client";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
+import CopyPath from "@/components/shared/CopyPath";
 import CustomBadge from "@/components/shared/SharedBadge";
 import { CommentsSection } from "@/components/sub_our_work/Comments";
 import {
@@ -8,38 +9,49 @@ import {
   MediaCard,
 } from "@/components/sub_our_work/DocumentsCard";
 import { SectionCard } from "@/components/sub_our_work/SectionCard";
+import { authFetch } from "@/lib/authFetch";
 import { GUIDE_DATA } from "@/lib/data";
 import { HeartIcon, ShareIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-// Mock Data
-const MOCK_DOCS: DocumentItem[] = [
-  {
-    id: "1",
-    title: "Courtney Henry",
-    subtitle: "Medical Assistant",
-    type: "pdf",
-  },
-  {
-    id: "2",
-    title: "Courtney Henry",
-    subtitle: "Medical Assistant",
-    type: "pdf",
-  },
-  {
-    id: "3",
-    title: "Courtney Henry",
-    subtitle: "Medical Assistant",
-    type: "pdf",
-  },
-];
-
-function OurWorkDetailsPage() {
+function OurWorkDetailsSinglePage() {
   const searchParams = useSearchParams();
-
   const search = searchParams.get("region");
+  const [data, setData] = useState<any>(null);
+  const { id } = useParams();
+  const copy = () => {
+    CopyPath();
+    toast.success("Link copied to clipboard");
+  };
 
-  console.log(search);
+  const getSingleData = async () => {
+    const response = await authFetch(`/contents/${id}`);
+    const data = await response.json();
+    setData(data?.data);
+
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getSingleData();
+  }, []);
+
+  const MOCK_DOCS =
+    data?.pdfs?.map((path: string, index: number, arr: string[]) => {
+      const fileName = path.split("/").pop() || "";
+
+      const title = fileName.replace(/-\d+\.pdf$/, "").replace(/_/g, " ");
+
+      return {
+        id: String(index + 1),
+        title,
+        subtitle: `PDF Document • ${arr.length}`,
+        owner: data?.owner.name,
+        type: "pdf",
+      };
+    }) || [];
   return (
     <>
       <div className="text-gray-800">
@@ -53,18 +65,24 @@ function OurWorkDetailsPage() {
               <CustomBadge>Explore Content in the Archive</CustomBadge>
 
               <h1 className="text-3xl md:text-5xl lg:text-[40px] font-semibold max-w-4xl leading-tight mb-8">
-                Manyatta - Indigenous home of the Maasai people in Kenya
+                {data?.title}
               </h1>
 
               <div className="flex items-center gap-6">
-                <button className="flex items-center gap-2 hover:text-gray-200 transition-colors group cursor-pointer">
+                <button
+                  onClick={() => toast.success("Saved to your library")}
+                  className="flex items-center gap-2 hover:text-gray-200 transition-colors group cursor-pointer"
+                >
                   <div className="p-2 rounded-full bg-white border border-white/30 group-hover:bg-white/90 transition-colors">
                     <HeartIcon className="w-5 h-5 text-emerald-900" />
                   </div>
                   <span className="text-sm font-medium">Save</span>
                 </button>
 
-                <button className="flex items-center gap-2 hover:text-gray-200 transition-colors group cursor-pointer">
+                <button
+                  onClick={copy}
+                  className="flex items-center gap-2 hover:text-gray-200 transition-colors group cursor-pointer"
+                >
                   <div className="p-2 rounded-full bg-white border border-white/30 group-hover:bg-white/10 transition-colors">
                     <ShareIcon className="w-5 h-5 text-emerald-900" />
                   </div>
@@ -76,26 +94,28 @@ function OurWorkDetailsPage() {
             {/* Content Grid */}
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <MediaCard
-                count={200}
+                count={data?.images.length}
                 label="Photos"
                 type="photos"
                 // Using a distinct image of Maasai or similar landscape
-                imageUrl="/bg/our-page-bg-1.png"
-                url={`/our-work-details/photos?region=/${search}`}
+                imageUrl={`${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`}
+                url={`/our-work/our-work-details/photos?region=${search}&slug=${id}`}
               />
               <MediaCard
-                count={10}
+                count={data?.medias.length}
                 label="Videos"
                 type="videos"
                 // Using a distinct image of Maasai people walking or gathering
-                imageUrl="/bg/our-page-bg-2.png"
-                url={`/our-work-details/videos?region=/${search}`}
+                imageUrl={`${process.env.NEXT_PUBLIC_API_URL}/${
+                  data?.images[1] || ""
+                }`}
+                url={`/our-work/our-work-details/videos?region=${search}&slug=${id}`}
               />
               <DocumentsCard
-                documents={MOCK_DOCS}
-                totalCount={7}
-                owner="Manyatta"
-                url={`/our-work-details/pdfs?region=/${search}`}
+                documents={MOCK_DOCS?.slice(0, 3)}
+                totalCount={data?.pdfs.length}
+                owner={data?.owner.name}
+                url={`/our-work/our-work-details/pdfs?region=${search}&slug=${id}`}
               />
             </section>
           </div>
@@ -105,19 +125,13 @@ function OurWorkDetailsPage() {
               <CustomBadge>Learn More</CustomBadge>
 
               <h2 className="text-4xl md:text-5xl font-bold text-emerald-900">
-                About the Maasai people
+                About the{" "}
+                {data?.title.length > 10
+                  ? data?.title.slice(0, 10) + "..."
+                  : data?.title}
               </h2>
               <p className="text-gray-600 leading-relaxed text-lg">
-                The Maasai are a Nilotic ethnic group primarily found in
-                southern Kenya and northern Tanzania. Known for their vibrant
-                culture, traditional dress, and semi-nomadic lifestyle, the
-                Maasai are one of the most internationally recognized
-                communities in Africa. Their society is deeply rooted in age-old
-                customs, cattle herding, and strong community bonds. Cattle are
-                central to their way of life—economically, spiritually, and
-                socially. Despite the pressures of modernization, many Maasai
-                communities continue to maintain their traditional ways of
-                living, including the construction of their unique homes.
+                {data?.shortDescription}
               </p>
             </div>
 
@@ -159,4 +173,4 @@ function OurWorkDetailsPage() {
   );
 }
 
-export default OurWorkDetailsPage;
+export default OurWorkDetailsSinglePage;

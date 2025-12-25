@@ -56,7 +56,7 @@ export default function Header() {
                 alt="Logo"
                 width={160}
                 height={160}
-                className="w-auto h-16"
+                className="w-auto lg:h-16 h-12 "
               />
             </Link>
 
@@ -130,13 +130,15 @@ export default function Header() {
           <div className="flex flex-col h-full">
             {/* Header inside sidebar */}
             <div className="flex items-center justify-between p-6 border-b">
-              <Image
-                src="/logo.png"
-                alt="Logo"
-                width={140}
-                height={140}
-                className="h-12 w-auto"
-              />
+              <Link href="/">
+                <Image
+                  src="/logo.png"
+                  alt="Logo"
+                  width={140}
+                  height={140}
+                  className="lg:h-16 h-12 w-auto"
+                />
+              </Link>
               <button
                 onClick={closeMenu}
                 className="p-2 hover:bg-gray-100 rounded-lg transition"

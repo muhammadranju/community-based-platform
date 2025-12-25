@@ -20,9 +20,7 @@ export default function OurWorkCategoryCard({
   const searchParams = useSearchParams();
   const [isHovered, setIsHovered] = useState(false);
 
-  const search = searchParams.get("region");
-  const fullSlug = `/our-work${slug}`;
-  const fullSearchSlug = `/our-work/${search}`;
+  const fullSlug = `/our-work/explore-archive?region=${slug}`;
 
   // Hide the card if the current page matches the category slug
   const regionParam = searchParams.get("region");

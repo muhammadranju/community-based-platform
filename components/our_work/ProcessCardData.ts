@@ -97,7 +97,7 @@ export const ARCHIVE_DATA = [
     description:
       "Kenya, Tanzania, Uganda, Ethiopia, Somalia, Burundi, Rwanda, Djibouti, Comoros, Eritrea, Seychelles, Mauritius, South Sudan, Reunion, Mayotte, French Southernn and Antarctic Lands",
     borderColor: "border-[#D33733]",
-    link: "/our-work/east-african-architecture",
+    link: "east-african-architecture",
   },
   {
     id: 2,
@@ -108,7 +108,7 @@ export const ARCHIVE_DATA = [
     description:
       "Cameroon, Equatorial Guinea, Gabon, Congo, Chad, Central African Republic, Congo - the Democratic Republic, São Tomé and Príncipe",
     borderColor: "border-[#27662B]",
-    link: "/our-work/central-african-architecture",
+    link: "central-african-architecture",
   },
   {
     id: 3,
@@ -119,7 +119,7 @@ export const ARCHIVE_DATA = [
     description:
       "Nigeria, Niger, Burkina Faso, Benin, Liberia, Ghana, The Gambia, Mali, Côte d'Ivoire, Senegal, Guinea, Togo, Sierra Leone, Guinea-Bissau, Mauritania, Cabot Verde, Saint-Helena, Ascension and Tristan da Cunha",
     borderColor: "border-[#254D82]",
-    link: "/our-work/west-african-architecture",
+    link: "west-african-architecture",
   },
   {
     id: 4,
@@ -130,7 +130,7 @@ export const ARCHIVE_DATA = [
     description:
       "South Africa, Botswana, Namibia, Lesotho, Eswatini, Zimbabwe, Zambia, Mozambique, Angola, Malawi, Madagascar",
     borderColor: "border-[#D8B139]",
-    link: "/our-work/south-african-architecture",
+    link: "south-african-architecture",
   },
   {
     id: 5,
@@ -141,7 +141,7 @@ export const ARCHIVE_DATA = [
     description:
       "Algeria, Egypt, Libyan Arab Jamahiriya, Morocco, Tunisia, Western Sahara, Sudan.",
     borderColor: "border-[#FB8E39]",
-    link: "/our-work/north-african-architecture",
+    link: "north-african-architecture",
   },
   {
     id: 6,
@@ -152,7 +152,7 @@ export const ARCHIVE_DATA = [
     description:
       "Showcase how African Traditional Architecture has influenced spaces globally, and far beyond the continent, not only through the African diaspora",
     borderColor: "border-[#6C2D62]",
-    link: "/our-work/african-architecture-globally",
+    link: "african-architecture-globally",
   },
 ];
 
@@ -162,72 +162,18 @@ export const POPULAR_CONTENT: ContentItem[] = [
     title: "Swahili Architecture",
     description:
       "Graceful arches, carved doors, and coral stone define Swahili architecture—a style born of African, Arab, Persian, and Indian influences. Journey",
-    location: "Kenya",
-    date: "July 7, 2025",
+    country: "Kenya",
+    createdAt: "July 7, 2025",
+    shortDescription: ":",
   },
   {
     id: "p2",
     title: "Fort Jesus",
     description:
       "Standing sentinel over Mombasa's harbor, Fort Jesus narrates a tale of conquest, trade, and resistance. Dive into its 16th-century Portuguese",
-    location: "Kenya",
-    date: "July 7, 2025",
-  },
-  {
-    id: "p3",
-    title: "Takwa Ruins",
-    description:
-      "On Lamu's Shela Island, the Takwa Ruins tell of a vanished Swahili town. Walk amidst hauntingly quiet mosques and stone",
-    location: "Kenya",
-    date: "July 7, 2025",
-  },
-  {
-    id: "p4",
-    title: "Gede Ruins",
-    description:
-      "Hidden in Kenya's coastal forest, the Gede Ruins whisper stories of a vanished Swahili city. Walk through coral-stone houses, intricate",
-    location: "Kenya",
-    date: "July 7, 2025",
-  },
-  {
-    id: "p5",
-    title: "Siyu Fort",
-    description:
-      "Tucked away on Lamu Island, Siyu Fort stands as a symbol of local resistance against foreign domination. Unveil its coral-rag",
-    location: "Kenya",
-    date: "July 7, 2025",
-  },
-  {
-    id: "p6",
-    title: "Mnarani Ruins",
-    description:
-      "Perched above the Kilifi Creek in Kenya, Mnarani Ruins reveal traces of a coastal civilization shaped by trade and Islam.",
-    location: "Kenya",
-    date: "July 7, 2025",
-  },
-  {
-    id: "p7",
-    title: "Tubali: Hausa Architecture",
-    description:
-      "Step into Tubali, the earth-built houses of the Hausa people in Nigeria. Admire intricate plaster patterns, vibrant color washes, and",
-    location: "Kenya",
-    date: "July 7, 2025",
-  },
-  {
-    id: "p8",
-    title: "Mbari Houses",
-    description:
-      "Among the Igbo people of Nigeria, Mbari houses are vibrant temples of art and spirituality. Step inside these sacred spaces,",
-    location: "Kenya",
-    date: "July 7, 2025",
-  },
-  {
-    id: "p9",
-    title: "Kano City: Mud Architecture",
-    description:
-      "In the heart of northern Nigeria, Kano's ancient mud architecture stands resilient and beautiful. Explore how the city's earth-built walls,",
-    location: "Kenya",
-    date: "July 7, 2025",
+    country: "Kenya",
+    createdAt: "July 7, 2025",
+    shortDescription: "",
   },
 ];
 
@@ -247,50 +193,32 @@ export const COUNTRIES = [
   "South Sudan",
   "Réunion",
   "Mayotte",
-  "French Southern and Antarctic Lands",
 ];
 
 export const ARCHIVE_ITEMS: ArchiveItem[] = [
   {
     id: "a1",
     title: "Manyatta",
-    subtitle: "Maasai Traditional home",
-    image: "/bg/folder-img-1.png",
-    stats: { photos: 6, videos: 6, pdfs: 6 },
-  },
-  {
-    id: "a2",
-    title: "Manyatta",
-    subtitle: "Maasai Traditional home",
-    image: "/bg/folder-img-2.png",
-    stats: { photos: 6, videos: 6, pdfs: 6 },
-  },
-  {
-    id: "a3",
-    title: "Manyatta",
-    subtitle: "Maasai Traditional home",
-    image: "/bg/folder-img-1.png",
-    stats: { photos: 6, videos: 6, pdfs: 6 },
-  },
-  {
-    id: "a4",
-    title: "Manyatta",
-    subtitle: "Maasai Traditional home",
-    image: "/bg/folder-img-2.png",
-    stats: { photos: 6, videos: 6, pdfs: 6 },
-  },
-  {
-    id: "a5",
-    title: "Manyatta",
-    subtitle: "Maasai Traditional home",
-    image: "/bg/folder-img-1.png",
-    stats: { photos: 6, videos: 6, pdfs: 6 },
-  },
-  {
-    id: "a6",
-    title: "Manyatta",
-    subtitle: "Maasai Traditional home",
-    image: "/bg/folder-img-2.png",
-    stats: { photos: 6, videos: 6, pdfs: 6 },
+    shortDescription: "Maasai Traditional home",
+    coverImage: "/bg/folder-img-1.png",
+    images: [
+      "/bg/folder-img-1.png",
+      "/bg/folder-img-2.png",
+      "/bg/folder-img-1.png",
+      "/bg/folder-img-2.png",
+    ],
+    medias: [
+      "/bg/folder-img-1.png",
+      "/bg/folder-img-2.png",
+      "/bg/folder-img-1.png",
+      "/bg/folder-img-2.png",
+    ],
+    pdfs: [
+      "/bg/folder-img-1.png",
+      "/bg/folder-img-2.png",
+      "/bg/folder-img-1.png",
+      "/bg/folder-img-2.png",
+    ],
+    slug: "manyatta",
   },
 ];

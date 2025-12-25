@@ -1,13 +1,20 @@
+import { ContentItem } from "@/types/types";
 import { Calendar, MapPin } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
-import { ContentItem } from "@/types/types";
 
 interface PopularContentCardProps {
   item: ContentItem;
 }
 
 const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
+  // const date = parseISO(item.createdAt);
+  // const formatted = format(date, "dd MMM yyyy, hh:mm a");
+  var date = new Date(item.createdAt);
+  var hours = date.getHours();
+  console.log(hours);
+
   return (
     <div className="bg-[#F2F6EF] border border-lime-500 rounded-2xl p-6 flex flex-col h-full hover:shadow-md  hover:bg-white hover:border-white transition-colors duration-400">
       <div className="flex-1 mb-6">
@@ -15,7 +22,9 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
           {item.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed font-light">
-          {item.description}
+          {item.shortDescription?.length > 200
+            ? item.shortDescription.substring(0, 200) + "..."
+            : item.shortDescription}
         </p>
       </div>
 
@@ -32,7 +41,7 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
                 strokeWidth={3}
               />
             </div>
-            <span>{item.location}</span>
+            <span className="capitalize">{item.country}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="bg-emerald-900 rounded-full p-1 shrink-0">
@@ -42,16 +51,14 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
                 strokeWidth={3}
               />
             </div>
-            <span className="whitespace-nowrap">{item.date}</span>
+            <span className="whitespace-nowrap">{item.createdAt}</span>
           </div>
         </div>
-
-        <Button
-          //   variant="orange-outline"
-          className="text-xs px-4 py-3 h-auto font-medium shrink-0 rounded-full bg-transparent border border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white transition-colors duration-200"
-        >
-          Read Post
-        </Button>
+        <Link href={`/our-work/${item.slug}?region=east-african-architecture`}>
+          <Button className="text-xs px-4 py-3 h-auto font-medium shrink-0 rounded-full bg-transparent border border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white transition-colors duration-200">
+            Read Post
+          </Button>
+        </Link>
       </div>
     </div>
   );

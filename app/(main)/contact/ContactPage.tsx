@@ -5,6 +5,7 @@ import {
 } from "@/components/contact/InputsTextArea";
 import CustomBadge from "@/components/shared/SharedBadge";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { authFetch } from "@/lib/authFetch";
 import { User2Icon } from "lucide-react";
 import Image from "next/image";
@@ -15,6 +16,7 @@ import { MdPhone } from "react-icons/md";
 import { toast } from "sonner";
 
 const ContactPage: React.FC = () => {
+  const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState({
     name: "",
     email: "",
@@ -37,19 +39,23 @@ const ContactPage: React.FC = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await authFetch("/user-contacts", {
         method: "POST",
         body: JSON.stringify(data),
         auth: false,
       });
+
       if (!response.ok) {
+        setLoading(false);
         toast.error("Failed to send message");
         throw new Error("Failed to send message");
       }
       const result = await response.json();
 
       if (result.success) {
-        toast.success("Message sent successfully", {
+        setLoading(false);
+        toast.success("Message sent succ  essfully", {
           description: "We will get back to you as soon as possible",
         });
         setData({
@@ -61,6 +67,7 @@ const ContactPage: React.FC = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       toast.error("Failed to send message");
     }
   };
@@ -157,7 +164,13 @@ const ContactPage: React.FC = () => {
               type="submit"
               className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-full text-sm shadow-md transition-all uppercase tracking-wide"
             >
-              Send Message
+              {loading ? (
+                <>
+                  <Spinner className="size-6" /> Sending...
+                </>
+              ) : (
+                "Send Message"
+              )}
             </Button>
           </form>
         </div>
