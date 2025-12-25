@@ -8,7 +8,7 @@ import OurWorkCategoryCard from "./OurWorkCategoryCard";
 const categories = [
   {
     id: 1,
-    title: "East African Architecture",
+    title: "East African Traditional Architecture",
     backgroundColor: "#B20500",
     icon: "/Icons/Vector-1.png",
     slug: "/east-african-architecture",
@@ -16,7 +16,7 @@ const categories = [
   },
   {
     id: 2,
-    title: "Central African Architecturess",
+    title: "Central African Traditional Architecture",
     backgroundColor: "#37893C",
     icon: "/Icons/Vector-2.png",
     slug: "/central-african-architecture",
@@ -24,7 +24,7 @@ const categories = [
   },
   {
     id: 3,
-    title: "West African Architecture",
+    title: "West African Traditional Architecture",
     backgroundColor: "#063391",
     icon: "/Icons/Vector-3.png",
     slug: "/west-african-architecture",
@@ -32,7 +32,7 @@ const categories = [
   },
   {
     id: 4,
-    title: "South African Architecture",
+    title: "South African Traditional Architecture",
     backgroundColor: "#C89D1F",
     icon: "/Icons/Vector-4.png",
     slug: "/south-african-architecture",
@@ -40,7 +40,7 @@ const categories = [
   },
   {
     id: 5,
-    title: "North African Architecture",
+    title: "North African Traditional Architecture",
     backgroundColor: "#E26513",
     icon: "/Icons/Vector-5.png",
     slug: "/north-african-architecture",
@@ -48,7 +48,7 @@ const categories = [
   },
   {
     id: 6,
-    title: "Global - African Architecture",
+    title: "Global African Traditional Architecture",
     backgroundColor: "#6C0544",
     icon: "/Icons/Vector-6.png",
     slug: "/global-african-architecture",
@@ -123,13 +123,13 @@ function HeaderBanner() {
               </h1>
 
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white w-5 h-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white w-5 h-5 lg:w-7 lg:h-7" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Explore our digital archive by searching for your favourite Indigenous architecture here"
-                  className="lg:w-[650px] w-full pl-12 pr-6 py-3 md:py-4 rounded-full bg-black/20 border-2 border-white border-opacity-60 text-white placeholder-white focus:outline-none focus:border-white focus:bg-opacity-70 transition text-sm md:text-base"
+                  placeholder="Explore our digital archive by searching for your favorite Indigenous architecture here"
+                  className="lg:w-[650px] w-full pl-12 pr-6 py-2 md:py-3 rounded-full bg-black/20 border border-white border-opacity-60 text-white placeholder-white focus:outline-none focus:border-white focus:bg-opacity-70 transition text-sm md:text-base placeholder:text-sm"
                 />
               </div>
             </div>
