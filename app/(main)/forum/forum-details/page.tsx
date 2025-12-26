@@ -1,353 +1,303 @@
 "use client";
-import {
-  ArrowRight,
-  Bird,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
-  Eye,
-  Infinity,
-  MessageSquare,
-  Search,
-  User,
-} from "lucide-react";
-import Link from "next/link";
-import { HeaderSection } from "../ForumHeaderSection";
+import CustomBadge from "@/components/shared/SharedBadge";
+import { CommentsSection } from "@/components/sub_our_work/Comments";
 import { Button } from "@/components/ui/button";
+import {
+  ChevronLeft,
+  Heart,
+  Loader2,
+  MessageSquare,
+  Share2,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { ForumBanner } from "../ForumBanner";
+import { useState } from "react";
 
 // --- Types ---
-interface DiscussionData {
-  id: number;
+
+interface DiscussionPost {
+  id: string;
+  author: {
+    name: string;
+    joined: string;
+    avatarUrl: string;
+  };
+  tag: string;
   title: string;
-  description: string;
-  posts: string;
-  views: string;
-  lastUpdated: string;
-  updatedBy?: string;
-  variant: "blue" | "green";
-  iconType: "intro" | "bird";
-  link?: string;
+  intro: string[];
+  questions: string[];
 }
 
-// --- Mock Data ---
-const discussions: DiscussionData[] = [
-  {
-    id: 2,
-    title: "General Discussion on African Indigenous Architecture",
-    description:
-      "Talk about the big picture. Ideas, opinions, questions, and trends related to traditional architecture across the continent.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    variant: "green",
-    iconType: "bird",
-    link: "/forum/forum-details/2",
-  },
-  {
-    id: 3,
-    title: "Pre-colonial African Architecture",
-    description:
-      "Explore and talk about architectural practices before colonial influence - the purest form of Indigenous knowledge.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    variant: "green",
-    iconType: "bird",
-    link: "/forum/forum-details/3",
-  },
-  {
-    id: 4,
-    title: "Architecture of African Kingdoms & Empires",
-    description:
-      "Discuss ancient cities like Benin, Lalibela, Timbuktu, and others that showcased architectural brilliance.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    variant: "green",
-    iconType: "bird",
-    link: "/forum/forum-details/4",
-  },
-  {
-    id: 5,
-    title: "Colonial Impact on Indigenous Building Practices",
-    description:
-      "Unpack how colonization disrupted, erased, or transformed African architectural traditions.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    variant: "green",
-    iconType: "bird",
-  },
-  {
-    id: 6,
-    title: "Oral Histories & Storytelling Traditions",
-    description:
-      "Share or document stories passed down about homes, sacred spaces, and village structures.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    variant: "green",
-    iconType: "bird",
-  },
-];
+// --- Internal Components (Defined within App scope as requested) ---
 
-const StatBlock = ({
+// 1. Icon Wrapper for the Header Actions
+const ActionButton = ({
+  icon: Icon,
   label,
-  value,
-  isLast = false,
+  active = false,
+  onClick,
 }: {
+  icon: any;
   label: string;
-  value: string;
-  isLast?: boolean;
+  active?: boolean;
+  onClick?: () => void;
 }) => (
-  <div
-    className={`flex flex-col justify-center px-4 md:px-6 ${
-      !isLast ? "border-r border-gray-200 hidden md:flex" : ""
+  <button
+    onClick={onClick}
+    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-colors   ${
+      active
+        ? "text-green-700 bg-green-50 font-medium"
+        : "text-gray-600 hover:text-green-800 hover:bg-gray-50"
     }`}
   >
-    <span className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">
-      {label}
-    </span>
-    <span className="text-xs md:text-sm font-semibold text-gray-700 truncate max-w-[120px]">
-      {value}
-    </span>
-  </div>
+    <div className="bg-emerald-900 rounded-full p-2">
+      <Icon
+        size={18}
+        className={active ? "fill-current text-white" : " text-white"}
+      />
+    </div>
+    <span className="text-xs sm:text-sm font-medium">{label}</span>
+  </button>
 );
 
-// Mobile specific stat block to handle layout differently on small screens
-const MobileStatRow = ({
-  posts,
-  views,
-  lastUpdated,
-  updatedBy,
-}: {
-  posts: string;
-  views: string;
-  lastUpdated: string;
-  updatedBy?: string;
-}) => (
-  <div className="flex flex-wrap items-center gap-y-2 gap-x-4 mt-4 md:hidden text-xs text-gray-500 border-t border-gray-100 pt-3 w-full">
-    <div className="flex items-center gap-1">
-      <MessageSquare className="w-3 h-3" />
-      <span className="font-medium">{posts} Posts</span>
-    </div>
-    <div className="flex items-center gap-1">
-      <Eye className="w-3 h-3" />
-      <span className="font-medium">{views} Views</span>
-    </div>
-    <div className="flex items-center gap-1 w-full sm:w-auto">
-      <Clock className="w-3 h-3" />
-      <span className="truncate">Updated: {lastUpdated}</span>
-    </div>
-    {updatedBy && (
-      <div className="flex items-center gap-1 w-full sm:w-auto">
-        <User className="w-3 h-3" />
-        <span className="truncate">By: {updatedBy}</span>
-      </div>
-    )}
-  </div>
-);
-
-/**
- * ForumCard Component
- * Main component for displaying a discussion topic
- */
-const ForumCard = ({ data }: { data: DiscussionData }) => {
-  const isBlue = data.variant === "blue";
-
-  // Styles based on variant
-  const containerBorder = isBlue
-    ? "border-blue-700/50"
-    : "border-emerald-700/50";
-  const containerHover = isBlue
-    ? "hover:border-blue-300"
-    : "hover:border-emerald-300";
-  const iconBg = isBlue
-    ? "bg-white border-6 border-blue-900 p-2"
-    : "bg-white border-6 border-emerald-700 p-2";
-  const iconColor = isBlue ? "text-blue-900" : "text-emerald-700";
-  const titleColor = isBlue ? "text-blue-900" : "text-emerald-700";
-
-  return (
-    <div
-      className={`group relative bg-white rounded-2xl border ${containerBorder} ${containerHover} transition-all duration-200 shadow-sm p-5 md:p-6 mb-4`}
-    >
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
-        {/* Icon Section */}
-        <div className="flex-shrink-0">
-          <div
-            className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center ${iconBg}`}
-          >
-            {data.iconType === "intro" ? (
-              <img src="/Icons/Introductions.png" alt="" />
-            ) : (
-              <img src="/Icons/Cultural.png" alt="" />
-            )}
-          </div>
-        </div>
-
-        {/* Content Section */}
-        <div className="flex-grow min-w-0 pr-4">
-          <Link href={data.link || "#"}>
-            <h3
-              className={`text-lg md:text-xl font-bold ${titleColor} mb-2 leading-tight`}
-            >
-              {data.title}
-            </h3>
-          </Link>
-          <p className="text-gray-500 text-sm leading-relaxed">
-            {data.description}
-          </p>
-
-          {/* Mobile Stats (Visible only on mobile) */}
-          <MobileStatRow
-            posts={data.posts}
-            views={data.views}
-            lastUpdated={data.lastUpdated}
-            updatedBy={data.updatedBy}
-          />
-        </div>
-
-        {/* Desktop Stats Section (Hidden on mobile, Flex on md) */}
-        <div className="hidden md:flex items-center flex-shrink-0 border-l border-gray-200 pl-2 h-full min-h-[60px]">
-          <StatBlock label="POSTS" value={data.posts} />
-          <StatBlock label="VIEWS" value={data.views} />
-          <div className="flex flex-col justify-center px-6">
-            <span className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">
-              LAST UPDATED
-            </span>
-            <span className="text-xs md:text-sm font-semibold text-gray-700 mb-1">
-              {data.lastUpdated}
-            </span>
-            {data.updatedBy && (
-              <span className="text-[10px] text-green-700 font-medium">
-                {data.updatedBy}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default function page() {
-  const router = useRouter();
-  return (
-    <div className="min-h-screen bg-white max-w-7xl mx-auto px-4 lg:px-0">
-      {/* Top Hero Image - Using a landscape placeholder that mimics the aerial village view */}
-      <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
-        <img
-          src="/bg/Rectangle8.png"
-          alt="Aerial view of African village architecture"
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
-        />
-      </div>
-
-      {/* Content Section */}
+// 2. The Header Component
+const Header = ({ onClick }: { onClick: () => void }) => (
+  <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-6 mb-2">
+    <div className="flex items-center gap-3">
       <Button
-        onClick={() => router.back()}
-        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary-color text-white hover:bg-green-900 transition-colors shadow-sm mb-5"
+        onClick={onClick}
+        className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary-color text-white hover:bg-green-900 transition-colors shadow-sm"
       >
         <ChevronLeft size={20} />
       </Button>
-      {/* Content Section */}
-      <HeaderSection
-        title="Cultural & Historical Discussions"
-        description="General Discussion on African Indigenous Architecture"
+      <h1 className="text-lg sm:text-xl font-bold text-[#064E3B] tracking-tight">
+        Ask a question/Start a New Discussions
+      </h1>
+    </div>
+
+    <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
+      <ActionButton icon={ThumbsUp} label="Like" />
+      <ActionButton icon={ThumbsDown} label="Dislike" />
+      <ActionButton icon={Heart} label="Save" />
+      <ActionButton icon={Share2} label="Share" />
+    </div>
+  </header>
+);
+
+// 3. User Avatar Card Component
+const UserProfileCard = ({ author }: { author: DiscussionPost["author"] }) => (
+  <div className="flex-shrink-0 bg-white border border-green-600 rounded-lg p-3 w-full sm:w-40 flex flex-col items-center text-center shadow-sm">
+    <div className="relative w-16 h-16 mb-2">
+      <img
+        src={author.avatarUrl}
+        alt={author.name}
+        className="w-full h-full object-cover rounded-full border-2 border-orange-200"
       />
-      <ForumBanner />
-      <div className="space-y-10">
+      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+    </div>
+    <div className="text-xs font-bold text-gray-800 truncate w-full">
+      {author.name}
+    </div>
+    <div className="text-[10px] text-gray-500 font-medium mt-0.5">
+      {author.joined}
+    </div>
+  </div>
+);
+
+// 4. AI Response Component (Functional Integration)
+const AIResponseSection = ({
+  post,
+  prompt,
+}: {
+  post: DiscussionPost;
+  prompt: string;
+}) => {
+  const [response, setResponse] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const generateResponse = async () => {
+    if (!process.env.API_KEY) {
+      setError("API Key not configured in environment.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      //   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+      const fullPrompt = `
+        You are a knowledgeable historian and architect specializing in African indigenous architecture.
+        Please provide a thoughtful, educational response to the following discussion post. 
+        Address the specific questions asked in the "Let's Talk About It" section.
+        Keep the tone respectful, communal, and insightful.
+        
+        Topic: ${post.title}
+        Context: ${post.intro.join(" ")}
+        Questions: ${post.questions.join(" ")}
+      `;
+
+      // const result = await ai.models.generateContent({
+      //   model: 'gemini-2.5-flash',
+      //   contents: fullPrompt,
+      // });
+
+      //   setResponse(result.text);
+    } catch (err: any) {
+      console.error(err);
+      setError("Failed to generate response. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-8 border-t border-gray-100 pt-6">
+      {/* {!response && !loading && (
+        <button 
+          onClick={generateResponse}
+          className="flex items-center gap-2 bg-gradient-to-r from-green-700 to-green-900 text-white px-5 py-2.5 rounded-lg shadow hover:shadow-md transition-all text-sm font-medium mx-auto sm:mx-0"
+        >
+          <Sparkles size={16} className="text-yellow-300" />
+          Generate Expert Response with Gemini
+        </button>
+      )} */}
+
+      {loading && (
+        <div className="flex flex-col items-center justify-center py-8 text-green-800">
+          <Loader2 size={32} className="animate-spin mb-3" />
+          <p className="text-sm font-medium">
+            Consulting the digital archives...
+          </p>
+        </div>
+      )}
+
+      {error && (
+        <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm mt-4">
+          {error}
+        </div>
+      )}
+
+      {response && (
+        <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="p-1.5 bg-green-100 rounded-md">
+              <MessageSquare size={18} className="text-green-800" />
+            </div>
+            <h3 className="font-semibold text-gray-800">
+              Community Insight (AI Generated)
+            </h3>
+          </div>
+          <div className="prose prose-sm prose-green max-w-none text-gray-700 leading-relaxed whitespace-pre-wrap">
+            {response}
+          </div>
+          <button
+            onClick={() => setResponse(null)}
+            className="mt-4 text-xs text-gray-500 hover:text-green-700 underline"
+          >
+            Clear response
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- Main App Component ---
+
+export default function page() {
+  // Static data matching the image exactly
+  const router = useRouter();
+  const postData: DiscussionPost = {
+    id: "1",
+    author: {
+      name: "Historyenjoyer822",
+      joined: "Joined: Mar 2024",
+      avatarUrl: "https://picsum.photos/id/64/200/200", // Using generic placeholder as requested
+    },
+    tag: "GENERAL DISCUSSION ON AFRICAN INDIGENOUS ARCHITECTURE",
+    title: "How Did Your Community Traditionally Build Without Modern Tools?",
+    intro: [
+      "Before the age of cement mixers, bulldozers, and laser levels — our ancestors built cities, homes, palaces, and temples using nothing but their hands, wisdom, and locally available materials. From stone walls stacked without mortar to domed homes made from bundled saplings, the techniques they used were not only resourceful — they were genius.",
+      "In today's world, we often look to digital tools and imported solutions for construction. But what about the tools that lived in the mind, the body, and the rhythm of the community?",
+    ],
+    questions: [
+      "What materials did your community use — mud, thatch, stone, dung, reeds, bamboo?",
+      "How were measurements done? Did they use the human body (arm lengths, strides) or tools like strings and sticks?",
+      "Were there ceremonies before building? Who led the process — a builder, elder, or spiritual leader?",
+      "What were some clever engineering solutions your ancestors developed (e.g., wind-resistant roofs, passive cooling)?",
+      "How were the labour and roles divided? Was it communal? Gender-specific?",
+    ],
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-gray-800  selection:bg-green-100 lg:px-0 px-4">
+      <div className="max-w-7xl mx-auto ">
+        {/* Top Hero Image - Using a landscape placeholder that mimics the aerial village view */}
+        <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
+          <img
+            src="/bg/Rectangle22.png"
+            alt="Aerial view of African village architecture"
+            className="w-full h-full object-cover transform hover:scale-101 transition-transform duration-700"
+          />
+        </div>
+
         {/* Header Section */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
-          <div className="max-w-xl">
-            <h1 className="text-3xl md:text-4xl font-bold text-primary-color tracking-tight leading-tight">
-              Ask a question/Start <br className="hidden md:block" /> a New
-              Discussions
-            </h1>
-          </div>
+        <Header onClick={() => router.back()} />
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-            {/* Search Input */}
-            <div className="relative w-full sm:w-80 md:w-96 group  rounded-xl">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-orange-400" />
+        {/* Main Content Card */}
+        <div className="border border-green-600/30 rounded-4xl overflow-hidden shadow-sm bg-white">
+          {/* Hero Section (Light Green Top) */}
+          <div className="bg-[#efffd6] p-4 sm:p-8 md:p-10">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+              {/* Left: User Profile */}
+              <UserProfileCard author={postData.author} />
+
+              {/* Right: Title & Badge */}
+              <div className="flex-1 space-y-3 sm:space-y-4">
+                <CustomBadge>{postData.tag}</CustomBadge>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#064E3B] leading-tight">
+                  {postData.title}
+                </h2>
               </div>
-
-              <Input
-                placeholder="Search Forum"
-                className="w-full pl-10 pr-12 py-6 rounded-lg border bg-accent-bg border-emerald-900 text-sm placeholder-gray-500 transition-all"
-              />
-              <Button className="absolute inset-y-[7px] right-1 px-3  bg-amber-700 hover:bg-amber-600 text-white rounded-md flex items-center justify-center transition-colors">
-                <ArrowRight className="h-4 w-4 " />
-              </Button>
-            </div>
-
-            {/* Filter Buttons */}
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
-                Topics
-              </Button>
-              <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
-                Posts
-              </Button>
             </div>
           </div>
-        </div>
 
-        {/* Discussions List */}
-        <div className="space-y-8">
-          {/* Section 2: Cultural & Historical */}
-          <div className="space-y-6">
-            <div className="space-y-4">
-              {discussions
-                .filter((d) => d.variant === "green")
-                .map((discussion) => (
-                  <ForumCard key={discussion.id} data={discussion} />
+          {/* Body Content Section */}
+          <div className="p-6 sm:p-10 md:px-12 md:py-10">
+            <div className="space-y-6 text-gray-600 text-base sm:text-lg leading-relaxed">
+              {postData.intro.map((para, index) => (
+                <p key={index}>{para}</p>
+              ))}
+            </div>
+
+            <div className="mt-10">
+              <h3 className="text-[#15803d] font-bold text-xl mb-4">
+                Let's Talk About It:
+              </h3>
+              <ol className="space-y-3 text-gray-600 text-base sm:text-lg list-none pl-1">
+                {postData.questions.map((q, i) => (
+                  <li key={i} className="flex gap-3 items-start">
+                    <span className="font-medium text-gray-500 min-w-[1.5rem]">
+                      {i + 1}.
+                    </span>
+                    <span className="leading-relaxed">{q}</span>
+                  </li>
                 ))}
+              </ol>
             </div>
+
+            {/* Gemini Integration Section */}
+            <AIResponseSection post={postData} prompt="" />
+            {/* Bottom Pagination */}
           </div>
         </div>
-      </div>
-      <div className=" my-10">
-        <Pagination />
+        <div className="my-10">
+          <CommentsSection />
+        </div>
       </div>
     </div>
   );
 }
-
-const Pagination = () => {
-  return (
-    <div className="flex items-center gap-1.5 sm:gap-2">
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-primary-color transition-colors">
-        <ChevronLeft size={20} />
-      </button>
-
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-highlight bg-lime-50 text-primary font-medium flex items-center justify-center">
-        1
-      </button>
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
-        2
-      </button>
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
-        3
-      </button>
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
-        4
-      </button>
-
-      <div className="text-gray-400 font-bold px-1 text-lg">...</div>
-
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 text-gray-500 font-medium flex items-center justify-center hover:bg-gray-50">
-        21
-      </button>
-
-      <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-primary-color transition-colors">
-        <ChevronRight size={20} />
-      </button>
-    </div>
-  );
-};

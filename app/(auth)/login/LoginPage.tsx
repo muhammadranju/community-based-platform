@@ -21,10 +21,13 @@ import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
 import Link from "next/link";
 import AuthHeader from "@/components/auth/AuthHeader";
 import { Badge } from "@/components/ui/badge";
-
+import { authFetch } from "@/lib/authFetch";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 // --- Schema Definition ---
 const formSchema = z.object({
-  username: z.string().min(2, {
+  email: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
 
@@ -35,21 +38,45 @@ const formSchema = z.object({
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // --- Form Setup ---
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-
+      email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Simulate API call
-    alert(JSON.stringify(values, null, 2));
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { email, password } = values;
+    setLoading(true);
+    const response = await authFetch("/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!response.ok) {
+      setLoading(false);
+      toast.error("Failed to login");
+    }
+    const data = await response.json();
+
+    if (data.success) {
+      setLoading(false);
+      const { token } = data?.data;
+      const { user } = data?.data;
+
+      toast.success("Login successful");
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      Cookies.set("token", token);
+      // router.push("/dashboard/overview");
+    }
   }
 
   return (
@@ -118,7 +145,7 @@ export default function LoginPage() {
                 {/* User Name */}
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="email"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-gray-500 font-medium">
@@ -182,9 +209,10 @@ export default function LoginPage() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
+                  disabled={loading}
                   className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
                 >
-                  Login
+                  {loading ? "Logging in..." : "Login"}
                 </Button>
                 <div className="lg:hidden ">
                   {/* Divider */}

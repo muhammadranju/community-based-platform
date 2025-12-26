@@ -1,23 +1,43 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { authFetch } from "@/lib/authFetch";
+import { ArrowRight, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { CommunityStatistics } from "./CommunityStatistics";
 import { ForumBanner } from "./ForumBanner";
 import { ForumCard } from "./ForumCard";
 import { HeaderSection } from "./ForumHeaderSection";
-import { forumSections } from "./forumData";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ArrowRight, Search } from "lucide-react";
-import { useState } from "react";
+import { formatDistanceToNow } from "date-fns";
 
 function ForumPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [forumData, setForumData] = useState([]);
+  const mongoTime = "2025-12-16T06:46:13.553Z";
+
+  const timeAgo = formatDistanceToNow(new Date(mongoTime), {
+    addSuffix: true,
+  });
+
+  const getForums = async () => {
+    const response = await authFetch("/forums-category", {
+      method: "GET",
+      auth: false,
+    });
+    const result = await response.json();
+    setForumData(result?.data);
+  };
+
+  useEffect(() => {
+    getForums();
+  }, []);
 
   // Filter sections based on search term
-  const filteredSections = forumSections
-    .map((section) => {
+  const filteredSections = forumData
+    .map((section: any) => {
       const filteredItems = section.items.filter(
-        (item) =>
+        (item: any) =>
           item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -112,7 +132,7 @@ function ForumPage() {
               )}
 
               <div className="space-y-4">
-                {section.items.map((item) => (
+                {section.items.map((item: any) => (
                   <ForumCard key={item.id} data={item} theme={section.theme} />
                 ))}
               </div>

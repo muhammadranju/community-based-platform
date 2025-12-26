@@ -1,7 +1,8 @@
-import { Clock, Eye, MessageSquare, User } from "lucide-react";
+import { Clock, MessageSquare, User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { TopicData } from "./forumData";
+import { formatDistanceToNow } from "date-fns";
 
 interface ForumCardProps {
   data: TopicData;
@@ -73,6 +74,12 @@ const MobileStatRow = ({
 );
 
 export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
+  const mongoTime = data.updatedAt;
+
+  const timeAgo = formatDistanceToNow(new Date(mongoTime || ""), {
+    addSuffix: true,
+  });
+
   // Theme Configuration
   const themeStyles = {
     blue: {
@@ -118,13 +125,11 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
       statLabel: "text-gray-800",
     },
   };
-
   const currentStyle = themeStyles[theme];
-
   // Helper to get Icon
   const getIcon = () => {
     switch (data.iconType) {
-      case "intro":
+      case "introductions":
         return (
           <img
             src="/Icons/Introductions.png"
@@ -132,7 +137,7 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
             className="w-full h-full object-contain p-2"
           />
         );
-      case "bird":
+      case "cultural":
         return (
           <img
             src="/Icons/Cultural.png"
@@ -176,7 +181,7 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
         return <MessageSquare className="w-6 h-6 text-gray-500" />;
     }
   };
-
+  console.log(data);
   return (
     <div
       className={`group relative bg-white rounded-2xl border ${currentStyle.border} ${currentStyle.hover} transition-all duration-200 shadow-sm p-5 md:p-6 mb-4`}
@@ -193,7 +198,7 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
 
         {/* Content Section */}
         <div className="grow min-w-0 pr-4">
-          <Link href={data?.link || "#"}>
+          <Link href={`/forum/${data?.link}?type=${data?.iconType}`}>
             <h3
               className={`text-lg md:text-xl font-bold ${currentStyle.title} mb-2 leading-tight group-hover:opacity-80 transition-opacity`}
             >
@@ -208,7 +213,7 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
             posts={data.stats.posts}
             views={data.stats.views}
             lastUpdated={data.stats.lastUpdated}
-            updatedBy={data.stats.updatedBy}
+            updatedBy={timeAgo}
           />
         </div>
 
@@ -233,9 +238,9 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
             <span className="text-xs md:text-sm font-semibold text-gray-700 mb-1">
               {data.stats.lastUpdated}
             </span>
-            {data.stats.updatedBy && (
+            {timeAgo && (
               <span className="text-[10px] text-gray-500 font-medium">
-                {data.stats.updatedBy}
+                {timeAgo}
               </span>
             )}
           </div>
