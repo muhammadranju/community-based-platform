@@ -152,7 +152,7 @@ export const ARCHIVE_DATA = [
     description:
       "Showcase how African Traditional Architecture has influenced spaces globally, and far beyond the continent, not only through the African diaspora",
     borderColor: "border-[#6C2D62]",
-    link: "/our-work/african-architecture-globally",
+    link: "/our-work/global-african-architecture",
   },
 ];
 
