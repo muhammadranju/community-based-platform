@@ -9,11 +9,26 @@ import {
   NewestMembersTable,
   RecentUploadsTable,
 } from "@/components/dashboard/overview/Tables";
+import { authFetch } from "@/lib/authFetch";
+import { useEffect, useState } from "react";
 
 function page() {
+  const [analytics, setAnalytics] = useState([]);
+  const getAnalytics = async () => {
+    const res = await authFetch("/analytics/dashboard-stats", {
+      method: "GET",
+      auth: true,
+    });
+    const data = await res.json();
+    setAnalytics(data?.data);
+  };
+  useEffect(() => {
+    getAnalytics();
+  }, []);
+
   return (
     <>
-      <StatsGrid />
+      <StatsGrid analytics={analytics} />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Left Column (Tables) - Spans 2 columns on large screens */}

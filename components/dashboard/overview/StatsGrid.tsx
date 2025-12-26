@@ -1,20 +1,25 @@
+import { ChartSpline, Flag, Upload, User } from "lucide-react";
 import React from "react";
-import { User, Upload, Activity, Flag } from "lucide-react";
-import { STATS_CARDS } from "../constants";
 
-const IconMap: Record<string, any> = {
-  user: User,
-  upload: Upload,
-  activity: Activity,
-  flag: Flag,
-};
-
-export const StatsGrid: React.FC = () => {
+export const StatsGrid: React.FC = ({ analytics }: any) => {
+  const STATS_CARDS = [
+    { label: "Total users", value: analytics?.totalUsers, icon: <User /> },
+    {
+      label: "Total Uploads",
+      value: analytics?.totalUploads,
+      icon: <Upload />,
+    },
+    {
+      label: "Active (30d)",
+      value: analytics?.activeUsers30d,
+      icon: <ChartSpline />,
+    },
+    { label: "Forums", value: analytics?.totalForums, icon: <Flag /> },
+  ];
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       {STATS_CARDS.map((stat, index) => {
-        const Icon = IconMap[stat.icon];
-
+        // const Icon = IconMap[stat.icon];
         return (
           <div
             key={index}
@@ -35,11 +40,7 @@ export const StatsGrid: React.FC = () => {
                   border-primary-color/20
                 `}
               >
-                <Icon
-                  size={20}
-                  strokeWidth={1.5}
-                  className="transition-colors duration-300 text-primary-color group-hover:text-white"
-                />
+                {stat.icon}
               </div>
             </div>
 

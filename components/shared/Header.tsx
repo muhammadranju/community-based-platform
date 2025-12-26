@@ -6,11 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import UserInfo from "./UserInfo";
+import getToken from "./getToken";
+import { MdDashboard } from "react-icons/md";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const token = getToken();
+  const user = UserInfo();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -77,19 +82,34 @@ export default function Header() {
                   </Link>
                 ))}
               </nav>
-
               <div className="flex items-center gap-3">
-                <Link href="/signup">
-                  <Button className="px-6 py-5 text-black rounded-full hover:bg-gray-100 border border-black bg-transparent">
-                    Sign up
-                  </Button>
-                </Link>
-                <Link href="/login">
-                  <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
-                    Login
-                  </Button>
-                </Link>
+                {token && (
+                  <Link
+                    href={
+                      user?.role === "SUPER_ADMIN" || user?.role === "ADMIN"
+                        ? "/dashboard/overview"
+                        : "/dashboard/users/overview"
+                    }
+                    className="text-amber-600 p-3 border rounded-full hover:bg-amber-600 hover:text-white"
+                  >
+                    <MdDashboard />
+                  </Link>
+                )}
               </div>
+              {!token && (
+                <div className="flex items-center gap-3">
+                  <Link href="/signup">
+                    <Button className="px-6 py-5 text-black rounded-full hover:bg-gray-100 border border-black bg-transparent">
+                      Sign up
+                    </Button>
+                  </Link>
+                  <Link href="/login">
+                    <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
+                      Login
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Mobile Menu Button */}

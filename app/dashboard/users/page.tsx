@@ -1,8 +1,36 @@
 "use client";
 import { USER_TABLE_ITEMS } from "@/components/dashboard/constants";
+import { authFetch } from "@/lib/authFetch";
 import { MoreVertical, Upload } from "lucide-react";
+import { useEffect, useState } from "react";
+
+export interface IUser {
+  _id: string;
+  name: string;
+  role: string;
+  email: string;
+  image: string;
+  status: string;
+  website: string;
+  verified: boolean;
+  uploads: string[];
+  bio: string;
+}
 
 function page() {
+  const [users, setUsers] = useState<IUser[]>([]);
+  const getUsers = async () => {
+    const res = await authFetch("/user/all-users", {
+      method: "GET",
+      auth: true,
+    });
+    const data = await res.json();
+    setUsers(data?.data);
+  };
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <div className="w-full">
       {/* Header Actions */}
@@ -22,9 +50,11 @@ function page() {
           <table className="w-full min-w-[900px]">
             <thead>
               <tr className="bg-teal-900 text-white text-left">
+                <th className="py-4 px-6 font-medium text-sm">Image</th>
                 <th className="py-4 px-6 font-medium text-sm">Name</th>
                 <th className="py-4 px-6 font-medium text-sm">Email</th>
-                <th className="py-4 px-6 font-medium text-sm">Country</th>
+                <th className="py-4 px-6 font-medium text-sm">Website</th>
+                <th className="py-4 px-6 font-medium text-sm">Bio</th>
                 <th className="py-4 px-6 font-medium text-sm">Role</th>
                 <th className="py-4 px-6 font-medium text-sm">Status</th>
                 <th className="py-4 px-6 font-medium text-sm text-center">
@@ -36,32 +66,49 @@ function page() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {USER_TABLE_ITEMS.map((item, idx) => (
+              {users.map((item, idx) => (
                 <tr
-                  key={`${item.id}-${idx}`}
+                  key={`${item._id}-${idx}`}
                   className="hover:bg-gray-50 transition-colors"
                 >
                   <td className="py-4 px-6 text-gray-700 font-medium">
+                    <img
+                      src={item.image}
+                      className="w-12 h-12 rounded-full"
+                      alt=""
+                    />
+                  </td>
+                  <td className="py-4 px-6 text-gray-700 font-medium">
                     {item.name}
                   </td>
-                  <td className="py-4 px-6 text-gray-600">{item.email}</td>
-                  <td className="py-4 px-6 text-gray-600">{item.country}</td>
-                  <td className="py-4 px-6 text-gray-600">{item.role}</td>
+                  <td className="py-4 px-6 text-gray-700 font-medium">
+                    {item.email}
+                  </td>
+
+                  <td className="py-4 px-6 text-gray-600">
+                    {item.website.length || "N/A"}
+                  </td>
+                  <td className="py-4 px-6 text-gray-600">
+                    {item.bio || "N/A"}
+                  </td>
+                  <td className="py-4 px-6 text-gray-600">
+                    {item.role === "SUPER_ADMIN" ? "Admin" : "Member"}
+                  </td>
                   <td className="py-4 px-6">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold inline-block min-w-[80px] text-center
                         ${
-                          item.status === "Active"
+                          item.status === "active"
                             ? "bg-[#dcfce7] text-[#15803d]"
-                            : "bg-gray-100 text-gray-500"
+                            : "bg-red-100 text-red-500"
                         }
                       `}
                     >
-                      {item.status}
+                      {item.status === "active" ? "Active" : "Inactive"}
                     </span>
                   </td>
                   <td className="py-4 px-6 text-gray-600 text-center">
-                    {item.uploads}
+                    {item.uploads.length}
                   </td>
                   <td className="py-4 px-6 text-right">
                     <button className="bg-[#ecfccb] hover:bg-lime-200 text-teal-900 w-8 h-8 rounded-full flex items-center justify-center transition-colors ml-auto">

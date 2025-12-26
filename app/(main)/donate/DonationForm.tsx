@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Check, ClockFading } from "lucide-react";
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import { CustomSelect } from "./CustomSelect";
 import { RadioSection } from "./RadioSection";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 export enum DonationCategory {
   MONETARY = "MONETARY",
@@ -20,14 +21,60 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const DonationForm: React.FC = () => {
-  const [category, setCategory] = useState<string>(DonationCategory.MONETARY);
-  const [volType, setVolType] = useState<string>(VolunteerType.AMOUNT);
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
+
+  // Form State
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
+
+  const [donationType, setDonationType] = useState<string>("general");
+  const [donationCategory, setDonationCategory] = useState<string>("");
+  const [amount, setAmount] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+
   const [isAnonymous, setIsAnonymous] = useState<boolean>(true);
 
-  // Placeholder handler
+  // Reset category when switching to general donation
+  useEffect(() => {
+    if (donationType === "general") {
+      setDonationCategory("");
+    }
+  }, [donationType]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log({
+      firstName,
+      lastName,
+      email,
+      phone,
+      country,
+      donationType,
+      donationCategory,
+      amount,
+      message,
+      isAnonymous,
+    });
     alert("Thank you for your donation!");
+  };
+
+  const handelMPesa = () => {
+    console.log(paymentMethod);
+    console.log({
+      firstName,
+      lastName,
+      email,
+      phone,
+      country,
+      donationType,
+      donationCategory,
+      amount,
+      message,
+      isAnonymous,
+    });
   };
 
   return (
@@ -35,8 +82,20 @@ export const DonationForm: React.FC = () => {
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         {/* Name Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input label="First Name" required placeholder="First Name" />
-          <Input label="Last Name" required placeholder="Last Name" />
+          <Input
+            label="First Name"
+            required
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <Input
+            label="Last Name"
+            required
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
         </div>
 
         {/* Contact Row */}
@@ -46,84 +105,85 @@ export const DonationForm: React.FC = () => {
             required
             placeholder="Email Address"
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <Input label="Phone Number" required placeholder="Your Address" />
-          {/* Note: UI image says "Phone Number" label but placeholder says "Your Address", mimicking image exactly */}
+          <Input
+            label="Phone Number"
+            required
+            placeholder="Your Address" // Keeping placeholder as requested in original code note
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
         </div>
 
         {/* Country */}
-        <Input label="Country" required placeholder="Country" />
+        <Input
+          label="Country"
+          required
+          placeholder="Country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
 
         {/* Donation Type Section */}
         <div className="flex flex-col gap-3 mt-2">
-          <RadioSection
-            title="Choose donation type and category"
-            name="donationCategory"
-            selectedValue={category}
-            onChange={setCategory}
-            options={[
-              {
-                label: "Monetary Donation Category",
-                value: DonationCategory.MONETARY,
-              },
-              {
-                label: "Volunteer Category",
-                value: DonationCategory.VOLUNTEER,
-              },
-            ]}
-          />
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
-            <CustomSelect
-              value="project"
-              onChange={() => {}}
-              options={[
-                { label: "Project specific donation", value: "project" },
-              ]}
-            />
-            <CustomSelect
-              value=""
-              onChange={() => {}}
-              placeholder="Content contribution"
-              className="opacity-60 bg-gray-50"
-              disabled
-            />
+            <div>
+              <label className="text-sm font-semibold text-emerald-900 ml-1">
+                Monetrary Donation Category
+              </label>
+              <CustomSelect
+                value={donationType}
+                onChange={(e) => setDonationType(e.target.value)}
+                options={[
+                  { label: "General donation", value: "general" },
+                  { label: "Project specific donation", value: "project" },
+                ]}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-emerald-900 ml-1">
+                Volunteer Category
+              </label>
+              <CustomSelect
+                value={donationCategory}
+                onChange={(e) => setDonationCategory(e.target.value)}
+                placeholder="Select Category"
+                options={[
+                  { label: "Building Materials", value: "materials" },
+                  { label: "Labor Costs", value: "labor" },
+                  { label: "Community Outreach", value: "outreach" },
+                  { label: "Research & Documentation", value: "research" },
+                ]}
+              />
+            </div>
           </div>
         </div>
 
         {/* Donation Amount Section */}
         <div className="flex flex-col gap-3 mt-2">
-          <RadioSection
-            title="Choose donation amount or tell us more about how you would like to volunteer"
-            name="volunteerType"
-            selectedValue={volType}
-            onChange={setVolType}
-            options={[
-              { label: "Donation Amount", value: VolunteerType.AMOUNT },
-              {
-                label: "How would you like to volunteer?",
-                value: VolunteerType.HOW_TO,
-              },
-            ]}
+          <Input
+            label="Donation Amount"
+            required
+            placeholder="Enter amount (USD)"
+            type="number"
+            min="1"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
           />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
-            <CustomSelect
-              value="100"
-              onChange={() => {}}
-              options={[
-                { label: "$100", value: "100" },
-                { label: "$50", value: "50" },
-                { label: "$200", value: "200" },
-              ]}
-            />
-            <CustomSelect
-              value=""
-              onChange={() => {}}
-              placeholder="Leave a brief comment here"
-              className="text-gray-500"
-            />
-          </div>
+        </div>
+        {/* Comment/Message Section */}
+        <div className="flex flex-col gap-1.5 w-full mt-2">
+          <label className="text-sm font-semibold text-emerald-900 ml-1">
+            Message (Optional)
+          </label>
+          <Textarea
+            placeholder="Leave a brief comment here"
+            className="text-gray-700 min-h-[100px] bg-white"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
         </div>
 
         {/* Payment Method */}
@@ -135,21 +195,26 @@ export const DonationForm: React.FC = () => {
             <div className="flex gap-1">
               <Image
                 src="/bg/payment-methods.png"
-                alt=""
-                width={550}
-                height={550}
+                alt="Payment Methods"
+                width={300} // Adjusted width to be more reasonable
+                height={50}
+                className="object-contain h-8 w-auto" // Added classes to control size
               />
             </div>
           </div>
           <CustomSelect
             placeholder="Select a Payment Method"
-            value=""
-            onChange={() => {}}
+            value={paymentMethod}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+            options={[
+              { label: "M-pesa", value: "mpesa" },
+              { label: "Stripe", value: "stripe" },
+            ]}
           />
         </div>
 
         {/* Privacy Checkbox */}
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-2 sr-only">
           <label className="text-sm font-bold text-emerald-900 ml-1">
             May we thank you publicly?
           </label>

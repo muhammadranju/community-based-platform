@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import ActiveUserTracker from "@/components/shared/ActiveUserTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         <main className="grow">{children}</main>
+        <ActiveUserTracker />
         <GoogleAnalytics gaId="G-VQ85QD16DX" />
         <Toaster richColors />
       </body>

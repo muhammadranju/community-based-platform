@@ -26,6 +26,7 @@ interface DiscussionData {
   posts: string;
   views: string;
   lastUpdated: string;
+  type: string;
   updatedBy?: string;
   variant: "blue" | "green" | "purple" | "red" | "gold" | "orange";
   iconType:
@@ -37,34 +38,6 @@ interface DiscussionData {
     | "community";
   link?: string;
 }
-
-// --- Mock Data ---
-const discussions: DiscussionData[] = [
-  {
-    id: 2,
-    title: "General Discussion on African Indigenous Architecture",
-    description:
-      "Talk about the big picture. Ideas, opinions, questions, and trends related to traditional architecture across the continent.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    variant: "green",
-    iconType: "introductions",
-    link: "dfdadds",
-  },
-  {
-    id: 1,
-    title: "General Discussion on African Indigenous Architecturess",
-    description:
-      "Talk about the big picture. Ideas, opinions, questions, and trends related to traditional architecture across the continent.",
-    posts: "59",
-    views: "1,441",
-    lastUpdated: "Yesterday at 2:02 PM",
-    variant: "green",
-    iconType: "introductions",
-    link: "dfdadds",
-  },
-];
 
 const StatBlock = ({
   label,
@@ -322,7 +295,7 @@ export default function page() {
           {/* Section 2: Cultural & Historical */}
           <div className="space-y-6">
             <div className="space-y-4">
-              {forumData.map((discussion) => (
+              {forumData.map((discussion: any) => (
                 <ForumCard
                   key={discussion.id}
                   data={discussion}

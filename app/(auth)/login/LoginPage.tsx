@@ -75,7 +75,15 @@ export default function LoginPage() {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       Cookies.set("token", token);
-      router.push("/dashboard/overview");
+
+      if (
+        data.data.user.role === "ADMIN" ||
+        data.data.user.role === "SUPER_ADMIN"
+      ) {
+        router.push("/dashboard/overview");
+      } else {
+        router.push("/dashboard/users/overview");
+      }
     }
   }
 
