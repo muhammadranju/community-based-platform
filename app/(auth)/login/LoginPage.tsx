@@ -75,7 +75,7 @@ export default function LoginPage() {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       Cookies.set("token", token);
-      // router.push("/dashboard/overview");
+      router.push("/dashboard/overview");
     }
   }
 
