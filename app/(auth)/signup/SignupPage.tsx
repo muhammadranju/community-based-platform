@@ -1,12 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GoogleLogin } from "@react-oauth/google";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
 import * as z from "zod";
 
+import AuthHeader from "@/components/auth/AuthHeader";
+import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,13 +20,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Cookies from "js-cookie";
 import Link from "next/link";
-import AuthHeader from "@/components/auth/AuthHeader";
-import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
-import { Badge } from "@/components/ui/badge";
 
-const image = "/Rectangle.png";
-const bottomImage = "/bg/Rectangle4.png";
+import { authFetch } from "@/lib/authFetch";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 // --- Schema Definition ---
 const formSchema = z.object({
@@ -40,6 +43,9 @@ const formSchema = z.object({
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const router = useRouter();
 
   // --- Form Setup ---
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,11 +57,67 @@ export default function SignupPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Simulate API call
-    alert(JSON.stringify(values, null, 2));
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { email, password } = values;
+    setLoading(true);
+    const response = await authFetch("/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, name: values.username }),
+    });
+    if (!response.ok) {
+      setLoading(false);
+      toast.error("Failed to signup");
+    }
+    const data = await response.json();
+
+    if (data.success) {
+      setLoading(false);
+
+      toast.success("Signup successful");
+
+      router.push("/login");
+    }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+
+    if (token && savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  // Success callback
+  const handleGoogleSignup = async (credentialResponse: any) => {
+    if (!credentialResponse?.credential) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_API_URL_GOOGLE as string,
+        { idToken: credentialResponse.credential },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      const { token, user } = response.data;
+
+      console.log(response.data);
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      Cookies.set("token", token);
+      setUser(user);
+      router.push("/dashboard/overview");
+    } catch (error: any) {
+      console.error("Login failed:", error.response?.data || error.message);
+      toast.success("Login failed. Check console for details.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white  overflow-x-hidden ">
@@ -203,8 +265,9 @@ export default function SignupPage() {
                 <Button
                   type="submit"
                   className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
+                  disabled={loading}
                 >
-                  Create Account
+                  {loading ? "Creating..." : "Create Account"}
                 </Button>
 
                 {/* Divider */}
@@ -220,15 +283,29 @@ export default function SignupPage() {
                 </div>
 
                 {/* Google Button */}
-                <Button
+                <div className="flex justify-center w-full">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSignup}
+                    onError={() => toast.error("Google login failed")}
+                    useOneTap
+                    theme="outline"
+                    size="large"
+                    text="continue_with"
+                    shape="rectangular"
+                    width="1000"
+                  />
+                </div>
+
+                {/* Custom Google Button */}
+                {/* <Button
                   type="button"
                   variant="outline"
-                  className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm  transition-all"
-                  onClick={() => console.log("Google Login")}
+                  className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm transition-all"
+                  onClick={() => googleLogin()}
                 >
                   <FcGoogle className="w-5 h-5" />
                   Continue with Google
-                </Button>
+                </Button> */}
               </form>
             </Form>
           </div>

@@ -1,4 +1,11 @@
+"use client";
+import getUser from "@/components/shared/UserInfo";
+
 const page = () => {
+  const user = getUser();
+
+  console.log(user);
+
   return (
     <div className="w-full ">
       {/* Page Header */}
@@ -13,16 +20,16 @@ const page = () => {
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-10">
           <div className="relative shrink-0">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80"
+              src={`${process.env.NEXT_PUBLIC_API_URL}${user?.image}`}
               alt="Profile"
               className="w-24 h-24 rounded-full object-cover border-4 border-gray-200/50 shadow-sm"
             />
           </div>
           <div className="text-center sm:text-left mt-2">
             <h2 className="text-2xl font-bold text-teal-900 mb-1">
-              Md Zillur Masud
+              {user?.name}
             </h2>
-            <p className="text-gray-600 text-sm">Member Since 2023-05-08</p>
+            <p className="text-gray-600 text-sm">{user?.email}</p>
           </div>
         </div>
 
@@ -34,27 +41,7 @@ const page = () => {
               <label className="text-gray-600 text-sm block">Fill Name</label>
               <input
                 type="text"
-                defaultValue="Md Zillur Masud"
-                className="w-full px-4 py-3.5 rounded-xl bg-white text-teal-900 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-teal-900/10 shadow-sm"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="space-y-2">
-              <label className="text-gray-600 text-sm block">Email</label>
-              <input
-                type="email"
-                defaultValue="masudahsan21@gmail.com"
-                className="w-full px-4 py-3.5 rounded-xl bg-white text-teal-900 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-teal-900/10 shadow-sm"
-              />
-            </div>
-
-            {/* Country */}
-            <div className="space-y-2">
-              <label className="text-gray-600 text-sm block">Country</label>
-              <input
-                type="text"
-                defaultValue="Md Zillur Masud"
+                defaultValue={user?.name || "N/A"}
                 className="w-full px-4 py-3.5 rounded-xl bg-white text-teal-900 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-teal-900/10 shadow-sm"
               />
             </div>
@@ -66,7 +53,7 @@ const page = () => {
               </label>
               <input
                 type="text"
-                defaultValue="https://dribbble.com/mrstudio"
+                defaultValue={user?.website || "N/A"}
                 className="w-full px-4 py-3.5 rounded-xl bg-white text-teal-900 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-teal-900/10 shadow-sm"
               />
             </div>
@@ -77,6 +64,7 @@ const page = () => {
             <label className="text-gray-600 text-sm block">Short Bio</label>
             <textarea
               rows={6}
+              defaultValue={user?.bio || "N/A"}
               className="w-full px-4 py-3.5 rounded-xl bg-white text-teal-900 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-teal-900/10 resize-none shadow-sm"
             ></textarea>
           </div>

@@ -3,8 +3,10 @@ import {
   ACTIVITY_ITEMS,
   OVERVIEW_CHART_DATA,
 } from "@/components/dashboard/constants";
-import { StatsGrid } from "@/components/dashboard/overview/StatsGrid";
-import { CircleDot, Flag, Upload, User } from "lucide-react";
+import { UsersUploadsChart } from "@/components/dashboard/overview/UserCharts";
+import { UserStatsGrid } from "@/components/dashboard/overview/UserStatsGrid";
+import { authFetch } from "@/lib/authFetch";
+import { useEffect, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 // import { OVERVIEW_CHART_DATA, ACTIVITY_ITEMS } from "../constants";
 
@@ -25,10 +27,22 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const UserOverview = () => {
+  const [analytics, setAnalytics] = useState([]);
+  const getAnalytics = async () => {
+    const res = await authFetch("/analytics/user-dashboard-stats", {
+      method: "GET",
+      auth: true,
+    });
+    const data = await res.json();
+    setAnalytics(data?.data);
+  };
+  useEffect(() => {
+    getAnalytics();
+  }, []);
   return (
     <div className="w-full space-y-8">
       {/* Top Stats Cards */}
-      <StatsGrid />
+      <UserStatsGrid analytics={analytics} />
 
       {/* Main Content Split */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

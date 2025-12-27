@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import {
   ChartNoAxesColumn,
   Component,
+  Form,
   LogOut,
   NotebookPen,
   Upload,
@@ -45,6 +46,12 @@ const userNavItems: NavItem[] = [
     label: "Upload Content",
     icon: <IoCloudUploadOutline size={20} />,
   },
+  {
+    href: "/dashboard/upload-forum",
+    label: "Upload Forum",
+    icon: <Form size={20} />,
+  },
+
   {
     href: "/dashboard/profile",
     label: "Profile",

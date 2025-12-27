@@ -1,25 +1,21 @@
 import { ChartSpline, Flag, Upload, User } from "lucide-react";
 import React from "react";
 
-export const StatsGrid = ({ analytics }: any) => {
+export const UserStatsGrid = ({ analytics }: any) => {
   const STATS_CARDS = [
-    { label: "Total users", value: analytics?.totalUsers, icon: <User /> },
     {
       label: "Total Uploads",
       value: analytics?.totalUploads,
       icon: <Upload />,
     },
-    {
-      label: "Active (30d)",
-      value: analytics?.activeUsers30d,
-      icon: <ChartSpline />,
-    },
+
     { label: "Forums", value: analytics?.totalForums, icon: <Flag /> },
   ];
+
+  console.log(analytics);
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       {STATS_CARDS.map((stat, index) => {
-        // const Icon = IconMap[stat.icon];
         return (
           <div
             key={index}

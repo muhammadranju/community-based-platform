@@ -4,9 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
 import * as z from "zod";
 
+import AuthHeader from "@/components/auth/AuthHeader";
+import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,15 +19,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
-import Link from "next/link";
-import AuthHeader from "@/components/auth/AuthHeader";
-import { Badge } from "@/components/ui/badge";
 import { authFetch } from "@/lib/authFetch";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import Cookies from "js-cookie";
-// --- Schema Definition ---
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 const formSchema = z.object({
   email: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -40,6 +41,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [user, setUser] = useState(null);
 
   // --- Form Setup ---
   const form = useForm<z.infer<typeof formSchema>>({
@@ -87,6 +89,33 @@ export default function LoginPage() {
     }
   }
 
+  const handleGoogleLogin = async (credentialResponse: any) => {
+    if (!credentialResponse?.credential) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_API_URL_GOOGLE as string,
+        { idToken: credentialResponse.credential },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      const { token, user } = response.data;
+
+      console.log(response.data);
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      Cookies.set("token", token);
+      setUser(user);
+      router.push("/dashboard/overview");
+    } catch (error: any) {
+      console.error("Login failed:", error.response?.data || error.message);
+      toast.success("Login failed. Check console for details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white  overflow-x-hidden">
       <LoginLeftDesign link="/signup" text="Sign Up" />
@@ -121,7 +150,7 @@ export default function LoginPage() {
 
             <div className="lg:block hidden">
               {/* Google Button */}
-              <Button
+              {/* <Button
                 type="button"
                 variant="outline"
                 className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm shadow-sm transition-all"
@@ -129,7 +158,19 @@ export default function LoginPage() {
               >
                 <FcGoogle className="w-5 h-5" />
                 Continue with Google
-              </Button>
+              </Button> */}
+              <div className="flex justify-center w-full">
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={() => toast.error("Google login failed")}
+                  useOneTap
+                  theme="outline"
+                  size="large"
+                  text="continue_with"
+                  shape="rectangular"
+                  width="1000"
+                />
+              </div>
 
               {/* Divider */}
               <div className="relative my-6">
@@ -235,8 +276,20 @@ export default function LoginPage() {
                     </div>
                   </div>
 
+                  <div className="flex justify-center w-full">
+                    <GoogleLogin
+                      onSuccess={handleGoogleLogin}
+                      onError={() => toast.error("Google login failed")}
+                      useOneTap
+                      theme="outline"
+                      size="large"
+                      text="continue_with"
+                      shape="rectangular"
+                      width="1000"
+                    />
+                  </div>
                   {/* Google Button */}
-                  <Button
+                  {/* <Button
                     type="button"
                     variant="outline"
                     className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm shadow-sm transition-all"
@@ -244,7 +297,7 @@ export default function LoginPage() {
                   >
                     <FcGoogle className="w-5 h-5" />
                     Continue with Google
-                  </Button>
+                  </Button> */}
                 </div>
               </form>
             </Form>

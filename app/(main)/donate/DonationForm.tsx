@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { CustomSelect } from "./CustomSelect";
 import { RadioSection } from "./RadioSection";
 import { Textarea } from "@/components/ui/textarea";
+import { authFetch } from "@/lib/authFetch";
 
 export enum DonationCategory {
   MONETARY = "MONETARY",
@@ -46,35 +47,45 @@ export const DonationForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      firstName,
-      lastName,
-      email,
-      phone,
-      country,
-      donationType,
-      donationCategory,
-      amount,
-      message,
-      isAnonymous,
-    });
-    alert("Thank you for your donation!");
+
+    if (paymentMethod === "mpesa") {
+      handelMPesa();
+    } else if (paymentMethod === "stripe") {
+      handelStripe();
+    }
   };
 
-  const handelMPesa = () => {
-    console.log(paymentMethod);
-    console.log({
-      firstName,
-      lastName,
-      email,
-      phone,
-      country,
-      donationType,
-      donationCategory,
-      amount,
-      message,
-      isAnonymous,
+  const handelStripe = async () => {
+    const res = await authFetch(`/donation/create-payment-link`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        phoneNumber: phone,
+        country,
+        volunteerCategory: donationType,
+        donationCategory,
+        description: message,
+        amount,
+      }),
+      auth: false,
     });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("Error:", text);
+      return;
+    }
+
+    const data = await res.json();
+    window.location.href = data.url; // redirect to Stripe Payment Link
+    console.log(paymentMethod);
+  };
+
+  const handelMPesa = async () => {
+    console.log(paymentMethod);
   };
 
   return (
