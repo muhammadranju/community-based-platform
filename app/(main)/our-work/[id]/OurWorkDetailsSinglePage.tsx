@@ -3,6 +3,7 @@ import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import CopyPath from "@/components/shared/CopyPath";
 import CustomBadge from "@/components/shared/SharedBadge";
 import { CommentsSection } from "@/components/sub_our_work/Comments";
+import { ContentCommentsSection } from "@/components/sub_our_work/ContentComments";
 import {
   DocumentItem,
   DocumentsCard,
@@ -20,6 +21,7 @@ function OurWorkDetailsSinglePage() {
   const searchParams = useSearchParams();
   const search = searchParams.get("region");
   const [data, setData] = useState<any>(null);
+  const [comments, setComments] = useState<any>(null);
   const { id } = useParams();
   const copy = () => {
     CopyPath();
@@ -29,7 +31,8 @@ function OurWorkDetailsSinglePage() {
   const getSingleData = async () => {
     const response = await authFetch(`/contents/${id}`);
     const data = await response.json();
-    setData(data?.data);
+    setData(data?.data?.result);
+    setComments(data?.data?.commentsByContents);
 
     console.log(data);
   };
@@ -47,7 +50,7 @@ function OurWorkDetailsSinglePage() {
       return {
         id: String(index + 1),
         title,
-        subtitle: `PDF Document • ${arr.length}`,
+        subtitle: `PDF Document • ${arr?.length}`,
         owner: data?.owner.name,
         type: "pdf",
       };
@@ -94,7 +97,7 @@ function OurWorkDetailsSinglePage() {
             {/* Content Grid */}
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <MediaCard
-                count={data?.images.length}
+                count={data?.images?.length}
                 label="Photos"
                 type="photos"
                 // Using a distinct image of Maasai or similar landscape
@@ -102,7 +105,7 @@ function OurWorkDetailsSinglePage() {
                 url={`/our-work/our-work-details/photos?region=${search}&slug=${id}`}
               />
               <MediaCard
-                count={data?.medias.length}
+                count={data?.medias?.length}
                 label="Videos"
                 type="videos"
                 // Using a distinct image of Maasai people walking or gathering
@@ -113,7 +116,7 @@ function OurWorkDetailsSinglePage() {
               />
               <DocumentsCard
                 documents={MOCK_DOCS?.slice(0, 3)}
-                totalCount={data?.pdfs.length}
+                totalCount={data?.pdfs?.length}
                 owner={data?.owner.name}
                 url={`/our-work/our-work-details/pdfs?region=${search}&slug=${id}`}
               />
@@ -126,7 +129,7 @@ function OurWorkDetailsSinglePage() {
 
               <h2 className="text-4xl md:text-5xl font-bold text-emerald-900">
                 About the{" "}
-                {data?.title.length > 10
+                {data?.title?.length > 10
                   ? data?.title.slice(0, 10) + "..."
                   : data?.title}
               </h2>
@@ -162,13 +165,17 @@ function OurWorkDetailsSinglePage() {
 
           {/* Content Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-            {GUIDE_DATA.map((section) => (
+            {GUIDE_DATA?.map((section) => (
               <SectionCard key={section.id} data={section} />
             ))}
           </div>
         </div>
       </div>
-      <CommentsSection />
+      <ContentCommentsSection
+        comments={comments}
+        contentData={data}
+        onCommentAdded={getSingleData}
+      />
     </>
   );
 }

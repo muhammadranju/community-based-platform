@@ -1,13 +1,26 @@
-import React from "react";
-import { Search, ChevronDown, Menu } from "lucide-react";
-import UserInfo from "../shared/UserInfo";
+"use client";
+import { authFetch } from "@/lib/authFetch";
+import { ChevronDown, Menu } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 interface TopBarProps {
   toggleSidebar: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ toggleSidebar }) => {
-  const user = UserInfo();
+  const [user, setUser] = useState<any>({});
+  // const user = UserInfo();
+  const getUserData = async () => {
+    const response = await authFetch("/user/profile");
+    const user = await response.json();
+    setUser(user.data);
+    console.log(user.data);
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
       <div className="flex items-center gap-4">
@@ -55,7 +68,7 @@ export const TopBar: React.FC<TopBarProps> = ({ toggleSidebar }) => {
         {/* Profile */}
         <div className="flex items-center gap-3 pl-2 cursor-pointer">
           <img
-            src="https://picsum.photos/100/100"
+            src={`${process.env.NEXT_PUBLIC_API_URL}${user?.image}`}
             alt="Profile"
             className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
           />

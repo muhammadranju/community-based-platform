@@ -37,7 +37,7 @@ export const Gallery: React.FC = () => {
     try {
       const response = await authFetch(`/contents/${slug}`);
       const data = await response.json();
-      const contentData = data?.data;
+      const contentData = data?.data?.result;
 
       if (contentData && contentData.images) {
         const mappedItems: GalleryItem[] = contentData.images.map(

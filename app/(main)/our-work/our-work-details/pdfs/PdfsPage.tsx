@@ -1,12 +1,11 @@
 "use client";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { PDFActionBar } from "./PDFActionBar";
-import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/authFetch";
+import { ArrowLeft } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const PDFSidebar = dynamic(
   () => import("./PDFSidebar").then((mod) => mod.PDFSidebar),
@@ -39,6 +38,7 @@ function PdfsPage() {
   const [loading, setLoading] = useState(true);
   const [playlist, setPlaylist] = useState<DocumentItem[]>([]);
   const [currentPdfIndex, setCurrentPdfIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const fetchPDF = async () => {
     if (!slug) return;
@@ -46,7 +46,7 @@ function PdfsPage() {
       console.log("Fetching PDF for slug:", slug);
       const response = await authFetch(`/contents/${slug}`, { auth: false });
       const data = await response.json();
-      const contentData = data?.data;
+      const contentData = data?.data?.result;
 
       console.log("Content data received:", contentData);
 
@@ -82,16 +82,19 @@ function PdfsPage() {
   const handlePdfSelect = (index: number) => {
     setCurrentPdfIndex(index);
   };
+  const handlePageSelect = (index: number) => {
+    setCurrentPage(index + 1);
+  };
 
   const currentPdf = playlist[currentPdfIndex];
-
+  console.log("ranju", playlist);
   return (
     <div className="flex flex-col lg:px-0 px-4 lg:max-w-[1300px] mx-auto">
       <div className="max-w-7xl mx-auto">
         <HeaderBanner />
       </div>
       <div className="">
-        <div className="max-w-[1580px] mx-auto h-[calc(100vh-1rem)] flex flex-col">
+        <div className="max-w-[1580px] mx-auto h-[calc(100vh-0.5rem)] flex flex-col">
           {/* Top Navigation / Back Button */}
           <Button
             onClick={() => router.back()}
@@ -134,17 +137,20 @@ function PdfsPage() {
                     url={currentPdf.url}
                     title={currentPdf.name}
                     companyName={currentPdf.role}
+                    currentPage={currentPage}
                   />
                 )}
               </div>
             </div>
 
             <div className="col-span-1 lg:col-span-2 h-full min-h-0 hidden md:block">
-              {playlist.length > 0 && (
+              {currentPdf && (
                 <PDFThumbnailStrip
-                  documents={playlist}
-                  currentIndex={currentPdfIndex}
-                  onSelect={handlePdfSelect}
+                  pdfUrl={currentPdf.url}
+                  title={currentPdf.name}
+                  companyName={currentPdf.role}
+                  currentIndex={currentPdfIndex - 1}
+                  onSelect={handlePageSelect}
                 />
               )}
             </div>
@@ -152,7 +158,15 @@ function PdfsPage() {
         </div>
       </div>
 
-      <DocumentGallery />
+      <div>
+        {currentPdf && (
+          <DocumentGallery
+            url={currentPdf.url}
+            title={currentPdf.name}
+            companyName={currentPdf.role}
+          />
+        )}
+      </div>
     </div>
   );
 }

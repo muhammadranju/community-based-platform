@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Image as ImageIcon, Video, FileText, Upload, X } from "lucide-react";
+import { authFetch } from "@/lib/authFetch";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const regions = [
   "east",
@@ -51,6 +54,7 @@ export const UploadContentPage: React.FC = () => {
   });
 
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleTextChange = (
@@ -84,7 +88,18 @@ export const UploadContentPage: React.FC = () => {
       }
     } else {
       const files = Array.from(e.target.files);
-      setFormData((prev) => ({ ...prev, [field]: files }));
+      setFormData((prev) => ({ ...prev, [field]: [...prev[field], ...files] }));
+
+      // Generate previews only for additional images
+      if (field === "images") {
+        files.forEach((file) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImagePreviews((prev) => [...prev, reader.result as string]);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
     }
   };
 
@@ -93,6 +108,10 @@ export const UploadContentPage: React.FC = () => {
       ...prev,
       [field]: prev[field].filter((_, i) => i !== index),
     }));
+
+    if (field === "images") {
+      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    }
   };
 
   const removeCover = () => {
@@ -100,31 +119,74 @@ export const UploadContentPage: React.FC = () => {
     setCoverPreview(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    const submission = {
-      title: formData.title,
-      shortDescription: formData.shortDescription,
-      description: formData.description,
-      region: formData.region,
-      country: "tanzania", // hardcoded as in Postman example
-      category: formData.category,
-      coverImage: formData.coverImage ? formData.coverImage.name : null,
-      images: formData.images.map((f) => f.name),
-      medias: formData.medias.map((f) => f.name),
-      pdfs: formData.pdfs.map((f) => f.name),
-    };
+    const formDataToSubmit = new FormData();
+    formDataToSubmit.append("title", formData.title);
+    formDataToSubmit.append("shortDescription", formData.shortDescription);
+    formDataToSubmit.append("description", formData.description);
+    formDataToSubmit.append("region", formData.region);
+    formDataToSubmit.append("country", "tanzania");
+    formDataToSubmit.append("category", formData.category);
 
-    console.log("Form Submitted:", submission);
-    console.log("Raw FormData:", formData);
+    if (formData.coverImage) {
+      formDataToSubmit.append("coverImage", formData.coverImage);
+    }
 
-    // // You can replace the above with your API call later
-    // alert("Check console for submitted data!");
+    formData.images.forEach((file) => {
+      formDataToSubmit.append("images", file);
+    });
+
+    formData.medias.forEach((file) => {
+      formDataToSubmit.append("medias", file);
+    });
+
+    formData.pdfs.forEach((file) => {
+      formDataToSubmit.append("pdfs", file);
+    });
+
+    try {
+      const response = await authFetch("/contents", {
+        method: "POST",
+        body: formDataToSubmit,
+        auth: true,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload content");
+      }
+
+      const data = await response.json();
+      console.log("Upload successful:", data);
+      toast.success("Content uploaded successfully!");
+
+      // Reset form
+      setFormData({
+        title: "",
+        shortDescription: "",
+        description: "",
+        region: "",
+        category: "",
+        coverImage: null,
+        images: [],
+        medias: [],
+        pdfs: [],
+        country: "tanzania",
+      });
+      setCoverPreview(null);
+      setImagePreviews([]);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to upload content");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="w-full  mx-auto shadow-lg p-6 rounded-xl">
+    <div className="w-full  mx-auto ">
       <div className="mb-5">
         <h1 className="text-4xl font-bold text-emerald-900 mb-2">
           Upload Content
@@ -134,7 +196,10 @@ export const UploadContentPage: React.FC = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-8 bg-white rounded-2xl shadow-lg p-8 border border-gray-100"
+      >
         {/* Text Fields */}
         <div className="grid md:grid-cols-2 gap-6">
           <div>
@@ -298,7 +363,7 @@ export const UploadContentPage: React.FC = () => {
                 onDrop={(e) => {
                   e.preventDefault();
                   const droppedFiles = Array.from(e.dataTransfer.files);
-                  setFormData((prev) => ({
+                  setFormData((prev: any) => ({
                     ...prev,
                     [field]: [...prev[field], ...droppedFiles].slice(0, 6),
                   }));
@@ -317,20 +382,44 @@ export const UploadContentPage: React.FC = () => {
                 </label>
               </UploadCard>
 
-              {files.length > 0 && (
+              {files.length > 0 && field === "images" && (
+                <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {imagePreviews.map((preview, i) => (
+                    <div
+                      key={i}
+                      className="relative rounded-lg overflow-hidden h-24 border border-gray-200 shadow-sm"
+                    >
+                      <img
+                        src={preview}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeFile("images", i)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {files.length > 0 && field !== "images" && (
                 <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {files.map((file, i) => (
                     <div
                       key={i}
-                      className="relative bg-gray-100 rounded-lg p-3 text-center"
+                      className="relative bg-gray-100 rounded-lg p-3 text-center border border-gray-200"
                     >
-                      <p className="text-xs text-gray-700 truncate">
+                      <p className="text-xs text-gray-700 truncate pr-4">
                         {file.name}
                       </p>
                       <button
                         type="button"
                         onClick={() => removeFile(field as any, i)}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm"
                       >
                         <X size={12} />
                       </button>
@@ -343,12 +432,12 @@ export const UploadContentPage: React.FC = () => {
         })}
 
         <div className="pt-6 flex justify-center">
-          <button
+          <Button
             type="submit"
-            className="w-full sm:w-auto px-36 py-4 bg-emerald-900 text-white font-semibold rounded-xl hover:bg-emerald-800 transition shadow-lg cursor-pointer"
+            className="w-full sm:w-auto px-36 py-6 bg-emerald-900 text-white font-semibold rounded-xl hover:bg-emerald-800 transition shadow-lg cursor-pointer"
           >
             Submit Content
-          </button>
+          </Button>
         </div>
       </form>
     </div>

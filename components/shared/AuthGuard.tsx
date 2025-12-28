@@ -117,6 +117,7 @@ const ROUTE_PERMISSIONS = {
     "/dashboard/upload-forum",
     "/dashboard/profile",
     "/dashboard/settings",
+    "/dashboard/my-forums",
   ],
 };
 

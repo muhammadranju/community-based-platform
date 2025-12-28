@@ -37,7 +37,12 @@ export const PDFSidebar: React.FC<PDFSidebarProps> = ({
                 className={`flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg mr-4`}
               >
                 {isActive ? (
-                  <FileText className="w-6 h-6 text-white" />
+                  // <FileText className="w-6 h-6 text-white" />
+                  <img
+                    src="/bg/pdf-icon.png"
+                    className="w-8 h-8 group-hover:invert-100 text-white"
+                    alt="PDF"
+                  />
                 ) : (
                   <div className="relative">
                     <img
@@ -45,7 +50,12 @@ export const PDFSidebar: React.FC<PDFSidebarProps> = ({
                       className="w-8 h-8 group-hover:hidden"
                       alt="PDF"
                     />
-                    <FileText className="w-6 h-6 text-white hidden group-hover:block" />
+                    <img
+                      src="/bg/pdf-icon.png"
+                      className="w-8 h-8 hidden group-hover:block  group-hover:invert-100"
+                      alt="PDF"
+                    />
+                    {/* <FileText className="w-6 h-6 text-white hidden group-hover:block" /> */}
                   </div>
                 )}
               </div>

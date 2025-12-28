@@ -3,7 +3,6 @@ import {
   ACTIVITY_ITEMS,
   OVERVIEW_CHART_DATA,
 } from "@/components/dashboard/constants";
-import { UsersUploadsChart } from "@/components/dashboard/overview/UserCharts";
 import { UserStatsGrid } from "@/components/dashboard/overview/UserStatsGrid";
 import { authFetch } from "@/lib/authFetch";
 import { useEffect, useState } from "react";
@@ -26,19 +25,39 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+interface IUploadContents {
+  title: string;
+  coverImage: string;
+  status: string;
+  description: string;
+}
+
 const UserOverview = () => {
   const [analytics, setAnalytics] = useState([]);
+  const [uploadContents, setUploadContents] = useState<IUploadContents[]>([]);
+
   const getAnalytics = async () => {
     const res = await authFetch("/analytics/user-dashboard-stats", {
       method: "GET",
       auth: true,
     });
+
+    const uploadRes = await authFetch("/contents/users?limit=6", {
+      method: "GET",
+      auth: true,
+    });
+
     const data = await res.json();
     setAnalytics(data?.data);
+
+    const uploadData = await uploadRes.json();
+    setUploadContents(uploadData?.data?.contents);
   };
   useEffect(() => {
     getAnalytics();
   }, []);
+
+  console.log(uploadContents);
   return (
     <div className="w-full space-y-8">
       {/* Top Stats Cards */}
@@ -117,24 +136,31 @@ const UserOverview = () => {
           <div className="mb-6">
             <h2 className="text-xl font-bold text-teal-900">Latest Activity</h2>
             <p className="text-sm text-gray-500">
-              Recent changes to your content
+              Recent uploaded to your contents
             </p>
           </div>
 
           <div className="space-y-4">
-            {ACTIVITY_ITEMS.map((item, idx) => (
+            {uploadContents.map((item, idx) => (
               <div key={idx} className="bg-[#e4ede4] p-4 rounded-xl">
                 <h4 className="font-bold text-teal-900 text-sm mb-2">
                   {item.title}
                 </h4>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-start items-center gap-4">
                   <span className="text-xs text-gray-500 font-medium">
-                    {item.type}
+                    {/* <img
+                      src={`${process.env.NEXT_PUBLIC_API_URL}${item.coverImage}`}
+                      className="w-24 h-24 object-cover"
+                      alt=""
+                    /> */}
+                    {item.description.length > 100
+                      ? item.description.substring(0, 100) + "..."
+                      : item.description}
                   </span>
                   <span
                     className={`text-xs px-3 py-1 rounded-full font-medium
                     ${
-                      item.status === "Published"
+                      item.status === "approved"
                         ? "bg-[#bbf7d0] text-green-800"
                         : item.status === "In Review"
                         ? "bg-[#fed7aa] text-orange-800"
@@ -142,7 +168,11 @@ const UserOverview = () => {
                     }
                   `}
                   >
-                    {item.status}
+                    {item.status === "approved"
+                      ? "Approved"
+                      : item.status === "In Review"
+                      ? "In Review"
+                      : "Pending"}
                   </span>
                 </div>
               </div>

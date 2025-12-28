@@ -110,8 +110,13 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
             className="flex items-center justify-between p-4 bg-accent-bg/50 rounded-2xl group hover:bg-gray-100 transition-colors cursor-pointer"
           >
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0 text-red-500">
-                <PdfIcon className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-red-500">
+                {/* <PdfIcon className="w-6 h-6" /> */}
+                <img
+                  src="/bg/pdf-icon.png"
+                  className="w-8 h-8 group-hover:invert-100 text-white"
+                  alt="PDF"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-emerald-900 text-sm">

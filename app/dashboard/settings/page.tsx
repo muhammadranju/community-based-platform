@@ -2,7 +2,7 @@ import { Trash2, Upload } from "lucide-react";
 
 function page() {
   return (
-    <div className="w-full max-w-5xl">
+    <div className="w-full h-full">
       {/* Page Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-teal-900 mb-1">

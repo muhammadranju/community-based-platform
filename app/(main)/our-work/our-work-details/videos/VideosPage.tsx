@@ -33,7 +33,7 @@ function VideosPage() {
     try {
       const response = await authFetch(`/contents/${slug}`);
       const data = await response.json();
-      const contentData = data?.data;
+      const contentData = data?.data?.result;
       setContent(contentData);
 
       if (contentData?.medias) {

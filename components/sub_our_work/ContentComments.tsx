@@ -1,3 +1,5 @@
+import { authFetch } from "@/lib/authFetch";
+import { format, parseISO } from "date-fns";
 import {
   ArrowRight,
   Bold,
@@ -5,9 +7,9 @@ import {
   ChevronRight,
   Copy,
   FileText,
-  Image as ImageIcon,
+  ImageIcon,
   Italic,
-  Link as LinkIcon,
+  LinkIcon,
   List,
   MessageCircle,
   Paperclip,
@@ -15,17 +17,15 @@ import {
   Smile,
   Underline,
   Video,
+  X,
   Youtube,
 } from "lucide-react";
-import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { authFetch } from "@/lib/authFetch";
-import getUser from "../shared/UserInfo";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import slugify from "slugify";
-import { X } from "lucide-react";
-import { format, parseISO } from "date-fns";
+import { toast } from "sonner";
+import getUser from "../shared/UserInfo";
+import { Button } from "../ui/button";
 import { costumFormatDate } from "../shared/DateTime";
 
 // --- Types ---
@@ -141,7 +141,6 @@ export const Pagination = ({
 const FileCard = ({ file }: { file: Attachment }) => (
   <div className="bg-white border rounded-xl overflow-hidden hover:shadow-md transition-shadow flex flex-col group cursor-pointer">
     <div className="h-48 overflow-hidden bg-gray-50 relative p-4 flex items-center justify-center border-b">
-      {/* Simulate PDF Preview */}
       <div className="bg-white shadow-sm border w-32 h-40 mx-auto p-2 text-[6px] text-gray-400 overflow-hidden leading-tight">
         <div className="w-full h-2 bg-gray-200 mb-2"></div>
         <div className="w-3/4 h-2 bg-gray-200 mb-2"></div>
@@ -207,9 +206,8 @@ const VideoCard = ({ video }: { video: Attachment }) => (
 const CommentItem = ({ comment }: { comment: CommentData }) => {
   return (
     <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* User Sidebar */}
       <div className="shrink-0 md:w-48 ">
-        <div className="border border-emerald-900 rounded-xl p-4 flex flex-row md:flex-col items-center gap-3 md:gap-4 bg-white h-full md:h-auto">
+        <div className="border border-emerald-900 rounded-xl p-4 flex flex-row md:flex-col items-center  gap-3 md:gap-4 bg-white h-full md:h-auto">
           <img
             src={`${process.env.NEXT_PUBLIC_API_URL}${comment.owner.image}`}
             alt={comment.owner.name}
@@ -228,7 +226,6 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex-grow min-w-0">
         <div className="mb-1 flex flex-col">
           <span className="text-emerald-900 lowercase font-medium text-sm md:text-base">
@@ -238,7 +235,7 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
               lower: true,
             })}
           </span>
-          <span className="text-xs text-emerald-900">
+          <span className="text-xs text-emerald-900 ">
             {costumFormatDate(comment.createdAt)}
           </span>
         </div>
@@ -250,10 +247,9 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
         <p className="text-emerald-900 text-sm md:text-base leading-relaxed mb-4">
           {comment.comment}
         </p>
-        {/* Attachments */}
         {comment.image && comment.image.length > 0 && (
           <div
-            className={`mb-4 grid gap-4 ${
+            className={`mb-4 grid gap-4  ${
               comment.image.length === 1
                 ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
                 : comment.image.length === 2
@@ -270,7 +266,7 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
                   <img
                     src={`${process.env.NEXT_PUBLIC_API_URL}${image}`}
                     alt="Attachment"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 rounded-2xl"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 rounded-2xl "
                   />
                 </div>
               );
@@ -282,40 +278,41 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
   );
 };
 
-export const CommentsSection = ({
+export const ContentCommentsSection = ({
   comments,
-  forumData,
+  contentData,
   onCommentAdded,
 }: {
   comments: CommentData[];
-  forumData: any;
+  contentData: any;
   onCommentAdded?: () => void;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(5); // Adjust this value as needed
 
   const user = getUser();
   const router = useRouter();
   const [formData, setFormData] = useState<any>({
     comment: "",
     images: [],
-    type: "forum",
-    forum: "",
+    type: "contents",
+    content: "",
   });
 
   // Calculate pagination
-  const totalPages = Math.ceil(comments.length / itemsPerPage);
+  const totalPages = Math.ceil(comments?.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedComments = comments.slice(startIndex, endIndex);
+  const paginatedComments = comments?.slice(startIndex, endIndex);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    // Scroll to comments section
     setTimeout(() => {
       document
-        .getElementById("forum-comments-section")
+        .getElementById("comments-section")
         ?.scrollIntoView({ behavior: "smooth" });
     }, 0);
   };
@@ -361,7 +358,7 @@ export const CommentsSection = ({
 
     formDataToSubmit.append("comment", formData.comment);
     formDataToSubmit.append("type", formData.type);
-    formDataToSubmit.append("forum", forumData?._id);
+    formDataToSubmit.append("content", contentData?._id);
 
     formData.images.forEach((file: File) => {
       formDataToSubmit.append("image", file);
@@ -375,10 +372,11 @@ export const CommentsSection = ({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to post comment");
+        throw new Error("Failed to upload content");
       }
 
       const data = await response.json();
+      console.log("Upload successful:", data);
       toast.success("Comment posted successfully!");
 
       if (onCommentAdded) {
@@ -388,8 +386,8 @@ export const CommentsSection = ({
       setFormData({
         comment: "",
         images: [],
-        type: "forum",
-        forum: forumData?._id,
+        type: "contents",
+        content: contentData?._id,
       });
       setImagePreviews([]);
 
@@ -397,7 +395,7 @@ export const CommentsSection = ({
       setCurrentPage(1);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to post comment");
+      toast.error("Failed to upload content");
     } finally {
       setIsLoading(false);
     }
@@ -406,14 +404,14 @@ export const CommentsSection = ({
   useEffect(() => {
     setFormData({
       ...formData,
-      forum: forumData?._id,
+      content: contentData?._id,
     });
-  }, [forumData]);
+  }, [contentData]);
 
   return (
     <div className="flex justify-center mb-10">
       <div
-        id="forum-comments-section"
+        id="comments-section"
         className="w-full border-2 border-emerald-900 rounded-3xl p-4 sm:p-8 md:p-12 shadow-sm relative overflow-hidden"
       >
         {/* Header Section */}
@@ -428,7 +426,7 @@ export const CommentsSection = ({
               Comment
             </h1>
           </div>
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 mt-2 sr-only">
             <input
               type="checkbox"
               id="save-info"
@@ -449,6 +447,7 @@ export const CommentsSection = ({
             <textarea
               className="w-full p-4 min-h-[140px] resize-none outline-none text-gray-700 placeholder:text-gray-400"
               placeholder="Write your message here"
+              name="comment"
               value={formData.comment}
               onChange={(e) =>
                 setFormData({ ...formData, comment: e.target.value })
@@ -458,6 +457,39 @@ export const CommentsSection = ({
             {/* Toolbar */}
             <div className="bg-white border-t border-emerald-900 p-3 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500">
+                <div className="flex items-center gap-2 sr-only">
+                  <button className="hover:text-primary p-1">
+                    <Bold size={16} />
+                  </button>
+                  <button className="hover:text-primary p-1">
+                    <Italic size={16} />
+                  </button>
+                  <button className="hover:text-primary p-1">
+                    <Underline size={16} />
+                  </button>
+                </div>
+                <div className="w-px h-4 bg-gray-200 hidden sm:block sr-only"></div>
+                <div className="flex items-center gap-2 sr-only">
+                  <button className="hover:text-primary p-1">
+                    <LinkIcon size={16} />
+                  </button>
+                  <button className="hover:text-primary p-1">
+                    <ImageIcon size={16} />
+                  </button>
+                  <button className="hover:text-primary p-1">
+                    <Video size={16} />
+                  </button>
+                </div>
+                <div className="w-px h-4 bg-gray-200 hidden sm:block sr-only"></div>
+                <div className="flex items-center gap-2 sr-only">
+                  <button className="hover:text-primary p-1">
+                    <Smile size={16} />
+                  </button>
+                  <button className="hover:text-primary p-1">
+                    <List size={16} />
+                  </button>
+                </div>
+                <div className="w-px h-4 bg-gray-200 hidden sm:block sr-only"></div>
                 <label className="cursor-pointer hover:text-emerald-900 flex items-center gap-1 text-xs sm:text-sm font-medium transition-colors">
                   <input
                     type="file"
@@ -468,6 +500,17 @@ export const CommentsSection = ({
                   />
                   <Paperclip size={16} /> Attach Images
                 </label>
+
+                <input
+                  type="text"
+                  name="content"
+                  onChange={(e) =>
+                    setFormData({ ...formData, content: e.target.value })
+                  }
+                  value={contentData?._id}
+                  id=""
+                  className="hidden"
+                />
               </div>
 
               {/* Previews */}

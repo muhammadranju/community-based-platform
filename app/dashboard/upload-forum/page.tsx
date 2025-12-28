@@ -1,6 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Send } from "lucide-react";
+import { authFetch } from "@/lib/authFetch";
+import { toast } from "sonner";
+import dynamic from "next/dynamic";
+import "react-quill-new/dist/quill.snow.css";
+
+// Dynamically import ReactQuill to avoid SSR issues
+const ReactQuill = dynamic(() => import("react-quill-new"), {
+  ssr: false,
+}) as any;
 
 // Category options - you can later replace value with actual DB IDs
 const forumCategories = [
@@ -15,6 +24,7 @@ const forumCategories = [
 type CategoryValue = (typeof forumCategories)[number]["value"];
 
 interface ForumFormData {
+  _id?: string;
   title: string;
   description: string;
   category: CategoryValue | "";
@@ -27,38 +37,106 @@ export const CreateForumPostPage: React.FC = () => {
     category: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [forumsCategories, setForumsCategories] = useState<any[]>([]);
+
+  // Handle standard input changes
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Final payload matching your Postman JSON
-    const payload = {
-      title: formData.title.trim(),
-      description: formData.description.trim(),
-      category: formData.category, // string value now (you can map to ID later)
-    };
-
-    console.log("Forum Post Submitted:", payload);
-    alert("Check console → Ready to send to /forums API!");
-
-    // Later: replace with fetch/axios call
-    // fetch(`${baseUrl}/forums`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(payload),
-    // });
+  // Handle Rich Text Editor changes
+  const handleDescriptionChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, description: value }));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const payload = {
+      title: formData.title.trim(),
+      description: formData.description.trim(), // will now contain HTML
+      category: formData.category,
+    };
+
+    try {
+      const response = await authFetch("/forums", {
+        method: "POST",
+        auth: true,
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        toast.error("Failed to create forum post");
+      }
+      if (response.ok) {
+        toast.success("Forum post created successfully");
+        setFormData({ title: "", description: "", category: "" });
+      }
+      const data = await response.json();
+
+      console.log(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error creating forum post:", error);
+      toast.error("Failed to create forum post");
+      setIsLoading(false);
+    }
+  };
+
+  const fetchForumsCategories = async () => {
+    try {
+      const response = await authFetch("/forums-category/category", {
+        method: "GET",
+        auth: true,
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch categories");
+      }
+      const data = await response.json();
+      setForumsCategories(data?.data || []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchForumsCategories();
+  }, []);
+
+  const quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      ["clean"],
+    ],
+  };
+
+  const quillFormats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+  ];
+
   return (
-    <div className="w-full  mx-auto ">
+    <div className="w-full mx-auto">
       <div className="mb-10">
         <h1 className="text-4xl font-bold text-emerald-900 mb-2">
           Create Forum Post
@@ -103,31 +181,37 @@ export const CreateForumPostPage: React.FC = () => {
             onChange={handleChange}
             className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-base"
           >
-            <option value="">Choose a category</option>
-            {forumCategories.map((cat) => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
+            <option value="" disabled>
+              Choose a category
+            </option>
+            {forumsCategories?.map((cat: any) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.title}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Description */}
+        {/* Description (Rich Text Editor) */}
         <div>
           <label className="block text-sm font-semibold text-emerald-900 mb-2">
             Description <span className="text-red-500">*</span>
           </label>
-          <textarea
-            name="description"
-            required
-            rows={10}
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Enter your description"
-            className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none font-medium"
-          />
+
+          <div className="rounded-xl overflow-hidden border border-gray-300 focus-within:ring-2 focus-within:ring-emerald-500 bg-white">
+            <ReactQuill
+              theme="snow"
+              value={formData.description}
+              onChange={handleDescriptionChange}
+              modules={quillModules}
+              formats={quillFormats}
+              className="h-64 mb-12" // Add margin-bottom to make space for the toolbar and ensure content area is visible
+              placeholder="Write a detailed post..."
+            />
+          </div>
+
           <p className="text-xs text-gray-500 mt-2">
-            Write a detailed post. Markdown is supported.
+            Write a detailed post. Rich text formatting is supported.
           </p>
         </div>
 
@@ -135,10 +219,11 @@ export const CreateForumPostPage: React.FC = () => {
         <div className="pt-6 flex justify-center">
           <button
             type="submit"
-            className="flex items-center gap-3 px-36 py-4 bg-emerald-900 text-white font-bold rounded-xl hover:bg-emerald-800 transition shadow-lg text-lg cursor-pointer"
+            disabled={isLoading}
+            className="flex items-center gap-3 px-36 py-4 bg-emerald-900 text-white font-bold rounded-xl hover:bg-emerald-800 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send size={22} />
-            Create Post
+            {isLoading ? "Creating..." : "Create Post"}
           </button>
         </div>
       </form>

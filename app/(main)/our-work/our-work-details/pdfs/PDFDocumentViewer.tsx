@@ -1,5 +1,5 @@
 import { Home, Loader2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 // CORRECT worker configuration for module environment
@@ -12,16 +12,25 @@ interface PDFDocumentViewerProps {
   url: string;
   title: string;
   companyName: string;
+  currentPage: number; // 1-based page number
 }
 
 export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
   url,
   title,
   companyName,
+  currentPage,
 }) => {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [error, setError] = useState<string | null>(null);
+
+  // 🔥 SYNC thumbnail selection → viewer page
+  useEffect(() => {
+    if (currentPage >= 1) {
+      setPageNumber(currentPage);
+    }
+  }, [currentPage]);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -83,25 +92,27 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
                 />
               </Document>
 
-              {/* Page navigation */}
+              {/* Navigation */}
               {numPages > 1 && (
                 <div className="mt-4 flex items-center gap-4 bg-white rounded-full px-6 py-3 shadow-md">
                   <button
-                    onClick={() => setPageNumber(Math.max(1, pageNumber - 1))}
+                    onClick={() => setPageNumber((p) => Math.max(1, p - 1))}
                     disabled={pageNumber === 1}
-                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-800 transition-colors"
+                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50"
                   >
                     Previous
                   </button>
+
                   <span className="text-emerald-900 font-semibold">
                     Page {pageNumber} of {numPages}
                   </span>
+
                   <button
                     onClick={() =>
-                      setPageNumber(Math.min(numPages, pageNumber + 1))
+                      setPageNumber((p) => Math.min(numPages, p + 1))
                     }
                     disabled={pageNumber === numPages}
-                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-800 transition-colors"
+                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50"
                   >
                     Next
                   </button>

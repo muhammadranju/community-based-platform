@@ -2,17 +2,12 @@
 import CustomBadge from "@/components/shared/SharedBadge";
 import { CommentsSection } from "@/components/sub_our_work/Comments";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  Heart,
-  Loader2,
-  MessageSquare,
-  Share2,
-  ThumbsDown,
-  ThumbsUp,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { authFetch } from "@/lib/authFetch";
+import DOMPurify from "dompurify";
+import { ChevronLeft, Heart, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { format, parseISO } from "date-fns";
 
 // --- Types ---
 
@@ -30,7 +25,6 @@ interface DiscussionPost {
 }
 
 // --- Internal Components (Defined within App scope as requested) ---
-
 // 1. Icon Wrapper for the Header Actions
 const ActionButton = ({
   icon: Icon,
@@ -86,151 +80,74 @@ const Header = ({ onClick }: { onClick: () => void }) => (
 );
 
 // 3. User Avatar Card Component
-const UserProfileCard = ({ author }: { author: DiscussionPost["author"] }) => (
+const UserProfileCard = ({ author }: { author: any }) => (
   <div className="flex-shrink-0 bg-white border border-green-600 rounded-lg p-3 w-full sm:w-40 flex flex-col items-center text-center shadow-sm">
     <div className="relative w-16 h-16 mb-2">
       <img
-        src={author.avatarUrl}
-        alt={author.name}
+        src={`${process.env.NEXT_PUBLIC_API_URL}${author?.image}`}
+        alt={author?.name}
         className="w-full h-full object-cover rounded-full border-2 border-orange-200"
       />
       <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
     </div>
     <div className="text-xs font-bold text-gray-800 truncate w-full">
-      {author.name}
+      {author?.name}
     </div>
     <div className="text-[10px] text-gray-500 font-medium mt-0.5">
-      {author.joined}
+      {author?.createdAt}
     </div>
   </div>
 );
-
-// 4. AI Response Component (Functional Integration)
-const AIResponseSection = ({
-  post,
-  prompt,
-}: {
-  post: DiscussionPost;
-  prompt: string;
-}) => {
-  const [response, setResponse] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const generateResponse = async () => {
-    if (!process.env.API_KEY) {
-      setError("API Key not configured in environment.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    try {
-      //   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
-      const fullPrompt = `
-        You are a knowledgeable historian and architect specializing in African indigenous architecture.
-        Please provide a thoughtful, educational response to the following discussion post. 
-        Address the specific questions asked in the "Let's Talk About It" section.
-        Keep the tone respectful, communal, and insightful.
-        
-        Topic: ${post.title}
-        Context: ${post.intro.join(" ")}
-        Questions: ${post.questions.join(" ")}
-      `;
-
-      // const result = await ai.models.generateContent({
-      //   model: 'gemini-2.5-flash',
-      //   contents: fullPrompt,
-      // });
-
-      //   setResponse(result.text);
-    } catch (err: any) {
-      console.error(err);
-      setError("Failed to generate response. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="mt-8 border-t border-gray-100 pt-6">
-      {/* {!response && !loading && (
-        <button 
-          onClick={generateResponse}
-          className="flex items-center gap-2 bg-gradient-to-r from-green-700 to-green-900 text-white px-5 py-2.5 rounded-lg shadow hover:shadow-md transition-all text-sm font-medium mx-auto sm:mx-0"
-        >
-          <Sparkles size={16} className="text-yellow-300" />
-          Generate Expert Response with Gemini
-        </button>
-      )} */}
-
-      {loading && (
-        <div className="flex flex-col items-center justify-center py-8 text-green-800">
-          <Loader2 size={32} className="animate-spin mb-3" />
-          <p className="text-sm font-medium">
-            Consulting the digital archives...
-          </p>
-        </div>
-      )}
-
-      {error && (
-        <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm mt-4">
-          {error}
-        </div>
-      )}
-
-      {response && (
-        <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mt-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="p-1.5 bg-green-100 rounded-md">
-              <MessageSquare size={18} className="text-green-800" />
-            </div>
-            <h3 className="font-semibold text-gray-800">
-              Community Insight (AI Generated)
-            </h3>
-          </div>
-          <div className="prose prose-sm prose-green max-w-none text-gray-700 leading-relaxed whitespace-pre-wrap">
-            {response}
-          </div>
-          <button
-            onClick={() => setResponse(null)}
-            className="mt-4 text-xs text-gray-500 hover:text-green-700 underline"
-          >
-            Clear response
-          </button>
-        </div>
-      )}
-    </div>
-  );
-};
 
 // --- Main App Component ---
 
 export default function page() {
   // Static data matching the image exactly
   const router = useRouter();
-  const postData: DiscussionPost = {
-    id: "1",
-    author: {
-      name: "Historyenjoyer822",
-      joined: "Joined: Mar 2024",
-      avatarUrl: "https://picsum.photos/id/64/200/200", // Using generic placeholder as requested
-    },
-    tag: "GENERAL DISCUSSION ON AFRICAN INDIGENOUS ARCHITECTURE",
-    title: "How Did Your Community Traditionally Build Without Modern Tools?",
-    intro: [
-      "Before the age of cement mixers, bulldozers, and laser levels — our ancestors built cities, homes, palaces, and temples using nothing but their hands, wisdom, and locally available materials. From stone walls stacked without mortar to domed homes made from bundled saplings, the techniques they used were not only resourceful — they were genius.",
-      "In today's world, we often look to digital tools and imported solutions for construction. But what about the tools that lived in the mind, the body, and the rhythm of the community?",
-    ],
-    questions: [
-      "What materials did your community use — mud, thatch, stone, dung, reeds, bamboo?",
-      "How were measurements done? Did they use the human body (arm lengths, strides) or tools like strings and sticks?",
-      "Were there ceremonies before building? Who led the process — a builder, elder, or spiritual leader?",
-      "What were some clever engineering solutions your ancestors developed (e.g., wind-resistant roofs, passive cooling)?",
-      "How were the labour and roles divided? Was it communal? Gender-specific?",
-    ],
+
+  const { id } = useParams();
+
+  const [forumData, setForumData] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const [comments, setComments] = useState<any>([]);
+
+  const getForumsById = async () => {
+    const response = await authFetch(`/forums/${id}`, {
+      method: "GET",
+      auth: false,
+    });
+    const result = await response.json();
+
+    setForumData(result?.data?.result);
+    setComments(result?.data?.commentsByForum);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    getForumsById();
+  }, []);
+
+  const cleanHTML = useMemo(
+    () =>
+      DOMPurify.sanitize(forumData?.description, {
+        ALLOWED_TAGS: [
+          "p",
+          "br",
+          "strong",
+          "em",
+          "u",
+          "h1",
+          "h2",
+          "h3",
+          "ul",
+          "ol",
+          "li",
+          "a",
+        ],
+        ALLOWED_ATTR: ["href", "target", "rel"],
+      }),
+    [forumData?.description]
+  );
 
   return (
     <div className="min-h-screen bg-white text-gray-800  selection:bg-green-100 lg:px-0 px-4">
@@ -253,13 +170,15 @@ export default function page() {
           <div className="bg-[#efffd6] p-4 sm:p-8 md:p-10">
             <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
               {/* Left: User Profile */}
-              <UserProfileCard author={postData.author} />
+              <UserProfileCard author={forumData?.owner} />
 
               {/* Right: Title & Badge */}
               <div className="flex-1 space-y-3 sm:space-y-4">
-                <CustomBadge>{postData.tag}</CustomBadge>
+                <CustomBadge>
+                  GENERAL DISCUSSION ON AFRICAN INDIGENOUS ARCHITECTURE
+                </CustomBadge>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#064E3B] leading-tight">
-                  {postData.title}
+                  {forumData?.title}
                 </h2>
               </div>
             </div>
@@ -267,35 +186,24 @@ export default function page() {
 
           {/* Body Content Section */}
           <div className="p-6 sm:p-10 md:px-12 md:py-10">
-            <div className="space-y-6 text-gray-600 text-base sm:text-lg leading-relaxed">
-              {postData.intro.map((para, index) => (
-                <p key={index}>{para}</p>
-              ))}
+            <div className="prose max-w-full prose-headings:mb-2 prose-p:mb-1 prose-ul:mt-1 prose-ul:mb-1 prose-li:my-0 prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose -ul:text-gray-700 dark:prose-ul:text-gray-300 prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-img:rounded-lg">
+              {/* {forumData?.description && parse(forumData?.description)} */}
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: cleanHTML }}
+              />
             </div>
-
-            <div className="mt-10">
-              <h3 className="text-[#15803d] font-bold text-xl mb-4">
-                Let's Talk About It:
-              </h3>
-              <ol className="space-y-3 text-gray-600 text-base sm:text-lg list-none pl-1">
-                {postData.questions.map((q, i) => (
-                  <li key={i} className="flex gap-3 items-start">
-                    <span className="font-medium text-gray-500 min-w-[1.5rem]">
-                      {i + 1}.
-                    </span>
-                    <span className="leading-relaxed">{q}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            {/* Gemini Integration Section */}
-            <AIResponseSection post={postData} prompt="" />
-            {/* Bottom Pagination */}
+            {/* {console.log(forumData?.description)} */}
+            {/* {parse((forumData?.description as string) || "", options)} */}
+            {/* <div dangerouslySetInnerHTML={{ __html: cleanHtml }} /> */}
           </div>
         </div>
         <div className="my-10">
-          <CommentsSection />
+          <CommentsSection
+            comments={comments}
+            forumData={forumData}
+            onCommentAdded={getForumsById}
+          />
         </div>
       </div>
     </div>

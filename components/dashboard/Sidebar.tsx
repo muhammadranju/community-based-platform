@@ -47,6 +47,11 @@ const userNavItems: NavItem[] = [
     icon: <IoCloudUploadOutline size={20} />,
   },
   {
+    href: "/dashboard/my-forums",
+    label: "My Forums",
+    icon: <IoCloudUploadOutline size={20} />,
+  },
+  {
     href: "/dashboard/upload-forum",
     label: "Upload Forum",
     icon: <Form size={20} />,
