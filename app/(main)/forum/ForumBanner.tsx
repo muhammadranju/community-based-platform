@@ -1,10 +1,12 @@
 import CustomBadge from "@/components/shared/SharedBadge";
+import getUser from "@/components/shared/UserInfo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 import React from "react";
 
 export const ForumBanner: React.FC = () => {
+  const user = getUser();
   return (
     <div className="w-full bg-primary-color rounded-3xl px-12 py-16 text-white relative overflow-hidden my-10 shadow-xl">
       <div className="flex flex-col lg:flex-row gap-12 items-start justify-between">
@@ -26,23 +28,35 @@ export const ForumBanner: React.FC = () => {
         <div className="w-full lg:w-auto shrink-0 flex justify-center lg:justify-end">
           <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl">
             <h3 className="text-2xl font-bold text-primary-color mb-2">
-              Join Us
+              {user ? "Explore Now" : "Join Us"}
             </h3>
             <p className="text-primary-color font-semibold text-base mb-8 leading-relaxed">
-              By registering for a new account or logging to an existing account
+              {user
+                ? "Explore all of contents and forums and start a new discussion or join an existing one "
+                : "By registering for a new account or logging to an existing account"}
             </p>
 
             <div className="flex gap-4">
-              <Link href="/login">
-                <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
-                  Login
-                </Button>
-              </Link>
-              <Link href="/signup">
-                <Button className="px-6 py-5 text-black rounded-full hover:bg-gray-100 border border-orange-600 bg-transparent">
-                  Register
-                </Button>
-              </Link>
+              {user ? (
+                <Link href="/forum">
+                  <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
+                    Explore Now
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button className="px-6 py-5 text-black rounded-full hover:bg-gray-100 border border-orange-600 bg-transparent">
+                      Register
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

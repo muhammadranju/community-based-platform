@@ -15,10 +15,7 @@ export interface Video {
   thumbnailUrl: string;
   title: string;
   duration: string;
-}
-
-interface VideoCardProps {
-  video: Video;
+  url: string;
 }
 
 function VideosPage() {
@@ -124,37 +121,11 @@ function VideosPage() {
         </div>
       </div>
 
-      <div className="min-h-screen w-full flex items-center justify-center p-4 my-10 bg-white">
-        <VideoGallery />
+      <div className="min-h-screen w-full flex items-center justify-center my-5 bg-white">
+        <VideoGallery videos={playlist} />
       </div>
     </div>
   );
 }
-
-export const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
-  return (
-    <div className="group relative w-full aspect-square rounded-4xl overflow-hidden cursor-pointer shadow-sm transition-transform duration-300 hover:scale-[1.02] py-10">
-      {/* Background Image */}
-      <img
-        src={video.thumbnailUrl}
-        alt={video.title}
-        className="w-full h-[500px] object-cover transition-opacity duration-300 group-hover:opacity-90"
-      />
-
-      {/* Overlay Gradient (Optional for better visibility) */}
-      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-300"></div>
-
-      {/* Center Play Button */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-16 h-16 rounded-full border-2 border-white/80 bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group-hover:bg-white/30 group-hover:scale-110">
-          <Play
-            className="w-6 h-6 text-white fill-white ml-1"
-            strokeWidth={0}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default VideosPage;

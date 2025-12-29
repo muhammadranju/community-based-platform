@@ -8,6 +8,8 @@ import { ChevronLeft, Heart, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { format, parseISO } from "date-fns";
+import { costumFormatDate } from "@/components/shared/DateTime";
+import { Spinner } from "@/components/ui/spinner";
 
 // --- Types ---
 
@@ -94,7 +96,7 @@ const UserProfileCard = ({ author }: { author: any }) => (
       {author?.name}
     </div>
     <div className="text-[10px] text-gray-500 font-medium mt-0.5">
-      {author?.createdAt}
+      {costumFormatDate(author?.createdAt)}
     </div>
   </div>
 );
@@ -148,6 +150,16 @@ export default function page() {
       }),
     [forumData?.description]
   );
+
+  if (loading) {
+    return (
+      <div>
+        <p>
+          Loading... <Spinner />
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-800  selection:bg-green-100 lg:px-0 px-4">

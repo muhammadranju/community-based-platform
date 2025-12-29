@@ -43,8 +43,8 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-100 rounded-4xl shadow-inner p-8 md:p-12 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-200/50 to-transparent pointer-events-none" />
+    <div className="flex flex-col h-full bg-gray-100 rounded-4xl  p-8 md:p-12 relative overflow-hidden">
+      <div className="absolute inset-0 bg-linear-to-b from-gray-200/50 to-transparent pointer-events-none" />
 
       <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
@@ -61,7 +61,7 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
         </h1>
 
         {/* PDF Viewer */}
-        <div className="flex-grow w-full rounded-2xl overflow-hidden shadow-2xl relative bg-white flex items-center justify-center">
+        <div className="grow w-full rounded-2xl overflow-hidden  relative bg-white flex items-center justify-center">
           {error ? (
             <div className="flex flex-col items-center gap-4 p-8 text-center">
               <div className="text-red-500 font-medium text-lg">
@@ -70,7 +70,7 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
               <div className="text-sm text-gray-600">{error}</div>
             </div>
           ) : (
-            <div className="w-full h-full overflow-auto flex flex-col items-center p-4">
+            <div className="lg:w-full w-[500px] h-full overflow-auto flex flex-col items-center pb-6">
               <Document
                 file={url}
                 onLoadSuccess={onDocumentLoadSuccess}
@@ -88,13 +88,13 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
                   pageNumber={pageNumber}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  className="shadow-lg"
+                  className=""
                 />
               </Document>
 
               {/* Navigation */}
               {numPages > 1 && (
-                <div className="mt-4 flex items-center gap-4 bg-white rounded-full px-6 py-3 shadow-md">
+                <div className="mt-4 flex items-center gap-4 bg-white rounded-full px-6 py-3 ">
                   <button
                     onClick={() => setPageNumber((p) => Math.max(1, p - 1))}
                     disabled={pageNumber === 1}

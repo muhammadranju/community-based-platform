@@ -15,7 +15,9 @@ function page() {
           <Header />
         </Suspense>
         <main className="px-4  py-10  mx-auto">
-          <Gallery />
+          <Suspense fallback={<div>Loading gallery...</div>}>
+            <Gallery />
+          </Suspense>
         </main>
       </div>
     </div>

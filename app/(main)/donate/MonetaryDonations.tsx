@@ -114,7 +114,7 @@ const DonationCard: React.FC<DonationOption> = ({
           <p className="text-emerald-900 font-bold text-lg">{totalRaised}</p>
         </div>
 
-        <button className="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm">
+        <button className="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm cursor-pointer">
           Donate Now
         </button>
       </div>

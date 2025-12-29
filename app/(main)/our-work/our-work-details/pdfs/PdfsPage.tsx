@@ -94,7 +94,7 @@ function PdfsPage() {
         <HeaderBanner />
       </div>
       <div className="">
-        <div className="max-w-[1580px] mx-auto h-[calc(100vh-0.5rem)] flex flex-col">
+        <div className="lg:max-w-[1580px] mx-auto  flex flex-col">
           {/* Top Navigation / Back Button */}
           <Button
             onClick={() => router.back()}
@@ -130,17 +130,17 @@ function PdfsPage() {
             </div>
 
             {/* Center Document View */}
-            <div className="col-span-1 lg:col-span-7 h-full flex flex-col min-h-0">
-              <div className="flex-grow min-h-0 mb-6">
-                {currentPdf && (
-                  <PDFDocumentViewer
-                    url={currentPdf.url}
-                    title={currentPdf.name}
-                    companyName={currentPdf.role}
-                    currentPage={currentPage}
-                  />
-                )}
-              </div>
+            <div className="col-span-1 lg:col-span-7 lg:h-[1000px] h-full flex flex-col min-h-0">
+              {/* <div className="flex-grow min-h-0 "> */}
+              {currentPdf && (
+                <PDFDocumentViewer
+                  url={currentPdf.url}
+                  title={currentPdf.name}
+                  companyName={currentPdf.role}
+                  currentPage={currentPage}
+                />
+              )}
+              {/* </div> */}
             </div>
 
             <div className="col-span-1 lg:col-span-2 h-full min-h-0 hidden md:block">

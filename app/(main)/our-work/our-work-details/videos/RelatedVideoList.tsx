@@ -28,7 +28,7 @@ export const RelatedVideoList: React.FC<RelatedVideoListProps> = ({
             }`}
           >
             {/* Thumbnail */}
-            <div className="relative h-20 w-36 md:h-24 md:w-40 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200">
+            <div className="relative h-20 w-36 md:h-24 md:w-40 shrink-0 overflow-hidden rounded-lg bg-gray-200">
               <img
                 src={video.thumbnail}
                 alt={video.title}

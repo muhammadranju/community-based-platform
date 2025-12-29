@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Check, ClockFading } from "lucide-react";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import { CustomSelect } from "./CustomSelect";
-import { RadioSection } from "./RadioSection";
 import { Textarea } from "@/components/ui/textarea";
 import { authFetch } from "@/lib/authFetch";
+import { Check } from "lucide-react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { CustomSelect } from "./CustomSelect";
 
 export enum DonationCategory {
   MONETARY = "MONETARY",

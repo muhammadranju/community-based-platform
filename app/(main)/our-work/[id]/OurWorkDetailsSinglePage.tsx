@@ -13,7 +13,7 @@ import { SectionCard } from "@/components/sub_our_work/SectionCard";
 import { authFetch } from "@/lib/authFetch";
 import { GUIDE_DATA } from "@/lib/data";
 import { HeartIcon, ShareIcon } from "lucide-react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -28,13 +28,13 @@ function OurWorkDetailsSinglePage() {
     toast.success("Link copied to clipboard");
   };
 
+  const router = useRouter();
+
   const getSingleData = async () => {
     const response = await authFetch(`/contents/${id}`);
     const data = await response.json();
     setData(data?.data?.result);
     setComments(data?.data?.commentsByContents);
-
-    console.log(data);
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function OurWorkDetailsSinglePage() {
         <HeaderBanner />
 
         <div className=" mx-auto space-y-8 ">
-          <div className="bg-accent-bg p-5 rounded-2xl space-y-5">
+          <div className="bg-accent-bg p-8 rounded-4xl space-y-5">
             {/* Header Section */}
             <header className="relative w-full bg-emerald-900 rounded-4xl p-8 md:p-16 text-white overflow-hidden shadow-sm ">
               {/* Badge */}
@@ -100,18 +100,24 @@ function OurWorkDetailsSinglePage() {
                 count={data?.images?.length}
                 label="Photos"
                 type="photos"
+                imageUrl={
+                  data?.images[0]
+                    ? `${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`
+                    : "/Icons/image-icon.jpg"
+                }
                 // Using a distinct image of Maasai or similar landscape
-                imageUrl={`${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`}
+                // imageUrl={`${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`}
                 url={`/our-work/our-work-details/photos?region=${search}&slug=${id}`}
               />
               <MediaCard
                 count={data?.medias?.length}
                 label="Videos"
                 type="videos"
-                // Using a distinct image of Maasai people walking or gathering
-                imageUrl={`${process.env.NEXT_PUBLIC_API_URL}/${
-                  data?.images[1] || ""
-                }`}
+                imageUrl={
+                  data?.images[1]
+                    ? `${process.env.NEXT_PUBLIC_API_URL}/${data?.images[1]}`
+                    : "/Icons/video-image.jpg"
+                }
                 url={`/our-work/our-work-details/videos?region=${search}&slug=${id}`}
               />
               <DocumentsCard
@@ -134,14 +140,19 @@ function OurWorkDetailsSinglePage() {
                   : data?.title}
               </h2>
               <p className="text-gray-600 leading-relaxed text-lg">
-                {data?.shortDescription}
+                {data?.shortDescription || "No description available"}
               </p>
             </div>
 
             <div className="flex-1">
               <div className="relative w-full h-[400px] md:h-[500px] rounded-4xl overflow-hidden shadow-sm">
                 <img
-                  src="/bg/our-page-bg-3.png"
+                  // src="/bg/our-page-bg-3.png"
+                  src={`${
+                    data?.coverImage
+                      ? process.env.NEXT_PUBLIC_API_URL + data?.coverImage
+                      : "/bg/our-page-bg-3.png"
+                  }`}
                   alt="Maasai Manyatta Hut"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -159,7 +170,7 @@ function OurWorkDetailsSinglePage() {
               Step-by-Step Guide:
             </h1>
             <h2 className="text-xl md:text-2xl lg:text-[28px] font-semibold text-emerald-900 leading-snug">
-              How the Maasai Build Their Traditional Homes (Enkaji/Manyatta)
+              {data?.title}
             </h2>
           </header>
 

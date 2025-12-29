@@ -154,7 +154,7 @@ function OurWorkDetailsPage() {
           </div>
         </div>
       </div>
-      <CommentsSection />
+      {/* <CommentsSection comments={MOCK_COMMENTS} forumData={MOCK_FORUM_DATA} /> */}
     </>
   );
 }

@@ -10,10 +10,12 @@ import {
 } from "@/components/our_work/ProcessCardData";
 import CustomBadge from "@/components/shared/SharedBadge";
 import SharedTitle from "@/components/shared/SharedTitle";
+import getUser from "@/components/shared/UserInfo";
 import Image from "next/image";
 
 function OurWork() {
-  const isAuthtenticated = false;
+  const user = getUser();
+  const isAuthtenticated = user ? true : false;
   return (
     <>
       {/* Top Hero Section */}

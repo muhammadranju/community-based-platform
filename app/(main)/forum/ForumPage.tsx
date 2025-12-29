@@ -52,7 +52,7 @@ function ForumPage() {
         <img
           src="/bg/Rectangle7.png"
           alt="Aerial view of African village architecture"
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+          className="w-full h-full object-cover transform hover:scale-101 transition-transform duration-700"
         />
       </div>
 
