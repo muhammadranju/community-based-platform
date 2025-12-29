@@ -137,8 +137,9 @@ export const CreateForumPostPage: React.FC = () => {
 
   return (
     <div className="w-full mx-auto">
+      <title>Upload Forum Dashboard - African Traditional Architecture</title>
       <div className="mb-10">
-        <h1 className="text-4xl font-bold text-emerald-900 mb-2">
+        <h1 className="text-3xl font-bold text-teal-900 mb-1">
           Create Forum Post
         </h1>
         <p className="text-gray-600">
@@ -220,10 +221,10 @@ export const CreateForumPostPage: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="flex items-center gap-3 px-36 py-4 bg-emerald-900 text-white font-bold rounded-xl hover:bg-emerald-800 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-3 px-36 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send size={22} />
-            {isLoading ? "Creating..." : "Create Post"}
+            {isLoading ? "Creating..." : "Create Forum"}
           </button>
         </div>
       </form>

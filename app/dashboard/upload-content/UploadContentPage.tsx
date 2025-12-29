@@ -1,9 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import { Image as ImageIcon, Video, FileText, Upload, X } from "lucide-react";
+import {
+  Image as ImageIcon,
+  Video,
+  FileText,
+  Upload,
+  X,
+  Send,
+} from "lucide-react";
 import { authFetch } from "@/lib/authFetch";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 const regions = [
   "east",
@@ -12,6 +20,24 @@ const regions = [
   "north",
   "south",
   "global",
+] as const;
+
+const countries = [
+  "kenya",
+  "tanzania",
+  "uganda",
+  "ethiopia",
+  "somalia",
+  "burundi",
+  "rwanda",
+  "djibouti",
+  "comoros",
+  "eritrea",
+  "seychelles",
+  "mauritius",
+  "south-sudan",
+  "réunion",
+  "mayotte",
 ] as const;
 
 const categories = {
@@ -50,7 +76,7 @@ export const UploadContentPage: React.FC = () => {
     images: [],
     medias: [],
     pdfs: [],
-    country: "tanzania",
+    country: "",
   });
 
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
@@ -128,7 +154,7 @@ export const UploadContentPage: React.FC = () => {
     formDataToSubmit.append("shortDescription", formData.shortDescription);
     formDataToSubmit.append("description", formData.description);
     formDataToSubmit.append("region", formData.region);
-    formDataToSubmit.append("country", "tanzania");
+    formDataToSubmit.append("country", formData.country);
     formDataToSubmit.append("category", formData.category);
 
     if (formData.coverImage) {
@@ -173,7 +199,7 @@ export const UploadContentPage: React.FC = () => {
         images: [],
         medias: [],
         pdfs: [],
-        country: "tanzania",
+        country: "",
       });
       setCoverPreview(null);
       setImagePreviews([]);
@@ -188,7 +214,7 @@ export const UploadContentPage: React.FC = () => {
   return (
     <div className="w-full  mx-auto ">
       <div className="mb-5">
-        <h1 className="text-4xl font-bold text-emerald-900 mb-2">
+        <h1 className="text-3xl font-bold text-teal-900 mb-1">
           Upload Content
         </h1>
         <p className="text-gray-600">
@@ -234,11 +260,15 @@ export const UploadContentPage: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-emerald-900 mb-2">
+          <Label
+            id="description"
+            className="block text-sm font-medium text-emerald-900 mb-2"
+          >
             Full Description *
-          </label>
+          </Label>
           <textarea
             name="description"
+            id="description"
             required
             rows={6}
             value={formData.description}
@@ -249,7 +279,28 @@ export const UploadContentPage: React.FC = () => {
         </div>
 
         {/* Dropdowns */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
+          <div>
+            <Label className="block text-sm font-medium text-emerald-900 mb-2">
+              Country *
+            </Label>
+            <select
+              name="country"
+              required
+              value={formData.country}
+              onChange={handleSelectChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            >
+              <option disabled value="">
+                Select country
+              </option>
+              {countries.map((r) => (
+                <option key={r} value={r}>
+                  {r.charAt(0).toUpperCase() + r.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label className="block text-sm font-medium text-emerald-900 mb-2">
               Region *
@@ -261,7 +312,9 @@ export const UploadContentPage: React.FC = () => {
               onChange={handleSelectChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500"
             >
-              <option value="">Select region</option>
+              <option disabled value="">
+                Select region
+              </option>
               {regions.map((r) => (
                 <option key={r} value={r}>
                   {r.charAt(0).toUpperCase() + r.slice(1)}
@@ -432,12 +485,14 @@ export const UploadContentPage: React.FC = () => {
         })}
 
         <div className="pt-6 flex justify-center">
-          <Button
+          <button
             type="submit"
-            className="w-full sm:w-auto px-36 py-6 bg-emerald-900 text-white font-semibold rounded-xl hover:bg-emerald-800 transition shadow-lg cursor-pointer"
+            disabled={isLoading}
+            className="flex items-center gap-3 px-36 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Submit Content
-          </Button>
+            <Send size={22} />
+            {isLoading ? "Uploading..." : "Submit Content"}
+          </button>
         </div>
       </form>
     </div>

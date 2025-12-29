@@ -3,6 +3,7 @@ import { costumFormatDate } from "@/components/shared/DateTime";
 import { Button } from "@/components/ui/button";
 import { authFetch } from "@/lib/authFetch";
 import { format, parseISO } from "date-fns";
+import { Save } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
 
@@ -94,6 +95,7 @@ const page = () => {
 
   return (
     <div className="w-full">
+      <title>Profile Dashboard - African Traditional Architecture</title>
       {/* Page Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-teal-900 mb-1">My Profile</h1>
@@ -203,12 +205,12 @@ const page = () => {
 
         {/* Action Button */}
         <div className="mt-8">
-          <Button
+          <button
             onClick={handelSubmit}
-            className="bg-[#d97706] hover:bg-[#b45309] text-white px-8 py-6 rounded-full font-medium text-sm transition-colors shadow-md"
+            className="flex items-center gap-3 px-6 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Save Changes
-          </Button>
+            <Save size={22} /> Save Changes
+          </button>
         </div>
       </div>
     </div>

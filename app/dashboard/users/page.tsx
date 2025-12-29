@@ -7,8 +7,14 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authFetch } from "@/lib/authFetch";
-import { ChevronLeft, ChevronRight, Eye, Upload } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, Eye, Filter, Upload } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export interface IUser {
   _id: string;
@@ -29,6 +35,7 @@ function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const itemsPerPage = 8;
 
   const getUsers = async () => {
@@ -39,7 +46,7 @@ function Page() {
         auth: true,
       });
       const data = await res.json();
-      setUsers(data?.data);
+      setUsers(data?.data || []);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -51,13 +58,26 @@ function Page() {
     getUsers();
   }, []);
 
-  // Calculate pagination
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  // Sort users by _id (MongoDB ObjectId contains timestamp → newest/oldest)
+  const sortedUsers = useMemo(() => {
+    const sorted = [...users];
+    sorted.sort((a, b) => {
+      if (sortOrder === "newest") {
+        return b._id.localeCompare(a._id); // _id is string, higher hex = newer
+      } else {
+        return a._id.localeCompare(b._id);
+      }
+    });
+    return sorted;
+  }, [users, sortOrder]);
+
+  // Pagination based on sorted users
+  const totalPages = Math.ceil(sortedUsers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentUsers = users.slice(startIndex, endIndex);
+  const currentUsers = sortedUsers.slice(startIndex, endIndex);
 
-  // Generate page numbers to display
+  // Generate page numbers with ellipsis
   const getPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;
@@ -93,19 +113,21 @@ function Page() {
     return pages;
   };
 
-  // Handle opening modal with user data
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleOpenModal = (user: IUser) => {
     setSelectedUser(user);
     setIsModalOpen(true);
   };
 
-  // Handle closing modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedUser(null);
   };
 
-  // Skeleton Row Component
   const TableSkeletonRow = () => (
     <tr className="border-b border-gray-100">
       <td className="py-4 px-6">
@@ -140,11 +162,52 @@ function Page() {
 
   return (
     <div className="w-full">
+      <title>Users Admin Dashboard - African Traditional Architecture</title>
       {/* Header Actions */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <h1 className="text-3xl font-bold text-emerald-900">Users</h1>
-        <div>
-          <button className="flex items-center gap-2 bg-white text-emerald-900 border border-emerald-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm">
+        <h1 className="text-3xl font-bold text-teal-900">Users</h1>
+        <div className="flex gap-3">
+          {/* Filter Dropdown - Newest / Oldest */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm">
+                <Filter size={16} />
+                Filter
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("newest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "newest" ? "font-semibold" : ""
+                }`}
+              >
+                Newest First
+                {sortOrder === "newest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("oldest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "oldest" ? "font-semibold" : ""
+                }`}
+              >
+                Oldest First
+                {sortOrder === "oldest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <button className="flex items-center gap-2 bg-white text-teal-900 border border-teal-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm sr-only">
             <Upload size={16} className="rotate-180" />
             Export
           </button>
@@ -173,107 +236,108 @@ function Page() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {isLoading
-                ? // Show skeleton rows while loading
-                  Array.from({ length: itemsPerPage }).map((_, idx) => (
-                    <TableSkeletonRow key={idx} />
-                  ))
-                : // Show actual user data
-                  currentUsers.map((item, idx) => (
-                    <tr
-                      key={`${item._id}-${idx}`}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="py-4 px-6 text-gray-700 font-medium">
-                        <img
-                          src={item.image}
-                          className="w-12 h-12 rounded-full"
-                          alt=""
-                        />
-                      </td>
-                      <td className="py-4 px-6 text-gray-700 font-medium">
-                        {item.name}
-                      </td>
-                      <td className="py-4 px-6 text-gray-700 font-medium">
-                        {item.email}
-                      </td>
-                      <td className="py-4 px-6 text-gray-600">
-                        {item.website.length || "N/A"}
-                      </td>
-                      <td className="py-4 px-6 text-gray-600">
-                        {item.bio || "N/A"}
-                      </td>
-                      <td className="py-4 px-6 text-gray-600">
-                        {item.role === "SUPER_ADMIN" ? "Admin" : "Member"}
-                      </td>
-                      <td className="py-4 px-6">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold inline-block min-w-[80px] text-center
-                        ${
-                          item.status === "active"
-                            ? "bg-[#dcfce7] text-[#15803d]"
-                            : "bg-red-100 text-red-500"
-                        }
-                      `}
-                        >
-                          {item.status === "active" ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td className="py-4 px-6 text-gray-600 text-center">
-                        {item.uploads.length}
-                      </td>
-                      <td className="py-4 px-6 text-right">
-                        <button
-                          onClick={() => handleOpenModal(item)}
-                          className="bg-[#ecfccb] hover:bg-lime-200 text-emerald-900 w-12 h-8 rounded-md flex items-center justify-center transition-colors ml-auto cursor-pointer"
-                        >
-                          <Eye />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+              {isLoading ? (
+                Array.from({ length: itemsPerPage }).map((_, idx) => (
+                  <TableSkeletonRow key={idx} />
+                ))
+              ) : currentUsers.length === 0 ? (
+                <tr>
+                  <td colSpan={9} className="py-12 text-center text-gray-500">
+                    No users found
+                  </td>
+                </tr>
+              ) : (
+                currentUsers.map((item, idx) => (
+                  <tr
+                    key={`${item._id}-${idx}`}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="py-4 px-6 text-gray-700 font-medium">
+                      <img
+                        src={item.image}
+                        className="w-12 h-12 rounded-full object-cover"
+                        alt={item.name}
+                      />
+                    </td>
+                    <td className="py-4 px-6 text-gray-700 font-medium">
+                      {item.name}
+                    </td>
+                    <td className="py-4 px-6 text-gray-700 font-medium">
+                      {item.email}
+                    </td>
+                    <td className="py-4 px-6 text-gray-600">
+                      {item.website || "N/A"}
+                    </td>
+                    <td className="py-4 px-6 text-gray-600 max-w-[200px] truncate">
+                      {item.bio || "N/A"}
+                    </td>
+                    <td className="py-4 px-6 text-gray-600">
+                      {item.role === "SUPER_ADMIN" ? "Admin" : "Member"}
+                    </td>
+                    <td className="py-4 px-6">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold inline-block min-w-[80px] text-center
+                            ${
+                              item.status === "active"
+                                ? "bg-[#dcfce7] text-[#15803d]"
+                                : "bg-red-100 text-red-500"
+                            }
+                          `}
+                      >
+                        {item.status === "active" ? "Active" : "Inactive"}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6 text-gray-600 text-center">
+                      {item.uploads.length}
+                    </td>
+                    <td className="py-4 px-6 text-right">
+                      <button
+                        onClick={() => handleOpenModal(item)}
+                        className="bg-[#ecfccb] hover:bg-lime-200 text-emerald-900 w-12 h-8 rounded-md flex items-center justify-center transition-colors ml-auto cursor-pointer"
+                      >
+                        <Eye size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
       {/* Pagination */}
-      {!isLoading && (
+      {!isLoading && users.length > 0 && (
         <div className="flex justify-center items-center gap-2 mt-8">
-          {/* Previous Button */}
           <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className="w-10 h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-emerald-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft size={20} />
           </button>
 
-          {/* Page Numbers */}
           {getPageNumbers().map((page, idx) => (
             <button
               key={idx}
-              onClick={() => typeof page === "number" && setCurrentPage(page)}
+              onClick={() => typeof page === "number" && handlePageChange(page)}
               disabled={page === "..."}
               className={`w-10 h-10 rounded-full flex items-center justify-center font-medium transition-colors
-              ${
-                page === currentPage
-                  ? "bg-[#ecfccb] text-emerald-900"
-                  : page === "..."
-                  ? "text-gray-400 cursor-default"
-                  : "bg-white text-gray-600 hover:bg-gray-100"
-              }
-            `}
+                ${
+                  page === currentPage
+                    ? "bg-[#ecfccb] text-emerald-900"
+                    : page === "..."
+                    ? "text-gray-400 cursor-default"
+                    : "bg-white text-gray-600 hover:bg-gray-100"
+                }
+              `}
             >
               {page}
             </button>
           ))}
 
-          {/* Next Button */}
           <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
+            onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
             className="w-10 h-10 rounded-full bg-emerald-900 text-white flex items-center justify-center hover:bg-emerald-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -293,12 +357,11 @@ function Page() {
 
           {selectedUser && (
             <div className="space-y-6 mt-4">
-              {/* User Image and Basic Info */}
               <div className="flex items-center gap-6 pb-6 border-b border-gray-200">
                 <img
                   src={selectedUser.image}
                   alt={selectedUser.name}
-                  className="w-24 h-24 rounded-full border-4 border-emerald-900"
+                  className="w-24 h-24 rounded-full border-4 border-emerald-900 object-cover"
                 />
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900">
@@ -326,7 +389,6 @@ function Page() {
                 </div>
               </div>
 
-              {/* Detailed Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-sm font-semibold text-emerald-900">
@@ -367,7 +429,6 @@ function Page() {
                 </div>
               </div>
 
-              {/* Bio Section */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-emerald-900">
                   Bio
@@ -377,7 +438,6 @@ function Page() {
                 </p>
               </div>
 
-              {/* Uploads Section */}
               {selectedUser.uploads.length > 0 && (
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-emerald-900">
@@ -398,7 +458,6 @@ function Page() {
                 </div>
               )}
 
-              {/* Action Buttons */}
               <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
                 <button
                   onClick={handleCloseModal}

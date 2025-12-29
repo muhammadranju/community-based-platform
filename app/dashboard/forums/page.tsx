@@ -1,7 +1,13 @@
 "use client";
 import { authFetch } from "@/lib/authFetch";
-import { MoreVertical, Upload, ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import {
+  MoreVertical,
+  Upload,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,8 +15,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { format, parseISO } from "date-fns";
 import { costumFormatDate } from "@/components/shared/DateTime";
 
 export interface IPostOwner {
@@ -47,6 +58,9 @@ function Page() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
+  // Sorting state
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+
   const getForums = async () => {
     setIsLoading(true);
     try {
@@ -55,7 +69,7 @@ function Page() {
         auth: true,
       });
       const data = await res.json();
-      setForums(data?.data);
+      setForums(data?.data || []);
     } catch (error) {
       console.error("Error fetching forums:", error);
     } finally {
@@ -67,14 +81,28 @@ function Page() {
     getForums();
   }, []);
 
-  // Pagination logic
+  // Sort forums by createdAt
+  const sortedForums = useMemo(() => {
+    const sorted = [...forums];
+    sorted.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+    });
+    return sorted;
+  }, [forums, sortOrder]);
+
+  // Pagination using sorted data
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = forums.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(forums.length / itemsPerPage);
+  const currentItems = sortedForums.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sortedForums.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleActionClick = (post: IDiscussionPost) => {
@@ -136,12 +164,51 @@ function Page() {
   return (
     <div className="w-full">
       {/* Header Actions */}
+      <title>Forums Dashboard - African Traditional Architecture</title>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <h1 className="text-3xl font-bold text-teal-900">
-          Flagged / Pending Review
-        </h1>
-        <div>
-          <button className="flex items-center gap-2 bg-white text-teal-900 border border-teal-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm">
+        <h1 className="text-3xl font-bold text-teal-900">Forums</h1>
+        <div className="flex gap-3">
+          {/* Filter Dropdown - Newest / Oldest */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm">
+                <Filter size={16} />
+                Filter
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("newest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "newest" ? "font-semibold" : ""
+                }`}
+              >
+                Newest First
+                {sortOrder === "newest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("oldest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "oldest" ? "font-semibold" : ""
+                }`}
+              >
+                Oldest First
+                {sortOrder === "oldest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <button className="flex items-center gap-2 bg-white text-teal-900 border border-teal-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm sr-only">
             <Upload size={16} className="rotate-180" />
             Export
           </button>
@@ -167,7 +234,6 @@ function Page() {
 
             <tbody className="divide-y divide-gray-100">
               {isLoading ? (
-                // Skeleton Loading Rows
                 Array.from({ length: 5 }).map((_, index) => (
                   <tr key={index} className="text-sm">
                     <td className="py-4 px-6">
@@ -205,7 +271,6 @@ function Page() {
                     key={item._id}
                     className="hover:bg-gray-50 transition-colors text-sm"
                   >
-                    {/* Icon */}
                     <td className="py-4 px-6">
                       <img
                         src={getIconSrc(item.type)}
@@ -214,12 +279,10 @@ function Page() {
                       />
                     </td>
 
-                    {/* Title */}
                     <td className="py-4 px-6 font-medium text-gray-700 max-w-[280px] truncate">
                       {item.title}
                     </td>
 
-                    {/* Owner */}
                     <td className="py-4 px-6 text-gray-600">
                       <div>
                         <p className="font-medium text-gray-700">
@@ -231,12 +294,10 @@ function Page() {
                       </div>
                     </td>
 
-                    {/* Type */}
                     <td className="py-4 px-6 text-gray-600 capitalize">
                       {item.type}
                     </td>
 
-                    {/* Status */}
                     <td className="py-4 px-6">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold inline-block min-w-[90px] text-center ${
@@ -255,7 +316,6 @@ function Page() {
                       </span>
                     </td>
 
-                    {/* Action */}
                     <td className="py-4 px-6 text-right">
                       <button
                         onClick={() => handleActionClick(item)}
@@ -274,12 +334,6 @@ function Page() {
         {/* Pagination */}
         {!isLoading && forums.length > 0 && (
           <div className="flex items-center justify-center px-6 py-4 border-t border-gray-200">
-            <div className="text-sm text-gray-600 sr-only">
-              Showing {indexOfFirstItem + 1} to{" "}
-              {Math.min(indexOfLastItem, forums.length)} of {forums.length}{" "}
-              entries
-            </div>
-
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -326,7 +380,7 @@ function Page() {
         )}
       </div>
 
-      {/* Shadcn UI Dialog/Modal */}
+      {/* Modal remains unchanged */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -340,7 +394,6 @@ function Page() {
 
           {selectedPost && (
             <div className="space-y-6 mt-4">
-              {/* Post Icon & Type */}
               <div className="flex items-center gap-4">
                 <img
                   src={getIconSrc(selectedPost.type)}
@@ -355,7 +408,6 @@ function Page() {
                 </div>
               </div>
 
-              {/* Title */}
               <div>
                 <p className="text-sm text-gray-500 mb-1">Title</p>
                 <h3 className="text-xl font-semibold text-gray-900">
@@ -363,7 +415,6 @@ function Page() {
                 </h3>
               </div>
 
-              {/* Owner Information */}
               <div className="bg-gray-50 rounded-xl p-4">
                 <p className="text-sm text-gray-500 mb-3">Owner Information</p>
                 <div className="space-y-2">
@@ -388,7 +439,6 @@ function Page() {
                 </div>
               </div>
 
-              {/* Status & Metadata */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Status</p>
@@ -408,12 +458,11 @@ function Page() {
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Category</p>
                   <p className="font-medium text-gray-900">
-                    {selectedPost.category}
+                    {selectedPost.type}
                   </p>
                 </div>
               </div>
 
-              {/* Timestamps */}
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <p className="text-gray-500 mb-1">Created At</p>
@@ -429,8 +478,7 @@ function Page() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-4 sr-only">
                 <button className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors">
                   Approve
                 </button>

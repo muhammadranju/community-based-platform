@@ -10,7 +10,7 @@ import {
   Trash,
   Upload,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   Dialog,
@@ -72,6 +72,9 @@ const ContentTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
+  // Sorting state: newest or oldest based on createdAt
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+
   const getPosts = async () => {
     setLoading(true);
     try {
@@ -95,11 +98,22 @@ const ContentTable = () => {
     getPosts();
   }, []);
 
-  // Frontend pagination logic
+  // Sort posts based on createdAt
+  const sortedPosts = useMemo(() => {
+    const sorted = [...allPosts];
+    sorted.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+    });
+    return sorted;
+  }, [allPosts, sortOrder]);
+
+  // Pagination logic using sorted posts
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentPosts = allPosts.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(allPosts.length / itemsPerPage);
+  const currentPosts = sortedPosts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sortedPosts.length / itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -161,14 +175,51 @@ const ContentTable = () => {
   return (
     <div className="w-full">
       {/* Header Actions */}
+      <title>Contents Dashboard - African Traditional Architecture</title>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <h1 className="text-3xl font-bold text-teal-900">Content</h1>
+        <h1 className="text-3xl font-bold text-teal-900">Contents</h1>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm">
-            <Filter size={16} />
-            Filter
-          </button>
-          <button className="flex items-center gap-2 bg-white text-teal-900 border border-teal-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm">
+          {/* Filter Dropdown - Newest / Oldest */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm">
+                <Filter size={16} />
+                Filter
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("newest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "newest" ? "font-semibold" : ""
+                }`}
+              >
+                Newest First
+                {sortOrder === "newest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("oldest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "oldest" ? "font-semibold" : ""
+                }`}
+              >
+                Oldest First
+                {sortOrder === "oldest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <button className="flex items-center gap-2 bg-white text-teal-900 border border-teal-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm sr-only">
             <Upload size={16} className="rotate-180" />
             Export
           </button>
@@ -305,14 +356,14 @@ const ContentTable = () => {
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleEdit(item)}
-                            className="cursor-pointer"
+                            className="cursor-pointer sr-only"
                           >
                             <Edit className="mr-2 h-4 w-4" />
                             Edit Content
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleDelete(item)}
-                            className="cursor-pointer text-red-600"
+                            className="cursor-pointer text-red-600 sr-only"
                           >
                             <Trash className="mr-2 h-4 w-4" />
                             Delete
@@ -336,12 +387,6 @@ const ContentTable = () => {
         {/* Pagination */}
         {!loading && allPosts.length > 0 && (
           <div className="flex items-center justify-center px-6 py-4 border-t border-gray-200">
-            {/* <div className="text-sm text-gray-600">
-              Showing {indexOfFirstItem + 1} to{" "}
-              {Math.min(indexOfLastItem, allPosts.length)} of {allPosts.length}{" "}
-              entries
-            </div> */}
-
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}

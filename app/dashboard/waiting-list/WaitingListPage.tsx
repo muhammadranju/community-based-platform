@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Filter,
   Upload,
@@ -51,43 +51,18 @@ export const DashboardWaitingList: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Sorting state
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+
   const getWaitingList = async () => {
     setLoading(true);
     try {
-      // Replace this with your actual API call
       const res = await authFetch("/waiting-list", {
         method: "GET",
         auth: true,
       });
       const data = await res.json();
-      setWaitingList(data?.data);
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Mock data for demonstration
-      // const mockData: IWaitingList[] = Array.from({ length: 45 }, (_, i) => ({
-      //   _id: `id-${i + 1}`,
-      //   name: `User ${i + 1}`,
-      //   role: i % 2 === 0 ? "builder" : "developer",
-      //   email: `user${i + 1}@example.com`,
-      //   image: "/api/placeholder/40/40",
-      //   website: i % 3 === 0 ? `https://website${i + 1}.com` : "",
-      //   country: ["USA", "UK", "Canada", "Australia"][i % 4],
-      //   expertise: ["Frontend", "Backend", "Full Stack", "DevOps"][i % 4],
-      //   experience: `${(i % 10) + 1} years`,
-      //   about: `About user ${i + 1} - passionate developer`,
-      //   bio: `This is a longer bio for user ${
-      //     i + 1
-      //   }. They have extensive experience in software development and are passionate about creating innovative solutions.`,
-      //   status: i % 3 === 0 ? "inactive" : "active",
-      //   available: i % 2 === 0,
-      //   verified: i % 2 === 0,
-      //   isRoleTitle: true,
-      //   agreedToTerms: true,
-      //   uploads: [],
-      // }));
-      // setWaitingList(mockData);
+      setWaitingList(data?.data || []);
     } catch (error) {
       console.error("Error fetching waiting list:", error);
     } finally {
@@ -99,14 +74,33 @@ export const DashboardWaitingList: React.FC = () => {
     getWaitingList();
   }, []);
 
-  // Pagination calculations
+  // Sort by _id (MongoDB ObjectId → newest first by default)
+  const sortedWaitingList = useMemo(() => {
+    const sorted = [...waitingList];
+    sorted.sort((a, b) => {
+      if (sortOrder === "newest") {
+        return b._id.localeCompare(a._id); // Newer _id > older
+      } else {
+        return a._id.localeCompare(b._id); // Older first
+      }
+    });
+    return sorted;
+  }, [waitingList, sortOrder]);
+
+  // Pagination using sorted data
+  const totalPages = Math.ceil(sortedWaitingList.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = waitingList.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(waitingList.length / itemsPerPage);
+  const currentItems = sortedWaitingList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleViewDetails = (item: IWaitingList) => {
@@ -139,7 +133,6 @@ export const DashboardWaitingList: React.FC = () => {
         pages.push(totalPages);
       }
     }
-
     return pages;
   };
 
@@ -197,11 +190,47 @@ export const DashboardWaitingList: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h1 className="text-3xl font-bold text-teal-900">Waiting list</h1>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm">
-            <Filter size={16} />
-            Filter
-          </button>
-          <button className="flex items-center gap-2 bg-white text-teal-900 border border-teal-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm">
+          {/* Filter Dropdown - Newest / Oldest */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm">
+                <Filter size={16} />
+                Filter
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("newest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "newest" ? "font-semibold" : ""
+                }`}
+              >
+                Newest First
+                {sortOrder === "newest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  setSortOrder("oldest");
+                  setCurrentPage(1);
+                }}
+                className={`cursor-pointer justify-between ${
+                  sortOrder === "oldest" ? "font-semibold" : ""
+                }`}
+              >
+                Oldest First
+                {sortOrder === "oldest" && (
+                  <span className="ml-2 text-teal-600">✓</span>
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <button className="flex items-center gap-2 bg-white text-teal-900 border border-teal-900 px-5 py-2 rounded-full font-medium hover:bg-gray-50 transition-colors text-sm sr-only">
             <Upload size={16} className="rotate-180" />
             Export
           </button>
@@ -236,101 +265,101 @@ export const DashboardWaitingList: React.FC = () => {
               <TableSkeleton />
             ) : (
               <tbody className="divide-y divide-gray-100">
-                {currentItems.map((item, idx) => (
-                  <tr
-                    key={`${item._id}-${idx}`}
-                    className="hover:bg-gray-50 transition-colors text-sm text-gray-700"
-                  >
-                    <td className="py-4 px-6">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                    </td>
-                    <td className="py-4 px-6">{item.name}</td>
-                    <td className="py-4 px-6">{item.email}</td>
-                    <td className="py-4 px-6">
-                      {item.website ? (
-                        <a
-                          href={item.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-teal-700 hover:underline"
-                        >
-                          Visit
-                        </a>
-                      ) : (
-                        "—"
-                      )}
-                    </td>
-                    <td className="py-4 px-6">{item.country}</td>
-                    <td className="py-4 px-6">{item.expertise}</td>
-                    <td className="py-4 px-6">{item.experience}</td>
-                    <td className="py-4 px-6 truncate max-w-[200px]">
-                      {item.about}
-                    </td>
-                    {/* <td className="py-4 px-6">
-                      {item.bio.length > 50
-                        ? `${item.bio.substring(0, 50)}...`
-                        : item.bio}
-                    </td> */}
-                    <td className="py-4 px-6 capitalize">{item.role}</td>
-                    <td className="py-4 px-6">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          item.status === "active"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-600"
-                        }`}
-                      >
-                        {item.status === "active" ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-                    <td className="py-4 px-10">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          item.available
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-600"
-                        }`}
-                      >
-                        {item.available ? "Available" : "Not Available"}
-                      </span>
-                    </td>
-                    <td className="py-4 px-6 text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <button className="bg-[#ecfccb] hover:bg-lime-200 text-teal-900 w-8 h-8 rounded-full flex items-center justify-center transition-colors ml-auto">
-                            <MoreVertical size={16} />
-                          </button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem
-                            onClick={() => handleViewDetails(item)}
-                          >
-                            <Eye size={16} className="mr-2" />
-                            View Details
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                {currentItems.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={12}
+                      className="py-12 text-center text-gray-500"
+                    >
+                      No items in waiting list
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  currentItems.map((item, idx) => (
+                    <tr
+                      key={`${item._id}-${idx}`}
+                      className="hover:bg-gray-50 transition-colors text-sm text-gray-700"
+                    >
+                      <td className="py-4 px-6">
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_API_URL}${item.image}`}
+                          alt={item.name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      </td>
+                      <td className="py-4 px-6">{item.name}</td>
+                      <td className="py-4 px-6">{item.email}</td>
+                      <td className="py-4 px-6">
+                        {item.website ? (
+                          <a
+                            href={item.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-teal-700 hover:underline"
+                          >
+                            Visit
+                          </a>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                      <td className="py-4 px-6">{item.country}</td>
+                      <td className="py-4 px-6">{item.expertise}</td>
+                      <td className="py-4 px-6">{item.experience}</td>
+                      <td className="py-4 px-6 truncate max-w-[200px]">
+                        {item.about}
+                      </td>
+                      <td className="py-4 px-6 capitalize">{item.role}</td>
+                      <td className="py-4 px-6">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            item.status === "active"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-600"
+                          }`}
+                        >
+                          {item.status === "active" ? "Active" : "Inactive"}
+                        </span>
+                      </td>
+                      <td className="py-4 px-10">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            item.available
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-600"
+                          }`}
+                        >
+                          {item.available ? "Available" : "Not Available"}
+                        </span>
+                      </td>
+                      <td className="py-4 px-6 text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <button className="bg-[#ecfccb] hover:bg-lime-200 text-teal-900 w-8 h-8 rounded-full flex items-center justify-center transition-colors ml-auto">
+                              <MoreVertical size={16} />
+                            </button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onClick={() => handleViewDetails(item)}
+                            >
+                              <Eye size={16} className="mr-2" />
+                              View Details
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             )}
           </table>
         </div>
 
         {/* Pagination */}
-        {!loading && (
+        {!loading && waitingList.length > 0 && (
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 px-6 py-4 border-t border-gray-200">
-            <div className="text-sm text-gray-600 sr-only">
-              Showing {indexOfFirstItem + 1} to{" "}
-              {Math.min(indexOfLastItem, waitingList.length)} of{" "}
-              {waitingList.length} entries
-            </div>
-
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -371,7 +400,7 @@ export const DashboardWaitingList: React.FC = () => {
         )}
       </div>
 
-      {/* Details Modal using shadcn Dialog */}
+      {/* Details Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
