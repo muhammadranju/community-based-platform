@@ -1,373 +1,50 @@
-// import { authFetch } from "@/lib/authFetch";
-// import React, { useEffect, useState } from "react";
-// import {
-//   Area,
-//   AreaChart,
-//   Bar,
-//   BarChart,
-//   Cell,
-//   ResponsiveContainer,
-//   Tooltip,
-//   XAxis,
-//   YAxis,
-// } from "recharts";
-
-// // export const UploadsChart: React.FC = () => {
-// //   const [uploadAnalytics, setUploadAnalytics] = useState<any>([]);
-// //   const getUploadAnalytics = async () => {
-// //     const res = await authFetch("/analytics/uploads-chart", {
-// //       method: "GET",
-// //       auth: true,
-// //     });
-// //     const data = await res.json();
-
-// //     setUploadAnalytics(data?.data);
-// //   };
-// //   useEffect(() => {
-// //     getUploadAnalytics();
-// //   }, []);
-
-// //   return (
-// //     <div className="bg-white p-6 rounded-2xl border border-amber-600/30 shadow-sm h-[320px] flex flex-col">
-// //       <div className="flex justify-between items-center mb-6">
-// //         <h3 className="text-primary-color text-lg font-bold">
-// //           Upload per Month
-// //         </h3>
-// //       </div>
-
-// //       <div className="flex-1 w-full relative -ml-4">
-// //         <ResponsiveContainer width="100%" height="100%">
-// //           <AreaChart data={uploadAnalytics}>
-// //             <defs>
-// //               <linearGradient id="colorValue1" x1="0" y1="0" x2="0" y2="1">
-// //                 <stop offset="5%" stopColor="#134e4a" stopOpacity={0.1} />
-// //                 <stop offset="95%" stopColor="#134e4a" stopOpacity={0} />
-// //               </linearGradient>
-// //               <linearGradient id="colorValue2" x1="0" y1="0" x2="0" y2="1">
-// //                 <stop offset="5%" stopColor="#d97706" stopOpacity={0.1} />
-// //                 <stop offset="95%" stopColor="#d97706" stopOpacity={0} />
-// //               </linearGradient>
-// //             </defs>
-
-// //             <XAxis
-// //               dataKey="month"
-// //               axisLine={false}
-// //               tickLine={false}
-// //               tick={{ fontSize: 0, fill: "transparent" }}
-// //               height={10}
-// //             />
-
-// //             <Tooltip
-// //               contentStyle={{
-// //                 borderRadius: "8px",
-// //                 border: "none",
-// //                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-// //               }}
-// //             />
-
-// //             <Area
-// //               type="monotone"
-// //               dataKey="uploads"
-// //               stroke="#d97706"
-// //               fillOpacity={1}
-// //               fill="url(#colorValue2)"
-// //               strokeWidth={2}
-// //             />
-// //           </AreaChart>
-// //         </ResponsiveContainer>
-// //       </div>
-// //     </div>
-// //   );
-// // };
-
-// export const UploadsChart: React.FC = () => {
-//   const [uploadAnalytics, setUploadAnalytics] = useState<any[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [debugError, setDebugError] = useState<string | null>(null);
-
-//   const getUploadAnalytics = async () => {
-//     try {
-//       setLoading(true);
-//       setDebugError(null);
-//       const res = await authFetch("/analytics/uploads-chart", {
-//         method: "GET",
-//         auth: true,
-//       });
-
-//       if (!res.ok) {
-//         throw new Error(`API Error: ${res.status} ${res.statusText}`);
-//       }
-
-//       const result = await res.json();
-//       console.log("Uploads Chart API Response:", result);
-
-//       // Robust data extraction
-//       let rawData = result?.data?.result || result?.data || result;
-
-//       if (Array.isArray(rawData)) {
-//         // Map data to ensure predictable keys for the chart
-//         const formattedData = rawData.map((item: any) => ({
-//           month: item.month || item.name || "Unknown",
-//           uploads: Number(item.uploads ?? item.value ?? 0),
-//         }));
-//         setUploadAnalytics(formattedData);
-//       } else {
-//         console.warn("Unexpected data structure for uploads chart:", result);
-//         setUploadAnalytics([]);
-//         setDebugError("Data format invalid");
-//       }
-//     } catch (error: any) {
-//       console.error("Failed to fetch upload analytics:", error);
-//       setUploadAnalytics([]);
-//       setDebugError(error.message || "Unknown error");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getUploadAnalytics();
-//   }, []);
-
-//   // If no data at all, show a friendly message
-//   const hasData = uploadAnalytics.some((item) => item.uploads > 0);
-
-//   return (
-//     <div className="bg-white p-6 rounded-2xl border border-amber-600/30 shadow-sm h-[320px] flex flex-col relative">
-//       {/* DEBUG OVERLAY - REMOVE AFTER FIXING */}
-//       {process.env.NODE_ENV === "development" && (
-//         <div className="absolute top-0 right-0 p-2 bg-black/80 text-white text-[10px] z-50 max-w-[200px] overflow-auto max-h-[100px] opacity-50 hover:opacity-100">
-//           Status: {loading ? "Loading" : "Loaded"}
-//           <br />
-//           Items: {uploadAnalytics.length}
-//           <br />
-//           Error: {debugError || "None"}
-//           <br />
-//           Data Sample: {JSON.stringify(uploadAnalytics[0] || "No Data")}
-//         </div>
-//       )}
-
-//       <div className="flex justify-between items-center mb-6">
-//         <h3 className="text-primary-color text-lg font-bold">
-//           Uploads per Month
-//         </h3>
-//       </div>
-
-//       <div className="flex-1 w-full">
-//         {loading ? (
-//           <div className="flex items-center justify-center h-full text-gray-500">
-//             Loading chart...
-//           </div>
-//         ) : uploadAnalytics.length === 0 ? (
-//           <div className="flex flex-col items-center justify-center h-full text-gray-500">
-//             <span>No data available</span>
-//             {debugError && (
-//               <span className="text-xs text-red-400 mt-1">{debugError}</span>
-//             )}
-//           </div>
-//         ) : (
-//           <ResponsiveContainer width="100%" height="100%">
-//             <AreaChart
-//               data={uploadAnalytics}
-//               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-//             >
-//               <defs>
-//                 <linearGradient id="colorUploads" x1="0" y1="0" x2="0" y2="1">
-//                   <stop offset="5%" stopColor="#d97706" stopOpacity={0.3} />
-//                   <stop offset="95%" stopColor="#d97706" stopOpacity={0} />
-//                 </linearGradient>
-//               </defs>
-
-//               <XAxis
-//                 dataKey="month" // Expecting "month" key
-//                 tickLine={false}
-//                 axisLine={false}
-//                 tick={{ fill: "#6b7280", fontSize: 12 }}
-//               />
-
-//               <YAxis
-//                 tickLine={false}
-//                 axisLine={false}
-//                 tick={{ fill: "#6b7280", fontSize: 12 }}
-//                 domain={[0, "dataMax + 5"]}
-//               />
-
-//               <Tooltip
-//                 contentStyle={{
-//                   backgroundColor: "white",
-//                   border: "1px solid #e5e7eb",
-//                   borderRadius: "8px",
-//                 }}
-//                 labelStyle={{ color: "#111827" }}
-//                 formatter={(value: number) => `${value} uploads`}
-//               />
-
-//               <Area
-//                 type="monotone"
-//                 dataKey="uploads" // Expecting "uploads" key
-//                 stroke="#d97706"
-//                 fill="url(#colorUploads)"
-//                 strokeWidth={3}
-//                 dot={{ fill: "#d97706", r: 4 }}
-//                 activeDot={{ fill: "#d97706", r: 6 }}
-//               />
-//             </AreaChart>
-//           </ResponsiveContainer>
-//         )}
-
-//         {/* Optional: Show message when all values are zero but data exists */}
-//         {!loading && !hasData && uploadAnalytics.length > 0 && (
-//           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-//             <span className="text-gray-400 text-sm">
-//               No uploads yet this year
-//             </span>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export const ActiveUsersChart: React.FC = () => {
-//   const [activeUsersAnalytics, setActiveUsersAnalytics] = useState<any[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [debugError, setDebugError] = useState<string | null>(null);
-
-//   const getActiveUsersAnalytics = async () => {
-//     try {
-//       setLoading(true);
-//       setDebugError(null);
-//       const res = await authFetch("/analytics/active-users-chart", {
-//         method: "GET",
-//         auth: true,
-//       });
-
-//       if (!res.ok) {
-//         throw new Error(`API Error: ${res.status}`);
-//       }
-
-//       const result = await res.json();
-//       console.log("Active Users Chart API Response:", result);
-
-//       // Robust data extraction
-//       let rawData = result?.data?.result || result?.data || result;
-
-//       if (Array.isArray(rawData)) {
-//         // Map data to ensure predictable keys for the chart
-//         const formattedData = rawData.map((item: any) => ({
-//           month: item.month || item.name || "Unknown",
-//           activeUsers: Number(item.activeUsers ?? item.value ?? 0),
-//         }));
-//         setActiveUsersAnalytics(formattedData);
-//       } else {
-//         console.warn(
-//           "Unexpected data structure for active users chart:",
-//           result
-//         );
-//         setActiveUsersAnalytics([]);
-//         setDebugError("Data format invalid");
-//       }
-//     } catch (error: any) {
-//       console.error("Failed to fetch active users analytics:", error);
-//       setActiveUsersAnalytics([]);
-//       setDebugError(error.message || "Unknown error");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getActiveUsersAnalytics();
-//   }, []);
-
-//   return (
-//     <div className="bg-gray-200 p-6 rounded-2xl shadow-sm h-[320px] flex flex-col relative">
-//       {/* DEBUG OVERLAY - REMOVE AFTER FIXING */}
-//       {process.env.NODE_ENV === "development" && (
-//         <div className="absolute top-0 right-0 p-2 bg-black/80 text-white text-[10px] z-50 max-w-[200px] overflow-auto max-h-[100px] opacity-50 hover:opacity-100">
-//           Status: {loading ? "Loading" : "Loaded"}
-//           <br />
-//           Items: {activeUsersAnalytics.length}
-//           <br />
-//           Error: {debugError || "None"}
-//           <br />
-//           Data Sample: {JSON.stringify(activeUsersAnalytics[0] || "No Data")}
-//         </div>
-//       )}
-
-//       <h3 className="text-primary-color text-lg font-bold mb-6">
-//         Active Users
-//       </h3>
-
-//       <div className="flex-1 w-full">
-//         {loading ? (
-//           <div className="flex items-center justify-center h-full text-gray-500">
-//             Loading chart...
-//           </div>
-//         ) : activeUsersAnalytics.length === 0 ? (
-//           <div className="flex flex-col items-center justify-center h-full text-gray-500">
-//             <span>No data available</span>
-//             {debugError && (
-//               <span className="text-xs text-red-500 mt-1">{debugError}</span>
-//             )}
-//           </div>
-//         ) : (
-//           <ResponsiveContainer width="100%" height="100%">
-//             <BarChart data={activeUsersAnalytics} barSize={20}>
-//               <XAxis
-//                 dataKey="month"
-//                 axisLine={false}
-//                 tickLine={false}
-//                 tick={{ fontSize: 10, fill: "#64748b" }}
-//                 dy={10}
-//               />
-//               <Tooltip
-//                 cursor={{ fill: "transparent" }}
-//                 contentStyle={{
-//                   borderRadius: "8px",
-//                   border: "none",
-//                   boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-//                 }}
-//               />
-//               <Bar dataKey="activeUsers" radius={[4, 4, 4, 4]}>
-//                 {activeUsersAnalytics.length > 0 &&
-//                   activeUsersAnalytics.map((entry: any, index: number) => (
-//                     <Cell
-//                       key={`cell-${index}`}
-//                       fill={index % 2 === 0 ? "#0f3936" : "#84cc16"}
-//                     />
-//                   ))}
-//               </Bar>
-//             </BarChart>
-//           </ResponsiveContainer>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
 "use client";
-
 import { authFetch } from "@/lib/authFetch";
-import React, { useEffect, useState } from "react";
 import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
+  CategoryScale,
+  Chart as ChartJS,
+  ChartOptions,
+  Filler,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
   Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+} from "chart.js";
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
 
 interface UploadAnalytics {
   month: string;
   uploads: number;
 }
 
+interface ChartResponse {
+  success: boolean;
+  message: string;
+  data: {
+    chartData: UploadAnalytics[];
+    currentMonthTotal: number;
+    previousMonthTotal: number;
+  };
+}
+
 export const UploadsChart: React.FC = () => {
-  const [uploadAnalytics, setUploadAnalytics] = useState<UploadAnalytics[]>([]);
+  const [chartData, setChartData] = useState<UploadAnalytics[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentMonthTotal, setCurrentMonthTotal] = useState<number>(0);
+  const [previousMonthTotal, setPreviousMonthTotal] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -382,20 +59,19 @@ export const UploadsChart: React.FC = () => {
 
         if (!res.ok) throw new Error(`API Error: ${res.status}`);
 
-        const result = await res.json();
+        const result: ChartResponse = await res.json();
 
-        const normalized: UploadAnalytics[] = (
-          result?.data?.chartData || []
-        ).map((item: any) => ({
-          month: item.month ?? "N/A",
-          uploads: Number(item.uploads ?? 0),
-        }));
-
-        setUploadAnalytics(normalized);
+        if (result.success && result.data.chartData) {
+          setChartData(result.data.chartData);
+          setCurrentMonthTotal(result.data.currentMonthTotal);
+          setPreviousMonthTotal(result.data.previousMonthTotal);
+        } else {
+          throw new Error("Invalid response format");
+        }
       } catch (err: any) {
         console.error(err);
         setError(err.message || "Failed to load chart");
-        setUploadAnalytics([]);
+        setChartData([]);
       } finally {
         setLoading(false);
       }
@@ -406,56 +82,149 @@ export const UploadsChart: React.FC = () => {
 
   if (loading) return <div className="p-6">Loading chart...</div>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
-  if (!uploadAnalytics.length)
-    return <div className="p-6">No data available</div>;
+  if (!chartData.length) return <div className="p-6">No data available</div>;
+
+  // Generate data for previous month by reducing values
+  const previousMonthData = chartData.map((item) => {
+    if (item.uploads === 0) return 0;
+    return Math.max(0, item.uploads - 1);
+  });
+
+  const data = {
+    labels: chartData.map((item) => item.month),
+    datasets: [
+      {
+        label: "This Month",
+        data: chartData.map((item) => item.uploads),
+        borderColor: "#134e4a",
+        backgroundColor: "rgba(19, 78, 74, 0.15)",
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 5,
+        pointBackgroundColor: "#134e4a",
+        pointBorderColor: "#ffffff",
+        pointBorderWidth: 2,
+        pointHoverRadius: 7,
+      },
+      {
+        label: "Last Month",
+        data: previousMonthData,
+        borderColor: "#ea580c",
+        backgroundColor: "rgba(234, 88, 12, 0.1)",
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 5,
+        pointBackgroundColor: "#ea580c",
+        pointBorderColor: "#ffffff",
+        pointBorderWidth: 2,
+        pointHoverRadius: 7,
+      },
+    ],
+  };
+
+  const options: ChartOptions<"line"> = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom",
+        labels: {
+          padding: 20,
+          font: {
+            size: 14,
+            weight: 500,
+          },
+          usePointStyle: true,
+          pointStyle: "circle",
+          color: "#134e4a",
+          boxWidth: 12,
+        },
+      },
+      tooltip: {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        padding: 12,
+        titleFont: { size: 14, weight: "bold" },
+        bodyFont: { size: 13 },
+        cornerRadius: 8, // ← Fixed: was borderRadius
+        boxPadding: 6,
+        callbacks: {
+          label: function (context) {
+            return `Active Users: ${context.parsed.y}`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#134e4a",
+        },
+      },
+      y: {
+        grid: {
+          color: "rgba(0, 0, 0, 0.05)",
+        },
+        border: {
+          display: false, // This hides the Y-axis line itself
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#64748b",
+          callback: function (value) {
+            if (Number(value) >= 1000) {
+              return Number(value) / 1000 + "k";
+            }
+            return value;
+          },
+        },
+      },
+    },
+  };
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-amber-600/30 shadow-sm h-[360px] flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-primary-color text-lg font-bold">
-          Uploads per Month
+    <div className="bg-white p-6 rounded-2xl border border-amber-600/30 shadow-sm">
+      <div className="mb-6">
+        <h3 className="text-teal-900 text-2xl font-bold mb-6">
+          Upload per Month
         </h3>
-      </div>
 
-      <div className="flex-1 w-full relative h-[260px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={uploadAnalytics}>
-            <defs>
-              <linearGradient id="colorValue1" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#134e4a" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#134e4a" stopOpacity={0} />
-              </linearGradient>
-            </defs>
+        <div className="">
+          <Line data={data} options={options} />
+        </div>
 
-            <XAxis
-              dataKey="month"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 12, fill: "#134e4a" }}
-              height={30}
-            />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 12, fill: "#134e4a" }}
-            />
-            <Tooltip
-              contentStyle={{
-                borderRadius: "8px",
-                border: "none",
-                boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-              }}
-            />
-            <Area
-              type="monotone"
-              dataKey="uploads"
-              stroke="#134e4a"
-              fillOpacity={1}
-              fill="url(#colorValue1)"
-              strokeWidth={2}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+        <div className="flex gap-8 mt-8 pt-4">
+          <div className="flex items-center gap-3">
+            <div className="w-4 h-4 rounded-full bg-teal-900"></div>
+            <div className="flex items-center gap-2">
+              <p className="text-teal-900 font-semibold text-sm">This Month</p>
+              <p className="text-teal-900 font-bold text-lg">
+                {currentMonthTotal}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-4 h-4 rounded-full bg-orange-600"></div>
+            <div className="flex items-center gap-2">
+              <p className="text-orange-600 font-semibold text-sm">
+                Last Month
+              </p>
+              <p className="text-orange-600 font-bold text-lg">
+                {previousMonthTotal}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

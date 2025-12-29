@@ -22,7 +22,7 @@ export const TopBar: React.FC<TopBarProps> = ({ toggleSidebar }) => {
   }, []);
 
   return (
-    <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+    <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
       <div className="flex items-center gap-4">
         <button
           onClick={toggleSidebar}
@@ -66,21 +66,21 @@ export const TopBar: React.FC<TopBarProps> = ({ toggleSidebar }) => {
         </div>
 
         {/* Profile */}
-        <div className="flex items-center gap-3 pl-2 cursor-pointer">
+        <div className="flex items-center gap-2 px-2 pr-4 py-2 cursor-pointer hover:bg-gray-100 rounded-full">
           <img
             src={`${process.env.NEXT_PUBLIC_API_URL}${user?.image}`}
             alt="Profile"
             className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
           />
           <div className="hidden sm:block">
-            <div className="text-sm font-bold text-primary-color flex items-center gap-1">
+            <div className="text-sm font-bold text-primary-color flex items-center ">
               {user?.name}
-              <ChevronDown size={14} />
+              {/* <ChevronDown size={14} /> */}
             </div>
             <div className="text-xs text-gray-500">
               {user?.role === "SUPER_ADMIN" || user?.role === "ADMIN"
                 ? "Admin"
-                : "User"}
+                : "Member"}
             </div>
           </div>
         </div>

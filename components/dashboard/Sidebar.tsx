@@ -2,10 +2,14 @@
 
 import Cookies from "js-cookie";
 import {
+  ArrowDownRight,
+  ArrowRight,
   ChartNoAxesColumn,
   Component,
   Form,
+  Home,
   LogOut,
+  Newspaper,
   NotebookPen,
   Upload,
   Users,
@@ -17,6 +21,7 @@ import { AiFillPieChart } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { IoCloudUploadOutline, IoSettingsOutline } from "react-icons/io5";
 import UserInfo from "../shared/UserInfo";
+import { SignOut } from "../shared/SignOut";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -95,9 +100,20 @@ const adminNavItems: NavItem[] = [
     icon: <NotebookPen size={20} />,
   },
   {
+    href: "/dashboard/news-letter",
+    label: "News Letter",
+    icon: <Newspaper size={20} />,
+  },
+
+  {
     href: "/dashboard/profile",
     label: "Profile",
     icon: <CgProfile size={20} />,
+  },
+  {
+    href: "/dashboard/settings",
+    label: "Settings",
+    icon: <IoSettingsOutline size={20} />,
   },
 ];
 
@@ -164,11 +180,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
         {/* Bottom Section */}
         <div className="p-6">
-          <button
-            onClick={signOut}
-            className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/50 rounded-lg transition-colors cursor-pointer"
+          <Link
+            href="/"
+            className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-emerald-500/50 rounded-lg transition-colors cursor-pointer "
           >
-            <LogOut size={20} className="rotate-180" />
+            <Home size={20} />
+            <span className="flex items-center gap-2">Go Home</span>
+          </Link>
+          <button
+            onClick={SignOut}
+            className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/80 rounded-lg transition-colors cursor-pointer"
+          >
+            <LogOut size={20} />
             <span>Sign Out</span>
           </button>
         </div>

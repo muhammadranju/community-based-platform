@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 export const RecentUploadsTable: React.FC = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const getPosts = async () => {
-    const res = await authFetch("/contents/all-contents?limit=4", {
+    const res = await authFetch("/contents/all-contents?limit=6", {
       method: "GET",
       auth: true,
     });
@@ -78,6 +78,7 @@ export const NewestMembersTable: React.FC = () => {
   useEffect(() => {
     getUsers();
   }, []);
+
   return (
     <div className="bg-white rounded-2xl border border-lime-500/30 overflow-hidden">
       <div className="p-6 pb-4">
@@ -94,7 +95,7 @@ export const NewestMembersTable: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {users?.slice(1, 5).map((member) => (
+            {users?.slice(1, 9).map((member) => (
               <tr
                 key={member._id}
                 className="text-sm hover:bg-gray-50 transition-colors text-gray-600"
