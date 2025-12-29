@@ -3,6 +3,7 @@ import CustomBadge from "@/components/shared/SharedBadge";
 import WaitingListWizard from "../_components/WaitingListWizard";
 import WaitingHeader from "../WaitingHeader";
 import WaitingHeroSection from "../WaitingHeroSection";
+import BackButton from "@/components/shared/BackButton";
 
 export default function WaitingSignupPage() {
   return (
@@ -21,6 +22,7 @@ export default function WaitingSignupPage() {
             <div className="max-w-3xl">
               {/* Badge */}
               <div className="mb-6">
+                <BackButton link="/" text="Home" />
                 <CustomBadge>Database</CustomBadge>
               </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowBigLeft, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -20,12 +20,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authFetch } from "@/lib/authFetch";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { FcGoogle } from "react-icons/fc";
+import SharedButton from "@/components/shared/SharedButton";
+import BackButton from "@/components/shared/BackButton";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -89,32 +92,35 @@ export default function LoginPage() {
     }
   }
 
-  const handleGoogleLogin = async (credentialResponse: any) => {
-    if (!credentialResponse?.credential) return;
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      console.log(codeResponse.code);
+      try {
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_API_URL_GOOGLE as string,
+          {
+            idToken: codeResponse.code, // ✅ AUTH CODE
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        console.log(response.data);
+        const { token, user } = response.data;
 
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_API_URL_GOOGLE as string,
-        { idToken: credentialResponse.credential },
-        { headers: { "Content-Type": "application/json" } }
-      );
-      const { token, user } = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        Cookies.set("token", token);
 
-      console.log(response.data);
-
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      Cookies.set("token", token);
-      setUser(user);
-      router.push("/dashboard/overview");
-    } catch (error: any) {
-      console.error("Login failed:", error.response?.data || error.message);
-      toast.success("Login failed. Check console for details.");
-    } finally {
-      setLoading(false);
-    }
-  };
+        toast.success("Login successful");
+        router.push("/dashboard/overview");
+      } catch (error) {
+        toast.error("Google login failed");
+      }
+    },
+    onError: () => toast.error("Google login failed"),
+  });
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white  overflow-x-hidden">
@@ -127,6 +133,7 @@ export default function LoginPage() {
         {/* Form Content Container */}
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 py-10 lg:py-0 ">
           <div className="w-full max-w-xl mx-auto">
+            <BackButton link="/" text="Home" />
             {/* Badge */}
             <Badge className="bg-lime-500 text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
               welcome back to the village
@@ -150,26 +157,25 @@ export default function LoginPage() {
 
             <div className="lg:block hidden">
               {/* Google Button */}
-              {/* <Button
-                type="button"
-                variant="outline"
-                className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm shadow-sm transition-all"
-                onClick={() => console.log("Google Login")}
-              >
-                <FcGoogle className="w-5 h-5" />
-                Continue with Google
-              </Button> */}
               <div className="flex justify-center w-full">
-                <GoogleLogin
-                  onSuccess={handleGoogleLogin}
-                  onError={() => toast.error("Google login failed")}
-                  useOneTap
-                  theme="outline"
-                  size="large"
-                  text="continue_with"
-                  shape="rectangular"
-                  width="1000"
-                />
+                <Button
+                  type="button"
+                  onClick={() => googleLogin()}
+                  variant="outline"
+                  className="
+                              w-full h-12
+                              flex items-center justify-center gap-3
+                              border border-gray-300
+                              bg-white text-gray-700 font-medium
+                              rounded-lg shadow-sm
+                              transition-all duration-200
+                              hover:bg-gray-100 hover:shadow-md hover:scale-[1.01]
+                              active:scale-[0.98]
+                            "
+                >
+                  <FcGoogle className="w-5 h-5" />
+                  <span>Continue with Google</span>
+                </Button>
               </div>
 
               {/* Divider */}
@@ -277,27 +283,25 @@ export default function LoginPage() {
                   </div>
 
                   <div className="flex justify-center w-full">
-                    <GoogleLogin
-                      onSuccess={handleGoogleLogin}
-                      onError={() => toast.error("Google login failed")}
-                      useOneTap
-                      theme="outline"
-                      size="large"
-                      text="continue_with"
-                      shape="rectangular"
-                      width="1000"
-                    />
+                    <Button
+                      type="button"
+                      onClick={() => googleLogin()}
+                      variant="outline"
+                      className="
+                              w-full h-12
+                              flex items-center justify-center gap-3
+                              border border-gray-300
+                              bg-white text-gray-700 font-medium
+                              rounded-lg shadow-sm
+                              transition-all duration-200
+                              hover:bg-gray-100 hover:shadow-md hover:scale-[1.01]
+                              active:scale-[0.98]
+                            "
+                    >
+                      <FcGoogle className="w-5 h-5" />
+                      <span>Continue with Google</span>
+                    </Button>
                   </div>
-                  {/* Google Button */}
-                  {/* <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm shadow-sm transition-all"
-                    onClick={() => console.log("Google Login")}
-                  >
-                    <FcGoogle className="w-5 h-5" />
-                    Continue with Google
-                  </Button> */}
                 </div>
               </form>
             </Form>

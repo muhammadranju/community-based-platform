@@ -21,6 +21,7 @@ import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
 import Link from "next/link";
 import AuthHeader from "@/components/auth/AuthHeader";
 import { Badge } from "@/components/ui/badge";
+import BackButton from "@/components/shared/BackButton";
 
 // --- Schema Definition ---
 const formSchema = z.object({
@@ -63,15 +64,7 @@ export default function ForgotPassword() {
         {/* Form Content Container */}
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 py-10 lg:py-0 ">
           <div className="w-full max-w-xl mx-auto">
-            <Link href="/login" className="flex items-center gap-2 my-5">
-              <Button
-                variant="outline"
-                className="rounded-xl py-5 bg-emerald-900 text-white hover:bg-emerald-900 hover:text-white"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-              <span className="text-emerald-900">Back to Login</span>
-            </Link>
+            <BackButton link="/login" text="Login" />
             <Badge className="bg-lime-500 text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
               Reset password
             </Badge>
