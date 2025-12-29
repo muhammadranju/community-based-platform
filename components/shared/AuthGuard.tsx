@@ -109,6 +109,8 @@ const ROUTE_PERMISSIONS = {
     "/dashboard/moderations",
     "/dashboard/waiting-list",
     "/dashboard/profile",
+    "/dashboard/news-letter",
+    "/dashboard/settings",
   ],
   USER: [
     "/dashboard/users/overview",
