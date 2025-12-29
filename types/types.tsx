@@ -38,6 +38,7 @@ export interface ArchiveItem {
   region?: string;
   medias?: string[];
   pdfs?: string[];
+  country?: string;
 }
 
 export interface StepItem {
