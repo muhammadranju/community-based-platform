@@ -12,7 +12,6 @@ const PopularContent: React.FC = () => {
       auth: false,
     });
     const data = await response.json();
-    console.log(data);
     setPopularContent(data?.data);
   };
 

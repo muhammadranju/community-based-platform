@@ -263,7 +263,7 @@ export default function Header() {
                         className="cursor-pointer py-2 text-red-600 hover:text-red-700"
                       >
                         <LogOut className="w-4 h-4" />
-                        <span>Logout</span>
+                        <span>Sign Out</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

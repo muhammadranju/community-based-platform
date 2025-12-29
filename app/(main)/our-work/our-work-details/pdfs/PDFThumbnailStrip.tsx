@@ -19,7 +19,6 @@ export const PDFThumbnailStrip: React.FC<PDFThumbnailStripProps> = ({
   const [numPages, setNumPages] = React.useState<number>(0);
 
   const handleSelect = (index: number) => {
-    console.log("Selected page:", index + 1);
     onSelect(index);
   };
 

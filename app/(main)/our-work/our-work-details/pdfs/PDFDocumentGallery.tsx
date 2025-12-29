@@ -160,10 +160,6 @@ export const DocumentGallery: React.FC<PDFDocumentGalleryProps> = ({
   companyName,
 }) => {
   const [numPages, setNumPages] = useState<number>(0);
-  console.log("URL", url);
-
-  console.log("title", title);
-  console.log("com", companyName);
 
   return (
     <div className="flex justify-center items-start bg-white my-20  mt-44">

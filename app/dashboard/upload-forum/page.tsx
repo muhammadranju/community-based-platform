@@ -77,7 +77,6 @@ export const CreateForumPostPage: React.FC = () => {
       }
       const data = await response.json();
 
-      console.log(data);
       setIsLoading(false);
     } catch (error) {
       console.error("Error creating forum post:", error);

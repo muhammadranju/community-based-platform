@@ -181,7 +181,6 @@ export const ForumCard: React.FC<ForumCardProps> = ({ data, theme }) => {
         return <MessageSquare className="w-6 h-6 text-gray-500" />;
     }
   };
-  console.log(data);
   return (
     <div
       className={`group relative bg-white rounded-2xl border ${currentStyle.border} ${currentStyle.hover} transition-all duration-200 shadow-sm p-5 md:p-6 mb-4`}

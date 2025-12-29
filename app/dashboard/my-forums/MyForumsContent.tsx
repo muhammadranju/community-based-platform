@@ -141,8 +141,6 @@ export function MyForumsContent() {
     </tr>
   );
 
-  console.log(forums);
-
   return (
     <div className="w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">

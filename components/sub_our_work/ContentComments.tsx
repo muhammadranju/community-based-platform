@@ -393,7 +393,6 @@ export const ContentCommentsSection = ({
       }
 
       const data = await response.json();
-      console.log("Upload successful:", data);
       toast.success("Comment posted successfully!");
 
       if (onCommentAdded) {

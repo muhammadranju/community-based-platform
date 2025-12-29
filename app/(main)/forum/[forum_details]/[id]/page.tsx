@@ -205,9 +205,6 @@ export default function page() {
                 dangerouslySetInnerHTML={{ __html: cleanHTML }}
               />
             </div>
-            {/* {console.log(forumData?.description)} */}
-            {/* {parse((forumData?.description as string) || "", options)} */}
-            {/* <div dangerouslySetInnerHTML={{ __html: cleanHtml }} /> */}
           </div>
         </div>
         <div className="my-10">

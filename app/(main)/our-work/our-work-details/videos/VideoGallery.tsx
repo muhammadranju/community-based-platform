@@ -26,7 +26,6 @@ const VideoGallery: React.FC<{ videos: Video[] }> = ({ videos }) => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-  console.log(videos);
   return (
     <div className="w-full mx-auto bg-[#F4F9ED] rounded-3xl border border-[#D8E6C5] p-6 md:p-10 shadow-sm">
       {/* Header Section */}

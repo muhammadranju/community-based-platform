@@ -84,8 +84,6 @@ const ContentTable = () => {
       });
       const data = await res.json();
 
-      console.log("API Response:", data);
-
       setAllPosts(data?.data?.contents || data?.data || []);
     } catch (error) {
       console.error("Failed to fetch posts:", error);
@@ -128,12 +126,12 @@ const ContentTable = () => {
   };
 
   const handleEdit = (post: IPost) => {
-    console.log("Edit post:", post);
+    // console.log("Edit post:", post);
     // Add your edit logic here
   };
 
   const handleDelete = (post: IPost) => {
-    console.log("Delete post:", post);
+    // console.log("Delete post:", post);
     // Add your delete logic here
   };
 

@@ -39,7 +39,6 @@ function OurWorkDetailsPage() {
 
   const search = searchParams.get("region");
 
-  console.log(search);
   return (
     <>
       <div className="text-gray-800">

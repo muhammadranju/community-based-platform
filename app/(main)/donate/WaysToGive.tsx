@@ -17,12 +17,12 @@ export const WaysToGive: React.FC = () => {
           <Card
             icon={<Sprout className="w-8 h-8 text-white" />}
             label="Monetary"
-            onClick={() => console.log("Monetary clicked")}
+            // onClick={() => console.log("Monetary clicked")}
           />
           <Card
             icon={<HandHeart className="w-8 h-8 text-white" />}
             label="Volunteer"
-            onClick={() => console.log("Volunteer clicked")}
+            // onClick={() => console.log("Volunteer clicked")}
           />
         </div>
       </div>

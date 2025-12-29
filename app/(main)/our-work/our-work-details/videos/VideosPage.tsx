@@ -50,7 +50,6 @@ function VideosPage() {
             duration: "Playing", // Placeholder as we don't have duration metaprops
           })
         );
-        console.log(list);
         setPlaylist(list);
       }
     } catch (error) {

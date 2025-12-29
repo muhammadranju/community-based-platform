@@ -44,7 +44,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [user, setUser] = useState(null);
 
   // --- Form Setup ---
   const form = useForm<z.infer<typeof formSchema>>({
@@ -95,7 +94,6 @@ export default function LoginPage() {
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
-      console.log(codeResponse.code);
       try {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_API_URL_GOOGLE as string,
@@ -106,15 +104,14 @@ export default function LoginPage() {
             headers: { "Content-Type": "application/json" },
           }
         );
-        console.log(response.data);
         const { token, user } = response.data;
 
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         Cookies.set("token", token);
 
-        toast.success("Login successful");
-        router.push("/dashboard/overview");
+        toast.success("Google Login successful");
+        router.push("/dashboard/users/overview");
       } catch (error) {
         toast.error("Google login failed");
       }

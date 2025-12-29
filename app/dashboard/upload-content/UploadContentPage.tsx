@@ -185,7 +185,6 @@ export const UploadContentPage: React.FC = () => {
       }
 
       const data = await response.json();
-      console.log("Upload successful:", data);
       toast.success("Content uploaded successfully!");
 
       // Reset form

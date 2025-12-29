@@ -12,7 +12,6 @@ export const UserStatsGrid = ({ analytics }: any) => {
     { label: "Forums", value: analytics?.totalForums, icon: <Flag /> },
   ];
 
-  console.log(analytics);
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
       {STATS_CARDS.map((stat, index) => {

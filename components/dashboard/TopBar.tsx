@@ -14,7 +14,6 @@ export const TopBar: React.FC<TopBarProps> = ({ toggleSidebar }) => {
     const response = await authFetch("/user/profile");
     const user = await response.json();
     setUser(user.data);
-    console.log(user.data);
   };
 
   useEffect(() => {

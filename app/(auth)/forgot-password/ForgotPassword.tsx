@@ -48,7 +48,6 @@ export default function ForgotPassword() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     // Simulate API call
     alert(JSON.stringify(values, null, 2));
   }

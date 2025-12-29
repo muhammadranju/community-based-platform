@@ -43,12 +43,9 @@ function PdfsPage() {
   const fetchPDF = async () => {
     if (!slug) return;
     try {
-      console.log("Fetching PDF for slug:", slug);
       const response = await authFetch(`/contents/${slug}`, { auth: false });
       const data = await response.json();
       const contentData = data?.data?.result;
-
-      console.log("Content data received:", contentData);
 
       if (contentData?.pdfs) {
         const list = contentData.pdfs.map((pdfUrl: string, index: number) => {
@@ -56,8 +53,6 @@ function PdfsPage() {
           const fullUrl = pdfUrl.startsWith("http")
             ? pdfUrl
             : `${process.env.NEXT_PUBLIC_API_URL}${pdfUrl}`;
-
-          console.log(`PDF ${index} URL:`, fullUrl);
 
           return {
             id: `doc-${index}`,
@@ -87,7 +82,7 @@ function PdfsPage() {
   };
 
   const currentPdf = playlist[currentPdfIndex];
-  console.log("ranju", playlist);
+
   return (
     <div className="flex flex-col lg:px-0 px-4 lg:max-w-[1300px] mx-auto">
       <div className="max-w-7xl mx-auto">

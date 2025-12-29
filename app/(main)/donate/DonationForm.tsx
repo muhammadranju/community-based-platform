@@ -80,11 +80,11 @@ export const DonationForm: React.FC = () => {
 
     const data = await res.json();
     window.location.href = data.url; // redirect to Stripe Payment Link
-    console.log(paymentMethod);
+    // console.log(paymentMethod);
   };
 
   const handelMPesa = async () => {
-    console.log(paymentMethod);
+    // console.log(paymentMethod);
   };
 
   return (

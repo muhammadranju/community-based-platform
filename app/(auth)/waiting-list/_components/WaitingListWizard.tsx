@@ -101,8 +101,6 @@ export default function WaitingListWizard() {
         formData.append("image", data.image[0]);
       }
 
-      console.log("Submitting formData...");
-
       const response = await authFetch("/waiting-list", {
         method: "POST",
         body: formData,

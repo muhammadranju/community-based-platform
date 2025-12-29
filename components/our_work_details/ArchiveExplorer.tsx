@@ -84,7 +84,6 @@ const ArchiveExplorer: React.FC = () => {
         auth: false,
       });
       const data = await response.json();
-      console.log(data);
       setPopularContent(data?.data || []);
     } catch (error) {
       console.error("Error fetching content:", error);
