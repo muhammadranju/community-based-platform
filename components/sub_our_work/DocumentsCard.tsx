@@ -59,7 +59,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
       />
 
       {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+      <div className="absolute inset-0 bg-linear-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-center text-center">
@@ -105,31 +105,33 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
 
       <div className="flex-1 flex flex-col gap-4">
         {documents?.map((doc) => (
-          <div
-            key={doc.id}
-            className="flex items-center justify-between p-4 bg-accent-bg/50 rounded-2xl group hover:bg-gray-100 transition-colors cursor-pointer"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-red-500">
-                {/* <PdfIcon className="w-6 h-6" /> */}
-                <img
-                  src="/bg/pdf-icon.png"
-                  className="w-8 h-8 group-hover:invert-100 text-white"
-                  alt="PDF"
-                />
+          <Link href={url}>
+            <div
+              key={doc.id}
+              className="flex items-center justify-between p-4 bg-accent-bg/50 rounded-2xl group hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 text-red-500">
+                  {/* <PdfIcon className="w-6 h-6" /> */}
+                  <img
+                    src="/bg/pdf-icon.png"
+                    className="w-8 h-8 group-hover:invert-100 text-white"
+                    alt="PDF"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold text-emerald-900 text-sm">
+                    {doc.title}
+                  </span>
+                  <span className="text-xs text-gray-500">{owner}</span>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-emerald-900 text-sm">
-                  {doc.title}
-                </span>
-                <span className="text-xs text-gray-500">{owner}</span>
-              </div>
-            </div>
 
-            <div className="w-8 h-8 rounded-full bg-emerald-900 text-white flex items-center justify-center opacity-100 transition-opacity">
-              <ChevronRight className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-full bg-emerald-900 text-white flex items-center justify-center opacity-100 transition-opacity">
+                <ChevronRight className="w-4 h-4" />
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

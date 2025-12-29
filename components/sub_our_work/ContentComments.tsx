@@ -1,5 +1,4 @@
 import { authFetch } from "@/lib/authFetch";
-import { format, parseISO } from "date-fns";
 import {
   ArrowRight,
   Bold,
@@ -12,9 +11,11 @@ import {
   LinkIcon,
   List,
   MessageCircle,
+  MessageCircleMore,
   Paperclip,
   PlayCircle,
   Smile,
+  ThumbsUp,
   Underline,
   Video,
   X,
@@ -22,11 +23,12 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BiSolidUpvote } from "react-icons/bi";
 import slugify from "slugify";
 import { toast } from "sonner";
+import { costumFormatDate } from "../shared/DateTime";
 import getUser from "../shared/UserInfo";
 import { Button } from "../ui/button";
-import { costumFormatDate } from "../shared/DateTime";
 
 // --- Types ---
 interface User {
@@ -226,7 +228,7 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
         </div>
       </div>
 
-      <div className="flex-grow min-w-0">
+      <div className="grow min-w-0">
         <div className="mb-1 flex flex-col">
           <span className="text-emerald-900 lowercase font-medium text-sm md:text-base">
             @
@@ -273,6 +275,21 @@ const CommentItem = ({ comment }: { comment: CommentData }) => {
             })}
           </div>
         )}
+        <div className="flex items-center gap-1">
+          <button className="flex items-center gap-1 ">
+            <span className="flex items-center gap-1 p-[2px]  rounded-md w-fit cursor-pointer">
+              <ThumbsUp className="text-sky-600" />
+            </span>
+            <span>942 likes </span>
+          </button>
+          |
+          <button className="flex items-center gap-1">
+            <span className="flex items-center gap-1 p-[2px] rounded-md w-fit cursor-pointer">
+              <MessageCircleMore className="text-sky-600" />
+            </span>
+            <span>50 comments</span>
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,16 @@
-import React from "react";
-import { Heart, Image as ImageIcon, Video, FileText } from "lucide-react";
+"use client";
 import { ArchiveItem } from "@/types/types";
-import { Button } from "../ui/button";
+import {
+  FileText,
+  Heart,
+  Image as ImageIcon,
+  MapPin,
+  Video,
+} from "lucide-react";
 import Link from "next/link";
+import React from "react";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 
 interface ArchiveCardProps {
   item: ArchiveItem;
@@ -13,7 +20,7 @@ interface ArchiveCardProps {
 const ArchiveCard: React.FC<ArchiveCardProps> = ({ item, region }) => {
   const image = `${process.env.NEXT_PUBLIC_API_URL}/${item.coverImage}`;
   return (
-    <div className=" rounded-2xl overflow-hidden border border-emerald-900/80 flex flex-col h-full hover:shadow-lg transition-all duration-300 group">
+    <div className="rounded-2xl overflow-hidden border border-emerald-900/80 flex flex-col h-full hover:shadow-lg transition-all duration-300 group">
       {/* Image Container */}
       <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
         <img
@@ -29,21 +36,23 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item, region }) => {
         </button>
       </div>
 
-      {/* Content */}
-      <div className="p-5 flex-1 flex flex-col bg-[#F2F6EF]  border-emerald-900">
+      {/* Content - Flex grow to push footer down */}
+      <div className="p-5 flex-1 flex flex-col bg-[#F2F6EF] border-emerald-900">
         <div className="mb-4">
-          <h3 className="text-xl font-bold text-secondary-color mb-1 ">
-            {item.title}
+          <h3 className="text-xl font-bold text-secondary-color mb-1">
+            {item.title.length > 30
+              ? item.title.substring(0, 38) + "..."
+              : item.title}
           </h3>
           <p className="text-gray-600 text-sm font-light">
-            {item.shortDescription.length > 100
-              ? item.shortDescription.substring(0, 100) + "..."
+            {item.shortDescription.length > 120
+              ? item.shortDescription.substring(0, 120) + "..."
               : item.shortDescription}
           </p>
         </div>
 
         {/* Stats */}
-        <div className="flex items-center gap-4 mb-6 border-b border-emerald-900 pb-4">
+        <div className="flex items-center gap-4 border-b border-emerald-900 pb-4">
           <div className="flex items-center gap-1.5 text-xs text-emerald-900 font-medium">
             <ImageIcon size={16} strokeWidth={1.5} />
             <span>{item.images?.length || 0} Photos</span>
@@ -58,8 +67,11 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item, region }) => {
           </div>
         </div>
 
-        {/* Footer Action */}
-        <div className="mt-auto">
+        {/* Spacer - grows to push footer to bottom */}
+        <div className="flex-1"></div>
+
+        {/* Footer Action - Always at bottom */}
+        <div className="flex justify-between items-center mt-5 ">
           <Link href={`/our-work/${item.slug}?region=${region}`}>
             <Button
               variant="outline"
@@ -68,6 +80,9 @@ const ArchiveCard: React.FC<ArchiveCardProps> = ({ item, region }) => {
               Open Folder
             </Button>
           </Link>
+          <p className="text-emerald-900 font-medium text-xs capitalize flex items-center gap-[2px]">
+            <MapPin size={15} /> {item.country}
+          </p>
         </div>
       </div>
     </div>

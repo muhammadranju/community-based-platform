@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import { COUNTRIES } from "../our_work/ProcessCardData";
