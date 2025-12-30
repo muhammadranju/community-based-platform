@@ -2,10 +2,8 @@
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import CopyPath from "@/components/shared/CopyPath";
 import CustomBadge from "@/components/shared/SharedBadge";
-import { CommentsSection } from "@/components/sub_our_work/Comments";
 import { ContentCommentsSection } from "@/components/sub_our_work/ContentComments";
 import {
-  DocumentItem,
   DocumentsCard,
   MediaCard,
 } from "@/components/sub_our_work/DocumentsCard";

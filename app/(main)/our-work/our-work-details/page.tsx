@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import OurWorkDetailsPage from "./OurWorkDetailsPage";
 
 export const metadata = {
   title: "Our Work Details - African Traditional Architecture",

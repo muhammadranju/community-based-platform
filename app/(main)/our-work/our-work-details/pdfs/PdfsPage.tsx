@@ -103,7 +103,7 @@ function PdfsPage() {
           </Button>
 
           {/* Main Grid Layout */}
-          <div className="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0">
+          <div className="grow grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0">
             {/* Left Sidebar */}
             <div className="hidden lg:block lg:col-span-3 h-full min-h-0">
               <PDFSidebar

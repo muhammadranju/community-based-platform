@@ -1,9 +1,13 @@
 import { UploadContentPage } from "./UploadContentPage";
 
+export const metadata = {
+  title: "Upload Content Dashboard - African Traditional Architecture",
+  description: "Upload Content Dashboard Page",
+};
+
 function page() {
   return (
     <>
-      <title>Upload Content Dashboard - African Traditional Architecture</title>
       <UploadContentPage />
     </>
   );

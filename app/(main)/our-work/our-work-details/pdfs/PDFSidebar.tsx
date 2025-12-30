@@ -34,7 +34,7 @@ export const PDFSidebar: React.FC<PDFSidebarProps> = ({
             >
               {/* Icon Box */}
               <div
-                className={`flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg mr-4`}
+                className={`shrink-0 w-10 h-10 flex items-center justify-center rounded-lg mr-4`}
               >
                 {isActive ? (
                   // <FileText className="w-6 h-6 text-white" />
@@ -61,7 +61,7 @@ export const PDFSidebar: React.FC<PDFSidebarProps> = ({
               </div>
 
               {/* Text Content */}
-              <div className="flex-grow min-w-0">
+              <div className="grow min-w-0">
                 <h3
                   className={`text-base font-bold truncate transition-colors ${
                     isActive
@@ -84,7 +84,7 @@ export const PDFSidebar: React.FC<PDFSidebarProps> = ({
 
               {/* Arrow Action */}
               <div
-                className={`flex-shrink-0 ml-2 rounded-full w-8 h-8 flex items-center justify-center transition-colors ${
+                className={`shrink-0 ml-2 rounded-full w-8 h-8 flex items-center justify-center transition-colors ${
                   isActive ? "bg-white" : "bg-[#113e33] group-hover:bg-white"
                 }`}
               >
