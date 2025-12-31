@@ -25,6 +25,8 @@ export default function ActiveUserTracker() {
       try {
         // Gather device info (basic client-side detection)
         const userAgent = navigator.userAgent;
+
+        console.log(userAgent);
         let os = "Unknown OS";
         if (userAgent.indexOf("Win") !== -1) os = "Windows";
         if (userAgent.indexOf("Mac") !== -1) os = "MacOS";

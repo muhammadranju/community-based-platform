@@ -50,7 +50,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
   url,
 }) => {
   return (
-    <div className="group relative h-[450px] w-full rounded-4xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+    <div className="group relative lg:h-[450px] h-[200px] w-full  rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
       {/* Background Image */}
       <img
         src={imageUrl}
@@ -63,7 +63,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({
 
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-center text-center">
-        <h3 className="text-white text-4xl font-bold mb-6 drop-shadow-md">
+        <h3 className="text-white lg:text-4xl text-2xl font-bold lg:mb-6 mb-2 drop-shadow-md">
           {count} {label}
         </h3>
         <Link href={url}>
@@ -98,7 +98,7 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
   url,
 }) => {
   return (
-    <div className="h-full min-h-[450px] bg-white rounded-4xl p-8 flex flex-col shadow-sm">
+    <div className="h-full min-h-[450px] bg-white rounded-2xl p-8 flex flex-col shadow-sm">
       <h3 className="text-2xl font-bold text-emerald-900 mb-6">
         {totalCount} PDF Documents
       </h3>

@@ -14,13 +14,15 @@ import { Skeleton } from "../ui/skeleton"; // Add this import
 import ArchiveCard from "./ArchiveCard";
 import ArchiveHeader from "./ArchiveHeader";
 import CountrySidebar from "./CountrySidebar";
+import getUser from "../shared/UserInfo";
 
 const ArchiveExplorer: React.FC = () => {
   const searchParams = useSearchParams();
   const region = searchParams.get("region");
   const country = searchParams.get("country");
   const search = searchParams.get("search");
-  const isAuthtenticated = true;
+  const user = getUser();
+  const isAuthtenticated = user ? true : false;
 
   const [popularContent, setPopularContent] = useState<any[]>([]);
   const [loading, setLoading] = useState(true); // New loading state
