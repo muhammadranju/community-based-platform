@@ -6,6 +6,12 @@ import { ArrowLeft } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  AiOutlineDislike,
+  AiOutlineLike,
+  AiOutlineShareAlt,
+} from "react-icons/ai";
+import { toast } from "sonner";
 
 const PDFSidebar = dynamic(
   () => import("./PDFSidebar").then((mod) => mod.PDFSidebar),
@@ -30,6 +36,26 @@ export interface DocumentItem {
   role: string;
   url: string;
 }
+
+const Socialbutton = ({
+  icon = "",
+  text,
+  onClick,
+}: {
+  icon?: React.ReactNode;
+  text: string;
+  onClick?: () => void;
+}) => {
+  return (
+    <span
+      onClick={onClick}
+      className="p-2 border border-gray-500 rounded-full flex items-center gap-2 cursor-pointer"
+    >
+      {icon}
+      {text}
+    </span>
+  );
+};
 
 function PdfsPage() {
   const router = useRouter();
@@ -84,12 +110,12 @@ function PdfsPage() {
   const currentPdf = playlist[currentPdfIndex];
 
   return (
-    <div className="flex flex-col lg:px-0 px-4 lg:max-w-[1300px] mx-auto">
+    <div className="flex flex-col lg:px-0 px-6 lg:max-w-7xl mx-auto">
       <div className="max-w-7xl mx-auto">
         <HeaderBanner />
       </div>
       <div className="">
-        <div className="lg:max-w-[1580px] mx-auto  flex flex-col">
+        <div className="lg:max-w-7x mx-auto  flex flex-col">
           {/* Top Navigation / Back Button */}
           <Button
             onClick={() => router.back()}
@@ -105,7 +131,7 @@ function PdfsPage() {
           {/* Main Grid Layout */}
           <div className="grow grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0">
             {/* Left Sidebar */}
-            <div className="hidden lg:block lg:col-span-3 h-full min-h-0">
+            <div className="hidden lg:block lg:col-span-3 lg:h-[800px] h-full min-h-0">
               <PDFSidebar
                 documents={playlist}
                 selectedIndex={currentPdfIndex}
@@ -125,8 +151,7 @@ function PdfsPage() {
             </div>
 
             {/* Center Document View */}
-            <div className="col-span-1 lg:col-span-7 lg:h-[1000px] h-full flex flex-col min-h-0">
-              {/* <div className="flex-grow min-h-0 "> */}
+            <div className="col-span-1 lg:col-span-7 lg:h-[900px] h-full flex flex-col min-h-0">
               {currentPdf && (
                 <PDFDocumentViewer
                   url={currentPdf.url}
@@ -135,10 +160,39 @@ function PdfsPage() {
                   currentPage={currentPage}
                 />
               )}
-              {/* </div> */}
+              <div className="flex gap-2 items-center lg:justify-between mt-10 ">
+                <div className="flex gap-2 items-center">
+                  <Socialbutton
+                    icon={<AiOutlineLike size={20} className="text-lime-500" />}
+                    text="Like"
+                    onClick={() => toast.success("Liked this document")}
+                  />
+
+                  <Socialbutton
+                    icon={
+                      <AiOutlineDislike size={20} className="text-lime-500" />
+                    }
+                    text="Dislike"
+                    onClick={() => toast.success("Disliked this document")}
+                  />
+                  <span
+                    onClick={() => toast.success("Commented on this document")}
+                    className="p-2 border border-gray-500 rounded-full flex items-center gap-2 cursor-pointer"
+                  >
+                    Comments
+                  </span>
+                </div>
+                <Socialbutton
+                  icon={
+                    <AiOutlineShareAlt size={20} className="text-lime-500" />
+                  }
+                  text="Share"
+                  onClick={() => toast.success("Shared this document")}
+                />
+              </div>
             </div>
 
-            <div className="col-span-1 lg:col-span-2 h-full min-h-0 hidden md:block">
+            <div className="col-span-1 lg:col-span-2 h-full lg:h-[900px]  min-h-0 hidden md:block">
               {currentPdf && (
                 <PDFThumbnailStrip
                   pdfUrl={currentPdf.url}
@@ -154,11 +208,11 @@ function PdfsPage() {
       </div>
 
       <div>
-        {currentPdf && (
+        {playlist.length > 0 && (
           <DocumentGallery
-            url={currentPdf.url}
-            title={currentPdf.name}
-            companyName={currentPdf.role}
+            title="Read More Documents"
+            companyName={currentPdf?.role || "Company"}
+            playlist={playlist}
           />
         )}
       </div>

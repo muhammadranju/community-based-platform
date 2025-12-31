@@ -1,299 +1,213 @@
-// import React, { useState } from "react";
-// // Generating 10 identical items to match the screenshot's grid
-// export const MOCK_DOCUMENTS: DocumentItem[] = Array.from({ length: 10 }).map(
-//   (_, index) => ({
-//     id: `doc-${index}`,
-//     companyName: "Liceria Real Estate",
-//     title: "Property management for all your needs",
-//     // Using an architectural image to mimic the building in the reference
-//     imageUrl: `/bg/bg111.png`,
-//     website: "reallygreatsite.com",
-//   })
-// );
-
-// export const DocumentGallery: React.FC = () => {
-//   const [page, setPage] = useState(1);
-
-//   return (
-//     <div className="flex justify-center items-start bg-white my-20  mt-44">
-//       {/*
-//         The main green container.
-//         Matches the screenshot: rounded corners, light lime background.
-//       */}
-//       <div className="w-full bg-[#f4fde8] rounded-[40px] border border-[#e2f5d3] p-5 md:p-12 shadow-sm">
-//         {/* Header */}
-//         <div className="mb-10">
-//           <h1 className="text-3xl md:text-5xl font-semibold text-[#064e3b] tracking-tight">
-//             Read More Documents
-//           </h1>
-//         </div>
-
-//         {/* Grid Layout
-//            - Mobile: 1 col
-//            - Tablet: 2 or 3 cols
-//            - Desktop: 4 or 5 cols (matches screenshot with 5 cols)
-//         */}
-//         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 md:gap-8">
-//           {MOCK_DOCUMENTS.map((doc) => (
-//             <DocumentCard key={doc.id} document={doc} />
-//           ))}
-//         </div>
-
-//         {/* Footer / Pagination */}
-//         <div className="mt-12 flex items-center">
-//           <Pagination
-//             currentPage={page}
-//             totalPages={21}
-//             onPageChange={setPage}
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// import { ChevronLeft, ChevronRight } from "lucide-react";
-// import { DocumentCard, DocumentItem, PaginationProps } from "./PDFDocumentCard";
-
-// const Pagination: React.FC<PaginationProps> = ({
-//   currentPage,
-//   totalPages,
-//   onPageChange,
-// }) => {
-//   // Helper to generate the specific sequence: 1, 2, 3, 4 ... 21
-//   const renderPageNumbers = () => {
-//     const pages = [];
-
-//     // In the screenshot, we see 1, 2, 3, 4 ... 21 explicitly.
-//     // We will render 1-4, then dots, then the last page.
-
-//     for (let i = 1; i <= 4; i++) {
-//       pages.push(
-//         <button
-//           key={i}
-//           onClick={() => onPageChange(i)}
-//           className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium transition-colors
-//             ${
-//               currentPage === i
-//                 ? "bg-[#efffe3] border-2 border-[#14532d] text-[#14532d]"
-//                 : "text-[#14532d] hover:bg-green-100"
-//             }`}
-//         >
-//           {i}
-//         </button>
-//       );
-//     }
-
-//     // The ellipsis
-//     pages.push(
-//       <div
-//         key="dots"
-//         className="w-10 h-10 flex items-center justify-center text-[#14532d] font-bold text-xl pb-2"
-//       >
-//         ...
-//       </div>
-//     );
-
-//     // The last page (21 as per screenshot)
-//     pages.push(
-//       <button
-//         key={21}
-//         onClick={() => onPageChange(21)}
-//         className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium transition-colors
-//           ${
-//             currentPage === 21
-//               ? "bg-[#efffe3] border-2 border-[#14532d] text-[#14532d]"
-//               : "text-[#14532d] hover:bg-green-100"
-//           }`}
-//       >
-//         21
-//       </button>
-//     );
-
-//     return pages;
-//   };
-
-//   return (
-//     <div className="flex items-center gap-2 sm:gap-3 mt-8">
-//       {/* Prev Button */}
-//       <button
-//         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-//         className="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center text-white hover:bg-[#022c22] transition-colors"
-//       >
-//         <ChevronLeft size={20} />
-//       </button>
-
-//       {/* Page Numbers */}
-//       <div className="flex items-center gap-1 sm:gap-2">
-//         {renderPageNumbers()}
-//       </div>
-
-//       {/* Next Button */}
-//       <button
-//         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-//         className="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center text-white hover:bg-[#022c22] transition-colors"
-//       >
-//         <ChevronRight size={20} />
-//       </button>
-//     </div>
-//   );
-// };
-
+import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import React, { useState } from "react";
-import { Document, pdfjs } from "react-pdf";
-// Generating 10 identical items to match the screenshot's grid
+import { pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url
 ).toString();
 
-interface PDFDocumentGalleryProps {
+interface Document {
+  id: string;
+  name: string;
+  role: string;
   url: string;
+}
+
+interface PDFDocumentGalleryProps {
   title: string;
   companyName: string;
+  playlist: Document[];
 }
 
 export const DocumentGallery: React.FC<PDFDocumentGalleryProps> = ({
-  url,
   title,
   companyName,
+  playlist,
 }) => {
-  const [numPages, setNumPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(playlist.length / itemsPerPage);
 
-  return (
-    <div className="flex justify-center items-start bg-white my-20  mt-44">
-      {/* 
-        The main green container. 
-        Matches the screenshot: rounded corners, light lime background.
-      */}
-      <div className="w-full bg-[#f4fde8] rounded-[40px] border border-[#e2f5d3] p-5 md:p-12 shadow-sm">
-        {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-3xl md:text-5xl font-semibold text-[#064e3b] tracking-tight">
-            Read More Documents
-          </h1>
-        </div>
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = playlist.slice(startIndex, endIndex);
 
-        {/* Grid Layout 
-           - Mobile: 1 col
-           - Tablet: 2 or 3 cols
-           - Desktop: 4 or 5 cols (matches screenshot with 5 cols)
-        */}
-        {/* Grid of PDF pages as cards */}
-        <Document
-          file={url}
-          onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-        >
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-            {Array.from({ length: numPages }, (_, index) => (
-              <DocumentCard
-                key={index}
-                pdfUrl={url}
-                pageNumber={index + 1}
-                companyName={companyName}
-                title={title}
-              />
-            ))}
-          </div>
-        </Document>
+  const handlePageChange = (page: number) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+  };
 
-        {/* Footer / Pagination */}
-        <div className="mt-12 flex items-center">
-          <Pagination
-            currentPage={numPages}
-            totalPages={21}
-            onPageChange={setNumPages}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DocumentCard, DocumentItem, PaginationProps } from "./PDFDocumentCard";
-
-const Pagination: React.FC<PaginationProps> = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
-  // Helper to generate the specific sequence: 1, 2, 3, 4 ... 21
   const renderPageNumbers = () => {
     const pages = [];
 
-    // In the screenshot, we see 1, 2, 3, 4 ... 21 explicitly.
-    // We will render 1-4, then dots, then the last page.
-
-    for (let i = 1; i <= 4; i++) {
+    // Show first 4 pages
+    for (let i = 1; i <= Math.min(4, totalPages); i++) {
       pages.push(
         <button
           key={i}
-          onClick={() => onPageChange(i)}
-          className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium transition-colors
-            ${
-              currentPage === i
-                ? "bg-[#efffe3] border-2 border-[#14532d] text-[#14532d]"
-                : "text-[#14532d] hover:bg-green-100"
-            }`}
+          onClick={() => handlePageChange(i)}
+          className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium transition-colors ${
+            currentPage === i
+              ? "bg-lime-100 border-2 border-emerald-900 text-emerald-900"
+              : "text-emerald-900 hover:bg-lime-50"
+          }`}
         >
           {i}
         </button>
       );
     }
 
-    // The ellipsis
-    pages.push(
-      <div
-        key="dots"
-        className="w-10 h-10 flex items-center justify-center text-[#14532d] font-bold text-xl pb-2"
-      >
-        ...
-      </div>
-    );
+    // Show ellipsis if there are more pages
+    if (totalPages > 5) {
+      pages.push(
+        <div
+          key="dots"
+          className="w-10 h-10 flex items-center justify-center text-emerald-900 font-bold text-xl pb-2"
+        >
+          ...
+        </div>
+      );
+    }
 
-    // The last page (21 as per screenshot)
-    pages.push(
-      <button
-        key={21}
-        onClick={() => onPageChange(21)}
-        className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium transition-colors
-          ${
-            currentPage === 21
-              ? "bg-[#efffe3] border-2 border-[#14532d] text-[#14532d]"
-              : "text-[#14532d] hover:bg-green-100"
+    // Show last page if more than 4 pages
+    if (totalPages > 4) {
+      pages.push(
+        <button
+          key={totalPages}
+          onClick={() => handlePageChange(totalPages)}
+          className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium transition-colors ${
+            currentPage === totalPages
+              ? "bg-lime-100 border-2 border-emerald-900 text-emerald-900"
+              : "text-emerald-900 hover:bg-lime-50"
           }`}
-      >
-        21
-      </button>
-    );
+        >
+          {totalPages}
+        </button>
+      );
+    }
 
     return pages;
   };
 
   return (
-    <div className="flex items-center gap-2 sm:gap-3 mt-8">
-      {/* Prev Button */}
-      <button
-        onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-        className="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center text-white hover:bg-[#022c22] transition-colors"
-      >
-        <ChevronLeft size={20} />
-      </button>
+    <div className="flex justify-center items-start bg-white my-20 px-4">
+      <div className="w-full max-w-7xl bg-lime-50 rounded-4xl border-2 border-lime-500 p-6 md:p-12">
+        {/* Header */}
+        <div className="mb-10">
+          <h1 className="text-3xl md:text-5xl font-bold text-emerald-900 tracking-tight">
+            {title}
+          </h1>
+        </div>
 
-      {/* Page Numbers */}
-      <div className="flex items-center gap-1 sm:gap-2">
-        {renderPageNumbers()}
+        {/* Grid of Document Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-12">
+          {currentItems.map((doc) => (
+            <DocumentCard key={doc.id} document={doc} />
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mt-8">
+            {/* Prev Button */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="w-10 h-10 rounded-full bg-emerald-900 flex items-center justify-center text-white hover:bg-emerald-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            {/* Page Numbers */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {renderPageNumbers()}
+            </div>
+
+            {/* Next Button */}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="w-10 h-10 rounded-full bg-emerald-900 flex items-center justify-center text-white hover:bg-emerald-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
       </div>
+    </div>
+  );
+};
 
-      {/* Next Button */}
-      <button
-        onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-        className="w-10 h-10 rounded-full bg-[#064e3b] flex items-center justify-center text-white hover:bg-[#022c22] transition-colors"
-      >
-        <ChevronRight size={20} />
-      </button>
+interface DocumentCardProps {
+  document: Document;
+}
+
+const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
+  const [numPages, setNumPages] = useState<number>(0);
+
+  return (
+    <div className="flex flex-col cursor-pointer group ">
+      <a href={document.url} target="_blank" rel="noopener noreferrer">
+        <div className="relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg h-48 md:h-60 flex items-center justify-center group-hover:scale-105 transform transition-transform">
+          <div className="absolute inset-0 bg-linear-to-b from-gray-200 to-gray-100" />
+
+          {/* PDF Preview or Icon */}
+          <div className="relative z-10 w-full h-full flex items-center justify-center">
+            <PdfPreview url={document.url} onLoadSuccess={setNumPages} />
+          </div>
+
+          {/* Pages Count Badge */}
+          <div className="absolute bottom-3 right-3 bg-pink-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+            {numPages} pages
+          </div>
+        </div>
+      </a>
+
+      {/* Document Info */}
+      <div className="mt-4">
+        <h3 className="text-sm md:text-base font-bold text-emerald-900 line-clamp-2 hover:text-emerald-700">
+          {document.name}
+        </h3>
+        <p className="text-xs md:text-sm text-gray-600 mt-1">{document.role}</p>
+      </div>
+    </div>
+  );
+};
+
+interface PdfPreviewProps {
+  url: string;
+  onLoadSuccess: (numPages: number) => void;
+}
+
+const PdfPreview: React.FC<PdfPreviewProps> = ({ url, onLoadSuccess }) => {
+  const [error, setError] = useState(false);
+
+  return (
+    <div className="w-full h-full">
+      {!error ? (
+        <iframe
+          src={`${url}#toolbar=0&navpanes=0`}
+          className="w-full h-full border-none"
+          onError={() => {
+            setError(true);
+          }}
+          onLoad={(e) => {
+            try {
+              const iframeDoc = (e.target as HTMLIFrameElement).contentDocument;
+              if (iframeDoc) {
+                onLoadSuccess(1);
+              }
+            } catch (err) {
+              onLoadSuccess(1);
+            }
+          }}
+        />
+      ) : (
+        <div className="flex flex-col items-center justify-center gap-2 h-full">
+          <FileText className="w-12 h-12 text-gray-400" />
+          <span className="text-xs text-gray-500 text-center px-2">PDF</span>
+        </div>
+      )}
     </div>
   );
 };

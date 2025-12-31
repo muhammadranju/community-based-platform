@@ -1,7 +1,6 @@
 "use client";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import CustomBadge from "@/components/shared/SharedBadge";
-import { CommentsSection } from "@/components/sub_our_work/Comments";
 import {
   DocumentItem,
   DocumentsCard,
@@ -44,7 +43,7 @@ function OurWorkDetailsPage() {
       <div className="text-gray-800">
         <HeaderBanner />
 
-        <div className=" mx-auto space-y-8 ">
+        <div className=" mx-auto space-y-8">
           <div className="bg-accent-bg p-5 rounded-2xl space-y-5">
             {/* Header Section */}
             <header className="relative w-full bg-emerald-900 rounded-4xl p-8 md:p-16 text-white overflow-hidden shadow-sm ">

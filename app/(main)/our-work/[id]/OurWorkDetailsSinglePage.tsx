@@ -1,8 +1,8 @@
 "use client";
+import { ContentCommentsSection } from "@/components/our_work/single-our-work/ContentComments";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import CopyPath from "@/components/shared/CopyPath";
 import CustomBadge from "@/components/shared/SharedBadge";
-import { ContentCommentsSection } from "@/components/sub_our_work/ContentComments";
 import {
   DocumentsCard,
   MediaCard,
@@ -11,7 +11,7 @@ import { SectionCard } from "@/components/sub_our_work/SectionCard";
 import { authFetch } from "@/lib/authFetch";
 import { GUIDE_DATA } from "@/lib/data";
 import { HeartIcon, ShareIcon } from "lucide-react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -25,8 +25,6 @@ function OurWorkDetailsSinglePage() {
     CopyPath();
     toast.success("Link copied to clipboard");
   };
-
-  const router = useRouter();
 
   const getSingleData = async () => {
     const response = await authFetch(`/contents/${id}`);
@@ -59,9 +57,9 @@ function OurWorkDetailsSinglePage() {
         <HeaderBanner />
 
         <div className=" mx-auto space-y-8 ">
-          <div className="bg-accent-bg p-8 rounded-4xl space-y-5">
+          <div className="bg-accent-bg lg:p-8 p-4 lg:rounded-4xl rounded-2xl space-y-5">
             {/* Header Section */}
-            <header className="relative w-full bg-emerald-900 rounded-4xl p-8 md:p-16 text-white overflow-hidden shadow-sm ">
+            <header className="relative w-full bg-emerald-900 lg:rounded-4xl rounded-2xl p-4 md:p-16 text-white overflow-hidden shadow-sm ">
               {/* Badge */}
               <CustomBadge>Explore Content in the Archive</CustomBadge>
 
@@ -143,7 +141,7 @@ function OurWorkDetailsSinglePage() {
             </div>
 
             <div className="flex-1">
-              <div className="relative w-full h-[400px] md:h-[500px] rounded-4xl overflow-hidden shadow-sm">
+              <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-sm">
                 <img
                   // src="/bg/our-page-bg-3.png"
                   src={`${

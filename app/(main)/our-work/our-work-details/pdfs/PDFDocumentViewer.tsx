@@ -24,6 +24,7 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   // 🔥 SYNC thumbnail selection → viewer page
   useEffect(() => {
@@ -31,6 +32,16 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
       setPageNumber(currentPage);
     }
   }, [currentPage]);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -42,13 +53,16 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
     setError(error.message);
   }
 
+  // Dynamic page width based on device
+  const pageWidth = isMobile ? window.innerWidth - 32 : 640;
+
   return (
-    <div className="flex flex-col h-full bg-gray-100 rounded-4xl  p-8 md:p-12 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-white shadow-md lg:rounded-4xl rounded-2xl lg:px-10 lg:py-10 py-6 px-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-linear-to-b from-gray-200/50 to-transparent pointer-events-none" />
 
       <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-4 text-gray-600">
+        <div className="lg:flex items-center gap-3 mb-4 text-gray-600 hidden">
           <Home className="w-5 h-5 text-gray-500" />
           <span className="text-sm md:text-base font-medium text-gray-700 tracking-wide">
             {companyName}
@@ -56,12 +70,12 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl md:text-4xl font-bold text-emerald-900 mb-6 leading-tight">
+        <h1 className="text-xl lg:text-4xl font-bold text-emerald-900 mb-6 leading-tight">
           {title}
         </h1>
 
         {/* PDF Viewer */}
-        <div className="grow w-full rounded-2xl overflow-hidden  relative bg-white flex items-center justify-center">
+        <div className="grow w-full rounded-2xl overflow-hidden relative bg-white flex items-center justify-center">
           {error ? (
             <div className="flex flex-col items-center gap-4 p-8 text-center">
               <div className="text-red-500 font-medium text-lg">
@@ -70,7 +84,7 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
               <div className="text-sm text-gray-600">{error}</div>
             </div>
           ) : (
-            <div className="lg:w-full w-[500px] h-full overflow-auto flex flex-col items-center pb-6">
+            <div className="w-full h-full overflow-auto flex flex-col items-center pb-6">
               <Document
                 file={url}
                 onLoadSuccess={onDocumentLoadSuccess}
@@ -85,26 +99,27 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
                 }
               >
                 <Page
+                  width={pageWidth}
                   pageNumber={pageNumber}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  className=""
+                  className="w-full"
                 />
               </Document>
 
               {/* Navigation */}
               {numPages > 1 && (
-                <div className="mt-4 flex items-center gap-4 bg-white rounded-full px-6 py-3 ">
+                <div className="mt-4 flex items-center justify-center gap-2 lg:gap-4 bg-white w-full px-4 py-3 border-t border-emerald-900 ">
                   <button
                     onClick={() => setPageNumber((p) => Math.max(1, p - 1))}
                     disabled={pageNumber === 1}
-                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50"
+                    className="px-3 lg:px-4 py-1.5 lg:py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50 text-xs lg:text-sm font-medium hover:bg-emerald-800 transition-colors"
                   >
-                    Previous
+                    ← Prev
                   </button>
 
-                  <span className="text-emerald-900 font-semibold">
-                    Page {pageNumber} of {numPages}
+                  <span className="text-emerald-900 font-semibold text-xs lg:text-sm whitespace-nowrap">
+                    {pageNumber}/{numPages}
                   </span>
 
                   <button
@@ -112,9 +127,9 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
                       setPageNumber((p) => Math.min(numPages, p + 1))
                     }
                     disabled={pageNumber === numPages}
-                    className="px-4 py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50"
+                    className="px-3 lg:px-4 py-1.5 lg:py-2 bg-emerald-900 text-white rounded-full disabled:opacity-50 text-xs lg:text-sm font-medium hover:bg-emerald-800 transition-colors"
                   >
-                    Next
+                    Next →
                   </button>
                 </div>
               )}

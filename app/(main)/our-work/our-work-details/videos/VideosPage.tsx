@@ -97,10 +97,10 @@ function VideosPage() {
       </Button>
 
       {/* Main Card Container */}
-      <div className="mx-auto max-w-[1400px] overflow-hidden rounded-3xl lg:rounded-4xl border-2 border-brand-lime bg-white shadow-xl my-5">
+      <div className="mx-auto lg:max-w-[1400px] overflow-hidden rounded-3xl lg:rounded-4xl lg:border-2 border-brand-lime bg-white lg:shadow-xl my-5">
         <div className="grid grid-cols-1 lg:grid-cols-12 bg-white">
           {/* Left Column: Video & Info */}
-          <div className="p-4 md:p-6 lg:p-8 lg:col-span-8 lg:border-r lg:border-gray-100">
+          <div className="md:p-6 lg:p-8 lg:col-span-8 lg:border-r lg:border-gray-100">
             {currentVideo && (
               <VideoPlayer key={currentVideo.url} url={currentVideo.url} />
             )}

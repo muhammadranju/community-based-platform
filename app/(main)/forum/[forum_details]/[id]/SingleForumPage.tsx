@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 import { authFetch } from "@/lib/authFetch";
 import { Spinner } from "@/components/ui/spinner";
-import { CommentsSection } from "@/components/sub_our_work/Comments";
 import ForumDetailHeader from "@/components/forums/forum-single/ForumDetailHeader";
 import ForumPostContent from "@/components/forums/forum-single/ForumPostContent";
+import { CommentsSection } from "@/components/forums/forum-details/Comments";
 
 export default function SingleForumPage() {
   const router = useRouter();

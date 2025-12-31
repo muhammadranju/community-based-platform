@@ -23,7 +23,7 @@ export const PDFThumbnailStrip: React.FC<PDFThumbnailStripProps> = ({
   };
 
   return (
-    <div className="flex flex-col bg-white/50 rounded-4xl p-2 border border-emerald-900/10 shadow-inner ">
+    <div className="flex flex-col bg-white/50 rounded-4xl p-2   ">
       <Document
         file={pdfUrl}
         onLoadSuccess={({ numPages }) => setNumPages(numPages)}

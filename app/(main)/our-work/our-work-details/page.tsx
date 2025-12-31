@@ -1,18 +1,10 @@
-import { Suspense } from "react";
-
-export const metadata = {
-  title: "Our Work Details - African Traditional Architecture",
-  description: "Our Work Details African Traditional Architecture",
-};
+"use client";
+import { useRouter } from "next/navigation";
 
 function page() {
-  return (
-    <div className="flex flex-col min-h-screen lg:px-0 px-4 max-w-7xl mx-auto">
-      <Suspense fallback={<div>Loading...</div>}>
-        {/* <OurWorkDetailsPage /> */}
-      </Suspense>
-    </div>
-  );
+  const router = useRouter();
+
+  router.push("/our-work");
 }
 
 export default page;

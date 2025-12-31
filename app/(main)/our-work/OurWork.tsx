@@ -45,7 +45,7 @@ function OurWork() {
       <section className="text-center pb-10 ">
         <CustomBadge>Explore Content In The Archive</CustomBadge>
 
-        <h2 className="text-3xl md:text-5xl font-bold text-emerald-900 ">
+        <h2 className="text-2xl md:text-5xl font-bold text-emerald-900 ">
           How to contribute and explore the archive
         </h2>
       </section>
