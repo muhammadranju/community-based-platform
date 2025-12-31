@@ -487,7 +487,7 @@ export const UploadContentPage: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="flex items-center gap-3 px-36 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-3 lg:px-36 px-12 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send size={22} />
             {isLoading ? "Uploading..." : "Submit Content"}
