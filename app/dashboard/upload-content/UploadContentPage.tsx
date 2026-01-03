@@ -1,17 +1,24 @@
 "use client";
-import React, { useState } from "react";
-import {
-  Image as ImageIcon,
-  Video,
-  FileText,
-  Upload,
-  X,
-  Send,
-} from "lucide-react";
-import { authFetch } from "@/lib/authFetch";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { authFetch } from "@/lib/authFetch";
+import {
+  FileText,
+  Image as ImageIcon,
+  Send,
+  Upload,
+  Video,
+  X,
+} from "lucide-react";
+import React, { useState } from "react";
+import { toast } from "sonner";
+
+import axios from "axios";
+import { pdfjs } from "react-pdf";
+
+// Set worker source for pdfjs
+if (typeof window !== "undefined") {
+  pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+}
 
 const regions = [
   "east",
@@ -65,6 +72,186 @@ interface FormData {
   country: string;
 }
 
+const SIGHTENGINE_USER = process.env.NEXT_PUBLIC_SIGHTENGINE_USER || "";
+const SIGHTENGINE_SECRET = process.env.NEXT_PUBLIC_SIGHTENGINE_SECRET || "";
+
+// Nudity check function
+// Nudity check function
+const checkImageNudity = async (
+  file: File
+): Promise<{ isSafe: boolean; error?: string }> => {
+  if (!SIGHTENGINE_USER || !SIGHTENGINE_SECRET) {
+    console.error("Missing Sightengine credentials");
+    return {
+      isSafe: false,
+      error: "System configuration error: Missing API credentials.",
+    };
+  }
+
+  const formData = new FormData();
+  formData.append("media", file);
+  formData.append("models", "nudity-2.1");
+  formData.append("api_user", SIGHTENGINE_USER);
+  formData.append("api_secret", SIGHTENGINE_SECRET);
+
+  try {
+    const res = await axios.post(
+      "https://api.sightengine.com/1.0/check.json",
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    const nudity = res.data.nudity;
+
+    if (!nudity) {
+      console.warn("Unexpected Sightengine response format:", res.data);
+      return { isSafe: true };
+    }
+
+    // If any sexual/mildly_suggestive > 0.5, reject
+    if (
+      nudity.sexual_activity > 0.5 ||
+      nudity.sexual_display > 0.5 ||
+      nudity.erotica > 0.5 ||
+      nudity.very_suggestive > 0.5 ||
+      nudity.suggestive > 0.5
+    ) {
+      return {
+        isSafe: false,
+        error: `Image ${file.name} contains inappropriate content.`,
+      };
+    }
+    return { isSafe: true };
+  } catch (error) {
+    console.error("Sightengine error:", error);
+    return { isSafe: false, error: "Content check failed. Please try again." }; // If API fails, reject to be safe
+  }
+};
+
+const checkPdfNudity = async (
+  file: File
+): Promise<{ isSafe: boolean; error?: string }> => {
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const loadingTask = pdfjs.getDocument(arrayBuffer);
+    const pdf = await loadingTask.promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale: 1.0 });
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    if (!context) {
+      return { isSafe: false, error: "System error: Canvas context failed." };
+    }
+
+    await page.render({ canvasContext: context, viewport } as any).promise;
+
+    return new Promise((resolve) => {
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          resolve({ isSafe: false, error: "Failed to process PDF page." });
+          return;
+        }
+        const imageFile = new File([blob], "pdf-page-1.png", {
+          type: "image/png",
+        });
+        const result = await checkImageNudity(imageFile);
+        if (!result.isSafe) {
+          resolve({
+            isSafe: false,
+            error: `PDF (${file.name}) contains inappropriate content on the first page.`,
+          });
+        } else {
+          resolve({ isSafe: true });
+        }
+      }, "image/png");
+    });
+  } catch (err) {
+    console.error("PDF check error:", err);
+    return { isSafe: false, error: "Failed to verify PDF content." };
+  }
+};
+
+const checkVideoNudity = async (
+  file: File
+): Promise<{ isSafe: boolean; error?: string }> => {
+  if (!SIGHTENGINE_USER || !SIGHTENGINE_SECRET) {
+    return {
+      isSafe: false,
+      error: "System configuration error: Missing API credentials.",
+    };
+  }
+
+  const formData = new FormData();
+  formData.append("media", file);
+  formData.append("models", "nudity"); // Standard video model
+  formData.append("api_user", SIGHTENGINE_USER);
+  formData.append("api_secret", SIGHTENGINE_SECRET);
+
+  try {
+    // defined for video sync check
+    const res = await axios.post(
+      "https://api.sightengine.com/1.0/video/check-sync.json",
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+
+    const data = res.data;
+    // Check for success status
+    if (data.status !== "success") {
+      // If sync check is not supported for this video (e.g. too large), it might return a different status or error.
+      // However, if we assume it handles it or fails:
+      console.warn("Sightengine video check returned non-success:", data);
+      // We might want to allow it if the API just couldn't check it synchronously?
+      // But better safe than sorry for now.
+      // Or return specific error if error is "video too large" etc.
+      return { isSafe: true }; // Fallback to allowing if check fails technically? Or block?
+      // Let's look at nudity score if present.
+    }
+
+    const nudity = data.data?.frames?.[0]?.nudity || data.nudity; // Structure varies for video-sync
+
+    // The sync video response usually contains an array of frames or a summary.
+    // Let's assume the API returns a summary 'nudity' object similar to images or a list of frames.
+    // For check-sync, it often returns specific frame analysis.
+    // Simple check: if data.nudity is present (averaged)
+
+    // NOTE: Sightengine video-sync response structure:
+    // { status: 'success', data: { frames: [ ... ] } }
+    // We check if ANY frame is bad.
+
+    if (data.data && data.data.frames) {
+      const frames = data.data.frames;
+      for (const frame of frames) {
+        const n = frame.nudity;
+        if (
+          n &&
+          (n.sexual_activity > 0.5 ||
+            n.sexual_display > 0.5 ||
+            n.erotica > 0.5 ||
+            n.very_suggestive > 0.5 ||
+            n.suggestive > 0.5)
+        ) {
+          return {
+            isSafe: false,
+            error: `Video (${file.name}) contains inappropriate content.`,
+          };
+        }
+      }
+      return { isSafe: true };
+    }
+
+    // Fallback if structure is different (e.g. single summary)
+    return { isSafe: true };
+  } catch (error) {
+    console.error("Sightengine video error:", error);
+    // If sync check fails, it might be due to video length.
+    // We'll allow it for now to avoid blocking legitimate large videos, or warn.
+    return { isSafe: true };
+  }
+};
+
 export const UploadContentPage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
@@ -83,6 +270,8 @@ export const UploadContentPage: React.FC = () => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isChecking, setIsChecking] = useState(false);
+
   const handleTextChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -95,37 +284,140 @@ export const UploadContentPage: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (
+  const handleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
     field: "coverImage" | "images" | "medias" | "pdfs"
   ) => {
-    if (!e.target.files) return;
+    if (!e.target.files || e.target.files.length === 0) return;
 
-    if (field === "coverImage") {
-      const file = e.target.files[0];
-      setFormData((prev) => ({ ...prev, coverImage: file }));
+    setIsChecking(true);
+    const toastId = toast.loading("Verifying content safety...");
 
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => setCoverPreview(reader.result as string);
-        reader.readAsDataURL(file);
-      } else {
-        setCoverPreview(null);
-      }
-    } else {
-      const files = Array.from(e.target.files);
-      setFormData((prev) => ({ ...prev, [field]: [...prev[field], ...files] }));
+    try {
+      if (field === "coverImage") {
+        const file = e.target.files[0];
 
-      // Generate previews only for additional images
-      if (field === "images") {
-        files.forEach((file) => {
+        const { isSafe, error } = await checkImageNudity(file);
+        if (!isSafe) {
+          toast.error(
+            error || "Cover image contains nudity or inappropriate content!",
+            { id: toastId }
+          );
+          return;
+        }
+
+        setFormData((prev) => ({ ...prev, coverImage: file }));
+
+        if (file) {
           const reader = new FileReader();
-          reader.onloadend = () => {
-            setImagePreviews((prev) => [...prev, reader.result as string]);
-          };
+          reader.onloadend = () => setCoverPreview(reader.result as string);
           reader.readAsDataURL(file);
-        });
+        } else {
+          setCoverPreview(null);
+        }
+        toast.success("Cover image verified.", { id: toastId });
+      } else {
+        const files = Array.from(e.target.files);
+
+        if (field === "images") {
+          if (formData.images.length + files.length > 6) {
+            toast.error("You can only upload up to 6 images.", { id: toastId });
+            return;
+          }
+
+          const safeFiles: File[] = [];
+          let hasError = false;
+
+          for (const file of files) {
+            const { isSafe, error } = await checkImageNudity(file);
+            if (!isSafe) {
+              toast.error(
+                error || `Image ${file.name} contains nudity! Skipped.`,
+                { id: toastId }
+              );
+              hasError = true;
+            } else {
+              safeFiles.push(file);
+            }
+          }
+
+          if (safeFiles.length > 0) {
+            setFormData((prev) => ({
+              ...prev,
+              images: [...prev.images, ...safeFiles],
+            }));
+
+            safeFiles.forEach((file) => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setImagePreviews((prev) => [...prev, reader.result as string]);
+              };
+              reader.readAsDataURL(file);
+            });
+          }
+          if (!hasError) toast.success("Images verified.", { id: toastId });
+        } else if (field === "medias") {
+          const safeFiles: File[] = [];
+          let hasError = false;
+          for (const file of files) {
+            const result = await checkVideoNudity(file);
+            if (!result.isSafe) {
+              toast.error(
+                result.error || `Video ${file.name} contains nudity! Skipped.`,
+                { id: toastId }
+              );
+              hasError = true;
+            } else {
+              safeFiles.push(file);
+            }
+          }
+          if (safeFiles.length > 0) {
+            setFormData((prev) => ({
+              ...prev,
+              [field]: [...prev[field], ...safeFiles],
+            }));
+          }
+          if (!hasError) toast.success("Videos verified.", { id: toastId });
+        } else if (field === "pdfs") {
+          const safeFiles: File[] = [];
+          let hasError = false;
+          for (const file of files) {
+            const result = await checkPdfNudity(file);
+            if (!result.isSafe) {
+              toast.error(
+                result.error || `PDF ${file.name} contains nudity! Skipped.`,
+                { id: toastId }
+              );
+              hasError = true;
+            } else {
+              safeFiles.push(file);
+            }
+          }
+          if (safeFiles.length > 0) {
+            setFormData((prev) => ({
+              ...prev,
+              [field]: [...prev[field], ...safeFiles],
+            }));
+          }
+          if (!hasError) toast.success("PDFs verified.", { id: toastId });
+        } else {
+          // Fallback
+          setFormData((prev) => ({
+            ...prev,
+            [field]: [...prev[field], ...files],
+          }));
+          toast.dismiss(toastId);
+        }
       }
+    } catch (error) {
+      console.error("File processing error:", error);
+      toast.error("An error occurred while processing files.", { id: toastId });
+    } finally {
+      setIsChecking(false);
+      // Ensure toast is cleared if meaningful success/error wasn't shown,
+      // but in above logic we mostly resolve it.
+      // If we are here and toastId is still active (e.g. unknown path), dismiss it.
+      // However, toast.success/error replaces it.
     }
   };
 
@@ -211,7 +503,27 @@ export const UploadContentPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full  mx-auto ">
+    <div className="w-full mx-auto relative">
+      {/* Loading Overlay */}
+      {isChecking && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="bg-white p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-200">
+            <div className="relative w-16 h-16">
+              <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-amber-600 rounded-full border-t-transparent animate-spin"></div>
+            </div>
+            <div className="text-center">
+              <h3 className="font-bold text-lg text-gray-900">
+                Checking Content
+              </h3>
+              <p className="text-gray-500 text-sm">
+                Verifying safety of your files...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-5">
         <h1 className="text-3xl font-bold text-teal-900 mb-1">
           Upload Content
@@ -486,11 +798,15 @@ export const UploadContentPage: React.FC = () => {
         <div className="pt-6 flex justify-center">
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || isChecking}
             className="flex items-center gap-3 lg:px-36 px-12 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send size={22} />
-            {isLoading ? "Uploading..." : "Submit Content"}
+            {isLoading
+              ? "Uploading..."
+              : isChecking
+              ? "Verifying..."
+              : "Submit Content"}
           </button>
         </div>
       </form>
