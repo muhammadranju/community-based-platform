@@ -1,105 +1,10 @@
-// "use client";
-// import { useRouter, usePathname } from "next/navigation";
-// import { useEffect } from "react";
-// import UserInfo from "./UserInfo";
-// import getToken from "./getToken";
-
-// // Define role-based route access configuration
-// const ROUTE_PERMISSIONS = {
-//   // Admin and Super Admin routes
-//   ADMIN: [
-//     "/dashboard/overview",
-//     "/dashboard/posts",
-//     "/dashboard/users",
-//     "/dashboard/moderations",
-//     "/dashboard/waiting-list",
-//     "/dashboard/profile",
-//   ],
-
-//   // User routes
-//   USER: [
-//     "/dashboard/users/overview",
-//     "/dashboard/my-upload",
-//     "/dashboard/upload-content",
-//     "/dashboard/profile",
-//     "/dashboard/settings",
-//   ],
-// };
-
-// // Default redirect paths based on role
-// const DEFAULT_REDIRECTS = {
-//   ADMIN: "/dashboard/overview",
-//   SUPER_ADMIN: "/dashboard/overview",
-//   USER: "/dashboard/users/overview",
-//   UNAUTHENTICATED: "/login",
-// };
-
-// interface AuthGuardProps {
-//   children: React.ReactNode;
-// }
-
-// export default function AuthGuard({ children }: AuthGuardProps) {
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   const token = getToken();
-//   const user = UserInfo();
-
-//   useEffect(() => {
-//     // Check if user is authenticated
-//     if (!token || !user) {
-//       router.push(DEFAULT_REDIRECTS.UNAUTHENTICATED);
-//       return;
-//     }
-
-//     const userRole = user.role as keyof typeof DEFAULT_REDIRECTS;
-
-//     // Check if user has access to the current route
-//     const hasAccess = checkRouteAccess(pathname, userRole);
-
-//     if (!hasAccess) {
-//       // Redirect to appropriate dashboard based on role
-//       const redirectPath =
-//         DEFAULT_REDIRECTS[userRole] || DEFAULT_REDIRECTS.UNAUTHENTICATED;
-//       router.push(redirectPath);
-//     }
-//   }, [pathname, token, user, router]);
-
-//   // Function to check if user has access to a route
-//   const checkRouteAccess = (route: string, role: string): boolean => {
-//     // Allow SUPER_ADMIN to access all routes
-//     if (role === "SUPER_ADMIN") {
-//       return true;
-//     }
-
-//     // Check for ADMIN routes
-//     if (role === "ADMIN") {
-//       const adminRoutes = ROUTE_PERMISSIONS.ADMIN;
-//       return adminRoutes.some((allowedRoute) => route.startsWith(allowedRoute));
-//     }
-
-//     // Check for USER routes
-//     if (role === "USER") {
-//       const userRoutes = ROUTE_PERMISSIONS.USER;
-//       return userRoutes.some((allowedRoute) => route.startsWith(allowedRoute));
-//     }
-
-//     return false;
-//   };
-
-//   // Only render children if user is authenticated
-//   if (!token || !user) {
-//     return null;
-//   }
-
-//   return <>{children}</>;
-// }
-
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import useUser from "./useUser"; // adjust path
 import getToken from "./getToken";
+import { authFetch } from "@/lib/authFetch";
+import Cookies from "js-cookie";
 
 const ROUTE_PERMISSIONS = {
   ADMIN: [
@@ -133,56 +38,93 @@ const DEFAULT_REDIRECTS = {
 interface AuthGuardProps {
   children: React.ReactNode;
 }
+type UserRole = "SUPER_ADMIN" | "ADMIN" | "USER";
 
 export default function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const token = getToken();
-  const user = useUser(); // Now safe – only reads localStorage in useEffect
 
+  const [user, setUser] = useState<any>(null);
   const [isClient, setIsClient] = useState(false);
 
-  // Ensure we're on client before doing redirects
+  const token = getToken();
+
+  const clearAuthDataAndRedirect = () => {
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+      sessionStorage.clear();
+    }
+
+    Cookies.remove("token");
+    Cookies.remove("refreshToken");
+
+    router.replace(DEFAULT_REDIRECTS.UNAUTHENTICATED);
+  };
+
+  const verifyToken = async () => {
+    try {
+      if (!token) {
+        clearAuthDataAndRedirect();
+        return;
+      }
+
+      const res = await authFetch("/user/profile", {
+        method: "GET",
+        auth: true,
+      });
+
+      if (!res.ok) {
+        clearAuthDataAndRedirect();
+        return;
+      }
+
+      const result = await res.json();
+      const userData = result?.data;
+
+      // ❌ Invalid role
+      if (
+        !userData ||
+        !["ADMIN", "SUPER_ADMIN", "USER"].includes(userData.role)
+      ) {
+        clearAuthDataAndRedirect();
+        return;
+      }
+
+      setUser(userData);
+      setIsClient(true);
+    } catch {
+      clearAuthDataAndRedirect();
+    }
+  };
+
   useEffect(() => {
-    setIsClient(true);
+    verifyToken();
   }, []);
 
   useEffect(() => {
-    if (!isClient) return; // Prevent running on server
+    if (!isClient || !user) return;
 
-    if (!token || !user) {
-      router.push(DEFAULT_REDIRECTS.UNAUTHENTICATED);
-      return;
-    }
+    const role: UserRole = user.role;
 
-    const userRole = user.role as keyof typeof DEFAULT_REDIRECTS;
-
-    if (userRole === "SUPER_ADMIN") {
-      return; // Allow all routes
-    }
-
-    const hasAccess = checkRouteAccess(pathname, userRole);
-
-    if (!hasAccess) {
-      const redirectPath =
-        DEFAULT_REDIRECTS[userRole] || DEFAULT_REDIRECTS.UNAUTHENTICATED;
-      router.push(redirectPath);
-    }
-  }, [pathname, token, user, router, isClient]);
-
-  const checkRouteAccess = (route: string, role: string): boolean => {
-    if (role === "SUPER_ADMIN") return true;
+    // SUPER_ADMIN → allow everything
+    if (role === "SUPER_ADMIN") return;
 
     const allowedRoutes =
       ROUTE_PERMISSIONS[role as keyof typeof ROUTE_PERMISSIONS];
-    if (!allowedRoutes) return false;
+    const hasAccess = allowedRoutes?.some((route) =>
+      pathname.startsWith(route)
+    );
 
-    return allowedRoutes.some((allowedRoute) => route.startsWith(allowedRoute));
-  };
+    if (!hasAccess) {
+      router.replace(
+        DEFAULT_REDIRECTS[role] || DEFAULT_REDIRECTS.UNAUTHENTICATED
+      );
+    }
+  }, [pathname, user, isClient, router]);
 
-  // Show nothing or a loader while checking auth on client
-  if (!isClient || !token || !user) {
-    return null; // or <LoadingSpinner />
+  // ⏳ Block render until auth is resolved
+  if (!isClient || !user) {
+    return null; // or loader
   }
 
   return <>{children}</>;
