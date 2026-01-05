@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { costumFormatDate } from "@/components/shared/DateTime";
-import { IDiscussionPost } from "@/app/dashboard/forums/page";
+import { IDiscussionPost } from "@/app/dashboard/forums/ForumsPage";
 
 const getIconSrc = (type: string) => {
   const iconMap: Record<string, string> = {

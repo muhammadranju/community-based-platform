@@ -1,4 +1,4 @@
-import { IDiscussionPost } from "@/app/dashboard/forums/page";
+import { IDiscussionPost } from "@/app/dashboard/forums/ForumsPage";
 import { MoreVertical } from "lucide-react";
 
 const getIconSrc = (type: string) => {

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import VerifyOTP from "./VerifyOTPPage";
 
 export const metadata = {
@@ -5,7 +6,13 @@ export const metadata = {
   description: "Verify OTP Page",
 };
 function page() {
-  return <VerifyOTP />;
+  return (
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <VerifyOTP />;
+      </Suspense>
+    </>
+  );
 }
 
 export default page;

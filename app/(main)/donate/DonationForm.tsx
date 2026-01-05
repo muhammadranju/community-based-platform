@@ -182,6 +182,11 @@ export const DonationForm: React.FC = () => {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
+
+          {/* Predefined Amounts */}
+          <div className="flex justify-center items-center gap-2 flex-wrap">
+            <AmoutButton setAmount={setAmount} />
+          </div>
         </div>
         {/* Comment/Message Section */}
         <div className="flex flex-col gap-1.5 w-full mt-2">
@@ -279,5 +284,27 @@ const Input: React.FC<InputProps> = ({
         {...props}
       />
     </div>
+  );
+};
+
+const AmoutButton = ({ setAmount }: any) => {
+  const ammout = [100, 500, 600, 800, 1000, 1200, 1500];
+
+  return (
+    <>
+      {ammout.map((ammout) => {
+        return (
+          <button
+            key={ammout}
+            onClick={() => {
+              setAmount(ammout);
+            }}
+            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 cursor-pointer"
+          >
+            {ammout}$
+          </button>
+        );
+      })}
+    </>
   );
 };

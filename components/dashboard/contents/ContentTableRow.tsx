@@ -1,4 +1,4 @@
-import { IPost } from "@/app/dashboard/contents/page";
+import { IPost } from "@/app/dashboard/contents/ContentsPage";
 import {
   DropdownMenu,
   DropdownMenuContent,

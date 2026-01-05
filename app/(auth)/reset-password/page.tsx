@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ResetPassword from "./ResetPassowrdPage";
 
 export const metadata = {
@@ -8,7 +9,9 @@ export const metadata = {
 function page() {
   return (
     <>
-      <ResetPassword />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ResetPassword />
+      </Suspense>
     </>
   );
 }

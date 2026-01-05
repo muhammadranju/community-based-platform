@@ -1,5 +1,5 @@
-import { IPost } from "@/app/dashboard/contents/page";
-import { IUser } from "@/app/dashboard/users/page";
+import { IPost } from "@/app/dashboard/contents/ContentsPage";
+import { IUser } from "@/app/dashboard/users/UsersPage";
 import { authFetch } from "@/lib/authFetch";
 import React, { useEffect, useState } from "react";
 

@@ -59,5 +59,3 @@ const Card: React.FC<CardProps> = ({ icon, label, onClick }) => {
     </div>
   );
 };
-
-// tinver vai -5960
