@@ -1,9 +1,9 @@
 "use client";
 
 import Cookies from "js-cookie";
+import { BiDonateHeart } from "react-icons/bi";
+
 import {
-  ArrowDownRight,
-  ArrowRight,
   ChartNoAxesColumn,
   Component,
   Form,
@@ -20,8 +20,8 @@ import { usePathname } from "next/navigation";
 import { AiFillPieChart } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { IoCloudUploadOutline, IoSettingsOutline } from "react-icons/io5";
-import UserInfo from "../shared/UserInfo";
 import { SignOut } from "../shared/SignOut";
+import UserInfo from "../shared/UserInfo";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -94,6 +94,11 @@ const adminNavItems: NavItem[] = [
     icon: <Component size={20} />,
   },
 
+  {
+    href: "/dashboard/donations",
+    label: "Donations",
+    icon: <BiDonateHeart size={20} />,
+  },
   {
     href: "/dashboard/waiting-list",
     label: "Waiting List",

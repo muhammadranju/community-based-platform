@@ -38,7 +38,7 @@ export default function ContentTableRow({
       </td>
       <td className="py-4 px-6">
         <span
-          className={`px-3 py-1 rounded-full text-xs font-semibold inline-block min-w-[90px] text-center ${
+          className={`px-3 py-1 rounded-full text-xs font-semibold inline-block min-w-[90px] text-center capitalize ${
             post.status === "approved"
               ? "bg-green-100 text-green-700"
               : post.status === "rejected"

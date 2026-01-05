@@ -1,3 +1,4 @@
+import { NumberTicker } from "@/components/ui/number-ticker";
 import { ChartSpline, Flag, Upload, User } from "lucide-react";
 import React from "react";
 
@@ -49,8 +50,11 @@ export const StatsGrid = ({ analytics }: any) => {
               <p className="text-sm font-medium mb-1 text-gray-600 group-hover:text-gray-300 transition-colors duration-300">
                 {stat.label}
               </p>
-              <h3 className="text-3xl font-bold tracking-tight transition-colors duration-300">
-                {stat.value}
+              <h3 className="text-3xl font-bold tracking-tight ">
+                <NumberTicker
+                  value={stat.value || 100}
+                  className="tracking-tighter whitespace-pre-wrap text-emerald-900 group-hover:text-gray-300 transition-colors duration-300"
+                />
               </h3>
             </div>
 

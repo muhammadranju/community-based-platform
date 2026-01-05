@@ -44,7 +44,6 @@ const Card: React.FC<CardProps> = ({ icon, label, onClick }) => {
     >
       <div className="relative overflow-hidden rounded-tr-[50px] rounded-bl-[50px] rounded-tl-xl rounded-br-xl  border-2 border-lime-500 p-4 h-32 flex items-center justify-center gap-6 shadow-sm hover:shadow-md transition-all">
         {/* Background decorative curve lines (optional, can be added with SVG if needed for exact pattern) */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('/bg/pattern.png')] bg-cover" />
 
         {/* Icon Circle */}
         <div className="flex items-center justify-center w-16 h-16 rounded-full bg-lime-500 text-white shrink-0 z-10">

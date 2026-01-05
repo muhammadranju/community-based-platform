@@ -405,8 +405,8 @@ function UserPage() {
                   <label className="text-sm font-semibold text-emerald-900">
                     User ID
                   </label>
-                  <p className="text-gray-700 font-mono text-sm break-all">
-                    {selectedUser._id}
+                  <p className="text-gray-700 font-mono text-sm break-all uppercase">
+                    #{selectedUser._id.slice(-6)}
                   </p>
                 </div>
 
@@ -464,9 +464,6 @@ function UserPage() {
                   className="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full font-medium transition-colors"
                 >
                   Close
-                </button>
-                <button className="px-6 py-2 bg-emerald-900 hover:bg-emerald-800 text-white rounded-full font-medium transition-colors">
-                  Edit User
                 </button>
               </div>
             </div>
