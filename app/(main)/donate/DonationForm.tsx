@@ -130,7 +130,7 @@ export const DonationForm: React.FC = () => {
             firstName: firstName.trim() || "N/A",
             lastName: lastName.trim() || "N/A",
             email: email.trim() || "",
-            phoneNumber: countryCode + phone.trim() || "N/A",
+            phoneNumber: phone.trim() || "N/A",
             country: country.trim() || "N/A",
             volunteerCategory: monetaryDonation || "N/A",
             donationCategory: monetaryDonation || "N/A",

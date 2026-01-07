@@ -218,6 +218,7 @@ export function DonationsPage() {
                 <th className="py-4 px-6 font-medium text-sm">Donor</th>
                 <th className="py-4 px-6 font-medium text-sm">Amount</th>
                 <th className="py-4 px-6 font-medium text-sm">Category</th>
+                <th className="py-4 px-6 font-medium text-sm">Phone</th>
                 <th className="py-4 px-6 font-medium text-sm">Status</th>
                 <th className="py-4 px-6 font-medium text-sm">Date</th>
               </tr>
@@ -268,6 +269,11 @@ export function DonationsPage() {
                     <td className="py-4 px-6">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 capitalize">
                         {item.donationCategory}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className="font-bold text-teal-900">
+                        {item.phoneNumber}
                       </span>
                     </td>
 
