@@ -6,6 +6,7 @@ interface AuthWelcomeSectionProps {
   badgeText?: string;
   linkText: string;
   linkHref: string;
+  showLink?: boolean;
 }
 
 export default function AuthWelcomeSection({
@@ -13,6 +14,7 @@ export default function AuthWelcomeSection({
   badgeText = "welcome back to the village",
   linkText,
   linkHref,
+  showLink = true,
 }: AuthWelcomeSectionProps) {
   return (
     <>
@@ -22,15 +24,17 @@ export default function AuthWelcomeSection({
       <h1 className="text-3xl sm:text-4xl font-bold text-emerald-900 mb-2 tracking-tight">
         {title}
       </h1>
-      <p className="text-gray-500 text-sm mb-8">
-        Don't have an account?{" "}
-        <Link
-          href={linkHref}
-          className="text-[#1a5d1a] font-bold hover:underline decoration-2 underline-offset-2"
-        >
-          {linkText}
-        </Link>
-      </p>
+      {showLink && (
+        <p className="text-gray-500 text-sm mb-8">
+          Don't have an account?{" "}
+          <Link
+            href={linkHref}
+            className="text-[#1a5d1a] font-bold hover:underline decoration-2 underline-offset-2"
+          >
+            {linkText}
+          </Link>
+        </p>
+      )}
     </>
   );
 }
