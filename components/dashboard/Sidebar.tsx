@@ -6,6 +6,7 @@ import { BiDonateHeart } from "react-icons/bi";
 import {
   ChartNoAxesColumn,
   Component,
+  Database,
   Form,
   Home,
   LogOut,
@@ -98,6 +99,11 @@ const adminNavItems: NavItem[] = [
     href: "/dashboard/donations",
     label: "Donations",
     icon: <BiDonateHeart size={20} />,
+  },
+  {
+    href: "/dashboard/database",
+    label: "Database",
+    icon: <Database size={20} />,
   },
   {
     href: "/dashboard/waiting-list",
