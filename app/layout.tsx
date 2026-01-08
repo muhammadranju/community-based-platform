@@ -30,16 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <main className="grow">
-          {/* {children} */}
-
-          <div className="flex items-center h-screen justify-center  flex-col">
-            <h1 className="text-5xl font-bold">
-              website is under construction
-            </h1>
-            <p className="text-2xl"> Please check back soon </p>
-          </div>
-        </main>
+        <main className="grow">{children}</main>
         <ActiveUserTracker />
         <GoogleAnalytics gaId="G-VQ85QD16D X" />
         <Toaster richColors />
