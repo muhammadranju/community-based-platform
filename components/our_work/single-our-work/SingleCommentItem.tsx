@@ -74,18 +74,18 @@ export const SingleCommentItem = ({ comment }: { comment: CommentData }) => {
       <div className="shrink-0 md:w-48 ">
         <div className="border border-emerald-900 rounded-xl p-4 flex flex-row md:flex-col items-center  gap-3 md:gap-4 bg-white h-full md:h-auto">
           <img
-            src={`${process.env.NEXT_PUBLIC_API_URL}${comment.owner.image}`}
-            alt={comment.owner.name}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${comment?.owner?.image}`}
+            alt={comment?.owner?.name}
             className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover border-2 border-white shadow-sm"
           />
 
           <div className="flex flex-col items-start">
             <h3 className="font-bold text-emerald-900 text-sm md:text-base">
-              {comment.owner.name}
+              {comment?.owner?.name}
             </h3>
             <p className="text-xs text-emerald-900 mt-0.5">
               <span className="font-black">Joined:</span>{" "}
-              {costumFormatDate(comment.owner.createdAt)}
+              {costumFormatDate(comment?.owner?.createdAt)}
             </p>
           </div>
         </div>
@@ -95,7 +95,7 @@ export const SingleCommentItem = ({ comment }: { comment: CommentData }) => {
         <div className="mb-1 flex flex-col">
           <span className="text-emerald-900 lowercase font-medium text-sm md:text-base">
             @
-            {slugify(comment.owner?.name || "anonymous", {
+            {slugify(comment?.owner?.name || "anonymous", {
               remove: /[^a-zA-Z0-9]/g,
               lower: true,
             })}

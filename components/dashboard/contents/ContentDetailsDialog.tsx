@@ -68,7 +68,7 @@ export default function ContentDetailsDialog({
                 : key.charAt(0).toUpperCase() + key.slice(1);
               const value =
                 key === "owner.name"
-                  ? post.owner.name
+                  ? post?.owner?.name
                   : key === "createdAt"
                   ? costumFormatDate(post.createdAt)
                   : (post as any)[key];

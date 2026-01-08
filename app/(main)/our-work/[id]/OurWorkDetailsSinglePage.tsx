@@ -47,7 +47,7 @@ function OurWorkDetailsSinglePage() {
         id: String(index + 1),
         title,
         subtitle: `PDF Document • ${arr?.length}`,
-        owner: data?.owner.name,
+        owner: data?.owner?.name,
         type: "pdf",
       };
     }) || [];
@@ -119,7 +119,7 @@ function OurWorkDetailsSinglePage() {
               <DocumentsCard
                 documents={MOCK_DOCS?.slice(0, 3)}
                 totalCount={data?.pdfs?.length}
-                owner={data?.owner.name}
+                owner={data?.owner?.name}
                 url={`/our-work/our-work-details/pdfs?region=${search}&slug=${id}`}
               />
             </section>
