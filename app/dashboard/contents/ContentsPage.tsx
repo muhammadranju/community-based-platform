@@ -72,8 +72,6 @@ export default function ContentsTablePage() {
 
   return (
     <div className="w-full">
-      <title>Contents Dashboard - African Traditional Architecture</title>
-
       <ContentTableHeader
         sortOrder={sortOrder}
         onSortChange={(order) => {

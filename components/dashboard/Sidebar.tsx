@@ -87,24 +87,19 @@ const adminNavItems: NavItem[] = [
     label: "Contents",
     icon: <ChartNoAxesColumn size={20} />,
   },
-  { href: "/dashboard/users", label: "Users", icon: <Users size={20} /> },
-
   {
     href: "/dashboard/forums",
     label: "Forums",
     icon: <Component size={20} />,
   },
+  { href: "/dashboard/users", label: "Users", icon: <Users size={20} /> },
 
   {
     href: "/dashboard/donations",
     label: "Donations",
     icon: <BiDonateHeart size={20} />,
   },
-  {
-    href: "/dashboard/database",
-    label: "Database",
-    icon: <Database size={20} />,
-  },
+
   {
     href: "/dashboard/waiting-list",
     label: "Waiting List",

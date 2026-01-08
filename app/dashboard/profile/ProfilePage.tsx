@@ -1,7 +1,7 @@
 "use client";
 import { costumFormatDate } from "@/components/shared/DateTime";
 import { authFetch } from "@/lib/authFetch";
-import { Save } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -10,6 +10,7 @@ const ProfilePage = () => {
   const [imagePreview, setImagePreview] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const getUserData = async () => {
     const response = await authFetch("/user/profile");
@@ -54,6 +55,7 @@ const ProfilePage = () => {
 
   const handelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       // Create FormData for file upload
@@ -74,6 +76,7 @@ const ProfilePage = () => {
 
       if (!response.ok) {
         toast.error("Failed to update profile");
+        setLoading(false);
         return;
       }
 
@@ -84,9 +87,11 @@ const ProfilePage = () => {
         localStorage.setItem("user", JSON.stringify(data.data));
 
         getUserData(); // Refresh user data
+        setLoading(false);
       }
     } catch (error) {
       toast.error("An error occurred while updating profile");
+      setLoading(false);
     }
   };
 
@@ -204,9 +209,19 @@ const ProfilePage = () => {
         <div className="mt-8">
           <button
             onClick={handelSubmit}
+            disabled={loading}
             className="flex items-center gap-3 px-6 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Save size={22} /> Save Changes
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Submitting..
+              </>
+            ) : (
+              <>
+                <Save size={22} /> Save Changes
+              </>
+            )}
           </button>
         </div>
       </div>

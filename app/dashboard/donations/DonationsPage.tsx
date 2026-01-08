@@ -165,12 +165,9 @@ export function DonationsPage() {
   return (
     <div className="w-full mx-auto">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
         <div>
-          <h1 className="text-3xl font-bold text-teal-900 mb-2">Donations</h1>
-          <p className="text-gray-500 text-sm">
-            Track and manage incoming donations and payments.
-          </p>
+          <h1 className="text-3xl font-bold text-teal-900 ">Donations</h1>
         </div>
         <div className="flex gap-3">
           {/* Filter Dropdown */}

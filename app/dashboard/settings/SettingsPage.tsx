@@ -1,7 +1,7 @@
 "use client";
 import getUser from "@/components/shared/UserInfo";
 import { authFetch } from "@/lib/authFetch";
-import { Trash2, Upload } from "lucide-react";
+import { Loader2, Save, Trash2, Upload } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -11,10 +11,12 @@ function SettingsPage() {
     newPassword: "",
     confirmPassword: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const user = getUser();
 
   const handleUpdatePassword = async () => {
+    setLoading(true);
     // Basic validation
     if (
       !password.currentPassword ||
@@ -22,11 +24,13 @@ function SettingsPage() {
       !password.confirmPassword
     ) {
       toast.error("Please fill in all password fields");
+      setLoading(false);
       return;
     }
 
     if (password.newPassword !== password.confirmPassword) {
       toast.error("New password and confirmation do not match");
+      setLoading(false);
       return;
     }
 
@@ -44,6 +48,7 @@ function SettingsPage() {
 
       if (!response.ok) {
         toast.error(data.message || "Failed to update password");
+        setLoading(false);
       } else {
         toast.success("Password updated successfully");
         // Clear fields on success
@@ -56,6 +61,7 @@ function SettingsPage() {
     } catch (error) {
       console.error(error);
       toast.error("An error occurred. Please try again.");
+      setLoading(false);
     }
   };
 
@@ -118,10 +124,20 @@ function SettingsPage() {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
               <button
+                disabled={loading}
                 onClick={handleUpdatePassword}
-                className="w-full sm:w-auto bg-[#d97706] hover:bg-[#b45309] active:scale-95 text-white px-10 py-4 rounded-full font-semibold text-sm transition-all shadow-lg transform"
+                className="flex items-center gap-3 px-6 py-4 bg-amber-600 text-white font-bold rounded-full hover:bg-amber-700 transition shadow-lg text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Update Password
+                {loading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Submitting..
+                  </>
+                ) : (
+                  <>
+                    <Save size={22} /> Update Password
+                  </>
+                )}
               </button>
 
               <button className="w-full sm:w-auto bg-white hover:bg-gray-100 active:scale-95 text-teal-900 px-8 py-4 rounded-xl font-bold text-sm transition-all shadow-md flex items-center justify-center gap-3 border border-gray-200">

@@ -20,7 +20,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authFetch } from "@/lib/authFetch";
-import { Calendar, Filter, MoreVertical, Upload } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Filter,
+  MoreVertical,
+  Upload,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -192,6 +198,12 @@ export function DatabasePage() {
           <p className="text-gray-500 text-sm">
             Manage your database records ({totalCount} total)
           </p>
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm cursor-pointer mt-5"
+          >
+            <ArrowLeft size={16} /> Back
+          </button>
         </div>
         <div className="flex gap-3">
           {/* Filter Dropdown - Newest / Oldest */}

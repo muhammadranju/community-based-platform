@@ -19,7 +19,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, Filter, MoreVertical, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Filter,
+  MoreVertical,
+  Trash2,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { costumFormatDate } from "@/components/shared/DateTime";
@@ -144,9 +150,13 @@ export function ContactsPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
           <h1 className="text-3xl font-bold text-teal-900 mb-1">Contacts</h1>
-          <p className="text-gray-500 text-sm">
-            Manage all incoming contact submissions
-          </p>
+
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm cursor-pointer mt-5"
+          >
+            <ArrowLeft size={16} /> Back
+          </button>
         </div>
         <div className="flex gap-3">
           {/* Filter Dropdown - Newest / Oldest */}

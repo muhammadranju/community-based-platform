@@ -270,7 +270,7 @@ function UserPage() {
                   >
                     <td className="py-4 px-6 text-gray-700 font-medium">
                       <img
-                        src={item.image}
+                        src={`${process.env.NEXT_PUBLIC_API_URL}${item.image}`}
                         className="w-12 h-12 rounded-full object-cover"
                         alt={item.name}
                       />
@@ -375,7 +375,7 @@ function UserPage() {
             <div className="space-y-6 mt-4">
               <div className="flex items-center gap-6 pb-6 border-b border-gray-200">
                 <img
-                  src={selectedUser.image}
+                  src={`${process.env.NEXT_PUBLIC_API_URL}${selectedUser.image}`}
                   alt={selectedUser.name}
                   className="w-24 h-24 rounded-full border-4 border-emerald-900 object-cover"
                 />
