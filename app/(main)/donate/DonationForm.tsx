@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  countryCodeFlags,
-  phonePatterns,
-} from "@/components/shared/CountryCodeFlags";
 import { CustomInput, PhoneNumberInput } from "@/components/shared/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +8,7 @@ import React, { useState } from "react";
 import { CustomSelect } from "./CustomSelect";
 import { toast } from "sonner";
 import { authFetch } from "@/lib/authFetch";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 export const DonationForm: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState<string>("");
@@ -19,10 +16,11 @@ export const DonationForm: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("+1");
   const [country, setCountry] = useState("");
   const [donationType, setDonationType] = useState<string>("");
-  const [donationCategory, setDonationCategory] = useState<string>("");
+  const [donationCategory, setDonationCategory] = useState<string>(
+    "content-contribution"
+  );
   const [monetaryDonation, setMonetaryDonation] = useState<string>("one-time");
 
   const [amount, setAmount] = useState<string>("");
@@ -39,30 +37,6 @@ export const DonationForm: React.FC = () => {
   const isVolunteerDonation = donationType === "volunteer";
   const contactInfoDisabled = isMonetaryDonation;
 
-  // Auto-detect country code from phone number
-  const handlePhoneChange = (value: string) => {
-    setPhone(value);
-
-    // Check if the input starts with + and extract code
-    if (value.startsWith("+")) {
-      const codeMatch = value.match(/^\+\d{1,3}/);
-      if (codeMatch) {
-        const potentialCode = codeMatch[0];
-        if (countryCodeFlags[potentialCode]) {
-          setCountryCode(potentialCode);
-        }
-      }
-    } else {
-      // Try to detect from the number pattern
-      for (const pattern of phonePatterns) {
-        if (pattern.pattern.test(value)) {
-          setCountryCode(pattern.code);
-          break;
-        }
-      }
-    }
-  };
-
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
@@ -78,8 +52,10 @@ export const DonationForm: React.FC = () => {
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         newErrors.email = "Invalid email address";
       }
-      if (!phone.trim()) {
+      if (!phone) {
         newErrors.phoneNumber = "Phone number is required";
+      } else if (!isValidPhoneNumber(phone)) {
+        newErrors.phoneNumber = "Invalid phone number";
       }
       if (!country.trim()) {
         newErrors.country = "Country is required";
@@ -127,14 +103,14 @@ export const DonationForm: React.FC = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            firstName: firstName.trim() || "N/A",
-            lastName: lastName.trim() || "N/A",
+            firstName: firstName.trim() || "Not Available",
+            lastName: lastName.trim() || "",
             email: email.trim() || "",
-            phoneNumber: phone.trim() || "N/A",
-            country: country.trim() || "N/A",
-            volunteerCategory: monetaryDonation || "N/A",
-            donationCategory: monetaryDonation || "N/A",
-            description: message.trim() || "N/A",
+            phoneNumber: phone || "Not Available",
+            country: country.trim() || "Not Available",
+            volunteerCategory: monetaryDonation || "Not Available",
+            donationCategory: monetaryDonation || "Not Available",
+            description: message.trim() || "Not Available",
             amount: Number(amount),
           }),
         });
@@ -154,15 +130,15 @@ export const DonationForm: React.FC = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            firstName: firstName.trim() || "N/A",
-            lastName: lastName.trim() || "N/A",
+            firstName: firstName.trim() || "Not Available",
+            lastName: lastName.trim() || "",
             email: email.trim() || "",
-            phoneNumber: countryCode + phone.trim() || "N/A",
-            country: country.trim() || "N/A",
-            volunteerCategory: donationType || "N/A",
-            donationCategory: donationCategory || "N/A",
+            phoneNumber: phone || "Not Available",
+            country: country.trim() || "Not Available",
+            volunteerCategory: donationType || "Not Available",
+            donationCategory: donationCategory || "Not Available",
             paymentStatus: "unpaid",
-            description: message.trim() || "N/A",
+            description: message.trim() || "Not Available",
             amount: Number(amount),
           }),
         });
@@ -242,12 +218,8 @@ export const DonationForm: React.FC = () => {
           <PhoneNumberInput
             label="Phone Number"
             required={true}
-            placeholder="eg. +254712345678"
-            countryCode={countryCode}
-            onCountryCodeChange={setCountryCode}
-            phoneNumber={phone}
             value={phone}
-            onChange={(e) => handlePhoneChange(e.target.value)}
+            onChange={setPhone}
             error={errors.phoneNumber}
             disabled={contactInfoDisabled}
           />
@@ -329,7 +301,7 @@ export const DonationForm: React.FC = () => {
               <CustomSelect
                 value={donationCategory}
                 onChange={(e) => setDonationCategory(e.target.value)}
-                placeholder="Content contribution"
+                placeholder="Select Content contribution"
                 disabled={!isVolunteerDonation}
                 options={[
                   {

@@ -1,5 +1,6 @@
 "use client";
 
+import { costumFormatDate } from "@/components/shared/DateTime";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authFetch } from "@/lib/authFetch";
-import { Filter, MoreVertical, Upload } from "lucide-react";
+import { Calendar, Filter, MoreVertical, Upload } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -251,7 +252,10 @@ export function MyForumsContent() {
                       </span>
                     </td>
                     <td className="py-4 px-6 text-gray-600">
-                      {new Date(item.updatedAt).toLocaleDateString()}
+                      <div className="flex items-center gap-2">
+                        <Calendar size={14} className="text-gray-400" />
+                        {costumFormatDate(item.updatedAt)}
+                      </div>
                     </td>
                     <td className="py-4 px-6 text-right">
                       <DropdownMenu>

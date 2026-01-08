@@ -7,7 +7,14 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authFetch } from "@/lib/authFetch";
-import { ChevronLeft, ChevronRight, Eye, Filter, Upload } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Filter,
+  Upload,
+  Users,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   DropdownMenu,
@@ -15,6 +22,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export interface IUser {
   _id: string;
@@ -167,13 +176,20 @@ function UserPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <h1 className="text-3xl font-bold text-teal-900">Users</h1>
         <div className="flex gap-3">
+          <Link
+            href={"/dashboard/users/contacts"}
+            className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm"
+          >
+            <Users size={16} />
+            View Contacts
+          </Link>
           {/* Filter Dropdown - Newest / Oldest */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm">
+              <Button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm">
                 <Filter size={16} />
                 Filter
-              </button>
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem

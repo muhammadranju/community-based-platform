@@ -166,18 +166,18 @@ export const NewsletterSubscribersTable: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
-            <TableHeader className="bg-gray-50">
+            <TableHeader className="bg-teal-900">
               <TableRow>
-                <TableHead className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                   No.
                 </TableHead>
-                <TableHead className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Email
                 </TableHead>
-                <TableHead className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Date Subscribed
                 </TableHead>
-                <TableHead className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <TableHead className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Time
                 </TableHead>
               </TableRow>
@@ -212,8 +212,8 @@ export const NewsletterSubscribersTable: React.FC = () => {
               ) : (
                 paginatedData.map((sub, index) => (
                   <TableRow key={sub._id} className="hover:bg-gray-50">
-                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {(page - 1) * pageSize + index + 1}
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 uppercase">
+                      #{sub?._id?.slice(-6)}
                     </TableCell>
                     <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {sub.email}

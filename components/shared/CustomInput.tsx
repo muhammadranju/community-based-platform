@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { countryCodeFlags } from "./CountryCodeFlags";
-import { Search, X } from "lucide-react";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -8,13 +7,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-interface PhoneInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface PhoneInputProps {
   label: string;
   required?: boolean;
   error?: string;
-  countryCode: string;
-  onCountryCodeChange: (code: string) => void;
-  phoneNumber: string;
+  value: string;
+  onChange: (value: string) => void;
   disabled?: boolean;
 }
 
@@ -46,31 +44,28 @@ export const PhoneNumberInput: React.FC<PhoneInputProps> = ({
   label,
   required,
   error,
-  countryCode,
-  onCountryCodeChange,
-  phoneNumber,
+  value,
+  onChange,
   disabled = false,
-  ...props
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const countryCodes = Object.entries(countryCodeFlags).map(([code, data]) => ({
-    label: `${code} ${data.country}`,
-    value: code,
-    flag: data.flag,
-  }));
-
-  const filteredCodes = countryCodes.filter((code) =>
-    code.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const selectedCode = countryCodes.find((c) => c.value === countryCode);
-
-  const handleSelectCode = (value: string) => {
-    onCountryCodeChange(value);
-    setIsOpen(false);
-    setSearchTerm("");
+  const handleChange = (val: string | undefined) => {
+    // Heuristic: If detecting a US number (+1) starting with 01[3-9], switch to Bangladesh (+880)
+    // +1 is the default fallback often. "017" parsed by US logic often results in +1017... or similar.
+    // We check if the raw value implies a BD local number.
+    if (val && val.startsWith("+101")) {
+      const localPart = val.substring(2); // Remove '+1'
+      // Check for BD mobile prefixes (013-019)
+      if (/^01[3-9]/.test(localPart)) {
+        // Auto-switch to BD (+880)
+        // Remove the leading '0' from local part for E.164 (BD is +880 1xxx)
+        // localPart is "017..." -> we want "880" + "17..."
+        // So: +880 + localPart.substring(1)
+        const corrected = "+880" + localPart.substring(1);
+        onChange(corrected);
+        return;
+      }
+    }
+    onChange(val || "");
   };
 
   return (
@@ -79,86 +74,14 @@ export const PhoneNumberInput: React.FC<PhoneInputProps> = ({
         {label}
         {required && <span className="text-red-500">*</span>}
       </label>
-      <div className="flex gap-2">
-        {/* Country Code Button with Flag */}
-        <div className="relative w-44">
-          <button
-            type="button"
-            disabled={disabled}
-            onClick={() => !disabled && setIsOpen(!isOpen)}
-            className={`w-full px-3 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all text-gray-700 bg-white text-left flex items-center justify-between ${
-              disabled
-                ? "opacity-50 cursor-not-allowed bg-gray-100"
-                : "hover:border-gray-300"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <span className="text-xl">{selectedCode?.flag}</span>
-              <span className="truncate text-sm font-semibold">
-                {selectedCode?.value}
-              </span>
-            </span>
-            <span className="text-xs">▼</span>
-          </button>
-
-          {isOpen && !disabled && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-              <div className="p-2 border-b border-gray-200 sticky top-0 bg-white">
-                <div className="relative">
-                  <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search country..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-brand-green/20"
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                  {searchTerm && (
-                    <button
-                      onClick={() => setSearchTerm("")}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <div className="max-h-64 overflow-y-auto">
-                {filteredCodes.length > 0 ? (
-                  filteredCodes.map((code) => (
-                    <button
-                      key={code.value}
-                      type="button"
-                      onClick={() => handleSelectCode(code.value)}
-                      className={`w-full text-left px-3 py-2 text-sm hover:bg-emerald-50 transition-colors flex items-center gap-2 ${
-                        countryCode === code.value
-                          ? "bg-emerald-100 text-emerald-900 font-semibold"
-                          : "text-gray-700"
-                      }`}
-                    >
-                      <span className="text-lg">{code.flag}</span>
-                      <span>{code.label}</span>
-                    </button>
-                  ))
-                ) : (
-                  <div className="px-3 py-2 text-sm text-gray-500 text-center">
-                    No countries found
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Phone Input */}
-        <input
-          disabled={disabled}
-          type="tel"
+      <div className={disabled ? "opacity-50 pointer-events-none" : ""}>
+        <PhoneInput
           placeholder="Phone Number"
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all placeholder:text-gray-400 text-gray-700 bg-white disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100"
-          {...props}
+          value={value}
+          onChange={handleChange}
+          defaultCountry="US"
+          disabled={disabled}
+          className="flex gap-2 [&_.PhoneInputCountry]:mr-0 [&_.PhoneInputCountry]:border [&_.PhoneInputCountry]:border-gray-200 [&_.PhoneInputCountry]:rounded-lg [&_.PhoneInputCountry]:px-3 [&_.PhoneInputCountry]:bg-white [&_.PhoneInputInput]:w-full [&_.PhoneInputInput]:px-4 [&_.PhoneInputInput]:py-3 [&_.PhoneInputInput]:rounded-lg [&_.PhoneInputInput]:border [&_.PhoneInputInput]:border-gray-200 [&_.PhoneInputInput]:focus:outline-none [&_.PhoneInputInput]:focus:ring-2 [&_.PhoneInputInput]:focus:ring-brand-green/20 [&_.PhoneInputInput]:focus:border-brand-green [&_.PhoneInputInput]:transition-all [&_.PhoneInputInput]:placeholder:text-gray-400 [&_.PhoneInputInput]:text-gray-700 [&_.PhoneInputInput]:bg-white"
         />
       </div>
       {error && <p className="text-red-500 text-xs mt-1 ml-1">{error}</p>}

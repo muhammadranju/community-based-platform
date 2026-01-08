@@ -1,11 +1,12 @@
 import { IPost } from "@/app/dashboard/contents/ContentsPage";
+import { costumFormatDate } from "@/components/shared/DateTime";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Eye, MoreVertical } from "lucide-react";
+import { Calendar, Eye, MoreVertical } from "lucide-react";
 // import { IPost } from "./ContentTable"; // adjust path if needed
 
 interface ContentTableRowProps {
@@ -34,7 +35,10 @@ export default function ContentTableRow({
       <td className="py-4 px-6 text-gray-600 capitalize">{post.country}</td>
       <td className="py-4 px-6 text-gray-600 capitalize">{post.region}</td>
       <td className="py-4 px-6 text-gray-600">
-        {new Date(post.updatedAt).toLocaleDateString()}
+        <div className="flex items-center gap-2">
+          <Calendar size={14} className="text-gray-400" />
+          {costumFormatDate(post.createdAt)}
+        </div>
       </td>
       <td className="py-4 px-6">
         <span

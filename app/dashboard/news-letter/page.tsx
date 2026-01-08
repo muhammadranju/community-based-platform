@@ -1,4 +1,4 @@
-import NewsletterSubscribersTable from "./NewsLetterPage";
+import { NewsletterSubscribersTable } from "./NewsLetterPage";
 
 export const metadata = {
   title: "News letter  Dashboard - African Traditional Architecture",

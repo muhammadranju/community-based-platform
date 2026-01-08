@@ -1,4 +1,5 @@
 "use client";
+import { costumFormatDate } from "@/components/shared/DateTime";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -215,11 +216,9 @@ export function DonationsPage() {
             <thead>
               <tr className="bg-teal-900 text-white text-left">
                 <th className="py-4 px-6 font-medium text-sm">ID</th>
-                <th className="py-4 px-6 font-medium text-sm">Donor</th>
-                <th className="py-4 px-6 font-medium text-sm">Amount</th>
+                <th className="py-4 px-6 font-medium text-sm">Donor Name</th>
                 <th className="py-4 px-6 font-medium text-sm">Category</th>
                 <th className="py-4 px-6 font-medium text-sm">Phone</th>
-                <th className="py-4 px-6 font-medium text-sm">Status</th>
                 <th className="py-4 px-6 font-medium text-sm">Date</th>
               </tr>
             </thead>
@@ -261,12 +260,6 @@ export function DonationsPage() {
                     </td>
 
                     <td className="py-4 px-6">
-                      <span className="font-bold text-teal-900">
-                        {formatCurrency(item.amount)}
-                      </span>
-                    </td>
-
-                    <td className="py-4 px-6">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 capitalize">
                         {item.donationCategory}
                       </span>
@@ -277,27 +270,18 @@ export function DonationsPage() {
                       </span>
                     </td>
 
-                    <td className="py-4 px-6">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold inline-block min-w-[90px] text-center capitalize ${getStatusStyle(
-                          item.paymentStatus
-                        )}`}
-                      >
-                        {item.paymentStatus}
-                      </span>
-                    </td>
-
                     <td className="py-4 px-6 text-gray-600 text-sm">
                       <div className="flex items-center gap-2">
                         <Calendar size={14} className="text-gray-400" />
-                        {new Date(item.createdAt).toLocaleDateString(
+                        {costumFormatDate(item.createdAt)}
+                        {/* {new Date(item.createdAt).toLocaleDateString(
                           undefined,
                           {
                             year: "numeric",
                             month: "short",
                             day: "numeric",
                           }
-                        )}
+                        )} */}
                       </div>
                     </td>
                   </tr>
