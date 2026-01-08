@@ -4,13 +4,13 @@ import {
   CustomInput,
   CustomTextarea,
 } from "@/components/contact/InputsTextArea";
+import { PhoneNumberInput } from "@/components/shared/CustomInput";
 import CustomBadge from "@/components/shared/SharedBadge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { MapPin, User2Icon } from "lucide-react";
 import React from "react";
 import { IoIosSend, IoMdMail } from "react-icons/io";
-import { MdPhone } from "react-icons/md";
 
 interface ContactFormSectionProps {
   loading: boolean;
@@ -24,6 +24,7 @@ interface ContactFormSectionProps {
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  onPhoneChange: (value: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
@@ -31,6 +32,7 @@ export default function ContactFormSection({
   loading,
   data,
   onChange,
+  onPhoneChange,
   onSubmit,
 }: ContactFormSectionProps) {
   return (
@@ -63,14 +65,10 @@ export default function ContactFormSection({
             onChange={onChange}
             icon={IoIosSend}
           />
-          <CustomInput
+          <PhoneNumberInput
             label="Your Phone"
-            placeholder="Your Phone"
-            type="tel"
-            name="phone"
             value={data.phone}
-            onChange={onChange}
-            icon={MdPhone}
+            onChange={onPhoneChange}
           />
         </div>
 

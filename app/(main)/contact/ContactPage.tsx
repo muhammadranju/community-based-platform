@@ -6,6 +6,7 @@ import { authFetch } from "@/lib/authFetch";
 import Image from "next/image";
 import React from "react";
 import { toast } from "sonner";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const ContactPage: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
@@ -24,8 +25,18 @@ const ContactPage: React.FC = () => {
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
+  /* Phone Change Handler */
+  const handlePhoneChange = (value: string) => {
+    setData((prev) => ({ ...prev, phone: value }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (data.phone && !isValidPhoneNumber(data.phone)) {
+      toast.error("Invalid phone number");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -90,6 +101,7 @@ const ContactPage: React.FC = () => {
           loading={loading}
           data={data}
           onChange={handleChange}
+          onPhoneChange={handlePhoneChange}
           onSubmit={handleSubmit}
         />
       </div>
