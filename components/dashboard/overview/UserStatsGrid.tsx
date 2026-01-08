@@ -47,7 +47,7 @@ export const UserStatsGrid = ({ analytics }: any) => {
               </p>
               <h3 className="text-3xl font-bold tracking-tight ">
                 <NumberTicker
-                  value={stat.value || 100}
+                  value={stat.value || 0}
                   className="tracking-tighter whitespace-pre-wrap text-emerald-900 group-hover:text-gray-300 transition-colors duration-300"
                 />
               </h3>

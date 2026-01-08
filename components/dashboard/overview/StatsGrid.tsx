@@ -1,6 +1,6 @@
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ChartSpline, Flag, Upload, User } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const StatsGrid = ({ analytics }: any) => {
   const STATS_CARDS = [
@@ -17,6 +17,13 @@ export const StatsGrid = ({ analytics }: any) => {
     },
     { label: "Forums", value: analytics?.totalForums, icon: <Flag /> },
   ];
+
+  const [totalUploads, setTotalUploads] = React.useState(0);
+
+  useEffect(() => {
+    setTotalUploads(analytics?.totalUploads || 0);
+  }, [analytics]);
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       {STATS_CARDS.map((stat, index) => {
@@ -52,7 +59,7 @@ export const StatsGrid = ({ analytics }: any) => {
               </p>
               <h3 className="text-3xl font-bold tracking-tight ">
                 <NumberTicker
-                  value={stat.value || 100}
+                  value={stat.value || 0}
                   className="tracking-tighter whitespace-pre-wrap text-emerald-900 group-hover:text-gray-300 transition-colors duration-300"
                 />
               </h3>
