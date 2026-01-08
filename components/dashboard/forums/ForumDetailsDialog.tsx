@@ -71,11 +71,11 @@ export default function ForumDetailsDialog({
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Name:</span>
-                <span className="font-medium">{post.owner.name}</span>
+                <span className="font-medium">{post?.owner?.name}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Email:</span>
-                <span className="font-medium">{post.owner.email}</span>
+                <span className="font-medium">{post?.owner?.email}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Role:</span>

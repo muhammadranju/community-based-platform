@@ -33,7 +33,7 @@ export const RecentUploadsTable: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {posts.map((item) => (
+            {posts?.map((item) => (
               <tr
                 key={item._id}
                 className="text-sm hover:bg-gray-50 transition-colors text-gray-600"
@@ -42,7 +42,7 @@ export const RecentUploadsTable: React.FC = () => {
                   {item.title}
                 </td>
                 <td className="py-4 px-6 capitalize">{item.category}</td>
-                <td className="py-4 px-6">{item.owner.name}</td>
+                <td className="py-4 px-6">{item?.owner?.name}</td>
                 <td className="py-4 px-6">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium inline-block min-w-[80px] text-center

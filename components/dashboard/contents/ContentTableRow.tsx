@@ -30,7 +30,7 @@ export default function ContentTableRow({
         {post.title}
       </td>
       <td className="py-4 px-6 text-gray-600 capitalize">{post.category}</td>
-      <td className="py-4 px-6 text-gray-600">{post.owner.name}</td>
+      <td className="py-4 px-6 text-gray-600">{post?.owner?.name}</td>
       <td className="py-4 px-6 text-gray-600 capitalize">{post.country}</td>
       <td className="py-4 px-6 text-gray-600 capitalize">{post.region}</td>
       <td className="py-4 px-6 text-gray-600">

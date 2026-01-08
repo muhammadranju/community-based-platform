@@ -35,8 +35,8 @@ export default function ForumTableRow({
       </td>
       <td className="py-4 px-6 text-gray-600">
         <div>
-          <p className="font-medium text-gray-700">{post.owner.name}</p>
-          <p className="text-xs text-gray-500">{post.owner.email}</p>
+          <p className="font-medium text-gray-700">{post?.owner?.name}</p>
+          <p className="text-xs text-gray-500">{post?.owner?.email}</p>
         </div>
       </td>
       <td className="py-4 px-6 text-gray-600 capitalize">{post.type}</td>
