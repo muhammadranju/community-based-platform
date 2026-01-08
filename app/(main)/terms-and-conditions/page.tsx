@@ -1,5 +1,5 @@
 function page() {
-  return <div>page</div>;
+  return <div className="h-screen">Terms and Conditions</div>;
 }
 
 export default page;

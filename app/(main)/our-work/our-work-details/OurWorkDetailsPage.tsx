@@ -1,7 +1,6 @@
 "use client";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import CustomBadge from "@/components/shared/SharedBadge";
-import { CommentsSection } from "@/components/sub_our_work/Comments";
 import {
   DocumentItem,
   DocumentsCard,
@@ -39,13 +38,12 @@ function OurWorkDetailsPage() {
 
   const search = searchParams.get("region");
 
-  console.log(search);
   return (
     <>
       <div className="text-gray-800">
         <HeaderBanner />
 
-        <div className=" mx-auto space-y-8 ">
+        <div className=" mx-auto space-y-8">
           <div className="bg-accent-bg p-5 rounded-2xl space-y-5">
             {/* Header Section */}
             <header className="relative w-full bg-emerald-900 rounded-4xl p-8 md:p-16 text-white overflow-hidden shadow-sm ">
@@ -81,7 +79,7 @@ function OurWorkDetailsPage() {
                 type="photos"
                 // Using a distinct image of Maasai or similar landscape
                 imageUrl="/bg/our-page-bg-1.png"
-                url={`/our-work/our-work-details/photos?region=/${search}`}
+                url={`/our-work-details/photos?region=/${search}`}
               />
               <MediaCard
                 count={10}
@@ -89,12 +87,13 @@ function OurWorkDetailsPage() {
                 type="videos"
                 // Using a distinct image of Maasai people walking or gathering
                 imageUrl="/bg/our-page-bg-2.png"
-                url={`/our-work/our-work-details/videos?region=/${search}`}
+                url={`/our-work-details/videos?region=/${search}`}
               />
               <DocumentsCard
                 documents={MOCK_DOCS}
                 totalCount={7}
-                url={`/our-work/our-work-details/pdfs?region=/${search}`}
+                owner="Manyatta"
+                url={`/our-work-details/pdfs?region=/${search}`}
               />
             </section>
           </div>
@@ -153,7 +152,7 @@ function OurWorkDetailsPage() {
           </div>
         </div>
       </div>
-      <CommentsSection />
+      {/* <CommentsSection comments={MOCK_COMMENTS} forumData={MOCK_FORUM_DATA} /> */}
     </>
   );
 }

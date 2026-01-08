@@ -5,20 +5,22 @@ function LoginLeftDesign({ link, text }: { link: string; text?: string }) {
   return (
     <>
       {/* --- Mobile Header --- */}
-      <div className="lg:hidden w-full px-6 py-6 flex justify-between items-center bg-white shrink-0 z-30 relative">
+      <div className="lg:hidden w-full px-4 lg:px-12 py-4 flex justify-between items-center bg-white shrink-0 z-30 relative">
         <div className="flex flex-col items-center">
-          <img
-            src="/logo.png"
-            alt="ATA Logo"
-            className="h-14 w-auto object-contain"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-              const span = document.createElement("span");
-              span.innerText = "ATA";
-              span.className = "text-orange-600 font-black text-2xl";
-              e.currentTarget.parentNode?.appendChild(span);
-            }}
-          />
+          <Link href="/">
+            <img
+              src="/logo.png"
+              alt="ATA Logo"
+              className="lg:h-16 h-12 w-auto object-contain"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                const span = document.createElement("span");
+                span.innerText = "ATA";
+                span.className = "text-orange-600 font-black text-2xl";
+                e.currentTarget.parentNode?.appendChild(span);
+              }}
+            />
+          </Link>
         </div>
 
         <Link href={link}>

@@ -47,13 +47,16 @@ export default function OurWorkSection() {
       description:
         "This is a database of Indigenous African builders, designers and architects who are passionate about helping the community to build their homes. Our goal is to connect home owners to African professionals that specialize in preserving, and rebuilding indigenous African Architecture.",
       image: "/bg/Rectangle1.png", // Placeholder for village
-      link: "waiting-list/signup",
+      link: "/database",
       buttonText: "Join Our Database",
     },
   ];
 
   return (
-    <section className="relative py-12 lg:px-12 px-4 bg-accent-bg rounded-3xl overflow-hidden w-full ">
+    <section
+      className="relative py-12 lg:px-12 px-4 bg-accent-bg rounded-3xl overflow-hidden w-full "
+      id="out-work"
+    >
       {/* Background Decorative Element (Subtle Pattern) */}
       <div className="absolute top-0 right-0 w-96 h-96 opacity-100 pointer-events-none">
         <img src="/Frame/Frame-7.png" alt="" />

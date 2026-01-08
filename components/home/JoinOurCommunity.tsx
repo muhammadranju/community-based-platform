@@ -18,7 +18,7 @@ export default function GetInvolvedSection() {
       description:
         "Upload your original photos, videos, or documents of traditional African architecture to preserve and share our Indigenous knowledge. Let’s celebrate our culture, honor our ancestors, and pass this legacy on to future generations",
       icon: Users,
-      link: "/waiting-list/signup",
+      link: "/our-work",
       buttonText: "Contribute",
     },
     {
@@ -26,7 +26,7 @@ export default function GetInvolvedSection() {
       description:
         "Invite a friend and join ongoing discussions, create a new topic, or ask questions, all centered around African Indigenous Architecture. Let’s build community and continue to challenge each others perspectives.",
       icon: MessageSquare,
-      link: "waiting-list/signup",
+      link: "/forum",
       buttonText: "Join Forum",
     },
     {
@@ -34,7 +34,7 @@ export default function GetInvolvedSection() {
       description:
         "Join our growing database of African professionals who are passionate about Indigenous African Architecture. Our goal is to connect these professionals with prospective home owners.",
       icon: Database,
-      link: "waiting-list/signup",
+      link: "/database",
       buttonText: "Register",
     },
   ];

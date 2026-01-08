@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import Image from "next/image";
 import { REGIONS } from "@/lib/data";
+import Link from "next/link";
 
 // --- SocialIcons & Images remain the same ---
 const SocialIcons = () => (
@@ -85,7 +86,15 @@ const AfricanArchitectureHero: React.FC = () => {
                       {region.title} Traditional Architecture
                     </h1>
 
-                    <button
+                    <Link
+                      href="#out-work"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const element = document.getElementById("out-work");
+                        if (element) {
+                          element.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }}
                       className="bg-white hover:bg-gray-100 rounded-full px-8 py-4 lg:text-lg text-xs font-bold shadow transition-all duration-500"
                       style={{
                         color:
@@ -95,7 +104,7 @@ const AfricanArchitectureHero: React.FC = () => {
                       }}
                     >
                       Explore Our Digital Archive
-                    </button>
+                    </Link>
 
                     <div className="hidden lg:block">
                       <SocialIcons />

@@ -19,9 +19,12 @@ export async function authFetch(endpoint: string, options: FetchOptions = {}) {
 
   // ✅ Explicitly typed headers object
   const finalHeaders: Record<string, string> = {
-    "Content-Type": "application/json",
     ...(headers as Record<string, string>),
   };
+
+  if (!(restOptions.body instanceof FormData)) {
+    finalHeaders["Content-Type"] = "application/json";
+  }
 
   // ✅ Safe assignment
   if (auth && token) {

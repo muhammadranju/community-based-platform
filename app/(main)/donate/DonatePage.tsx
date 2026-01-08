@@ -17,7 +17,10 @@ export default function DonatePage() {
         <WaysToGive />
 
         {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full mb-20">
+        <div
+          id="donation-section"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full mb-20"
+        >
           {/* Left Column: Image */}
           <div className="lg:col-span-5 flex flex-col h-[500px] lg:h-auto top-8">
             <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-xl">

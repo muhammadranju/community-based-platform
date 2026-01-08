@@ -10,9 +10,12 @@ import {
 } from "@/components/our_work/ProcessCardData";
 import CustomBadge from "@/components/shared/SharedBadge";
 import SharedTitle from "@/components/shared/SharedTitle";
+import getUser from "@/components/shared/UserInfo";
 import Image from "next/image";
 
 function OurWork() {
+  const user = getUser();
+  const isAuthtenticated = user ? true : false;
   return (
     <>
       {/* Top Hero Section */}
@@ -42,15 +45,27 @@ function OurWork() {
       <section className="text-center pb-10 ">
         <CustomBadge>Explore Content In The Archive</CustomBadge>
 
-        <h2 className="text-3xl md:text-5xl font-bold text-emerald-900 ">
+        <h2 className="text-2xl md:text-5xl font-bold text-emerald-900 ">
           How to contribute and explore the archive
         </h2>
       </section>
 
       {/* Two Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start max-w-7xl mx-auto lg:px-0 px-4">
-        <ProcessCard data={CONTRIBUTE_DATA} />
-        <ProcessCard data={EXPLORE_DATA} />
+        <ProcessCard
+          data={CONTRIBUTE_DATA}
+          buttonText={isAuthtenticated ? "Explore Archive" : "Create Account"}
+          link={
+            isAuthtenticated
+              ? "/our-work/explore-archive?region=east-african-architecture"
+              : "/signup"
+          }
+        />
+        <ProcessCard
+          data={EXPLORE_DATA}
+          link="/our-work/explore-archive?region=east-african-architecture"
+          buttonText={EXPLORE_DATA.buttonText}
+        />
       </div>
 
       <section className="w-full py-12 lg:py-24 max-w-7xl mx-auto lg:px-0 px-4">

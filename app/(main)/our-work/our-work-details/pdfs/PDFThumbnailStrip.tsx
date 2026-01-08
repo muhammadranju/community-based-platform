@@ -1,43 +1,76 @@
 import React from "react";
-import { THUMBNAILS } from "./PdfsPage";
+import { Document, Page, pdfjs } from "react-pdf";
 
-export const PDFThumbnailStrip: React.FC = () => {
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+interface PDFThumbnailStripProps {
+  pdfUrl: string;
+  title: string;
+  companyName: string;
+  currentIndex: number;
+  onSelect: (index: number) => void;
+}
+
+export const PDFThumbnailStrip: React.FC<PDFThumbnailStripProps> = ({
+  pdfUrl,
+  currentIndex,
+  onSelect,
+}) => {
+  const [numPages, setNumPages] = React.useState<number>(0);
+
+  const handleSelect = (index: number) => {
+    onSelect(index);
+  };
+
   return (
-    <div className="flex flex-col space-y-4 h-full overflow-y-auto no-scrollbar py-2 px-2">
-      {THUMBNAILS.map((thumb) => (
+    <div className="flex flex-col bg-white/50 rounded-4xl p-2   ">
+      <Document
+        file={pdfUrl}
+        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+      >
+        {/* 🔒 Vertical scroll only */}
         <div
-          key={thumb.id}
-          className="relative group cursor-pointer transition-transform hover:scale-[1.02]"
+          className="
+            flex flex-col space-y-4
+            max-h-[800px]
+            overflow-y-auto
+            overflow-x-hidden
+            py-2 px-2
+          "
         >
-          {/* Badge */}
-          <div
-            className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md z-10 ${
-              thumb.isActive
-                ? "bg-emerald-900 text-white"
-                : "bg-emerald-900 text-white border border-emerald-900"
-            }`}
-          >
-            {thumb.pageNumber}
-          </div>
+          {Array.from({ length: numPages }, (_, index) => (
+            <div
+              key={index}
+              onClick={() => handleSelect(index)}
+              className="relative group cursor-pointer transition-transform hover:scale-[1.02]"
+            >
+              {/* Page badge */}
+              <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md z-20 bg-emerald-900 text-white border-2 border-white">
+                {index + 1}
+              </div>
 
-          {/* Thumbnail Image */}
-          <div
-            className={`rounded-xl overflow-hidden shadow-sm  p-1 ${
-              thumb.isActive
-                ? "bg-lime-500/90"
-                : "border hover:border-emerald-900"
-            }`}
-          >
-            <div className="aspect-3/4 rounded-lg overflow-hidden bg-gray-100">
-              <img
-                src={thumb.image}
-                alt={`Page ${thumb.pageNumber}`}
-                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-              />
+              {/* Thumbnail card */}
+              <div
+                className={`rounded-xl overflow-hidden shadow-sm p-4 bg-white transition-all ${
+                  index === currentIndex
+                    ? "border-2 border-emerald-900 ring-4 ring-lime-400/30"
+                    : "border-2 border-transparent hover:border-emerald-900"
+                }`}
+              >
+                {/* 🔒 Prevent canvas overflow */}
+                <div className="aspect-3/4 w-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                  <Page
+                    pageNumber={index + 1}
+                    width={120}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
+      </Document>
     </div>
   );
 };

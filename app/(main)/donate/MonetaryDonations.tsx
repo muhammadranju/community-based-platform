@@ -1,3 +1,4 @@
+"use client";
 import { HandHeart, Heart } from "lucide-react";
 import React from "react";
 
@@ -79,7 +80,7 @@ const SectionHeader: React.FC<{ number: string; title: string }> = ({
   title,
 }) => (
   <div className="flex items-center gap-4 mb-8">
-    <div className="flex-shrink-0 w-16 h-16 bg-lime-500 rounded-full flex items-center justify-center shadow-sm">
+    <div className="shrink-0 w-16 h-16 bg-lime-500 rounded-full flex items-center justify-center shadow-sm">
       <span className="text-white text-3xl font-bold">{number}</span>
     </div>
     <h2 className="text-3xl md:text-4xl font-bold text-[#022c22] tracking-tight">
@@ -114,7 +115,14 @@ const DonationCard: React.FC<DonationOption> = ({
           <p className="text-emerald-900 font-bold text-lg">{totalRaised}</p>
         </div>
 
-        <button className="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm">
+        <button
+          onClick={() => {
+            document.getElementById("donation-section")?.scrollIntoView({
+              behavior: "smooth",
+            });
+          }}
+          className="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm cursor-pointer"
+        >
           Donate Now
         </button>
       </div>

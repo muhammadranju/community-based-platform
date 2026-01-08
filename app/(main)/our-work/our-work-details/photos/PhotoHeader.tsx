@@ -4,6 +4,8 @@ import { ArrowLeft, Heart, Share2 } from "lucide-react";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import CopyPath from "@/components/shared/CopyPath";
+import { toast } from "sonner";
 
 export interface GalleryItem {
   id: string;
@@ -21,6 +23,10 @@ export interface IconProps {
 }
 
 export const Header: React.FC = () => {
+  const copy = () => {
+    CopyPath();
+    toast.success("Link copied to clipboard");
+  };
   const router = useRouter();
   return (
     <div className="">
@@ -40,8 +46,12 @@ export const Header: React.FC = () => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4 md:gap-6">
-          <ActionButton icon={Heart} label="Save" />
-          <ActionButton icon={Share2} label="Share" />
+          <ActionButton
+            icon={Heart}
+            label="Save"
+            onClick={() => toast.success("Saved to your library")}
+          />
+          <ActionButton icon={Share2} label="Share" onClick={copy} />
         </div>
       </div>
     </div>
@@ -51,11 +61,19 @@ export const Header: React.FC = () => {
 interface ActionButtonProps {
   icon: React.ElementType;
   label: string;
+  onClick?: () => void;
 }
 
-const ActionButton: React.FC<ActionButtonProps> = ({ icon: Icon, label }) => {
+const ActionButton: React.FC<ActionButtonProps> = ({
+  icon: Icon,
+  label,
+  onClick,
+}) => {
   return (
-    <button className="flex items-center gap-2 group cursor-pointer active:scale-95 transition-transform">
+    <button
+      onClick={onClick}
+      className="flex items-center gap-2 group cursor-pointer active:scale-95 transition-transform"
+    >
       <div className="flex items-center justify-center w-8 h-8 md:w-9 md:h-9 bg-forest rounded-full shadow-sm group-hover:bg-forest/90  bg-emerald-900">
         <Icon
           className="w-4 h-4 md:w-5 md:h-5 text-white fill-transparent"

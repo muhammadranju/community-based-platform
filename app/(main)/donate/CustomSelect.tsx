@@ -7,6 +7,7 @@ interface CustomSelectProps
   options?: { value: string; label: string }[];
   icon?: React.ReactNode;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 export const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -16,6 +17,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   value,
   onChange,
   className = "",
+  disabled = false,
   ...props
 }) => {
   return (
@@ -27,9 +29,10 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
       )}
       <div className="relative">
         <select
+          disabled={disabled}
           value={value}
           onChange={onChange}
-          className={`w-full px-4 py-3 pr-12 rounded-lg border border-gray-200 bg-white text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-900/20 focus:border-emerald-900 transition-all cursor-pointer ${className}`}
+          className={`w-full px-4 py-3 pr-12 rounded-lg border border-gray-200 bg-white text-gray-700 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-900/20 focus:border-emerald-900 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100 ${className}`}
           {...props}
         >
           {placeholder && (
@@ -44,8 +47,15 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
           ))}
         </select>
         {/* Custom Arrow Box */}
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-lime-500 rounded flex items-center justify-center pointer-events-none shadow-sm">
-          <ChevronDown className="w-5 h-5 text-white" strokeWidth={3} />
+        <div
+          className={`absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded flex items-center justify-center pointer-events-none shadow-sm transition-all ${
+            disabled ? "bg-gray-300 cursor-not-allowed" : "bg-lime-500"
+          }`}
+        >
+          <ChevronDown
+            className={`w-5 h-5 ${disabled ? "text-gray-600" : "text-white"}`}
+            strokeWidth={3}
+          />
         </div>
       </div>
     </div>

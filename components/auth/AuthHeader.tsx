@@ -5,8 +5,8 @@ import Image from "next/image";
 function AuthHeader({ link, text }: { link: string; text?: string }) {
   return (
     <div className="hidden lg:flex w-full px-6 py-6 md:px-12 lg:px-36 justify-between items-center shrink-0">
-      <Link href="/">
-        <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center">
+        <Link href="/">
           <Image
             src="/logo.png"
             alt="ATA Logo"
@@ -21,8 +21,8 @@ function AuthHeader({ link, text }: { link: string; text?: string }) {
               e.currentTarget.parentNode?.appendChild(span);
             }}
           />
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       <Link href={link}>
         <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-700 text-white rounded-full">

@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
@@ -27,7 +28,14 @@ export const DonateHero: React.FC = () => {
             Impact
           </h1>
 
-          <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
+          <Button
+            className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full"
+            onClick={() => {
+              document.getElementById("donation-section")?.scrollIntoView({
+                behavior: "smooth",
+              });
+            }}
+          >
             Donate Now
           </Button>
         </div>

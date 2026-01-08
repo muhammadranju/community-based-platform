@@ -9,6 +9,8 @@
 body {
   font-family: "Manrope", sans-serif;
   font-optical-sizing: auto;
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
 }
 
 @theme inline {

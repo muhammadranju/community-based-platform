@@ -52,7 +52,7 @@ export default function ArchiveCard({
 
       {/* Button - pushed to bottom */}
       <div className="mt-6">
-        <Link href={link}>
+        <Link href={`/our-work/explore-archive?region=${link}`}>
           <Button
             className={cn(
               "text-gray-700 border hover:bg-gray-50 rounded-full px-6 py-5 font-medium bg-transparent w-full md:w-auto",

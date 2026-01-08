@@ -3,6 +3,7 @@ import { ThumbsUp, ThumbsDown, MessageSquare, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import CustomBadge from "@/components/shared/SharedBadge";
+import { toast } from "sonner";
 
 interface MainContentProps {
   details: CurrentVideoDetails;
@@ -33,14 +34,20 @@ export const MainContent: React.FC<MainContentProps> = ({ details }) => {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <div className="flex items-center rounded-full border border-lime-500 bg-gray-50 p-1">
-            <Button className="flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-emerald-900 transition hover:bg-white bg-white hover:shadow-sm">
+            <Button
+              onClick={() => toast.success("Liked successfully!")}
+              className="flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-emerald-900 transition hover:bg-white bg-white"
+            >
               <ThumbsUp className="h-4 w-4 text-lime-500" />
               <span>Like</span>
             </Button>
             <div className="h-4 w-px bg-gray-300"></div>
-            <Button className="flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-emerald-900 transition hover:bg-white bg-white hover:shadow-sm">
+            <Button
+              onClick={() => toast.info("Disliked successfully!")}
+              className="flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium text-emerald-900 transition hover:bg-white bg-white"
+            >
               <ThumbsDown className="h-4 w-4 text-lime-500" />
-              <span>Like</span>
+              <span>Dislike</span>
             </Button>
           </div>
 
@@ -50,7 +57,10 @@ export const MainContent: React.FC<MainContentProps> = ({ details }) => {
           </Button>
         </div>
 
-        <Button className="flex items-center gap-2 rounded-full border border-lime-500 bg-brand-bg px-5 py-2 text-sm font-semibold text-emerald-900 transition hover:bg-brand-lime hover:text-white shadow-sm">
+        <Button
+          onClick={() => toast.success("Shared successfully!")}
+          className="flex items-center gap-2 rounded-full border border-lime-500 bg-brand-bg px-5 py-2 text-sm font-semibold text-emerald-900 transition hover:bg-brand-lime  shadow-sm"
+        >
           <Share2 className="h-4 w-4" />
           <span>Share</span>
         </Button>
@@ -64,18 +74,16 @@ export const MainContent: React.FC<MainContentProps> = ({ details }) => {
         </h1>
       </div>
 
-      {/* Description */}
-      <div className="text-base leading-relaxed text-slate-600 md:text-lg">
-        {details.description}
-      </div>
-
       {/* Learning Points */}
       <div className="mt-2 rounded-2xl bg-gray-50 p-5 md:p-8 border border-gray-100">
         <h3 className="mb-4 text-lg md:text-xl font-bold text-emerald-900 flex items-center gap-2">
           What you'll learn in this video:
         </h3>
+        {/* Description */}
+        <div className="text-base leading-relaxed text-slate-600 md:text-lg">
+          {details.description}
+        </div>
         {/* Dashed Separator */}
-        <div className="mb-6 w-full border-t-2 border-dashed border-brand-green/20"></div>
 
         <div className="space-y-6">
           {details.learningPoints.map((point) => (

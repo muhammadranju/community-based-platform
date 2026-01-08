@@ -2,12 +2,17 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
 import * as z from "zod";
 
-import { Button } from "@/components/ui/button";
+import AuthHeader from "@/components/auth/AuthHeader";
+import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
+import AuthDivider from "@/components/auth/AuthDivider";
+import AuthWelcomeSection from "@/components/auth/AuthWelcomeSection";
+import BackButton from "@/components/shared/BackButton";
+
 import {
   Form,
   FormControl,
@@ -17,31 +22,34 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import AuthHeader from "@/components/auth/AuthHeader";
-import LoginLeftDesign from "@/components/auth/LoginLeftDesign";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-const image = "/Rectangle.png";
-const bottomImage = "/bg/Rectangle4.png";
+import { authFetch } from "@/lib/authFetch";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import getUser from "@/components/shared/UserInfo";
 
 // --- Schema Definition ---
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
+  username: z
+    .string()
+    .min(2, { message: "Username must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters." }),
 });
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const user = getUser();
 
-  // --- Form Setup ---
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,43 +59,80 @@ export default function SignupPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Simulate API call
-    alert(JSON.stringify(values, null, 2));
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+
+    const response = await authFetch("/user", {
+      method: "POST",
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+        name: values.username,
+      }),
+    });
+
+    if (!response.ok) {
+      toast.error("Failed to signup");
+      setLoading(false);
+      return;
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      toast.success("Signup successful");
+      router.push("/login");
+    }
+
+    setLoading(false);
   }
 
+  const googleLogin = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      try {
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_API_URL_GOOGLE!,
+          { idToken: codeResponse.code },
+          { headers: { "Content-Type": "application/json" } }
+        );
+
+        const { token, user } = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        Cookies.set("token", token);
+
+        toast.success("Google Signup successful");
+        router.push("/dashboard/users/overview"); // Fixed typo: soverview → overview
+      } catch (error) {
+        toast.error("Google signup failed");
+      }
+    },
+    onError: () => toast.error("Google signup failed"),
+  });
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, []);
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white  overflow-x-hidden ">
+    <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white overflow-x-hidden">
       <LoginLeftDesign link="/login" text="Login" />
-      {/* --- Right Panel (Form) --- */}
-      {/* Fixed: Adjusted width to 55% (was 60%) to prevent layout breaking on 1024px screens */}
+
       <div className="w-full lg:w-[55%] flex flex-col relative">
-        {/* Top Navigation Bar */} {/* Desktop Navigation Bar */}
         <AuthHeader link="/login" text="Login" />
-        {/* Form Content Container */}
+
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 pb-10 lg:py-0">
-          <div className="w-full max-w-xl mx-auto mt-10">
-            {/* Badge */}
-            <Badge className="bg-lime-500 text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
-              JOIN THE VILLAGE
-            </Badge>
+          <div className="w-full max-w-xl mx-auto">
+            <BackButton link="/" text="Home" />
 
-            {/* Heading */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-emerald-900 mb-2 tracking-tight">
-              Create an account
-            </h1>
-
-            {/* Subheading / Login Link */}
-            <p className="text-gray-500 text-sm mb-8">
-              Already have an account?{" "}
-              <Link
-                href="/login"
-                className="text-teal-800 font-bold hover:underline decoration-2 underline-offset-2"
-              >
-                Login
-              </Link>
-            </p>
+            {/* Reusable Welcome Section */}
+            <AuthWelcomeSection
+              title="Create an account"
+              badgeText="JOIN THE VILLAGE"
+              linkText="Login"
+              linkHref="/login"
+            />
 
             {/* Form */}
             <Form {...form}>
@@ -95,7 +140,7 @@ export default function SignupPage() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4"
               >
-                {/* User Name */}
+                {/* Username */}
                 <FormField
                   control={form.control}
                   name="username"
@@ -116,7 +161,7 @@ export default function SignupPage() {
                   )}
                 />
 
-                {/* Email Address */}
+                {/* Email */}
                 <FormField
                   control={form.control}
                   name="email"
@@ -138,13 +183,13 @@ export default function SignupPage() {
                   )}
                 />
 
-                {/* Password */}
+                {/* Password with Show/Hide */}
                 <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-500 font-medium flex justify-between">
+                      <FormLabel className="text-gray-500 font-medium flex justify-between items-center">
                         <span>Password</span>
                         <div
                           className="flex items-center text-gray-400 gap-1 cursor-pointer hover:text-gray-600 select-none"
@@ -161,14 +206,12 @@ export default function SignupPage() {
                         </div>
                       </FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Enter your password"
-                            className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white pr-10 text-base"
-                            {...field}
-                          />
-                        </div>
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter your password"
+                          className="h-12 border-gray-300 rounded-lg focus-visible:ring-lime-500 bg-white text-base"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                       <p className="text-[10px] text-gray-600 mt-1.5">
@@ -179,7 +222,7 @@ export default function SignupPage() {
                   )}
                 />
 
-                {/* Terms */}
+                {/* Terms Agreement */}
                 <div className="pb-2">
                   <p className="text-[11px] text-gray-600 leading-relaxed">
                     By creating an account, you agree to our <br />
@@ -202,35 +245,17 @@ export default function SignupPage() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
+                  disabled={loading}
                   className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 rounded-lg text-sm shadow-md transition-all uppercase tracking-wide"
                 >
-                  Create Account
-                </Button>
-
-                {/* Divider */}
-                <div className="relative ">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border border-gray-400"></div>
-                  </div>
-                  <div className="relative flex justify-center text-xs">
-                    <span className="px-4 bg-white text-emerald-900 font-bold">
-                      OR
-                    </span>
-                  </div>
-                </div>
-
-                {/* Google Button */}
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full border border-gray-300 text-gray-600 font-medium h-12 rounded-lg hover:bg-gray-50 bg-white flex items-center justify-center gap-3 text-sm  transition-all"
-                  onClick={() => console.log("Google Login")}
-                >
-                  <FcGoogle className="w-5 h-5" />
-                  Continue with Google
+                  {loading ? "Creating..." : "Create Account"}
                 </Button>
               </form>
             </Form>
+
+            {/* Divider + Google Button (consistent with Login) */}
+            <AuthDivider />
+            <GoogleSignInButton onClick={() => googleLogin()} />
           </div>
         </div>
       </div>

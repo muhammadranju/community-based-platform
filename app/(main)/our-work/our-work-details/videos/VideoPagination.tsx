@@ -19,7 +19,7 @@ const VideoPagination: React.FC<PaginationProps> = ({
 
     // Logic to mimic the image exactly for the demo state
     // Image shows: 1 2 3 4 ... 21
-    const maxVisible = 4;
+    const maxVisible = 10;
 
     for (let i = 1; i <= maxVisible; i++) {
       pages.push(

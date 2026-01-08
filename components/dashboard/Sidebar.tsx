@@ -1,19 +1,28 @@
 "use client";
 
+import Cookies from "js-cookie";
+import { BiDonateHeart } from "react-icons/bi";
+
 import {
   ChartNoAxesColumn,
+  Component,
+  Database,
+  Form,
+  Home,
   LogOut,
+  Newspaper,
   NotebookPen,
   Upload,
   Users,
 } from "lucide-react";
-import { AiFillPieChart } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { IoCloudUploadOutline, IoSettingsOutline } from "react-icons/io5";
-import { RiShoppingBag4Line } from "react-icons/ri";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AiFillPieChart } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
+import { IoCloudUploadOutline, IoSettingsOutline } from "react-icons/io5";
+import { SignOut } from "../shared/SignOut";
+import UserInfo from "../shared/UserInfo";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -26,32 +35,17 @@ type NavItem = {
   icon: React.ReactNode;
 };
 
-const navItems: NavItem[] = [
+// Navigation items for regular users
+const userNavItems: NavItem[] = [
   {
-    href: "/dashboard/overview",
+    href: "/dashboard/users/overview",
     label: "Overview",
     icon: <AiFillPieChart size={20} />,
   },
   {
-    href: "/dashboard/contnets",
-    label: "Content",
-    icon: <ChartNoAxesColumn size={20} />,
-  },
-  { href: "/dashboard/users", label: "Users", icon: <Users size={20} /> },
-  {
-    href: "/dashboard/users/overview",
-    label: "Users Overview",
-    icon: <AiFillPieChart size={20} />,
-  },
-  {
-    href: "/dashboard/moderations",
-    label: "Moderations",
-    icon: <RiShoppingBag4Line size={20} />,
-  },
-  {
-    href: "/dashboard/waiting-list",
-    label: "Waiting List",
-    icon: <NotebookPen size={20} />,
+    href: "/dashboard/my-upload",
+    label: "My Uploads",
+    icon: <Upload size={20} />,
   },
   {
     href: "/dashboard/upload-content",
@@ -59,14 +53,20 @@ const navItems: NavItem[] = [
     icon: <IoCloudUploadOutline size={20} />,
   },
   {
+    href: "/dashboard/my-forums",
+    label: "My Forums",
+    icon: <IoCloudUploadOutline size={20} />,
+  },
+  {
+    href: "/dashboard/upload-forum",
+    label: "Upload Forum",
+    icon: <Form size={20} />,
+  },
+
+  {
     href: "/dashboard/profile",
     label: "Profile",
     icon: <CgProfile size={20} />,
-  },
-  {
-    href: "/dashboard/my-upload",
-    label: "My Uploads",
-    icon: <Upload size={20} />,
   },
   {
     href: "/dashboard/settings",
@@ -75,8 +75,73 @@ const navItems: NavItem[] = [
   },
 ];
 
+// Navigation items for admin users
+const adminNavItems: NavItem[] = [
+  {
+    href: "/dashboard/overview",
+    label: "Overview",
+    icon: <AiFillPieChart size={20} />,
+  },
+  {
+    href: "/dashboard/contents",
+    label: "Contents",
+    icon: <ChartNoAxesColumn size={20} />,
+  },
+  { href: "/dashboard/users", label: "Users", icon: <Users size={20} /> },
+
+  {
+    href: "/dashboard/forums",
+    label: "Forums",
+    icon: <Component size={20} />,
+  },
+
+  {
+    href: "/dashboard/donations",
+    label: "Donations",
+    icon: <BiDonateHeart size={20} />,
+  },
+  {
+    href: "/dashboard/database",
+    label: "Database",
+    icon: <Database size={20} />,
+  },
+  {
+    href: "/dashboard/waiting-list",
+    label: "Waiting List",
+    icon: <NotebookPen size={20} />,
+  },
+  {
+    href: "/dashboard/news-letter",
+    label: "News Letter",
+    icon: <Newspaper size={20} />,
+  },
+
+  {
+    href: "/dashboard/profile",
+    label: "Profile",
+    icon: <CgProfile size={20} />,
+  },
+  {
+    href: "/dashboard/settings",
+    label: "Settings",
+    icon: <IoSettingsOutline size={20} />,
+  },
+];
+
+const signOut = () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  Cookies.remove("token");
+  window.location.href = "/login";
+};
+
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const pathname = usePathname();
+
+  const user = UserInfo();
+
+  // Select navigation items based on user role
+  const navItems = user?.role === "USER" ? userNavItems : adminNavItems;
 
   const NavLink = ({ item }: { item: NavItem }) => {
     const isActive = pathname === item.href;
@@ -126,8 +191,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
         {/* Bottom Section */}
         <div className="p-6">
-          <button className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-teal-800/50 rounded-lg transition-colors">
-            <LogOut size={20} className="rotate-180" />
+          <Link
+            href="/"
+            className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-emerald-500/50 rounded-lg transition-colors cursor-pointer "
+          >
+            <Home size={20} />
+            <span className="flex items-center gap-2">Go Home</span>
+          </Link>
+          <button
+            onClick={SignOut}
+            className="flex items-center gap-3 w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/80 rounded-lg transition-colors cursor-pointer"
+          >
+            <LogOut size={20} />
             <span>Sign Out</span>
           </button>
         </div>

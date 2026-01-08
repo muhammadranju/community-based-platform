@@ -8,21 +8,31 @@ import { PiInstagramLogoFill } from "react-icons/pi";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { authFetch } from "@/lib/authFetch";
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async () => {
     if (!email) {
       toast.error("Email is required", {
         description: "Please enter your email address",
       });
       return;
     }
-    // Simulate submission
-    toast.success("Subscribed successfully!", {
-      description: "You will receive a confirmation email",
+
+    const response = await authFetch("/news-letter", {
+      method: "POST",
+
+      body: JSON.stringify({ email }),
     });
+
+    if (response.ok) {
+      toast.success("Subscribed successfully!", {
+        description: "You will receive a confirmation email",
+      });
+    }
+
     setEmail("");
   };
 
