@@ -101,9 +101,9 @@ const adminNavItems: NavItem[] = [
   },
 
   {
-    href: "/dashboard/waiting-list",
-    label: "Waiting List",
-    icon: <NotebookPen size={20} />,
+    href: "/dashboard/database",
+    label: "Database",
+    icon: <Database size={20} />,
   },
   {
     href: "/dashboard/news-letter",

@@ -4,7 +4,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Filter } from "lucide-react";
+import { Filter, Upload } from "lucide-react";
+import Link from "next/link";
 
 interface ForumsTableHeaderProps {
   sortOrder: "newest" | "oldest";
@@ -20,6 +21,13 @@ export default function ForumsTableHeader({
       <h1 className="text-3xl font-bold text-teal-900">Forums</h1>
 
       <div className="flex gap-3">
+        <Link
+          href={"/dashboard/upload-forum"}
+          className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm cursor-pointer"
+        >
+          <Upload size={16} />
+          Upload Forum
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm shadow-sm">
