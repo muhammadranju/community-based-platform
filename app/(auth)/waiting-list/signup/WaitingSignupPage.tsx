@@ -23,17 +23,19 @@ export default function WaitingSignupPage() {
               {/* Badge */}
               <div className="mb-6">
                 <BackButton link="/" text="Home" />
-                <CustomBadge>Database</CustomBadge>
+                <CustomBadge>Waiting List</CustomBadge>
               </div>
 
               {/* Headlines */}
               <h1 className="text-primary-color text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-[1.1] mb-6">
-                Join the Database of African Builders, Architects & Designers
+                Join Our Waiting List and Get Access to Our Latest Designs
               </h1>
 
               <p className="text-gray-600 text-lg mb-12 font-light leading-relaxed max-w-2xl">
-                We are soon launching a portfolio of Indigenous African
-                architecture designs, signup to stay update
+                Join our waiting list and get access to our latest designs. We
+                are currently accepting applications for our next batch of
+                designs. If you are interested in joining our waiting list,
+                please fill out the form below.
               </p>
 
               {/* Wizard Component */}

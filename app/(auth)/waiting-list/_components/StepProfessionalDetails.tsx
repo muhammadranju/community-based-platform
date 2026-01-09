@@ -47,7 +47,11 @@ const StepProfessionalDetails = () => {
           <Label htmlFor="expertise">
             Area of Expertise (e.g., mud houses, stone, bamboo, thatch, etc.)
           </Label>
-          <Input id="expertise" {...register("expertise")} placeholder="" />
+          <Input
+            id="expertise"
+            {...register("expertise")}
+            placeholder="Enter your expertise"
+          />
           {errors.expertise && (
             <p className="text-red-500 text-sm">{errors.expertise.message}</p>
           )}
@@ -56,7 +60,11 @@ const StepProfessionalDetails = () => {
         {/* Years of Experience */}
         <div className="space-y-2">
           <Label htmlFor="experience">Years of Experience</Label>
-          <Input id="experience" {...register("experience")} placeholder="" />
+          <Input
+            id="experience"
+            {...register("experience")}
+            placeholder="Enter your years of experience"
+          />
           {errors.experience && (
             <p className="text-red-500 text-sm">{errors.experience.message}</p>
           )}

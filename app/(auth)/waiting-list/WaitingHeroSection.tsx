@@ -7,15 +7,15 @@ function WaitingHeroSection() {
           {/* Content wrapper */}
           <div className="relative z-10 flex flex-col gap-6">
             <h2 className="text-2xl font-bold leading-tight">
-              Database of African Builders, Architects & Designers
+              Join Waiting List and Get Access to Our Latest Designs
             </h2>
 
             <p className="text-green-50 text-sm leading-relaxed opacity-90 lg:block hidden">
-              This is a database of Indigenous African builders, designers and
-              architects who are passionate about helping the community to build
-              their homes. Our goal is to connect home owners to African
-              professionals that specialize in preserving, and rebuilding
-              indigenous African Architecture.
+              Join our waiting list and get access to our latest designs. We are
+              currently accepting applications for our next batch of designs. If
+              you are interested in joining our waiting list, please fill out
+              the form below. We will review your application and contact you as
+              soon as possible.
             </p>
 
             <div className="lg:pt-2 pt-0">

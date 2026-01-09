@@ -19,7 +19,11 @@ const StepSignup = () => {
         {/* Full Name */}
         <div className="space-y-2">
           <Label htmlFor="name">Full Name</Label>
-          <Input id="name" {...register("name")} placeholder="" />
+          <Input
+            id="name"
+            {...register("name")}
+            placeholder="Enter your name"
+          />
           {errors.name && (
             <p className="text-red-500 text-sm">{errors.name.message}</p>
           )}
@@ -32,7 +36,7 @@ const StepSignup = () => {
             id="email"
             type="email"
             {...register("email")}
-            placeholder=""
+            placeholder="Enter your email address"
           />
           {errors.email && (
             <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -41,8 +45,12 @@ const StepSignup = () => {
 
         {/* Country & City */}
         <div className="space-y-2">
-          <Label htmlFor="country">Country & City/Region</Label>
-          <Input id="country" {...register("country")} placeholder="" />
+          <Label htmlFor="country">Country</Label>
+          <Input
+            id="country"
+            {...register("country")}
+            placeholder="Enter your country"
+          />
           {errors.country && (
             <p className="text-red-500 text-sm">{errors.country.message}</p>
           )}
@@ -51,7 +59,11 @@ const StepSignup = () => {
         {/* Website */}
         <div className="space-y-2">
           <Label htmlFor="website">Website or Social Media (optional)</Label>
-          <Input id="website" {...register("website")} placeholder="" />
+          <Input
+            id="website"
+            {...register("website")}
+            placeholder="Enter your website or social media"
+          />
           {errors.website && (
             <p className="text-red-500 text-sm">{errors.website.message}</p>
           )}
