@@ -16,6 +16,8 @@ const ROUTE_PERMISSIONS = {
     "/dashboard/profile",
     "/dashboard/news-letter",
     "/dashboard/settings",
+    "/dashboard/upload-content",
+    "/dashboard/upload-forum",
   ],
   USER: [
     "/dashboard/users/overview",

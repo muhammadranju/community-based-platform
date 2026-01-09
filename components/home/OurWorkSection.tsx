@@ -39,7 +39,7 @@ export default function OurWorkSection() {
       description:
         "Access specialized workshops and building courses rooted in ancestral techniques to construct your home. Alongside architectural training, discover interior design resources and decor inspiration tailored for new homeowners. Our expert-led materials offer a blend of free and premium assets, empowering you to create culturally authentic and beautiful living spaces.",
       image: "/bg/Rectangle2.png", // Vertical image
-      link: "/waiting-list/signup",
+      link: "/waiting-list",
       buttonText: "Join The Waiting List",
     },
     {

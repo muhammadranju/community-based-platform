@@ -120,7 +120,7 @@ const ArchiveExplorer: React.FC = () => {
 
       {/* Main Content */}
       <div className="w-full flex-1 min-w-0">
-        {!isAuthtenticated && <ArchiveHeader />}
+        <ArchiveHeader isAuthtenticated={isAuthtenticated} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {loading
