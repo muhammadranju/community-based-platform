@@ -1,3 +1,4 @@
+import { DatabasePage } from "./DatabasePage";
 import { DashboardWaitingList } from "./WaitingListPage";
 
 export const metadata = {
@@ -7,7 +8,7 @@ export const metadata = {
 function page() {
   return (
     <>
-      <DashboardWaitingList />
+      <DatabasePage />
     </>
   );
 }

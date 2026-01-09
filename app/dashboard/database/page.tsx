@@ -1,4 +1,4 @@
-import { DatabasePage } from "./DatabasePage";
+import { DashboardWaitingList } from "./WaitingListPage";
 
 export const metadata = {
   title: "Database | African Traditional Architecture",
@@ -8,7 +8,7 @@ export const metadata = {
 function page() {
   return (
     <>
-      <DatabasePage />
+      <DashboardWaitingList />
     </>
   );
 }
