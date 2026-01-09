@@ -1,4 +1,4 @@
-import DatabasePage from "./DatabasePage";
+import WaitingListPage from "./WaitingListPage";
 
 export const metadata = {
   title: "Waiting List Login - African Traditional Architecture",
@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 function page() {
-  return <DatabasePage />;
+  return <WaitingListPage />;
 }
 
 export default page;
