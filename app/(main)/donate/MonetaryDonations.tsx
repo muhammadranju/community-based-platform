@@ -7,41 +7,42 @@ import React from "react";
 interface DonationOption {
   title: string;
   description: string;
-  totalRaised: string;
   icon: React.ReactNode;
+  value: string;
 }
 
 interface VolunteerOption {
   title: string;
   description: string;
   icon: React.ReactNode;
+  value: string;
 }
 
 const donationData: DonationOption[] = [
   {
     title: "One-Time Donations",
     description: "Simple one time contribution to help support our work",
-    totalRaised: "$1000",
     icon: <HandHeart className="w-8 h-8 text-white" />,
+    value: "one-time",
   },
   {
     title: "Monthly Donations",
     description: "Recurring contributions that help support our work long term",
-    totalRaised: "$1000",
     icon: <HandHeart className="w-8 h-8 text-white" />,
+    value: "monthly",
   },
   {
     title: "Project Based Donations",
     description: "Let donors choose exactly what they want to support",
-    totalRaised: "$1000",
     icon: <HandHeart className="w-8 h-8 text-white" />,
+    value: "project-based",
   },
   {
     title: "Corporate Donations",
     description:
       "For businesses, universities, or cultural institutions that want to sponsor research, videos, or exhibitions.",
-    totalRaised: "$1000",
     icon: <HandHeart className="w-8 h-8 text-white" />,
+    value: "corporate",
   },
 ];
 
@@ -51,24 +52,28 @@ const volunteerData: VolunteerOption[] = [
     description:
       "Upload original photos, videos, and documents of Indigenous African architecture or Share oral histories, interviews, or step-by-step building guides to help us build an open source digital archive of our Indigenous African Architecture",
     icon: <Heart className="w-8 h-8 text-white" />,
+    value: "content-contribution",
   },
   {
     title: "Academia Contributions",
     description:
       "Submit research papers, books & monographs, peer-reviewed journal articles, book chapters, theses and dissertations, white papers, feasibility studies and much more to help us further research and build the knowledge base of our Indigenous African Architecture",
     icon: <Heart className="w-8 h-8 text-white" />,
+    value: "academia-contribution",
   },
   {
     title: "Share Your Skills",
     description:
       "Be part of our collaborative studio and help create mood boards and design concepts, produce detailed construction drawings and plans, build 3D interior/exterior models and renders, and design easy-to-read architectural infographics. Flexible, remote, and fully credited.",
     icon: <Heart className="w-8 h-8 text-white" />,
+    value: "share-your-skills",
   },
   {
     title: "Resource Donations",
     description:
       "Donate artifacts, rare books, very old postcards and equipment like cameras, scanners, audio recorders, to help us with our fieldwork, and the digitization of Indigenous African Architecture.",
     icon: <Heart className="w-8 h-8 text-white" />,
+    value: "resource-donation",
   },
 ];
 
@@ -89,11 +94,16 @@ const SectionHeader: React.FC<{ number: string; title: string }> = ({
   </div>
 );
 
-const DonationCard: React.FC<DonationOption> = ({
+interface CardProps extends DonationOption {
+  onSelect: (value: string) => void;
+}
+
+const DonationCard: React.FC<CardProps> = ({
   title,
   description,
-  totalRaised,
   icon,
+  value,
+  onSelect,
 }) => {
   return (
     <div className="flex flex-col h-full bg-white border border-lime-500 rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-lg transition-shadow duration-300">
@@ -108,15 +118,9 @@ const DonationCard: React.FC<DonationOption> = ({
       </div>
 
       <div className="mt-auto">
-        <div className="bg-[#f3f4f6] rounded-lg p-3 px-4 mb-6">
-          <p className="text-xs font-semibold text-emerald-900 underline decoration-emerald-900 decoration-1 underline-offset-2 mb-1">
-            Total Raised
-          </p>
-          <p className="text-emerald-900 font-bold text-lg">{totalRaised}</p>
-        </div>
-
         <button
           onClick={() => {
+            onSelect(value);
             document.getElementById("donation-section")?.scrollIntoView({
               behavior: "smooth",
             });
@@ -130,10 +134,16 @@ const DonationCard: React.FC<DonationOption> = ({
   );
 };
 
-const VolunteerCard: React.FC<VolunteerOption> = ({
+interface VolCardProps extends VolunteerOption {
+  onSelect: (value: string) => void;
+}
+
+const VolunteerCard: React.FC<VolCardProps> = ({
   title,
   description,
   icon,
+  value,
+  onSelect,
 }) => {
   return (
     <div className="flex flex-col h-full bg-white border border-lime-500 rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-lg transition-shadow duration-300">
@@ -146,7 +156,15 @@ const VolunteerCard: React.FC<VolunteerOption> = ({
       </div>
 
       <div className="mt-auto pt-6">
-        <button className="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm">
+        <button
+          onClick={() => {
+            onSelect(value);
+            document.getElementById("donation-section")?.scrollIntoView({
+              behavior: "smooth",
+            });
+          }}
+          className="px-6 py-2 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 transition-colors text-sm"
+        >
           Contribute
         </button>
       </div>
@@ -154,7 +172,15 @@ const VolunteerCard: React.FC<VolunteerOption> = ({
   );
 };
 
-export default function MonetaryDonations() {
+interface MonetaryDonationsProps {
+  onSelectDonation?: (value: string) => void;
+  onSelectVolunteer?: (value: string) => void;
+}
+
+export default function MonetaryDonations({
+  onSelectDonation,
+  onSelectVolunteer,
+}: MonetaryDonationsProps) {
   return (
     <div className="space-y-5 lg:mb-20 mb-12 ">
       {/* Section 1: Monetary Donations */}
@@ -165,10 +191,8 @@ export default function MonetaryDonations() {
           {donationData.map((item, index) => (
             <DonationCard
               key={index}
-              title={item.title}
-              description={item.description}
-              totalRaised={item.totalRaised}
-              icon={item.icon}
+              {...item}
+              onSelect={(val) => onSelectDonation?.(val)}
             />
           ))}
         </div>
@@ -182,9 +206,8 @@ export default function MonetaryDonations() {
           {volunteerData.map((item, index) => (
             <VolunteerCard
               key={index}
-              title={item.title}
-              description={item.description}
-              icon={item.icon}
+              {...item}
+              onSelect={(val) => onSelectVolunteer?.(val)}
             />
           ))}
         </div>

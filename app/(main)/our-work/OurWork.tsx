@@ -55,15 +55,11 @@ function OurWork() {
         <ProcessCard
           data={CONTRIBUTE_DATA}
           buttonText={isAuthtenticated ? "Explore Archive" : "Create Account"}
-          link={
-            isAuthtenticated
-              ? "/our-work/explore-archive?region=east-african-architecture"
-              : "/signup"
-          }
+          link={isAuthtenticated ? "#explore-archive" : "/signup"}
         />
         <ProcessCard
           data={EXPLORE_DATA}
-          link="/our-work/explore-archive?region=east-african-architecture"
+          link="#explore-archive"
           buttonText={EXPLORE_DATA.buttonText}
         />
       </div>
@@ -80,7 +76,10 @@ function OurWork() {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 py-12 ">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 py-12 "
+          id="explore-archive"
+        >
           {ARCHIVE_DATA.map((card) => (
             <ArchiveCard key={card.id} {...card} />
           ))}
