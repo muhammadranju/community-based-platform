@@ -96,7 +96,11 @@ export default function LoginPage() {
         localStorage.setItem("user", JSON.stringify(user));
         Cookies.set("token", token);
         toast.success("Google Login successful");
-        router.push("/dashboard/users/overview");
+        if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
+          router.push("/dashboard/overview");
+        } else {
+          router.push("/dashboard/users/overview");
+        }
       } catch (error) {
         toast.error("Google login failed");
       }
