@@ -396,9 +396,19 @@ export const DonationForm: React.FC = () => {
         </div>
 
         <div className="flex flex-col gap-2 mt-2">
-          <label className="text-sm font-semibold text-emerald-900 ml-1">
-            Payment Method
-          </label>
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-semibold text-emerald-900 ml-1">
+              Payment Method
+            </label>
+            <img
+              className="w-[500px]"
+              height={500}
+              width={500}
+              src="/bg/payment-methods.png"
+              alt=""
+            />
+          </div>
+
           <CustomSelect
             placeholder="Select a Payment Method"
             value={paymentMethod}
