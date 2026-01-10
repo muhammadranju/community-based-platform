@@ -111,9 +111,8 @@ function PdfsPage() {
 
   return (
     <div className="flex flex-col lg:px-0 px-6 lg:max-w-7xl mx-auto">
-      <div className="max-w-7xl mx-auto">
-        <HeaderBanner />
-      </div>
+      <HeaderBanner />
+
       <div className="">
         <div className="lg:max-w-7x mx-auto  flex flex-col">
           {/* Top Navigation / Back Button */}

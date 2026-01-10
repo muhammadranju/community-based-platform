@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import CopyPath from "@/components/shared/CopyPath";
 import { toast } from "sonner";
+import ArchiveHeader from "@/components/our_work_details/ArchiveHeader";
+import getUser from "@/components/shared/UserInfo";
 
 export interface GalleryItem {
   id: string;
@@ -28,9 +30,12 @@ export const Header: React.FC = () => {
     toast.success("Link copied to clipboard");
   };
   const router = useRouter();
+  const user = getUser();
+  const isAuthtenticated = user ? true : false;
   return (
     <div className="">
       <HeaderBanner />
+      <ArchiveHeader isAuthtenticated={isAuthtenticated} />
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Back Button */}
         <Button

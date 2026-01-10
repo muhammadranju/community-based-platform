@@ -9,6 +9,8 @@ import { MainContent } from "./MainContent";
 import { RelatedVideoList } from "./RelatedVideoList";
 import VideoGallery from "./VideoGallery";
 import { VideoPlayer } from "./VideoPlayer";
+import ArchiveHeader from "@/components/our_work_details/ArchiveHeader";
+import getUser from "@/components/shared/UserInfo";
 
 export interface Video {
   id: number;
@@ -24,7 +26,8 @@ function VideosPage() {
   const [content, setContent] = useState<any>(null); // Full content object
   const [playlist, setPlaylist] = useState<any[]>([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-
+  const user = getUser();
+  const isAuthtenticated = user ? true : false;
   const fetchVideo = async () => {
     if (!slug) return;
     try {
@@ -85,6 +88,8 @@ function VideosPage() {
     <div className="flex flex-col min-h-screen lg:px-0 px-4 max-w-7xl mx-auto">
       <HeaderBanner />
       {/* Navigation / Back Button */}
+
+      <ArchiveHeader isAuthtenticated={isAuthtenticated} />
       <Button
         onClick={() => router.back()}
         className="group flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-emerald-900 rounded-full shadow-md hover:bg-forest/90 transition-transform active:scale-95 my-5"

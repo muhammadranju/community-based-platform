@@ -1,8 +1,10 @@
 "use client";
 import { ContentCommentsSection } from "@/components/our_work/single-our-work/ContentComments";
+import ArchiveHeader from "@/components/our_work_details/ArchiveHeader";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
 import CopyPath from "@/components/shared/CopyPath";
 import CustomBadge from "@/components/shared/SharedBadge";
+import getUser from "@/components/shared/UserInfo";
 import {
   DocumentsCard,
   MediaCard,
@@ -21,6 +23,8 @@ function OurWorkDetailsSinglePage() {
   const [data, setData] = useState<any>(null);
   const [comments, setComments] = useState<any>(null);
   const { id } = useParams();
+  const user = getUser();
+  const isAuthtenticated = user ? true : false;
   const copy = () => {
     CopyPath();
     toast.success("Link copied to clipboard");
@@ -57,8 +61,10 @@ function OurWorkDetailsSinglePage() {
         <HeaderBanner />
 
         <div className=" mx-auto space-y-8 ">
+          <ArchiveHeader isAuthtenticated={isAuthtenticated} />
           <div className="bg-accent-bg lg:p-8 p-4 lg:rounded-4xl rounded-2xl space-y-5">
             {/* Header Section */}
+
             <header className="relative w-full bg-emerald-900 lg:rounded-4xl rounded-2xl p-4 md:p-16 text-white overflow-hidden shadow-sm ">
               {/* Badge */}
               <CustomBadge>Explore Content in the Archive</CustomBadge>
@@ -91,6 +97,7 @@ function OurWorkDetailsSinglePage() {
             </header>
 
             {/* Content Grid */}
+
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <MediaCard
                 count={data?.images?.length}
