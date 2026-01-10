@@ -129,7 +129,12 @@ export default function ForumDetailsPage() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-900"></div>
             </div>
           ) : forumData.length === 0 ? (
-            <EmptyState />
+            <EmptyState
+              buttonLabel="Be the First to Start a Discussion"
+              buttonLink="/dashboard/upload-forum"
+              title="No Discussions Yet"
+              description="There are no discussions in this category yet. Check back soon as new discussions will be added here!"
+            />
           ) : filteredData.length === 0 ? (
             <EmptySearchState
               query={searchQuery}
