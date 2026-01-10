@@ -9,7 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, MessageSquare, LogOut, List, Users, X } from "lucide-react";
+import {
+  Menu,
+  MessageSquare,
+  LogOut,
+  List,
+  Users,
+  X,
+  LayoutDashboardIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -240,7 +248,7 @@ export default function Header() {
                               href="/dashboard/waiting-list"
                               className="flex items-center gap-2 cursor-pointer py-2"
                             >
-                              <List className="w-4 h-4 text-amber-600" />
+                              <List className="w-4 h-4 text-amber-600 font-bold" />
                               <span>Waiting List</span>
                             </Link>
                           </DropdownMenuItem>
@@ -254,7 +262,7 @@ export default function Header() {
                         onClick={SignOut}
                         className="cursor-pointer py-2 text-red-600 hover:text-red-700"
                       >
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="w-4 h-4 text-red-600 font-bold" />
                         <span>Sign Out</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -511,47 +519,6 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Mobile Dashboard Menu */}
-            {user && (
-              <div className="px-6 py-6 border-t space-y-2">
-                <p className="text-sm font-bold text-gray-600 px-2">
-                  Dashboard
-                </p>
-                <Link
-                  href="/dashboard/overview"
-                  onClick={closeMenu}
-                  className="flex items-center gap-2 py-3 px-4 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition"
-                >
-                  <MdDashboard className="w-4 h-4" />
-                  <span>Dashboard</span>
-                </Link>
-                <Link
-                  href="/profile"
-                  onClick={closeMenu}
-                  className="flex items-center gap-2 py-3 px-4 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition"
-                >
-                  <FaUser className="w-4 h-4" />
-                  <span>Profile</span>
-                </Link>
-                <Link
-                  href="/settings"
-                  onClick={closeMenu}
-                  className="flex items-center gap-2 py-3 px-4 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition"
-                >
-                  <IoSettingsSharp className="w-4 h-4" />
-                  <span>Settings</span>
-                </Link>
-                <Link
-                  href="/my-upload"
-                  onClick={closeMenu}
-                  className="flex items-center gap-2 py-3 px-4 rounded-lg text-gray-700 hover:bg-amber-50 hover:text-amber-600 transition"
-                >
-                  <FaUpload className="w-4 h-4" />
-                  <span>My Upload</span>
-                </Link>
-              </div>
-            )}
-
             {/* Action Buttons */}
             {!user && (
               <div className="p-6 border-t space-y-3">
@@ -565,6 +532,23 @@ export default function Header() {
                     Login
                   </Button>
                 </Link>
+              </div>
+            )}
+            {user && (
+              <div className="p-6 border-t space-y-3">
+                <Link
+                  href="/dashboard/overview"
+                  className="block"
+                  onClick={closeMenu}
+                >
+                  <Button className="w-full py-6 text-black rounded-full hover:bg-gray-100 border border-black bg-transparent text-lg font-medium">
+                    <LayoutDashboardIcon /> Dashboard
+                  </Button>
+                </Link>
+
+                <Button className="w-full py-6 bg-red-600 hover:bg-red-600 text-white rounded-full text-lg font-medium">
+                  <LogOut /> Sign Out
+                </Button>
               </div>
             )}
           </div>
