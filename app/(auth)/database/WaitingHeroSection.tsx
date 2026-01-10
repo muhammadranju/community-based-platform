@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function WaitingHeroSection() {
   return (
     <>
@@ -29,7 +31,9 @@ function WaitingHeroSection() {
           <div className="lg:mt-8 -mx-8 -mb-8 relative h-64 lg:h-80 p-5">
             {/* Circular styled image container at bottom */}
             <div className="absolute inset-0 bg-gradient-to-t from-primary-color via-transparent to-transparent z-10"></div>
-            <img
+            <Image
+              height={450}
+              width={420}
               src="/bg/Rectangle1.png"
               alt="Traditional African Huts"
               className="w-full h-full object-cover rounded-2xl"

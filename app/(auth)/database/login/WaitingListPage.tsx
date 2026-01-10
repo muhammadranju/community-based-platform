@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -53,7 +54,9 @@ export default function WaitingListPage() {
       <div className="w-full lg:w-[45%] shrink-0 relative overflow-hidden bg-[#65a30d] flex items-center justify-center p-6 lg:p-12 min-h-[400px] lg:min-h-screen lg:h-auto">
         {/* Decorative Background Pattern */}
         <div className="absolute inset-0 opacity-100 pointer-events-none z-0">
-          <img
+          <Image
+            height={450}
+            width={420}
             src="/Rectangle.png"
             alt="Pattern"
             className="w-full h-full object-cover opacity-20"
