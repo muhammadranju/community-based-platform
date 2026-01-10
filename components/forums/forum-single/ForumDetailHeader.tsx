@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import ForumActionButton from "./ForumActionButton";
 import { Heart, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import { toast } from "sonner";
+import CopyPath from "@/components/shared/CopyPath";
 
 interface ForumDetailHeaderProps {
   onBack: () => void;
@@ -23,9 +25,27 @@ export default function ForumDetailHeader({ onBack }: ForumDetailHeaderProps) {
       </div>
 
       <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
-        <ForumActionButton icon={ThumbsUp} label="Like" />
-        <ForumActionButton icon={ThumbsDown} label="Dislike" />
-        <ForumActionButton icon={Heart} label="Save" />
+        <ForumActionButton
+          icon={ThumbsUp}
+          label="Like"
+          onClick={() => {
+            toast.success("Liked");
+          }}
+        />
+        <ForumActionButton
+          icon={ThumbsDown}
+          label="Dislike"
+          onClick={() => {
+            toast.warning("Disliked");
+          }}
+        />
+        <ForumActionButton
+          icon={Heart}
+          label="Save"
+          onClick={() => {
+            toast.success("Saved");
+          }}
+        />
         <ForumActionButton icon={Share2} label="Share" />
       </div>
     </header>

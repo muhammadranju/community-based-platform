@@ -16,7 +16,8 @@ export default function ContactHeroHeader({
       <Image
         src={imageSrc}
         alt={alt}
-        fill
+        height={200}
+        width={1600}
         className="object-cover absolute inset-0"
         priority
       />

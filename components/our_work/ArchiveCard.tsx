@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
 
 interface ArchiveCardProps {
@@ -36,8 +37,14 @@ export default function ArchiveCard({
           backgroundColor
         )}
       >
-        <img src={image} className="absolute" alt="" />
-        <img src={icon} alt="" />
+        <Image
+          width={130}
+          height={100}
+          src={image}
+          className="absolute"
+          alt=""
+        />
+        <Image width={400} height={200} src={icon} alt="" />
       </div>
 
       {/* Title */}

@@ -90,7 +90,8 @@ const ContactPage: React.FC = () => {
           <Image
             src="/bg/Rectangle4.png"
             alt="Traditional Village Scene"
-            fill
+            height={350}
+            width={650}
             className="object-cover"
             priority
           />
