@@ -10,6 +10,7 @@ import { ForumBanner } from "./ForumBanner";
 import { ForumCard } from "./ForumCard";
 import { HeaderSection } from "./ForumHeaderSection";
 import { formatDistanceToNow } from "date-fns";
+import Image from "next/image";
 
 function ForumPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +50,9 @@ function ForumPage() {
     <>
       {/* Top Hero Image - Using a landscape placeholder that mimics the aerial village view */}
       <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
-        <img
+        <Image
+          height={250}
+          width={420}
           src="/bg/Rectangle7.png"
           alt="Aerial view of African village architecture"
           className="w-full h-full object-cover transform hover:scale-101 transition-transform duration-700"
