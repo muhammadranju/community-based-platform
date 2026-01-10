@@ -5,6 +5,7 @@ import { DonateHero } from "./DonateHero";
 import { DonationForm } from "./DonationForm";
 import MonetaryDonations from "./MonetaryDonations";
 import { WaysToGive } from "./WaysToGive";
+import Image from "next/image";
 
 export default function DonatePage() {
   // Lifted state for coordination between DonationForm and MonetaryDonations
@@ -58,7 +59,9 @@ export default function DonatePage() {
           <div className="lg:col-span-5 flex flex-col h-[500px] lg:h-auto top-8">
             <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-xl">
               {/* Using a placeholder image that closely resembles the prompt's rural village scene */}
-              <img
+              <Image
+                height={500}
+                width={500}
                 src="/bg/Rectangle5.jpg"
                 alt="Rural village landscape with traditional houses"
                 className="absolute inset-0 w-full h-full object-cover"

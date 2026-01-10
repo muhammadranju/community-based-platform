@@ -9,6 +9,7 @@ import { CustomSelect } from "./CustomSelect";
 import { toast } from "sonner";
 import { authFetch } from "@/lib/authFetch";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import Image from "next/image";
 
 const cardLogos = [
   {
@@ -473,7 +474,9 @@ export const DonationForm: React.FC<DonationFormProps> = ({
 
                 <div className="flex gap-2">
                   {cardLogos.map((card) => (
-                    <img
+                    <Image
+                      height={20}
+                      width={50}
                       key={card.name}
                       src={card.image}
                       alt={card.name}

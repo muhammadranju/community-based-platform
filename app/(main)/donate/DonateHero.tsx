@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import React from "react";
 
 export const DonateHero: React.FC = () => {
@@ -7,7 +8,9 @@ export const DonateHero: React.FC = () => {
     <section className="relative w-full overflow-hidden rounded-3xl bg-brand-dark shadow-xl h-[250px] md:h-[350px] lg:h-[400px] flex items-center">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
+          height={250}
+          width={550}
           src="/bg/Rectangle6.jpg"
           alt="Hands holding a plant"
           className="w-full h-full object-cover opacity-60 mix-blend-overlay"
