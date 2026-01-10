@@ -9,7 +9,7 @@ import Image from "next/image";
 
 export default function DonatePage() {
   // Lifted state for coordination between DonationForm and MonetaryDonations
-  const [donationType, setDonationType] = useState<string>("");
+  const [donationType, setDonationType] = useState<string>("one-time");
   const [donationCategory, setDonationCategory] = useState<string>(
     "content-contribution"
   );
