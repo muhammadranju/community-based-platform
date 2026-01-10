@@ -20,6 +20,7 @@ import ForumSearchBar from "@/components/forums/forum-details/ForumSearchBar";
 import PaginationInfo from "@/components/forums/forum-details/PaginationInfo";
 import { authFetch } from "@/lib/authFetch";
 import { capitalCase } from "change-case";
+import Image from "next/image";
 
 export default function ForumDetailsPage() {
   const [forumData, setForumData] = useState<DiscussionData[]>([]);
@@ -84,10 +85,12 @@ export default function ForumDetailsPage() {
     <div className="min-h-screen bg-white max-w-7xl mx-auto px-4 lg:px-0">
       {/* Hero Image */}
       <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
-        <img
+        <Image
           src="/bg/Rectangle8.png"
           alt="Aerial view of African village architecture"
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+          height={250}
+          width={400}
+          className="w-full h-full object-cover transform hover:scale-101 transition-transform duration-700"
         />
       </div>
 

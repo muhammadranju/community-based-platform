@@ -7,6 +7,7 @@ import { Spinner } from "@/components/ui/spinner";
 import ForumDetailHeader from "@/components/forums/forum-single/ForumDetailHeader";
 import ForumPostContent from "@/components/forums/forum-single/ForumPostContent";
 import { CommentsSection } from "@/components/forums/forum-details/Comments";
+import Image from "next/image";
 
 export default function SingleForumPage() {
   const router = useRouter();
@@ -59,10 +60,12 @@ export default function SingleForumPage() {
       <div className="max-w-7xl mx-auto">
         {/* Hero Image */}
         <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] rounded-3xl overflow-hidden mb-12 shadow-sm">
-          <img
+          <Image
             src="/bg/Rectangle22.png"
             alt="African village architecture"
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+            height={250}
+            width={400}
+            className="w-full h-full object-cover hover:scale-101 transition-transform duration-700"
           />
         </div>
 

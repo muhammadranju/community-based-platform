@@ -25,6 +25,7 @@ function OurWork() {
             src={"/bg/our_work_bg.png"}
             alt="Hero"
             fill
+            blurDataURL={"/bg/our_work_bg.png"}
             className="object-cover absolute inset-0"
             priority
           />
