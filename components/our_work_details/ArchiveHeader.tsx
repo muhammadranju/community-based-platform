@@ -4,7 +4,16 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { UploadContentForm } from "@/components/upload/UploadContentForm";
+import dynamic from "next/dynamic";
+
+// Dynamic import to avoid SSR issues with DOMMatrix/canvas in react-pdf
+const UploadContentForm = dynamic(
+  () =>
+    import("@/components/upload/UploadContentForm").then(
+      (mod) => mod.UploadContentForm
+    ),
+  { ssr: false }
+);
 
 const ArchiveHeader: React.FC<{ isAuthtenticated: any }> = ({
   isAuthtenticated,
