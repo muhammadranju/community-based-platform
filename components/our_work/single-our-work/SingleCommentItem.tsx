@@ -58,7 +58,6 @@ export const SingleCommentItem = ({ comment }: { comment: CommentData }) => {
           setLikeCount(data.data.likes);
           setLikes(data.data.likes.length);
         } else {
-          toast.info("Like removed");
           setLikeCount(data.data.likes);
           setLikes(data.data.likes.length);
         }
