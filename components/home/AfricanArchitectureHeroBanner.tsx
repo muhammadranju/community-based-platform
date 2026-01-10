@@ -35,7 +35,7 @@ const AfricanArchitectureHero: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
-    <section className="relative text-white rounded-2xl overflow-hidden shadow-2xl bg-black">
+    <section className="relative text-white rounded-2xl overflow-hidden shadow-2xl bg-[#D13331]">
       {/* Background with fade */}
       <div className="absolute inset-0 z-0">
         {REGIONS.map((region, index) => (

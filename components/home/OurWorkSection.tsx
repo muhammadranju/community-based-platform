@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
 import CustomBadge from "../shared/SharedBadge";
+import Image from "next/image";
 
 interface WorkItem {
   title: string;
@@ -141,7 +142,9 @@ export default function OurWorkSection() {
                     isMiddleCard ? "h-72" : "h-72"
                   }`}
                 >
-                  <img
+                  <Image
+                    width={200}
+                    height={200}
                     src={work.image}
                     alt={work.title}
                     className="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-105"

@@ -2,6 +2,7 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import CustomBadge from "../shared/SharedBadge";
+import Image from "next/image";
 
 interface Story {
   title: string;
@@ -114,10 +115,13 @@ export default function FeaturedStoriesSection() {
               - Removed the solid background wrapper and opacity-50 to let the image shine naturally 
             */}
             <div className="absolute inset-0 bg-neutral-900">
-              <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url('${story.image}')` }}
-              ></div>
+              <Image
+                width={500}
+                height={200}
+                src={story.image}
+                alt={story.title}
+                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+              />
             </div>
 
             {/* 

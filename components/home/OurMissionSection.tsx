@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function RebuildingSection() {
   return (
     <section>
@@ -18,7 +20,9 @@ export default function RebuildingSection() {
         <div className="relative lg:h-[300px] ">
           <img src="./Icons/icon-7.png" className="lg:my-5 my-2 " alt="" />
           {/* Placeholder for the carved door/person image */}
-          <img
+          <Image
+            width={700}
+            height={500}
             src="/person/person-1.png"
             alt="Mission"
             className="object-cover"
