@@ -19,16 +19,17 @@ export default function OurWorkCategoryCard({
   const searchParams = useSearchParams();
   const [isHovered, setIsHovered] = useState(false);
 
-  const fullSlug = `/our-work/explore-archive?region=${slug}`;
+  // Remove leading slash for the query param
+  const cleanSlug = slug.startsWith("/") ? slug.slice(1) : slug;
+  const fullSlug = `/our-work/explore-archive?region=${cleanSlug}`;
 
   // Hide the card if the current page matches the category slug
   const regionParam = searchParams.get("region");
+
+  // Normalize checking: Check if current region matches this card's slug (ignoring slashes)
   const isCurrentCategory =
-    (pathname && pathname.includes(slug)) ||
-    (regionParam &&
-      (regionParam === slug ||
-        regionParam.includes(slug) ||
-        slug.includes(regionParam)));
+    (pathname && pathname.includes(cleanSlug)) ||
+    (regionParam && regionParam.replace(/^\//, "") === cleanSlug);
 
   if (isCurrentCategory) {
     return null;

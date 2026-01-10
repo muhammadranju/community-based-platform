@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import { COUNTRIES } from "../our_work/ProcessCardData";
+import africanArchitectureRegions from "../our_work/africanArchitectureRegions";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const CountrySidebar: React.FC = () => {
@@ -9,6 +10,7 @@ const CountrySidebar: React.FC = () => {
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const currentCountry = searchParams.get("country");
+  const currentRegion = searchParams.get("region");
   const [selectedCountry, setSelectedCountry] = useState(
     currentCountry || "Countries"
   );
@@ -40,7 +42,7 @@ const CountrySidebar: React.FC = () => {
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
-  // Debounced search effect
+  // Debounced search effect for URL update
   useEffect(() => {
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
@@ -55,12 +57,29 @@ const CountrySidebar: React.FC = () => {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Use COUNTRIES directly without local filtering for the listing
-  // or keep it if user wants BOTH content search AND side filtering (unlikely given prompt)
-  // Prompt said "I don't want to country I want for data", so implies specifically the INPUT behavior.
-  // I will revert the FILTERING of the country list to keep functionality clean for "Data" search.
+  // Determine available countries based on Region
+  let availableCountries = COUNTRIES;
+  if (currentRegion) {
+    // Basic normalization to match the title format in the data file
+    // The links are like "east-african-architecture", data titles match this.
+    const regionData = africanArchitectureRegions.find(
+      (r) => r.title.toLowerCase() === currentRegion.toLowerCase()
+    );
+    if (regionData) {
+      availableCountries = regionData.countries;
+    }
+  } else {
+    // If no region is selected, we might want to show all countries from all African regions
+    // For now, defaulting to COUNTRIES (East Africa subset) or we could aggregate all.
+    // Given the prompt focuses on Region selection, this fallback is acceptable for now,
+    // or we could combine all regions excluding global if needed.
+    // Let's stick to the requested behavior for regions.
+  }
 
-  const filteredCountries = COUNTRIES;
+  // Filter countries list by search query
+  const filteredCountries = availableCountries.filter((c) =>
+    c.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="border border-lime-500 rounded-2xl p-6 md:p-4 bg-white shadow-sm w-full">
@@ -139,7 +158,7 @@ const CountrySidebar: React.FC = () => {
         </div>
 
         {/* Countries List */}
-        <div className="flex flex-col gap-3 max-h-fit overflow-y-auto custom-scrollbar p-2">
+        <div className="flex flex-col gap-3 max-h-[60vh] overflow-y-auto custom-scrollbar p-2">
           <button
             onClick={() => handleCountrySelect("Countries")}
             className={`group flex items-center gap-3 w-full text-left px-5 py-2 rounded-full border transition-all duration-200 ${

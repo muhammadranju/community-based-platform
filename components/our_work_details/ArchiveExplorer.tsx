@@ -15,6 +15,7 @@ import ArchiveCard from "./ArchiveCard";
 import ArchiveHeader from "./ArchiveHeader";
 import CountrySidebar from "./CountrySidebar";
 import getUser from "../shared/UserInfo";
+import { EmptyState } from "../forums/forum-details/EmptyState";
 
 const ArchiveExplorer: React.FC = () => {
   const searchParams = useSearchParams();
@@ -121,6 +122,20 @@ const ArchiveExplorer: React.FC = () => {
       {/* Main Content */}
       <div className="w-full flex-1 min-w-0">
         <ArchiveHeader isAuthtenticated={isAuthtenticated} />
+        <div className="lg:-mt-10 mb-16">
+          {currentItems.length === 0 ? (
+            <div className="flex justify-center items-center h-full">
+              <EmptyState
+                title="No Content Found"
+                buttonLabel="Be the First to Submit Content"
+                buttonLink="/dashboard/upload-content"
+                description="There are no contents in this section yet. Check back soon as new contents will be added here!"
+              />
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {loading
