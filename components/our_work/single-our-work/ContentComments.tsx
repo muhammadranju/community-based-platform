@@ -26,6 +26,7 @@ export const ContentCommentsSection = ({
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Adjust this value as needed
+  const [editorKey, setEditorKey] = useState(0);
 
   const user = getUser();
   const router = useRouter();
@@ -34,6 +35,8 @@ export const ContentCommentsSection = ({
     images: [],
     type: "contents",
     content: "",
+    videos: [],
+    pdfs: [],
   });
 
   // Calculate pagination
@@ -78,12 +81,34 @@ export const ContentCommentsSection = ({
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    const files = Array.from(e.target.files);
+    setFormData((prev: any) => ({
+      ...prev,
+      pdfs: [...prev.pdfs, ...files],
+    }));
+  };
+
+  const removePdf = (index: number) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      pdfs: prev.pdfs.filter((_: any, i: number) => i !== index),
+    }));
+  };
+
   const handelSubmit = async () => {
     // Check if comment is not empty (strip HTML tags to check for real content)
     const strippedComment = formData.comment.replace(/<[^>]*>/g, "").trim();
 
-    if (!strippedComment && formData.images.length === 0) {
-      toast.error("Please add a comment or an image");
+    if (
+      !strippedComment &&
+      formData.images.length === 0 &&
+      formData.pdfs.length === 0 &&
+      formData.videos.length === 0
+    ) {
+      toast.error("Please add a comment, image, PDF, or video");
       return;
     }
     if (!user) {
@@ -94,12 +119,19 @@ export const ContentCommentsSection = ({
     setIsLoading(true);
     const formDataToSubmit = new FormData();
 
+    formData.videos.forEach((video: string) => {
+      formDataToSubmit.append("videos", video);
+    });
+
     formDataToSubmit.append("comment", formData.comment);
     formDataToSubmit.append("type", formData.type);
     formDataToSubmit.append("content", contentData?._id);
 
     formData.images.forEach((file: File) => {
       formDataToSubmit.append("image", file);
+    });
+    formData.pdfs.forEach((file: File) => {
+      formDataToSubmit.append("pdf", file);
     });
 
     try {
@@ -114,7 +146,9 @@ export const ContentCommentsSection = ({
       }
 
       const data = await response.json();
-      toast.success("Comment posted successfully!");
+      if (data.success) {
+        toast.success("Comment posted successfully!");
+      }
 
       if (onCommentAdded) {
         onCommentAdded();
@@ -125,17 +159,27 @@ export const ContentCommentsSection = ({
         images: [],
         type: "contents",
         content: contentData?._id,
+        videos: [],
+        pdfs: [],
       });
       setImagePreviews([]);
 
       // Reset to first page when new comment is added
       setCurrentPage(1);
+      setEditorKey((prev) => prev + 1);
     } catch (error) {
       console.error(error);
       toast.error("Failed to upload content");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleYouTubeVideoChange = (videos: string[]) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      videos: videos,
+    }));
   };
 
   useEffect(() => {
@@ -145,6 +189,7 @@ export const ContentCommentsSection = ({
     });
   }, [contentData]);
 
+  console.log(formData);
   return (
     <div className="flex justify-center mb-10">
       <div
@@ -180,6 +225,7 @@ export const ContentCommentsSection = ({
 
         {/* Input Area */}
         <CustomToolbarEditor
+          key={editorKey}
           formData={formData}
           setFormData={setFormData}
           imagePreviews={imagePreviews}
@@ -187,6 +233,9 @@ export const ContentCommentsSection = ({
           isLoading={isLoading}
           removeImage={removeImage}
           handleFileChange={handleFileChange}
+          handleYouTubeVideoChange={handleYouTubeVideoChange}
+          handlePdfChange={handlePdfChange}
+          removePdf={removePdf}
         />
 
         {/* Comments Count & Pagination Top */}

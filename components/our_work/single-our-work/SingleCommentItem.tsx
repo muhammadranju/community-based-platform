@@ -1,38 +1,32 @@
 import { costumFormatDate } from "@/components/shared/DateTime";
+import getUser from "@/components/shared/UserInfo";
 import { authFetch } from "@/lib/authFetch";
+import { YouTubeEmbed } from "@next/third-parties/google";
 import parse from "html-react-parser";
+import { Download } from "lucide-react";
+import { useState } from "react";
 import { AiFillLike } from "react-icons/ai";
 import { FaCommentDots } from "react-icons/fa";
 import slugify from "slugify";
 import { toast } from "sonner";
 import { CommentData } from "./interface";
-import { useState } from "react";
-import getUser from "@/components/shared/UserInfo";
 
-export const SingleCommentItem = ({ comment }: { comment: CommentData }) => {
+interface CommentDataWithPDF extends CommentData {
+  pdfs?: string[];
+}
+
+import dynamic from "next/dynamic";
+const PdfPreview = dynamic(() => import("./PdfPreview"), { ssr: false });
+
+export const SingleCommentItem = ({
+  comment,
+}: {
+  comment: CommentDataWithPDF;
+}) => {
   const [likeCount, setLikeCount] = useState<any>(comment.likes);
   const [likes, setLikes] = useState(likeCount.length);
 
-  // const handelLike = async () => {
-  //   try {
-  //     const response = await authFetch(`/comments/like/${comment._id}`, {
-  //       method: "PATCH",
-  //       auth: true,
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error("Failed to like comment");
-  //     }
-  //     const data = await response.json();
-
-  //     if (data.success) {
-  //       toast.success("Comment liked successfully!");
-  //       setLikeCount((prev: any) => [...prev, data.data]);
-  //       setLikes((prev: number) => prev + 1);
-  //     }
-  //   } catch (error: any) {
-  //     toast.info("You already liked this comment");
-  //   }
-  // };
+  // ... (existing helper functions)
 
   const user = getUser();
 
@@ -108,7 +102,7 @@ export const SingleCommentItem = ({ comment }: { comment: CommentData }) => {
             {comment.title}
           </h4>
         )}
-        <div className="text-emerald-900 text-sm md:text-base leading-relaxed mb-4 break-words break-all max-w-full overflow-hidden [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-blue-600 [&_a]:underline [&_img]:max-w-full [&_img]:h-auto">
+        <div className="text-emerald-900 text-sm md:text-base leading-relaxed mb-4 wrap-break-word break-all max-w-full overflow-hidden [&_p]:mb-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-blue-600 [&_a]:underline [&_img]:max-w-full [&_img]:h-auto">
           {parse(comment.comment)}
         </div>
         {comment.image && comment.image.length > 0 && (
@@ -137,6 +131,87 @@ export const SingleCommentItem = ({ comment }: { comment: CommentData }) => {
             })}
           </div>
         )}
+
+        {comment.videos && comment.videos.length > 0 && (
+          <div
+            className={`mb-4 grid gap-4 ${
+              comment.videos.length === 1
+                ? "grid-cols-1 max-w-lg"
+                : "grid-cols-1 md:grid-cols-2"
+            }`}
+          >
+            {comment.videos.map((video, idx) => (
+              <div
+                key={idx}
+                className="w-full rounded-2xl overflow-hidden shadow-lg"
+              >
+                <YouTubeEmbed
+                  videoid={video}
+                  params="controls=0"
+                  style="border-radius: 16px; width: 100%; aspect-ratio: 16/9;"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* PDF Attachments */}
+        {comment.pdfs && comment.pdfs.length > 0 && (
+          <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {comment.pdfs.map((pdf, idx) => {
+              const fullUrl = `${process.env.NEXT_PUBLIC_API_URL}${pdf}`;
+              const pdfName = pdf.split("/").pop() || "Document.pdf";
+              return (
+                <div
+                  key={idx}
+                  className="flex flex-col border border-emerald-900/10 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all group"
+                >
+                  {/* PDF Preview Area */}
+                  <div className="relative aspect-3/4 overflow-hidden bg-gray-50 flex items-center justify-center border-b">
+                    <PdfPreview url={fullUrl} />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none" />
+                  </div>
+
+                  {/* PDF Info & Actions */}
+                  <div className="p-4 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src="/bg/pdf-icon.png"
+                        className="w-6 h-6 shrink-0"
+                        alt="PDF"
+                      />
+                      <span
+                        className="text-xs font-bold text-emerald-900 truncate flex-1"
+                        title={pdfName}
+                      >
+                        {pdfName.replace(/-\d+\.pdf$/, "").replace(/_/g, " ")}
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <a
+                        href={fullUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 bg-emerald-900 text-white text-[10px] font-bold py-2 rounded-xl text-center hover:bg-emerald-800 transition-colors"
+                      >
+                        View
+                      </a>
+                      <a
+                        href={fullUrl}
+                        download
+                        className="flex-1 border-2 border-emerald-900/10 text-emerald-900 text-[10px] font-bold py-2 rounded-xl text-center hover:bg-emerald-50 transition-colors flex items-center justify-center gap-1"
+                      >
+                        <Download size={12} /> Download
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-1 ">
             <span

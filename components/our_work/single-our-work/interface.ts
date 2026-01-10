@@ -25,6 +25,7 @@ export interface CommentData {
   createdAt: string;
   forum: string;
   image: string[];
+  videos?: string[];
   type: string;
   attachments?: Attachment[];
 }
