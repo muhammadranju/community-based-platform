@@ -157,19 +157,6 @@ export const CommentsSection = ({
               Comment
             </h1>
           </div>
-          <div className="flex items-center gap-2 mt-2">
-            <input
-              type="checkbox"
-              id="save-info"
-              className="rounded border-gray-300 text-emerald-900 focus:ring-emerald-900 w-4 h-4"
-            />
-            <label
-              htmlFor="save-info"
-              className="text-sm text-emerald-900 font-medium"
-            >
-              Save my name email and website
-            </label>
-          </div>
         </div>
 
         {/* Input Area */}
