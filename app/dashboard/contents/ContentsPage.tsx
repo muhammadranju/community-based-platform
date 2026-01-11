@@ -7,6 +7,17 @@ import ContentTableHeader from "@/components/dashboard/contents/ContentTableHead
 import ContentTableRow from "@/components/dashboard/contents/ContentTableRow";
 import ContentPagination from "@/components/dashboard/contents/ContentPagination";
 import ContentDetailsDialog from "@/components/dashboard/contents/ContentDetailsDialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 export interface IPost {
   _id: string;
@@ -31,7 +42,9 @@ export default function ContentsTablePage() {
   const [allPosts, setAllPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<IPost | null>(null);
+  const [deletePost, setDeletePost] = useState<IPost | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const itemsPerPage = 10;
@@ -49,6 +62,29 @@ export default function ContentsTablePage() {
       console.error("Failed to fetch posts:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handelDeletePost = async () => {
+    if (!deletePost) return;
+    try {
+      const res = await authFetch(`/contents/${deletePost._id}`, {
+        method: "DELETE",
+        auth: true,
+      });
+      const data = await res.json();
+      if (data?.success) {
+        toast.success("Content deleted successfully");
+        fetchPosts();
+      } else {
+        toast.error(data?.message || "Failed to delete content");
+      }
+    } catch (error) {
+      console.error("Failed to delete post:", error);
+      toast.error("An error occurred while deleting");
+    } finally {
+      setDeletePost(null);
+      setOpenDeleteDialog(false);
     }
   };
 
@@ -140,6 +176,10 @@ export default function ContentsTablePage() {
                       setSelectedPost(p);
                       setOpenDialog(true);
                     }}
+                    handelDeletePost={(p) => {
+                      setDeletePost(p);
+                      setOpenDeleteDialog(true);
+                    }}
                   />
                 ))
               ) : (
@@ -167,6 +207,34 @@ export default function ContentsTablePage() {
         open={openDialog}
         onOpenChange={setOpenDialog}
       />
+
+      <AlertDialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+        <AlertDialogContent className="rounded-3xl border-lime-500">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-teal-900 text-2xl font-bold">
+              Are you absolutely sure?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-600">
+              This action cannot be undone. This will permanently delete "
+              <span className="font-semibold text-teal-700">
+                {deletePost?.title}
+              </span>
+              " from the platform.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-3">
+            <AlertDialogCancel className="rounded-full border-gray-300">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handelDeletePost}
+              className="bg-red-600 hover:bg-red-700 text-white rounded-full px-6"
+            >
+              Confirm Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
