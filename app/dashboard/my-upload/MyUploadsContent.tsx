@@ -23,6 +23,7 @@ import { Calendar, Filter, MoreVertical, Upload } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { costumFormatDate } from "@/components/shared/DateTime";
+import { toast } from "sonner";
 
 export interface IContent {
   _id: string;
@@ -92,13 +93,21 @@ export function MyUploadsContent() {
     if (!deleteId) return;
 
     try {
-      // Optional: Add actual API call here later
-      // await authFetch(`/contents/${deleteId}`, { method: "DELETE", auth: true });
+      const res = await authFetch(`/contents/${deleteId}`, {
+        method: "DELETE",
+        auth: true,
+      });
 
-      setContents((prev) => prev.filter((item) => item._id !== deleteId));
-      setTotal((prev) => prev - 1);
+      if (res.ok) {
+        setContents((prev) => prev.filter((item) => item._id !== deleteId));
+        setTotal((prev) => prev - 1);
+        toast.success("Content deleted successfully");
+      } else {
+        toast.error("Failed to delete content");
+      }
     } catch (error) {
       console.error("Delete failed", error);
+      toast.error("An error occurred while deleting");
     } finally {
       setDeleteId(null);
     }
@@ -283,32 +292,38 @@ export function MyUploadsContent() {
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <DropdownMenuItem
-                                className="text-red-600 focus:text-red-600 sr-only"
+                                className="text-red-600 focus:text-red-600 cursor-pointer"
                                 onSelect={(e) => e.preventDefault()}
                               >
                                 Delete
                               </DropdownMenuItem>
                             </AlertDialogTrigger>
-                            <AlertDialogContent>
+                            <AlertDialogContent className="rounded-3xl border-lime-500">
                               <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Are you sure?
+                                <AlertDialogTitle className="text-teal-900 text-2xl font-bold">
+                                  Are you absolutely sure?
                                 </AlertDialogTitle>
-                                <AlertDialogDescription>
+                                <AlertDialogDescription className="text-gray-600">
                                   This action cannot be undone. This will
-                                  permanently delete the content.
+                                  permanently delete your content "
+                                  <span className="font-semibold text-teal-700">
+                                    {item.title}
+                                  </span>
+                                  " from our servers.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogFooter className="gap-3">
+                                <AlertDialogCancel className="rounded-full border-gray-300">
+                                  Cancel
+                                </AlertDialogCancel>
                                 <AlertDialogAction
                                   onClick={() => {
                                     setDeleteId(item._id);
                                     handleDelete();
                                   }}
-                                  className="bg-red-600 hover:bg-red-700"
+                                  className="bg-red-600 hover:bg-red-700 text-white rounded-full px-6"
                                 >
-                                  Confirm Delete
+                                  Delete Content
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
