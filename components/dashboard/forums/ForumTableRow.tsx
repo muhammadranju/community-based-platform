@@ -1,5 +1,4 @@
 import { IDiscussionPost } from "@/app/dashboard/forums/ForumsPage";
-import { MoreVertical } from "lucide-react";
 
 const getIconSrc = (type: string) => {
   const iconMap: Record<string, string> = {
@@ -12,14 +11,24 @@ const getIconSrc = (type: string) => {
   return iconMap[type] || "/Icons/Community.png";
 };
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Eye, MoreVertical, Trash } from "lucide-react";
+
 interface ForumTableRowProps {
   post: IDiscussionPost;
   onViewDetails: (post: IDiscussionPost) => void;
+  onDelete: (post: IDiscussionPost) => void;
 }
 
 export default function ForumTableRow({
   post,
   onViewDetails,
+  onDelete,
 }: ForumTableRowProps) {
   return (
     <tr className="hover:bg-gray-50 transition-colors text-sm">
@@ -54,12 +63,29 @@ export default function ForumTableRow({
         </span>
       </td>
       <td className="py-4 px-6 text-right">
-        <button
-          onClick={() => onViewDetails(post)}
-          className="bg-[#ecfccb] hover:bg-lime-200 text-teal-900 w-8 h-8 rounded-full flex items-center justify-center transition-colors ml-auto"
-        >
-          <MoreVertical size={16} />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="bg-[#ecfccb] hover:bg-lime-200 text-teal-900 w-8 h-8 rounded-full flex items-center justify-center transition-colors ml-auto">
+              <MoreVertical size={16} />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem
+              onClick={() => onViewDetails(post)}
+              className="cursor-pointer"
+            >
+              <Eye className="mr-2 h-4 w-4" />
+              View Details
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onDelete(post)}
+              className="cursor-pointer text-red-600 focus:text-red-600"
+            >
+              <Trash className="mr-2 h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </td>
     </tr>
   );
