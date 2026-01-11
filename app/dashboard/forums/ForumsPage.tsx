@@ -7,6 +7,17 @@ import ForumsTableHeader from "@/components/dashboard/forums/ForumsTableHeader";
 import ForumPagination from "@/components/dashboard/forums/ForumPagination";
 import ForumDetailsDialog from "@/components/dashboard/forums/ForumDetailsDialog";
 import ForumTableRow from "@/components/dashboard/forums/ForumTableRow";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 export interface IPostOwner {
   _id: string;
@@ -39,6 +50,8 @@ export default function ForumsDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [deletePost, setDeletePost] = useState<IDiscussionPost | null>(null);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const itemsPerPage = 10;
 
@@ -52,6 +65,29 @@ export default function ForumsDashboardPage() {
       console.error("Error fetching forums:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDeleteForum = async () => {
+    if (!deletePost) return;
+    try {
+      const res = await authFetch(`/forums/${deletePost._id}`, {
+        method: "DELETE",
+        auth: true,
+      });
+
+      if (res.ok) {
+        toast.success("Forum deleted successfully");
+        fetchForums();
+      } else {
+        toast.error("Failed to delete forum");
+      }
+    } catch (error) {
+      console.error("Delete failed", error);
+      toast.error("An error occurred while deleting");
+    } finally {
+      setDeletePost(null);
+      setOpenDeleteDialog(false);
     }
   };
 
@@ -140,6 +176,10 @@ export default function ForumsDashboardPage() {
                       setSelectedPost(p);
                       setIsModalOpen(true);
                     }}
+                    onDelete={(p) => {
+                      setDeletePost(p);
+                      setOpenDeleteDialog(true);
+                    }}
                   />
                 ))
               )}
@@ -161,6 +201,34 @@ export default function ForumsDashboardPage() {
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
       />
+
+      <AlertDialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+        <AlertDialogContent className="rounded-3xl border-lime-500">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-teal-900 text-2xl font-bold">
+              Are you absolutely sure?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-600">
+              This action cannot be undone. This will permanently delete forum "
+              <span className="font-semibold text-teal-700">
+                {deletePost?.title}
+              </span>
+              " and all its comments.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-3">
+            <AlertDialogCancel className="rounded-full border-gray-300">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteForum}
+              className="bg-red-600 hover:bg-red-700 text-white rounded-full px-6"
+            >
+              Confirm Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
