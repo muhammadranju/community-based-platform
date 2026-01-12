@@ -28,6 +28,7 @@ const africanArchitectureRegions = [
       "Gabon",
       "Republic of the Congo",
       "Chad",
+      "Congo",
       "Central African Republic",
       "Democratic Republic of the Congo",
       "São Tomé and Príncipe",

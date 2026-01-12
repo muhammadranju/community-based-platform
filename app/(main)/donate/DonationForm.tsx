@@ -410,7 +410,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({
         {isMonetaryDonation && (
           <div className="flex flex-col  gap-6 animate-in fade-in slide-in-from-top-4 duration-300">
             <div className="">
-              <div className="flex gap-6 justify-between">
+              <div className="flex flex-col gap-6 justify-between">
                 <div className="flex-1">
                   <CustomSelect
                     label="Monetary Donation Category"
@@ -453,7 +453,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({
                   )}
                 </div>
               </div>
-              <div className="mt-3 flex gap-1 items-center justify-center">
+              <div className="mt-3 flex flex-wrap gap-1 items-center justify-center">
                 {donationAmounts.map((amount) => (
                   <button
                     key={amount.value}
@@ -472,7 +472,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({
                   Payment Method
                 </label>
 
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {cardLogos.map((card) => (
                     <Image
                       height={20}
