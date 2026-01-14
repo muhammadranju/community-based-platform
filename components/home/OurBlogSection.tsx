@@ -1,17 +1,29 @@
 "use client";
+import apiFetch from "@/lib/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useRef } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import CustomBadge from "../shared/SharedBadge";
-import Image from "next/image";
+import { Spinner } from "../ui/spinner";
+import DOMPurify from "isomorphic-dompurify";
 
-interface Story {
+export interface Story {
   title: string;
   description: string;
   image: string;
+  _id: string;
+  author: string;
+  tags: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  slug: string;
   link: string;
 }
 
 export default function FeaturedStoriesSection() {
+  const [loading, setLoading] = useState(true);
+  const [blogs, setBlogs] = useState<Story[]>([]);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -24,37 +36,30 @@ export default function FeaturedStoriesSection() {
     }
   };
 
-  const stories: Story[] = [
-    {
-      title: "African Traditional Decor & Interior Design",
-      description:
-        "If you desire to start building your dream home based on the foundation of our ancestors knowledge, but don’t know where to start. We hope the design inspirations here will help you get started.",
-      image: "/bg/Rectangle2.png",
-      link: "/our-work",
-    },
-    {
-      title: "Modern Safari Living Room Concepts",
-      description:
-        "Explore how to blend modern aesthetics with traditional safari elements. Create a space that feels both adventurous and comfortably luxurious.",
-      image: "/bg/Rectangle3.png",
-      link: "/our-work",
-    },
-    {
-      title: "Clay & Earth: Sustainable Building",
-      description:
-        "Discover the ancient techniques of building with earth and clay, reimagined for contemporary sustainable living in urban environments.",
-      image: "/bg/Rectangle4.png",
-      link: "/our-work",
-    },
-    {
-      title: "Textiles of the West Coast",
-      description:
-        "A deep dive into the patterns, fabrics, and weaving techniques that define the vibrant interior styles of West African coastal homes.",
-      image: "/bg/Rectangle2.png",
-      link: "/our-work",
-    },
-  ];
+  const getBlogs = async () => {
+    setLoading(true);
 
+    const blogs = await apiFetch("/blogs");
+    const blogsData = blogs?.data?.data;
+
+    setBlogs(blogsData);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(false);
+    getBlogs();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-36 text-4xl font-bold text-orange-900 ">
+        <Spinner className="ml-2 size-20 text-orange-900" />
+      </div>
+    );
+  }
+
+  console.log(blogs);
   return (
     <>
       <div className="flex justify-between items-end px-4 md:px-0 mb-10">
@@ -105,21 +110,21 @@ export default function FeaturedStoriesSection() {
         ref={scrollContainerRef}
         className="flex overflow-x-auto snap-x snap-mandatory gap-6 px-4 md:px-0 pb-4 no-scrollbar md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
       >
-        {stories.map((story, index) => (
+        {blogs?.map((story, index) => (
           <div
             key={index}
-            className="relative h-[500px] md:h-[650px] rounded-3xl overflow-hidden group cursor-pointer min-w-[85vw] md:min-w-[45vw] lg:min-w-[40vw] snap-center shrink-0"
+            className="relative h-[500px] md:h-[650px] rounded-3xl overflow-hidden group cursor-pointer  lg:w-[500px] w-[400px]   snap-center shrink-0"
           >
             {/* 
               IMAGE LAYER 
               - Removed the solid background wrapper and opacity-50 to let the image shine naturally 
             */}
             <div className="absolute inset-0 bg-neutral-900">
-              <Image
+              <img
                 width={500}
                 height={200}
-                src={story.image}
-                alt={story.title}
+                src={`${process.env.NEXT_PUBLIC_API_URL}${story.image}`}
+                alt={story?.title}
                 className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
               />
             </div>
@@ -135,18 +140,28 @@ export default function FeaturedStoriesSection() {
             {/* CONTENT LAYER */}
             <div className="absolute bottom-0 left-0 p-6 md:p-10 text-white w-full z-10">
               <h3 className="text-2xl md:text-4xl font-bold mb-4 max-w-md leading-tight drop-shadow-sm">
-                {story.title}
+                {story?.title}
               </h3>
-              <p className="text-base text-gray-200 mb-8 hidden md:block max-w-lg leading-relaxed">
-                {story.description}
-              </p>
+              {/* <p className="text-base text-gray-200 mb-8 hidden md:block max-w-lg leading-relaxed">
+                {story?.description}
+              </p> */}
+              <div
+                className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none overflow-hidden max-w-[60ch]"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(
+                    story?.description.length > 500
+                      ? story?.description.slice(0, 500) + "..."
+                      : story?.description
+                  ),
+                }}
+              />
 
-              <a
-                href={story.link}
+              <Link
+                href={`/blogs/${story?.slug}`}
                 className="inline-flex items-center px-8 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-orange-950 transition-all text-sm font-bold uppercase tracking-wider"
               >
                 Read More
-              </a>
+              </Link>
             </div>
           </div>
         ))}

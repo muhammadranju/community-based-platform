@@ -17,8 +17,9 @@ export interface ContentItem {
   id: string;
   title: string;
   description: string;
-  country: string;
+  location: string;
   createdAt: string;
+  category?: string;
   shortDescription: string;
   slug?: string;
   region?: string;
@@ -51,4 +52,22 @@ export interface GuideSectionData {
   id: string; // e.g., "A", "B"
   title: string;
   steps: StepItem[];
+}
+
+export interface IBlog {
+  _id: string;
+  title: string;
+  description: string;
+  category?: string; // Added optional
+  tags?: string[]; // Added optional
+  location: string;
+  image: string;
+  createdAt: string;
+  author: {
+    name: string;
+    email: string;
+    role: string;
+  };
+  updatedAt: string;
+  slug: string;
 }
