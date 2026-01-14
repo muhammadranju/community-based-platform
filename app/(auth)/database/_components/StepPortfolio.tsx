@@ -28,7 +28,7 @@ const StepPortfolio = () => {
           />
         </div>
         <p className="text-xs text-gray-500">
-          Supported formats: PDF, JPG, PNG (Max 5MB)
+          Supported formats: PDF, JPG, PNG (Max 2MB for images, 4MB for PDFs)
         </p>
         {errors.image && (
           <p className="text-red-500 text-sm">

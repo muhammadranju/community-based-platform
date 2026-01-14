@@ -53,12 +53,27 @@ export const CommentsSection = ({
     if (!e.target.files) return;
 
     const files = Array.from(e.target.files);
+    const maxSize = 2 * 1024 * 1024;
+    const validFiles = files.filter((file) => {
+      if (file.size > maxSize) {
+        toast.error(
+          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`
+        );
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) {
+      return;
+    }
+
     setFormData((prev: any) => ({
       ...prev,
-      images: [...prev.images, ...files],
+      images: [...prev.images, ...validFiles],
     }));
 
-    files.forEach((file) => {
+    validFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreviews((prev) => [...prev, reader.result as string]);

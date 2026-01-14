@@ -59,6 +59,10 @@ interface FormData {
 const SIGHTENGINE_USER = process.env.NEXT_PUBLIC_SIGHTENGINE_USER || "";
 const SIGHTENGINE_SECRET = process.env.NEXT_PUBLIC_SIGHTENGINE_SECRET || "";
 
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+const MAX_VIDEO_SIZE = 10 * 1024 * 1024;
+const MAX_PDF_SIZE = 4 * 1024 * 1024;
+
 // Nudity check function
 const checkImageNudity = async (
   file: File
@@ -181,28 +185,12 @@ const checkVideoNudity = async (
     );
 
     const data = res.data;
-    // Check for success status
     if (data.status !== "success") {
-      // If sync check is not supported for this video (e.g. too large), it might return a different status or error.
-      // However, if we assume it handles it or fails:
       console.warn("Sightengine video check returned non-success:", data);
-      // We might want to allow it if the API just couldn't check it synchronously?
-      // But better safe than sorry for now.
-      // Or return specific error if error is "video too large" etc.
-      return { isSafe: true }; // Fallback to allowing if check fails technically? Or block?
-      // Let's look at nudity score if present.
+      return { isSafe: true };
     }
 
     const nudity = data.data?.frames?.[0]?.nudity || data.nudity; // Structure varies for video-sync
-
-    // The sync video response usually contains an array of frames or a summary.
-    // Let's assume the API returns a summary 'nudity' object similar to images or a list of frames.
-    // For check-sync, it often returns specific frame analysis.
-    // Simple check: if data.nudity is present (averaged)
-
-    // NOTE: Sightengine video-sync response structure:
-    // { status: 'success', data: { frames: [ ... ] } }
-    // We check if ANY frame is bad.
 
     if (data.data && data.data.frames) {
       const frames = data.data.frames;
@@ -280,13 +268,20 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    setFormData((prev: any) => {
-      // If region changes, reset the country selection if it's no longer valid
-      // or just reset it generally to force user to pick a new one from the new list
-      if (name === "region" && value !== prev.region) {
-        return { ...prev, [name]: value, country: "" };
+    setFormData((prev) => {
+      if (name === "region") {
+        if (value !== prev.region) {
+          return { ...prev, region: value as Region, country: "" };
+        }
+        return { ...prev, region: value as Region };
       }
-      return { ...prev, [name]: value };
+      if (name === "category") {
+        return { ...prev, category: value as CategoryKey };
+      }
+      if (name === "country") {
+        return { ...prev, country: value };
+      }
+      return prev;
     });
   };
 
@@ -302,6 +297,11 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
     try {
       if (field === "coverImage") {
         const file = e.target.files[0];
+
+        if (file.size > MAX_IMAGE_SIZE) {
+          toast.error("Cover image must be 2MB or smaller.", { id: toastId });
+          return;
+        }
 
         const { isSafe, error } = await checkImageNudity(file);
         if (!isSafe) {
@@ -335,6 +335,15 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
           let hasError = false;
 
           for (const file of files) {
+            if (file.size > MAX_IMAGE_SIZE) {
+              toast.error(
+                `Image ${file.name} is larger than 2MB. Please upload a smaller image.`,
+                { id: toastId }
+              );
+              hasError = true;
+              continue;
+            }
+
             const { isSafe, error } = await checkImageNudity(file);
             if (!isSafe) {
               toast.error(
@@ -366,6 +375,15 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
           const safeFiles: File[] = [];
           let hasError = false;
           for (const file of files) {
+            if (file.size > MAX_VIDEO_SIZE) {
+              toast.error(
+                `Video ${file.name} is larger than 10MB. Please upload a smaller video.`,
+                { id: toastId }
+              );
+              hasError = true;
+              continue;
+            }
+
             const result = await checkVideoNudity(file);
             if (!result.isSafe) {
               toast.error(
@@ -388,6 +406,15 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
           const safeFiles: File[] = [];
           let hasError = false;
           for (const file of files) {
+            if (file.size > MAX_PDF_SIZE) {
+              toast.error(
+                `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`,
+                { id: toastId }
+              );
+              hasError = true;
+              continue;
+            }
+
             const result = await checkPdfNudity(file);
             if (!result.isSafe) {
               toast.error(
@@ -706,7 +733,7 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
         </div>
 
         {/* Multiple File Uploads */}
-        {["images", "medias", "pdfs"].map((field) => {
+        {(["images", "medias", "pdfs"] as const).map((field) => {
           const title =
             field === "images"
               ? "Additional Images (up to 6)"
@@ -742,10 +769,50 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
                 onDrop={(e) => {
                   e.preventDefault();
                   const droppedFiles = Array.from(e.dataTransfer.files);
-                  setFormData((prev: any) => ({
-                    ...prev,
-                    [field]: [...prev[field], ...droppedFiles].slice(0, 6),
-                  }));
+                  const validFiles: File[] = [];
+
+                  droppedFiles.forEach((file) => {
+                    if (field === "images") {
+                      if (file.size > MAX_IMAGE_SIZE) {
+                        toast.error(
+                          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`
+                        );
+                      } else {
+                        validFiles.push(file);
+                      }
+                    } else if (field === "medias") {
+                      if (file.size > MAX_VIDEO_SIZE) {
+                        toast.error(
+                          `Video ${file.name} is larger than 10MB. Please upload a smaller video.`
+                        );
+                      } else {
+                        validFiles.push(file);
+                      }
+                    } else if (field === "pdfs") {
+                      if (file.size > MAX_PDF_SIZE) {
+                        toast.error(
+                          `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`
+                        );
+                      } else {
+                        validFiles.push(file);
+                      }
+                    }
+                  });
+
+                  if (validFiles.length === 0) {
+                    return;
+                  }
+
+                  setFormData((prev) => {
+                    const currentFiles = prev[field as keyof FormData] as
+                      | File[]
+                      | null;
+                    const combined = [...(currentFiles || []), ...validFiles];
+                    return {
+                      ...prev,
+                      [field]: combined.slice(0, 6),
+                    };
+                  });
                 }}
               >
                 <input
@@ -797,7 +864,9 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
                       </p>
                       <button
                         type="button"
-                        onClick={() => removeFile(field as any, i)}
+                        onClick={() =>
+                          removeFile(field as "images" | "medias" | "pdfs", i)
+                        }
                         className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-sm"
                       >
                         <X size={12} />

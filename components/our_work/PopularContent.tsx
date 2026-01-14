@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Story } from "../home/OurBlogSection";
 import { Spinner } from "../ui/spinner";
 import PopularContentCard from "./PopularContentCard";
+import PopularContentCardSkeleton from "../skeleton/PopularContentCardSkeleton";
 
 const PopularContent: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ const PopularContent: React.FC = () => {
   const getBlogs = async () => {
     setLoading(true);
 
-    const blogs = await apiFetch("/blogs");
+    const blogs = await apiFetch<any>("/blogs");
     const blogsData = blogs?.data?.data;
 
     setBlogs(blogsData);
@@ -31,17 +32,8 @@ const PopularContent: React.FC = () => {
   };
 
   useEffect(() => {
-    setLoading(false);
     getBlogs();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-36 text-4xl font-bold text-orange-900 ">
-        <Spinner className="ml-2 size-20 text-orange-900" />
-      </div>
-    );
-  }
 
   return (
     <div className="w-full">
@@ -50,9 +42,15 @@ const PopularContent: React.FC = () => {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {blogs?.map((item: any) => (
-          <PopularContentCard key={item._id || item.id} item={item} />
-        ))}
+        {loading ? (
+          <PopularContentCardSkeleton limit={6} />
+        ) : (
+          <>
+            {blogs?.map((item: any) => (
+              <PopularContentCard key={item._id || item.id} item={item} />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

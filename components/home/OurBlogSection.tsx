@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import CustomBadge from "../shared/SharedBadge";
 import { Spinner } from "../ui/spinner";
 import DOMPurify from "isomorphic-dompurify";
+import HeroBlogCardSkeleton from "../skeleton/HeroBlogCardSkeleton";
 
 export interface Story {
   title: string;
@@ -39,7 +40,7 @@ export default function FeaturedStoriesSection() {
   const getBlogs = async () => {
     setLoading(true);
 
-    const blogs = await apiFetch("/blogs");
+    const blogs = await apiFetch<any>("/blogs");
     const blogsData = blogs?.data?.data;
 
     setBlogs(blogsData);
@@ -47,17 +48,8 @@ export default function FeaturedStoriesSection() {
   };
 
   useEffect(() => {
-    setLoading(false);
     getBlogs();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-36 text-4xl font-bold text-orange-900 ">
-        <Spinner className="ml-2 size-20 text-orange-900" />
-      </div>
-    );
-  }
 
   console.log(blogs);
   return (
@@ -110,61 +102,65 @@ export default function FeaturedStoriesSection() {
         ref={scrollContainerRef}
         className="flex overflow-x-auto snap-x snap-mandatory gap-6 px-4 md:px-0 pb-4 no-scrollbar md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
       >
-        {blogs?.map((story, index) => (
-          <div
-            key={index}
-            className="relative h-[500px] md:h-[650px] rounded-3xl overflow-hidden group cursor-pointer  lg:w-[500px] w-[400px]   snap-center shrink-0"
-          >
-            {/* 
+        {loading ? (
+          <HeroBlogCardSkeleton />
+        ) : (
+          blogs?.map((story, index) => (
+            <div
+              key={index}
+              className="relative h-[500px] md:h-[650px] rounded-3xl overflow-hidden group cursor-pointer  lg:w-[500px] w-[400px]   snap-center shrink-0"
+            >
+              {/* 
               IMAGE LAYER 
               - Removed the solid background wrapper and opacity-50 to let the image shine naturally 
             */}
-            <div className="absolute inset-0 bg-neutral-900">
-              <img
-                width={500}
-                height={200}
-                src={`${process.env.NEXT_PUBLIC_API_URL}${story.image}`}
-                alt={story?.title}
-                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
+              <div className="absolute inset-0 bg-neutral-900">
+                <img
+                  width={500}
+                  height={200}
+                  src={`${process.env.NEXT_PUBLIC_API_URL}${story.image}`}
+                  alt={story?.title}
+                  className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
 
-            {/* 
+              {/* 
               GRADIENT OVERLAY FIX 
               - Changed 'inset-0' to 'bottom-0 h-3/4' so the gradient only covers the bottom 75% max.
               - The top of the image remains completely clear.
               - Changed colors to 'orange-950' (dark brown) to match the African decor aesthetic better than pure black.
             */}
-            <div className="absolute bottom-0 left-0 w-full h-3/4 bg-gradient-to-t from-orange-950 via-orange-950/60 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-full h-3/4 bg-gradient-to-t from-orange-950 via-orange-950/60 to-transparent"></div>
 
-            {/* CONTENT LAYER */}
-            <div className="absolute bottom-0 left-0 p-6 md:p-10 text-white w-full z-10">
-              <h3 className="text-2xl md:text-4xl font-bold mb-4 max-w-md leading-tight drop-shadow-sm">
-                {story?.title}
-              </h3>
-              {/* <p className="text-base text-gray-200 mb-8 hidden md:block max-w-lg leading-relaxed">
+              {/* CONTENT LAYER */}
+              <div className="absolute bottom-0 left-0 p-6 md:p-10 text-white w-full z-10">
+                <h3 className="text-2xl md:text-4xl font-bold mb-4 max-w-md leading-tight drop-shadow-sm">
+                  {story?.title}
+                </h3>
+                {/* <p className="text-base text-gray-200 mb-8 hidden md:block max-w-lg leading-relaxed">
                 {story?.description}
               </p> */}
-              <div
-                className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none overflow-hidden max-w-[60ch]"
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(
-                    story?.description.length > 500
-                      ? story?.description.slice(0, 500) + "..."
-                      : story?.description
-                  ),
-                }}
-              />
+                <div
+                  className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none overflow-hidden max-w-[60ch]"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      story?.description.length > 500
+                        ? story?.description.slice(0, 500) + "..."
+                        : story?.description
+                    ),
+                  }}
+                />
 
-              <Link
-                href={`/blogs/${story?.slug}`}
-                className="inline-flex items-center px-8 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-orange-950 transition-all text-sm font-bold uppercase tracking-wider"
-              >
-                Read More
-              </Link>
+                <Link
+                  href={`/blogs/${story?.slug}`}
+                  className="inline-flex items-center px-8 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-orange-950 transition-all text-sm font-bold uppercase tracking-wider"
+                >
+                  Read More
+                </Link>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </>
   );

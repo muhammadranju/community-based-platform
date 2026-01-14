@@ -11,23 +11,27 @@ import { ForumCard } from "./ForumCard";
 import { HeaderSection } from "./ForumHeaderSection";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
+import DiscussionCardSkeleton from "@/components/skeleton/DiscussionCardSkeleton";
 
 function ForumPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [forumData, setForumData] = useState([]);
   const mongoTime = "2025-12-16T06:46:13.553Z";
+  const [loading, setLoading] = useState(true);
 
   const timeAgo = formatDistanceToNow(new Date(mongoTime), {
     addSuffix: true,
   });
 
   const getForums = async () => {
+    setLoading(true);
     const response = await authFetch("/forums-category", {
       method: "GET",
       auth: false,
     });
     const result = await response.json();
     setForumData(result?.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -108,16 +112,19 @@ function ForumPage() {
 
         {/* Dynamic Forum Sections */}
         <div className="space-y-12">
-          {filteredSections.map((section, idx) => (
-            <div key={idx} className="space-y-6">
-              {/* Only show section title if it exists and it's not the first one (logic from design)
+          {loading ? (
+            <DiscussionCardSkeleton />
+          ) : (
+            filteredSections.map((section, idx) => (
+              <div key={idx} className="space-y-6">
+                {/* Only show section title if it exists and it's not the first one (logic from design)
                   Actually, the design shows titles for most sections. 'Introductions' was implied but maybe we show it. 
                   Let's show it if it's there. */}
-              {section.title && section.title !== "Introductions" && (
-                // Using hardcoded colors for section headers as per original logic if needed,
-                // or just generic primary color matching the design
-                <h2
-                  className={`text-2xl font-bold tracking-tight
+                {section.title && section.title !== "Introductions" && (
+                  // Using hardcoded colors for section headers as per original logic if needed,
+                  // or just generic primary color matching the design
+                  <h2
+                    className={`text-2xl font-bold tracking-tight
                   ${
                     section.theme === "purple" ||
                     section.theme === "red" ||
@@ -129,18 +136,23 @@ function ForumPage() {
                       : "text-emerald-700"
                   }
                 `}
-                >
-                  {section.title}
-                </h2>
-              )}
+                  >
+                    {section.title}
+                  </h2>
+                )}
 
-              <div className="space-y-4">
-                {section.items.map((item: any) => (
-                  <ForumCard key={item.id} data={item} theme={section.theme} />
-                ))}
+                <div className="space-y-4">
+                  {section.items.map((item: any) => (
+                    <ForumCard
+                      key={item.id}
+                      data={item}
+                      theme={section.theme}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
 
           {filteredSections.length === 0 && (
             <div className="text-center py-10 text-gray-500">

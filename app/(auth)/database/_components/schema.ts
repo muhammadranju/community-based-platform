@@ -15,7 +15,24 @@ export const waitingListSchema = z.object({
 
   // Step 3: Portfolio
   about: z.string().optional(),
-  image: z.any().refine((files) => files?.length > 0, "Image is required"),
+  image: z
+    .any()
+    .refine((files) => files?.length > 0, "Image is required")
+    .refine(
+      (files) => {
+        const file = files?.[0];
+        if (!file) return false;
+        const sizeInMb = file.size / (1024 * 1024);
+        if (
+          file.type === "application/pdf" ||
+          (file.name && file.name.toLowerCase().endsWith(".pdf"))
+        ) {
+          return sizeInMb <= 4;
+        }
+        return sizeInMb <= 2;
+      },
+      "File too large. Max 2MB for images and 4MB for PDFs"
+    ),
 
   // Step 4: Community
   isRoleTitle: z

@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:5000/api/v1";
 
-export type ApiResponse<T = any> = {
+export type ApiResponse<T = unknown> = {
   data?: T;
   error?: string;
   success: boolean;
@@ -35,7 +35,7 @@ async function getAuthToken(): Promise<string | null> {
     : null;
 }
 
-async function apiFetch<T = any>(
+async function apiFetch<T = unknown>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
@@ -80,11 +80,12 @@ async function apiFetch<T = any>(
     }
 
     const text = await response.text();
-    return { success: true, data: text as any };
-  } catch (err: any) {
+    return { success: true, data: text as T };
+  } catch (err) {
+    const error = err as Error;
     return {
       success: false,
-      error: err.message || "Network error",
+      error: error.message || "Network error",
     };
   }
 }

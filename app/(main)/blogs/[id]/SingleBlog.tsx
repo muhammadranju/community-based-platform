@@ -43,10 +43,10 @@ export default function SingleBlog() {
     try {
       setLoading(true);
       // Fetch Blog Details
-      const blogRes = await apiFetch(`/blogs/${id}`);
+      const blogRes = await apiFetch<any>(`/blogs/${id}`);
 
-      const blog = await blogRes?.data?.data?.result;
-      const comments = await blogRes?.data?.data?.commentsByBlog;
+      const blog = blogRes?.data?.data?.result;
+      const comments = blogRes?.data?.data?.commentsByBlog;
       console.log(blog);
       if (blogRes.success) {
         setBlog(blog);
@@ -216,7 +216,7 @@ export default function SingleBlog() {
 
           {/* Body Content */}
           <div
-            className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none overflow-hidden max-w-[60ch]"
+            className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none overflow-hidden"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(blog.description),
             }}

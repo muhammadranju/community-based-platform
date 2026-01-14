@@ -1,0 +1,10 @@
+app/(main)/blogs/[id]/SingleBlog.tsx(48,41): error TS2339: Property 'data' does not exist on type '{}'.
+app/(main)/blogs/[id]/SingleBlog.tsx(49,45): error TS2339: Property 'data' does not exist on type '{}'.
+components/home/OurBlogSection.tsx(43,36): error TS2339: Property 'data' does not exist on type '{}'.
+components/our_work/PopularContent.tsx(27,36): error TS2339: Property 'data' does not exist on type '{}'.
+components/upload/UploadContentForm.tsx(287,17): error TS2345: Argument of type '(prev: FormData) => { region: string; country: string; title: string; shortDescription: string; description: string; category: "" | "cultural" | "interactive" | "community" | "rebuilding" | "materials" | "introduction"; coverImage: File | null; images: File[]; medias: File[]; pdfs: File[]; }' is not assignable to parameter of type 'SetStateAction<FormData>'.
+  Type '(prev: FormData) => { region: string; country: string; title: string; shortDescription: string; description: string; category: "" | "cultural" | "interactive" | "community" | "rebuilding" | "materials" | "introduction"; coverImage: File | null; images: File[]; medias: File[]; pdfs: File[]; }' is not assignable to type '(prevState: FormData) => FormData'.
+    Call signature return types '{ region: string; country: string; title: string; shortDescription: string; description: string; category: "" | "cultural" | "interactive" | "community" | "rebuilding" | "materials" | "introduction"; coverImage: File | null; images: File[]; medias: File[]; pdfs: File[]; }' and 'FormData' are incompatible.
+      The types of 'region' are incompatible between these types.
+        Type 'string' is not assignable to type '"" | "east-african-architecture" | "central-african-architecture" | "west-african-architecture" | "south-african-architecture" | "north-african-architecture" | "global-african-architecture"'.
+components/upload/UploadContentForm.tsx(830,56): error TS2345: Argument of type 'string' is not assignable to parameter of type '"coverImage" | "images" | "medias" | "pdfs"'.

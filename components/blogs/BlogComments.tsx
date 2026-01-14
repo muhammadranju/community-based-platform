@@ -60,12 +60,27 @@ const BlogComments = ({
     if (!e.target.files) return;
 
     const files = Array.from(e.target.files);
+    const maxSize = 2 * 1024 * 1024;
+    const validFiles = files.filter((file) => {
+      if (file.size > maxSize) {
+        toast.error(
+          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`
+        );
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) {
+      return;
+    }
+
     setFormData((prev: any) => ({
       ...prev,
-      images: [...prev.images, ...files],
+      images: [...prev.images, ...validFiles],
     }));
 
-    files.forEach((file) => {
+    validFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreviews((prev) => [...prev, reader.result as string]);
@@ -86,9 +101,24 @@ const BlogComments = ({
     if (!e.target.files) return;
 
     const files = Array.from(e.target.files);
+    const maxSize = 4 * 1024 * 1024;
+    const validFiles = files.filter((file) => {
+      if (file.size > maxSize) {
+        toast.error(
+          `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`
+        );
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) {
+      return;
+    }
+
     setFormData((prev: any) => ({
       ...prev,
-      pdfs: [...prev.pdfs, ...files],
+      pdfs: [...prev.pdfs, ...validFiles],
     }));
   };
 

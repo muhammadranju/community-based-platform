@@ -1,10 +1,8 @@
 import React from "react";
 
-import { ChevronRight, GridIcon, Grip, PlayIcon } from "lucide-react";
+import { ChevronRight, Grip } from "lucide-react";
 import Link from "next/link";
-import { PdfIcon } from "./Icons";
 import { GlassButton, PrimaryButton } from "./PrimaryButton";
-// import { GridIcon, PlayIcon, PdfIcon, ArrowRightIcon } from './Icons';
 
 export interface DocumentItem {
   id: string;
@@ -105,11 +103,8 @@ export const DocumentsCard: React.FC<DocumentsCardProps> = ({
 
       <div className="flex-1 flex flex-col gap-4">
         {documents?.map((doc) => (
-          <Link href={url}>
-            <div
-              key={doc.id}
-              className="flex items-center justify-between p-4 bg-accent-bg/50 rounded-2xl group hover:bg-gray-100 transition-colors cursor-pointer"
-            >
+          <Link href={url} key={doc.id}>
+            <div className="flex items-center justify-between p-4 bg-accent-bg/50 rounded-2xl group hover:bg-gray-100 transition-colors cursor-pointer">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 text-red-500">
                   {/* <PdfIcon className="w-6 h-6" /> */}

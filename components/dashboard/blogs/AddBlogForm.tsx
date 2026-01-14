@@ -46,6 +46,14 @@ export default function AddBlogForm() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please select an image file");
+        return;
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("Cover image must be 2MB or smaller");
+        return;
+      }
       setCoverImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
