@@ -1,23 +1,47 @@
-import React, { useEffect, useState } from "react";
+import apiFetch from "@/lib/api";
+import React, { useEffect, useRef, useState } from "react";
+import { Story } from "../home/OurBlogSection";
+import { Spinner } from "../ui/spinner";
 import PopularContentCard from "./PopularContentCard";
-import { POPULAR_CONTENT } from "./ProcessCardData";
-import { authFetch } from "@/lib/authFetch";
 
 const PopularContent: React.FC = () => {
-  const [popularContent, setPopularContent] = useState(POPULAR_CONTENT);
+  const [loading, setLoading] = useState(true);
+  const [blogs, setBlogs] = useState<Story[]>([]);
 
-  const getPopularContent = async () => {
-    const response = await authFetch("/contents?limit=9", {
-      method: "GET",
-      auth: false,
-    });
-    const data = await response.json();
-    setPopularContent(data?.data);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 350; // Approx card width
+      scrollContainerRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const getBlogs = async () => {
+    setLoading(true);
+
+    const blogs = await apiFetch("/blogs");
+    const blogsData = blogs?.data?.data;
+
+    setBlogs(blogsData);
+    setLoading(false);
   };
 
   useEffect(() => {
-    getPopularContent();
+    setLoading(false);
+    getBlogs();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-36 text-4xl font-bold text-orange-900 ">
+        <Spinner className="ml-2 size-20 text-orange-900" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -26,7 +50,7 @@ const PopularContent: React.FC = () => {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {popularContent?.map((item: any) => (
+        {blogs?.map((item: any) => (
           <PopularContentCard key={item._id || item.id} item={item} />
         ))}
       </div>

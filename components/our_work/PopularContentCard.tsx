@@ -1,8 +1,9 @@
 import { ContentItem } from "@/types/types";
-import { Calendar, MapPin } from "lucide-react";
+import { Calendar, ChartColumnStacked, MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { costumFormatDate } from "../shared/DateTime";
+import DOMPurify from "isomorphic-dompurify";
 import { Button } from "../ui/button";
 
 interface PopularContentCardProps {
@@ -17,9 +18,16 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
           {item?.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed font-light">
-          {item.shortDescription?.length > 200
-            ? item.shortDescription.substring(0, 200) + "..."
-            : item.shortDescription}
+          <div
+            className="prose prose-lg md:prose-xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none "
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(
+                item?.description?.length > 200
+                  ? item.description.substring(0, 200) + "..."
+                  : item.description
+              ),
+            }}
+          />
         </p>
       </div>
 
@@ -30,13 +38,13 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
         <div className="flex items-center gap-3 md:gap-4 text-xs font-medium text-gray-700">
           <div className="flex items-center gap-1.5">
             <div className="bg-emerald-900 rounded-full p-1 shrink-0">
-              <MapPin
+              <ChartColumnStacked
                 size={12}
                 className="text-white text-lg"
                 strokeWidth={3}
               />
             </div>
-            <span className="capitalize">{item.country}</span>
+            <span className="capitalize">{item?.category || "unknown"}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="bg-emerald-900 rounded-full p-1 shrink-0">
@@ -51,7 +59,7 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
             </span>
           </div>
         </div>
-        <Link href={`/our-work/${item.slug}?region=east-african-architecture`}>
+        <Link href={`/blogs/${item.slug}`}>
           <Button className="text-xs px-4 py-3 h-auto font-medium shrink-0 rounded-full bg-transparent border border-secondary-color text-emerald-900 hover:bg-amber-600 hover:text-white transition-colors duration-200">
             Read Post
           </Button>

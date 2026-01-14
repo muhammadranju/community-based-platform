@@ -156,27 +156,6 @@ export const ARCHIVE_DATA = [
   },
 ];
 
-export const POPULAR_CONTENT: ContentItem[] = [
-  {
-    id: "p1",
-    title: "Swahili Architecture",
-    description:
-      "Graceful arches, carved doors, and coral stone define Swahili architecture—a style born of African, Arab, Persian, and Indian influences. Journey",
-    country: "Kenya",
-    createdAt: "July 7, 2025",
-    shortDescription: ":",
-  },
-  {
-    id: "p2",
-    title: "Fort Jesus",
-    description:
-      "Standing sentinel over Mombasa's harbor, Fort Jesus narrates a tale of conquest, trade, and resistance. Dive into its 16th-century Portuguese",
-    country: "Kenya",
-    createdAt: "July 7, 2025",
-    shortDescription: "",
-  },
-];
-
 export const COUNTRIES = [
   "Kenya",
   "Tanzania",
