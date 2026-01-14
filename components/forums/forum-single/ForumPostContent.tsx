@@ -45,7 +45,7 @@ export default function ForumPostContent({ forumData }: ForumPostContentProps) {
       {/* Body */}
       <div className="p-6 sm:p-10 md:px-12 md:py-10">
         <div
-          className="prose max-w-none prose-headings:mb-4 prose-p:mb-3 prose-ul:my-4 prose-li:my-1 prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-600 prose-a:text-emerald-700 hover:prose-a:underline"
+          className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full break-words"
           dangerouslySetInnerHTML={{ __html: cleanHTML }}
         />
       </div>

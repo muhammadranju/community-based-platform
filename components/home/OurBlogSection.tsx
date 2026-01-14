@@ -141,11 +141,11 @@ export default function FeaturedStoriesSection() {
                 {story?.description}
               </p> */}
                 <div
-                  className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none overflow-hidden max-w-[60ch]"
+                  className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full break-words"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(
-                      story?.description.length > 500
-                        ? story?.description.slice(0, 500) + "..."
+                      story?.description.length > 300
+                        ? story?.description.slice(0, 300) + "..."
                         : story?.description
                     ),
                   }}
@@ -153,7 +153,7 @@ export default function FeaturedStoriesSection() {
 
                 <Link
                   href={`/blogs/${story?.slug}`}
-                  className="inline-flex items-center px-8 py-3 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-orange-950 transition-all text-sm font-bold uppercase tracking-wider"
+                  className="inline-flex items-center px-8 py-3 mt-5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-orange-950 transition-all text-sm font-bold uppercase tracking-wider"
                 >
                   Read More
                 </Link>
