@@ -17,10 +17,12 @@ export const ContentCommentsSection = ({
   comments,
   contentData,
   onCommentAdded,
+  type = "contents",
 }: {
   comments: CommentData[];
   contentData: any;
   onCommentAdded?: () => void;
+  type?: string;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -38,6 +40,12 @@ export const ContentCommentsSection = ({
     videos: [],
     pdfs: [],
   });
+
+  useEffect(() => {
+    if (type) {
+      setFormData((prev: any) => ({ ...prev, type }));
+    }
+  }, [type]);
 
   // Calculate pagination
   const totalPages = Math.ceil(comments?.length / itemsPerPage);
@@ -157,7 +165,7 @@ export const ContentCommentsSection = ({
       setFormData({
         comment: "",
         images: [],
-        type: "contents",
+        type: type || "contents",
         content: contentData?._id,
         videos: [],
         pdfs: [],

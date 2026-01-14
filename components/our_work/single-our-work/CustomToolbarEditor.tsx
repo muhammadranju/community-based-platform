@@ -48,22 +48,6 @@ const formats = [
   "video",
 ];
 
-interface CustomToolbarEditorProps {
-  formData: any;
-  setFormData: any;
-  modules: any;
-  formats: any;
-  handleFileChange: any;
-  isLoading: boolean;
-  handelSubmit: any;
-  imagePreviews: string[];
-  removeImage: any;
-  forumData: any;
-  handleYouTubeVideoChange: (videos: string[]) => void;
-  handlePdfChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  removePdf: (index: number) => void;
-}
-
 function CustomToolbarEditor({
   formData,
   setFormData,
@@ -94,8 +78,6 @@ function CustomToolbarEditor({
     );
     handleYouTubeVideoChange(updatedVideos);
   };
-
-  console.log(videoLink);
 
   return (
     <>
