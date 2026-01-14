@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <main className="grow">{children}</main>
         <ActiveUserTracker />
-        <GoogleAnalytics gaId="G-VQ85QD16D X" />
+        <GoogleAnalytics gaId="G-5BBTBWB5PC" />
         <Toaster richColors />
       </body>
     </html>
