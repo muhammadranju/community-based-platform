@@ -8,6 +8,7 @@ import ForumDetailHeader from "@/components/forums/forum-single/ForumDetailHeade
 import ForumPostContent from "@/components/forums/forum-single/ForumPostContent";
 import { CommentsSection } from "@/components/forums/forum-details/Comments";
 import Image from "next/image";
+import BlogComments from "@/components/blogs/BlogComments";
 
 export default function SingleForumPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function SingleForumPage() {
 
   useEffect(() => {
     if (id) fetchForum();
-  }, [id]);
+  }, []);
 
   if (loading) {
     return (
@@ -77,10 +78,11 @@ export default function SingleForumPage() {
 
         {/* Comments Section */}
         <div className="my-12">
-          <CommentsSection
+          <BlogComments
             comments={comments}
-            forumData={forumData}
+            contentData={forumData}
             onCommentAdded={fetchForum}
+            type="blog"
           />
         </div>
       </div>
