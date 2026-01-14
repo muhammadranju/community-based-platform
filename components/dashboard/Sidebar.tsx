@@ -99,6 +99,11 @@ const adminNavItems: NavItem[] = [
     label: "Donations",
     icon: <BiDonateHeart size={20} />,
   },
+  {
+    href: "/dashboard/blogs",
+    label: "Blogs",
+    icon: <NotebookPen size={20} />,
+  },
 
   {
     href: "/dashboard/database",

@@ -12,14 +12,17 @@ export default function ForumAuthorCard({ author }: ForumAuthorCardProps) {
   return (
     <div className="shrink-0 bg-white border border-green-600 rounded-lg p-3 w-full sm:w-40 flex flex-col items-center text-center shadow-sm">
       <div className="relative w-16 h-16 mb-2">
-        <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}${
-            author?.image || "/default-avatar.png"
-          }`}
-          alt={author?.name || "User"}
-          className="w-full h-full object-cover rounded-full border-2 border-orange-200"
-          onError={(e) => (e.currentTarget.src = "/default-avatar.png")}
-        />
+        {author?.image ? (
+          <img
+            src={`${process.env.NEXT_PUBLIC_API_URL}${author?.image}`}
+            alt={author?.name || "User"}
+            className="w-full h-full object-cover rounded-full border-2 border-orange-200"
+            onError={(e) => (e.currentTarget.src = "/default-avatar.png")}
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-200 rounded-full border-2 border-orange-200"></div>
+        )}
+
         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
       </div>
       <div className="text-xs font-bold text-gray-800 truncate w-full">
