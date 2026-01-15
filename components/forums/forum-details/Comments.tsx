@@ -1,6 +1,6 @@
 import { authFetch } from "@/lib/authFetch";
 import { MessageCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -39,6 +39,7 @@ export const CommentsSection = ({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedComments = comments.slice(startIndex, endIndex);
+  const pathname = usePathname();
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -97,7 +98,7 @@ export const CommentsSection = ({
     }
     if (!user) {
       toast.error("Please login to comment");
-      router.push("/login");
+      router.push(`/login?redirect=${pathname}`);
       return;
     }
     setIsLoading(true);
