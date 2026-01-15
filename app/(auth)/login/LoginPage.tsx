@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -29,7 +29,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import getUser from "@/components/shared/UserInfo";
 
@@ -42,7 +42,7 @@ const formSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters." }),
 });
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -51,6 +51,9 @@ export default function LoginPage() {
     resolver: zodResolver(formSchema),
     defaultValues: { email: "", password: "" },
   });
+
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
@@ -73,7 +76,9 @@ export default function LoginPage() {
       Cookies.set("token", token);
       toast.success("Login successful");
 
-      if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
+      if (redirect) {
+        router.push(redirect);
+      } else if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
         router.push("/dashboard/overview");
       } else {
         router.push("/dashboard/users/overview");
@@ -96,7 +101,10 @@ export default function LoginPage() {
         localStorage.setItem("user", JSON.stringify(user));
         Cookies.set("token", token);
         toast.success("Google Login successful");
-        if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
+
+        if (redirect) {
+          router.push(redirect);
+        } else if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
           router.push("/dashboard/overview");
         } else {
           router.push("/dashboard/users/overview");
@@ -110,16 +118,22 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user) {
-      router.push("/");
+      router.push(redirect || "/");
     }
   }, []);
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white overflow-x-hidden">
-      <LoginLeftDesign link="/signup" text="Sign Up" />
+      <LoginLeftDesign
+        link={redirect ? `/signup?redirect=${redirect}` : "/signup"}
+        text="Sign Up"
+      />
 
       <div className="w-full lg:w-[55%] flex flex-col relative">
-        <AuthHeader link="/signup" text="Sign Up" />
+        <AuthHeader
+          link={redirect ? `/signup?redirect=${redirect}` : "/signup"}
+          text="Sign Up"
+        />
 
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 py-10 lg:py-0">
           <div className="w-full max-w-xl mx-auto">
@@ -128,7 +142,7 @@ export default function LoginPage() {
             <AuthWelcomeSection
               title="Log in"
               linkText="Sign Up"
-              linkHref="/signup"
+              linkHref={redirect ? `/signup?redirect=${redirect}` : "/signup"}
             />
 
             {/* Google Button - Desktop */}
@@ -194,7 +208,11 @@ export default function LoginPage() {
                       <FormMessage />
                       <div className="text-right">
                         <Link
-                          href="/forgot-password"
+                          href={
+                            redirect
+                              ? `/forgot-password?redirect=${redirect}`
+                              : "/forgot-password"
+                          }
                           className="text-base text-[#034833] hover:underline decoration-2 underline-offset-2"
                         >
                           Forgot your password?
@@ -223,5 +241,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginPageContent />
+    </Suspense>
   );
 }

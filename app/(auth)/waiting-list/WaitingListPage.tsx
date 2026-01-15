@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { authFetch } from "@/lib/authFetch";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 // --- Schema Definition ---
@@ -39,6 +40,7 @@ const formSchema = z.object({
 export default function WaitingListPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -139,7 +141,7 @@ export default function WaitingListPage() {
       </div>
 
       <div className="w-full lg:w-[55%] flex flex-col relative">
-        <AuthHeader link="/login" text="Login" />
+        <AuthHeader link={`/login?redirect=${pathname}`} text="Login" />
 
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 pb-10 lg:py-0">
           <div className="w-full max-w-xl mx-auto">

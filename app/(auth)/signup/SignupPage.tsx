@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -29,7 +29,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import getUser from "@/components/shared/UserInfo";
 
@@ -44,11 +44,14 @@ const formSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters." }),
 });
 
-export default function SignupPage() {
+function SignupPageContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const user = getUser();
+
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -81,7 +84,12 @@ export default function SignupPage() {
 
     if (data.success) {
       toast.success("Signup successful");
-      router.push("/login");
+      // Pass redirect param to login page
+      if (redirect) {
+        router.push(`/login?redirect=${redirect}`);
+      } else {
+        router.push("/login");
+      }
     }
 
     setLoading(false);
@@ -103,7 +111,12 @@ export default function SignupPage() {
         Cookies.set("token", token);
 
         toast.success("Google Signup successful");
-        router.push("/dashboard/users/overview"); // Fixed typo: soverview → overview
+
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/dashboard/users/overview");
+        }
       } catch (error) {
         toast.error("Google signup failed");
       }
@@ -112,15 +125,21 @@ export default function SignupPage() {
   });
   useEffect(() => {
     if (user) {
-      router.push("/");
+      router.push(redirect || "/");
     }
   }, []);
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white overflow-x-hidden">
-      <LoginLeftDesign link="/login" text="Login" />
+      <LoginLeftDesign
+        link={redirect ? `/login?redirect=${redirect}` : "/login"}
+        text="Login"
+      />
 
       <div className="w-full lg:w-[55%] flex flex-col relative">
-        <AuthHeader link="/login" text="Login" />
+        <AuthHeader
+          link={redirect ? `/login?redirect=${redirect}` : "/login"}
+          text="Login"
+        />
 
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 pb-10 lg:py-0">
           <div className="w-full max-w-xl mx-auto">
@@ -131,7 +150,7 @@ export default function SignupPage() {
               title="Create an account"
               badgeText="JOIN THE VILLAGE"
               linkText="Login"
-              linkHref="/login"
+              linkHref={redirect ? `/login?redirect=${redirect}` : "/login"} // Pass redirect param
             />
 
             {/* Form */}
@@ -260,5 +279,13 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignupPageContent />
+    </Suspense>
   );
 }

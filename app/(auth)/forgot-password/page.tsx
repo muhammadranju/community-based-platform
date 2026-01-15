@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ForgotPassword from "./ForgotPassword";
 
 export const metadata = {

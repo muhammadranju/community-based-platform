@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authFetch } from "@/lib/authFetch";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 // --- Schema ---
@@ -28,9 +28,12 @@ const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
-export default function ForgotPassword() {
+function ForgotPasswordContent() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,15 +64,24 @@ export default function ForgotPassword() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full bg-white overflow-x-hidden">
-      <LoginLeftDesign link="/signup" text="Signup" />
+      <LoginLeftDesign
+        link={redirect ? `/signup?redirect=${redirect}` : "/signup"}
+        text="Signup"
+      />
 
       {/* Right Panel */}
       <div className="w-full lg:w-[55%] flex flex-col relative">
-        <AuthHeader link="/login" text="Login" />
+        <AuthHeader
+          link={redirect ? `/login?redirect=${redirect}` : "/login"}
+          text="Login"
+        />
 
         <div className="flex-1 flex flex-col justify-center px-6 md:px-16 lg:px-24 xl:px-32 py-10 lg:py-0">
           <div className="w-full max-w-xl mx-auto">
-            <BackButton link="/login" text="Login" />
+            <BackButton
+              link={redirect ? `/login?redirect=${redirect}` : "/login"}
+              text="Login"
+            />
 
             <Badge className="bg-lime-500 text-white px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-medium tracking-wider uppercase inline-block shadow-sm">
               Forgot password
@@ -123,5 +135,13 @@ export default function ForgotPassword() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ForgotPassword() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ForgotPasswordContent />
+    </Suspense>
   );
 }
