@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Send } from "lucide-react";
 import { authFetch } from "@/lib/authFetch";
-import { toast } from "sonner";
+import { Send } from "lucide-react";
 import dynamic from "next/dynamic";
+import React, { useEffect, useState } from "react";
 import "react-quill-new/dist/quill.snow.css";
-import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 // Dynamically import ReactQuill to avoid SSR issues
 const ReactQuill = dynamic(() => import("react-quill-new"), {
@@ -22,11 +21,13 @@ interface ForumFormData {
 interface ForumUploadFormProps {
   onSuccess?: () => void;
   className?: string;
+  defaultCategorySlug?: string;
 }
 
 export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
   onSuccess,
   className,
+  defaultCategorySlug,
 }) => {
   const [formData, setFormData] = useState<ForumFormData>({
     title: "",
@@ -92,8 +93,27 @@ export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
       if (!response.ok) {
         throw new Error("Failed to fetch categories");
       }
-      const data = await response.json();
-      setForumsCategories(data?.data || []);
+      const result = await response.json();
+      const categories = result?.data || [];
+      setForumsCategories(categories);
+
+      // Pre-select category if defaultCategorySlug is provided
+      if (defaultCategorySlug) {
+        const matchedCategory = categories.find((cat: any) => {
+          // Assuming the category object has a 'slug' or we match by modifying title
+          // The API response structure needs to be checked, but typically strictly comparing slug is best.
+          // Fallback to title comparison if slug property isn't apparent or known yet.
+          // Using strict equality on slug if available, otherwise trying title match (basic slugify)
+          return (
+            cat.slug === defaultCategorySlug ||
+            cat.title.toLowerCase().replace(/ /g, "-") === defaultCategorySlug
+          );
+        });
+
+        if (matchedCategory) {
+          setFormData((prev) => ({ ...prev, category: matchedCategory._id }));
+        }
+      }
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -101,7 +121,7 @@ export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
 
   useEffect(() => {
     fetchForumsCategories();
-  }, []);
+  }, [defaultCategorySlug]);
 
   const quillModules = {
     toolbar: [

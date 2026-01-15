@@ -12,9 +12,14 @@ import { ForumUploadForm } from "./ForumUploadForm";
 interface ForumUploadModalProps {
   isOpen: boolean;
   onClose: () => void;
+  defaultCategorySlug?: string;
 }
 
-export function ForumUploadModal({ isOpen, onClose }: ForumUploadModalProps) {
+export function ForumUploadModal({
+  isOpen,
+  onClose,
+  defaultCategorySlug,
+}: ForumUploadModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
@@ -29,6 +34,7 @@ export function ForumUploadModal({ isOpen, onClose }: ForumUploadModalProps) {
         <ForumUploadForm
           onSuccess={onClose}
           className="p-0 shadow-none border-none"
+          defaultCategorySlug={defaultCategorySlug}
         />
       </DialogContent>
     </Dialog>

@@ -204,7 +204,12 @@ export default function ForumDetailsPage() {
         )}
       </div>
 
-      <ForumUploadModal isOpen={isModalOpen} onClose={handleSuccess} />
+      {/* Upload Modal */}
+      <ForumUploadModal
+        isOpen={isModalOpen}
+        onClose={handleSuccess}
+        defaultCategorySlug={forumUrl as string}
+      />
     </div>
   );
 }
