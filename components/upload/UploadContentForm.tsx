@@ -59,9 +59,10 @@ interface FormData {
 const SIGHTENGINE_USER = process.env.NEXT_PUBLIC_SIGHTENGINE_USER || "";
 const SIGHTENGINE_SECRET = process.env.NEXT_PUBLIC_SIGHTENGINE_SECRET || "";
 
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
-const MAX_VIDEO_SIZE = 10 * 1024 * 1024;
-const MAX_PDF_SIZE = 4 * 1024 * 1024;
+// Limits removed as per user request
+// const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+// const MAX_VIDEO_SIZE = 10 * 1024 * 1024;
+// const MAX_PDF_SIZE = 4 * 1024 * 1024;
 
 // Nudity check function
 const checkImageNudity = async (
@@ -298,10 +299,11 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
       if (field === "coverImage") {
         const file = e.target.files[0];
 
-        if (file.size > MAX_IMAGE_SIZE) {
-          toast.error("Cover image must be 2MB or smaller.", { id: toastId });
-          return;
-        }
+        // Limit check removed
+        // if (file.size > MAX_IMAGE_SIZE) {
+        //   toast.error("Cover image must be 2MB or smaller.", { id: toastId });
+        //   return;
+        // }
 
         const { isSafe, error } = await checkImageNudity(file);
         if (!isSafe) {
@@ -326,23 +328,25 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
         const files = Array.from(e.target.files);
 
         if (field === "images") {
-          if (formData.images.length + files.length > 6) {
-            toast.error("You can only upload up to 6 images.", { id: toastId });
-            return;
-          }
+          // Count limit removed
+          // if (formData.images.length + files.length > 6) {
+          //   toast.error("You can only upload up to 6 images.", { id: toastId });
+          //   return;
+          // }
 
           const safeFiles: File[] = [];
           let hasError = false;
 
           for (const file of files) {
-            if (file.size > MAX_IMAGE_SIZE) {
-              toast.error(
-                `Image ${file.name} is larger than 2MB. Please upload a smaller image.`,
-                { id: toastId }
-              );
-              hasError = true;
-              continue;
-            }
+            // Size check removed
+            // if (file.size > MAX_IMAGE_SIZE) {
+            //   toast.error(
+            //     `Image ${file.name} is larger than 2MB. Please upload a smaller image.`,
+            //     { id: toastId }
+            //   );
+            //   hasError = true;
+            //   continue;
+            // }
 
             const { isSafe, error } = await checkImageNudity(file);
             if (!isSafe) {
@@ -375,14 +379,15 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
           const safeFiles: File[] = [];
           let hasError = false;
           for (const file of files) {
-            if (file.size > MAX_VIDEO_SIZE) {
-              toast.error(
-                `Video ${file.name} is larger than 10MB. Please upload a smaller video.`,
-                { id: toastId }
-              );
-              hasError = true;
-              continue;
-            }
+            // Size check removed
+            // if (file.size > MAX_VIDEO_SIZE) {
+            //   toast.error(
+            //     `Video ${file.name} is larger than 10MB. Please upload a smaller video.`,
+            //     { id: toastId }
+            //   );
+            //   hasError = true;
+            //   continue;
+            // }
 
             const result = await checkVideoNudity(file);
             if (!result.isSafe) {
@@ -406,14 +411,15 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
           const safeFiles: File[] = [];
           let hasError = false;
           for (const file of files) {
-            if (file.size > MAX_PDF_SIZE) {
-              toast.error(
-                `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`,
-                { id: toastId }
-              );
-              hasError = true;
-              continue;
-            }
+            // Size check removed
+            // if (file.size > MAX_PDF_SIZE) {
+            //   toast.error(
+            //     `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`,
+            //     { id: toastId }
+            //   );
+            //   hasError = true;
+            //   continue;
+            // }
 
             const result = await checkPdfNudity(file);
             if (!result.isSafe) {
@@ -478,7 +484,20 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
     formDataToSubmit.append("title", formData.title);
     formDataToSubmit.append("shortDescription", formData.shortDescription);
     formDataToSubmit.append("description", formData.description);
-    formDataToSubmit.append("region", formData.region);
+    // Map region to backend enum
+    const regionMapping: Record<string, string> = {
+      "east-african-architecture": "east",
+      "west-african-architecture": "west",
+      "north-african-architecture": "north",
+      "south-african-architecture": "south",
+      "central-african-architecture": "central",
+      "global-african-architecture": "global",
+    };
+
+    const backendRegion =
+      regionMapping[formData.region] || formData.region.split("-")[0]; // Fallback to first part if not mapped explicitly
+
+    formDataToSubmit.append("region", backendRegion);
     formDataToSubmit.append("country", formData.country);
     formDataToSubmit.append("category", formData.category);
 
@@ -736,7 +755,7 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
         {(["images", "medias", "pdfs"] as const).map((field) => {
           const title =
             field === "images"
-              ? "Additional Images (up to 6)"
+              ? "Additional Images"
               : field === "medias"
               ? "Videos / Media"
               : "PDF Documents";
@@ -765,7 +784,7 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
               <UploadCard
                 icon={icon}
                 title={title}
-                count={`${files.length}/6 uploaded`}
+                count={`${files.length} uploaded`}
                 onDrop={(e) => {
                   e.preventDefault();
                   const droppedFiles = Array.from(e.dataTransfer.files);
@@ -773,29 +792,13 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
 
                   droppedFiles.forEach((file) => {
                     if (field === "images") {
-                      if (file.size > MAX_IMAGE_SIZE) {
-                        toast.error(
-                          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`
-                        );
-                      } else {
-                        validFiles.push(file);
-                      }
+                      validFiles.push(file);
                     } else if (field === "medias") {
-                      if (file.size > MAX_VIDEO_SIZE) {
-                        toast.error(
-                          `Video ${file.name} is larger than 10MB. Please upload a smaller video.`
-                        );
-                      } else {
-                        validFiles.push(file);
-                      }
+                      // Size check removed
+                      validFiles.push(file);
                     } else if (field === "pdfs") {
-                      if (file.size > MAX_PDF_SIZE) {
-                        toast.error(
-                          `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`
-                        );
-                      } else {
-                        validFiles.push(file);
-                      }
+                      // Size check removed
+                      validFiles.push(file);
                     }
                   });
 

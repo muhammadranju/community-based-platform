@@ -33,6 +33,17 @@ const ContactPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (
+      !data.name ||
+      !data.email ||
+      !data.phone ||
+      !data.address ||
+      !data.message
+    ) {
+      toast.error("All fields are required");
+      return;
+    }
+
     if (data.phone && !isValidPhoneNumber(data.phone)) {
       toast.error("Invalid phone number");
       return;
