@@ -121,7 +121,7 @@ export default function ForumDetailsPage() {
 
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
             <ForumSearchBar value={searchQuery} onChange={handleSearch} />
-            <ForumFilterButtons />
+            <ForumFilterButtons onSuccess={fetchForums} />
           </div>
         </div>
 

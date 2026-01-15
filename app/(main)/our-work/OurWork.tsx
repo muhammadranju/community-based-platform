@@ -13,8 +13,11 @@ import SharedTitle from "@/components/shared/SharedTitle";
 import getUser from "@/components/shared/UserInfo";
 import Image from "next/image";
 
+import { usePathname } from "next/navigation";
+
 function OurWork() {
   const user = getUser();
+  const pathname = usePathname();
   const isAuthtenticated = user ? true : false;
   return (
     <>
@@ -56,7 +59,11 @@ function OurWork() {
         <ProcessCard
           data={CONTRIBUTE_DATA}
           buttonText={isAuthtenticated ? "Explore Archive" : "Create Account"}
-          link={isAuthtenticated ? "#explore-archive" : "/signup"}
+          link={
+            isAuthtenticated
+              ? "#explore-archive"
+              : `/signup?redirect=${pathname}`
+          }
         />
         <ProcessCard
           data={EXPLORE_DATA}

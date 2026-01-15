@@ -2,11 +2,16 @@ import CustomBadge from "@/components/shared/SharedBadge";
 import getUser from "@/components/shared/UserInfo";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import React from "react";
 
 export const ForumBanner: React.FC = () => {
   const user = getUser();
+
+  const pathname = usePathname();
+  console.log(pathname);
+
   return (
     <div className="w-full bg-primary-color rounded-3xl px-12 py-16 text-white relative overflow-hidden my-10 shadow-xl">
       <div className="flex flex-col lg:flex-row gap-12 items-start justify-between">
@@ -45,12 +50,12 @@ export const ForumBanner: React.FC = () => {
                 </Link>
               ) : (
                 <>
-                  <Link href="/login">
+                  <Link href={`/login?redirect=${pathname}`}>
                     <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
                       Login
                     </Button>
                   </Link>
-                  <Link href="/signup">
+                  <Link href={`/signup?redirect=${pathname}`}>
                     <Button className="px-6 py-5 text-black rounded-full hover:bg-gray-100 border border-orange-600 bg-transparent">
                       Register
                     </Button>

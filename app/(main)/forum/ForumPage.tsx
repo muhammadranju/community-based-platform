@@ -13,11 +13,14 @@ import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import DiscussionCardSkeleton from "@/components/skeleton/DiscussionCardSkeleton";
 
+import { ForumUploadModal } from "@/components/forums/ForumUploadModal";
+
 function ForumPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [forumData, setForumData] = useState([]);
   const mongoTime = "2025-12-16T06:46:13.553Z";
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const timeAgo = formatDistanceToNow(new Date(mongoTime), {
     addSuffix: true,
@@ -37,6 +40,14 @@ function ForumPage() {
   useEffect(() => {
     getForums();
   }, []);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleSuccess = () => {
+    handleCloseModal();
+    getForums(); // Refresh list after successful upload
+  };
 
   // Filter sections based on search term
   const filteredSections = forumData
@@ -98,13 +109,19 @@ function ForumPage() {
               </Button>
             </div>
 
-            {/* Filter Buttons */}
+            {/* Action Buttons: Topic & Post */}
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors">
-                Topics
+              <Button
+                onClick={handleOpenModal}
+                className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-gray-400 hover:bg-gray-50 transition-colors"
+              >
+                Topic
               </Button>
-              <Button className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors">
-                Posts
+              <Button
+                onClick={handleOpenModal}
+                className="flex-1 sm:flex-none px-6 py-6 bg-transparent rounded-full border border-amber-600 text-sm font-semibold text-gray-700 hover:border-orange-300 hover:bg-orange-50 transition-colors"
+              >
+                Post
               </Button>
             </div>
           </div>
@@ -117,12 +134,8 @@ function ForumPage() {
           ) : (
             filteredSections.map((section, idx) => (
               <div key={idx} className="space-y-6">
-                {/* Only show section title if it exists and it's not the first one (logic from design)
-                  Actually, the design shows titles for most sections. 'Introductions' was implied but maybe we show it. 
-                  Let's show it if it's there. */}
+                {/* Only show section title if it exists and it's not the first one */}
                 {section.title && section.title !== "Introductions" && (
-                  // Using hardcoded colors for section headers as per original logic if needed,
-                  // or just generic primary color matching the design
                   <h2
                     className={`text-2xl font-bold tracking-tight
                   ${
@@ -163,6 +176,9 @@ function ForumPage() {
       </div>
 
       <CommunityStatistics />
+
+      {/* Upload Modal */}
+      <ForumUploadModal isOpen={isModalOpen} onClose={handleSuccess} />
     </>
   );
 }

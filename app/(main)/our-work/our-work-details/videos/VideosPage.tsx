@@ -1,16 +1,16 @@
 "use client";
+import ArchiveHeader from "@/components/our_work_details/ArchiveHeader";
 import HeaderBanner from "@/components/our_work_details/HeaderBanner";
+import getUser from "@/components/shared/UserInfo";
 import { Button } from "@/components/ui/button";
 import { authFetch } from "@/lib/authFetch";
-import { ArrowLeft, Play } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MainContent } from "./MainContent";
 import { RelatedVideoList } from "./RelatedVideoList";
 import VideoGallery from "./VideoGallery";
 import { VideoPlayer } from "./VideoPlayer";
-import ArchiveHeader from "@/components/our_work_details/ArchiveHeader";
-import getUser from "@/components/shared/UserInfo";
 
 export interface Video {
   id: number;
