@@ -273,12 +273,12 @@ export default function Header() {
               {!token ||
                 (!user && (
                   <div className="flex items-center gap-3">
-                    <Link href="/signup">
+                    <Link href={`/signup?redirect=${pathname}`}>
                       <Button className="px-6 py-5 text-black rounded-full hover:bg-gray-100 border border-black bg-transparent">
                         Sign up
                       </Button>
                     </Link>
-                    <Link href="/login">
+                    <Link href={`/login?redirect=${pathname}`}>
                       <Button className="px-6 py-5 bg-amber-600 hover:bg-amber-600 text-white rounded-full">
                         Login
                       </Button>
@@ -522,12 +522,20 @@ export default function Header() {
             {/* Action Buttons */}
             {!user && (
               <div className="p-6 border-t space-y-3">
-                <Link href="/signup" className="block" onClick={closeMenu}>
+                <Link
+                  href={`/signup?redirect=${pathname}`}
+                  className="block"
+                  onClick={closeMenu}
+                >
                   <Button className="w-full py-6 text-black rounded-full hover:bg-gray-100 border border-black bg-transparent text-lg font-medium">
                     Sign up
                   </Button>
                 </Link>
-                <Link href="/login" className="block" onClick={closeMenu}>
+                <Link
+                  href={`/login?redirect=${pathname}`}
+                  className="block"
+                  onClick={closeMenu}
+                >
                   <Button className="w-full py-6 bg-amber-600 hover:bg-amber-600 text-white rounded-full text-lg font-medium">
                     Login
                   </Button>

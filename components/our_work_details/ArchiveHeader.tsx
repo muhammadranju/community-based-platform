@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import dynamic from "next/dynamic";
 
@@ -20,10 +20,11 @@ const ArchiveHeader: React.FC<{ isAuthtenticated: any }> = ({
 }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleSubmitClick = () => {
     if (!isAuthtenticated) {
-      router.push("/login");
+      router.push(`/login?redirect=${pathname}`);
       return;
     }
     setIsOpen(true);
@@ -46,7 +47,7 @@ const ArchiveHeader: React.FC<{ isAuthtenticated: any }> = ({
 
         {!isAuthtenticated && (
           <div className="flex items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
-            <Link href="/signup">
+            <Link href={`/signup?redirect=${pathname}`}>
               <Button
                 variant="outline"
                 className="flex-1 sm:flex-none rounded-full px-6 py-2 h-auto border-gray-300 text-brand-dark hover:bg-gray-50 text-sm font-semibold"
