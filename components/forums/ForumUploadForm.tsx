@@ -161,7 +161,7 @@ export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
       {/* Category Dropdown */}
       <div>
         <label className="block text-sm font-semibold text-emerald-900 mb-2">
-          Category <span className="text-red-500">*</span>
+          Discussions Topic <span className="text-red-500">*</span>
         </label>
         <select
           name="category"
@@ -171,7 +171,7 @@ export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
           className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-base"
         >
           <option value="" disabled>
-            Choose a category
+            Choose a Discussions Topic
           </option>
           {forumsCategories?.map((cat: any) => (
             <option key={cat._id} value={cat._id}>

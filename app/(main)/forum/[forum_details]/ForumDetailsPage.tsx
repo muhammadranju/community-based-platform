@@ -2,14 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  useRouter,
+  useSearchParams,
+  usePathname,
+} from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { ForumBanner } from "../ForumBanner";
 import { HeaderSection } from "../ForumHeaderSection";
 
 import EmptySearchState from "@/components/forums/forum-details/EmptySearchState";
-import { EmptyState } from "@/components/forums/forum-details/EmptyState";
 import {
   DiscussionData,
   ForumDetailsCard,
@@ -21,15 +25,20 @@ import PaginationInfo from "@/components/forums/forum-details/PaginationInfo";
 import { authFetch } from "@/lib/authFetch";
 import { capitalCase } from "change-case";
 import Image from "next/image";
+import { ForumEmptyState } from "@/components/forums/forum-details/ForumEmptyState";
+import { ForumUploadModal } from "@/components/forums/ForumUploadModal";
+import getUser from "@/components/shared/UserInfo";
 
 export default function ForumDetailsPage() {
   const [forumData, setForumData] = useState<DiscussionData[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const itemsPerPage = 6;
   const router = useRouter();
+  const pathname = usePathname();
   const { forum_details: forumUrl } = useParams();
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
@@ -81,6 +90,22 @@ export default function ForumDetailsPage() {
     setCurrentPage(1);
   };
 
+  const handleOpenModal = () => {
+    const user = getUser();
+    if (!user) {
+      router.push(`/login?redirect=${pathname}`);
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleSuccess = () => {
+    handleCloseModal();
+    fetchForums();
+  };
+
   return (
     <div className="min-h-screen bg-white max-w-7xl mx-auto px-4 lg:px-0">
       {/* Hero Image */}
@@ -121,7 +146,7 @@ export default function ForumDetailsPage() {
 
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
             <ForumSearchBar value={searchQuery} onChange={handleSearch} />
-            <ForumFilterButtons onSuccess={fetchForums} />
+            <ForumFilterButtons onOpen={handleOpenModal} />
           </div>
         </div>
 
@@ -132,9 +157,9 @@ export default function ForumDetailsPage() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-900"></div>
             </div>
           ) : forumData.length === 0 ? (
-            <EmptyState
+            <ForumEmptyState
               buttonLabel="Be the First to Start a Discussion"
-              buttonLink="/dashboard/upload-forum"
+              onButtonClick={handleOpenModal}
               title="No Discussions Yet"
               description="There are no discussions in this category yet. Check back soon as new discussions will be added here!"
             />
@@ -178,6 +203,8 @@ export default function ForumDetailsPage() {
           />
         )}
       </div>
+
+      <ForumUploadModal isOpen={isModalOpen} onClose={handleSuccess} />
     </div>
   );
 }

@@ -14,6 +14,8 @@ import Image from "next/image";
 import DiscussionCardSkeleton from "@/components/skeleton/DiscussionCardSkeleton";
 
 import { ForumUploadModal } from "@/components/forums/ForumUploadModal";
+import getUser from "@/components/shared/UserInfo";
+import { usePathname, useRouter } from "next/navigation";
 
 function ForumPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,6 +23,8 @@ function ForumPage() {
   const mongoTime = "2025-12-16T06:46:13.553Z";
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const timeAgo = formatDistanceToNow(new Date(mongoTime), {
     addSuffix: true,
@@ -41,7 +45,15 @@ function ForumPage() {
     getForums();
   }, []);
 
-  const handleOpenModal = () => setIsModalOpen(true);
+  const handleOpenModal = () => {
+    const user = getUser();
+    if (!user) {
+      router.push(`/login?redirect=${pathname}`);
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
   const handleCloseModal = () => setIsModalOpen(false);
 
   const handleSuccess = () => {
