@@ -1,20 +1,4 @@
-import {
-  Bold,
-  Eraser,
-  FileIcon,
-  ImageIcon,
-  Italic,
-  LinkIcon,
-  List,
-  Paperclip,
-  Trash2,
-  Underline,
-  Video,
-  VideoIcon,
-  X,
-} from "lucide-react";
-import dynamic from "next/dynamic";
-import "react-quill-new/dist/quill.snow.css";
+import { FileIcon, Paperclip, Trash2, VideoIcon, X } from "lucide-react";
 import {
   Dialog,
   DialogClose,
@@ -22,31 +6,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-
-const ReactQuill = dynamic(() => import("react-quill-new"), {
-  ssr: false,
-});
-const modules = {
-  toolbar: {
-    container: "#custom-toolbar",
-  },
-};
-
-const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "list",
-  "link",
-  "image",
-  "video",
-];
+import { Editor } from "@/components/editor/Editor";
 
 function CustomToolbarEditor({
   formData,
@@ -74,7 +38,7 @@ function CustomToolbarEditor({
   const handleRemoveVideo = (index: number) => {
     const currentVideos = formData.videos || [];
     const updatedVideos = currentVideos.filter(
-      (_: string, i: number) => i !== index
+      (_: string, i: number) => i !== index,
     );
     handleYouTubeVideoChange(updatedVideos);
   };
@@ -82,107 +46,21 @@ function CustomToolbarEditor({
   return (
     <>
       {/* Input Area */}
+      {/* Input Area */}
       <div className="mb-12">
         <div className="border border-emerald-900 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-emerald-900/20 transition-all bg-white relative">
-          <div className="quill-wrapper">
-            <style jsx global>{`
-              .quill-wrapper .ql-container {
-                border: none !important;
-                font-family: inherit;
-                font-size: 1rem;
-              }
-              .quill-wrapper .ql-editor {
-                min-height: 140px;
-                padding: 1rem;
-              }
-              .quill-wrapper .ql-toolbar {
-                display: none; /* Hide default toolbar location if any */
-              }
-              .quill-wrapper .ql-tooltip {
-                z-index: 50;
-              }
-            `}</style>
-            <ReactQuill
-              theme="snow"
+          <div className="min-h-[140px]">
+            <Editor
               value={formData.comment}
-              onChange={(value: string) =>
-                setFormData({ ...formData, comment: value })
+              onChange={(html, text) =>
+                setFormData({ ...formData, comment: html })
               }
-              modules={modules}
-              formats={formats}
-              placeholder="Write your message here"
-              className="w-full"
             />
           </div>
 
-          {/* Custom Toolbar */}
+          {/* Attachments Bar */}
           <div className="bg-white border-t border-emerald-900 p-3 flex flex-col sm:flex-row items-center justify-between gap-4">
-            {/* Quill Custom Toolbar */}
-            <div
-              id="custom-toolbar"
-              className="flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500 border-none! p-0!"
-            >
-              <button
-                className="ql-clean hover:text-emerald-700 transition-colors p-1"
-                title="Clear Formatting"
-              >
-                <Eraser size={18} />
-              </button>
-              <button
-                className="ql-bold hover:text-emerald-700 transition-colors p-1"
-                title="Bold"
-              >
-                <Bold size={18} />
-              </button>
-              <button
-                className="ql-italic hover:text-emerald-700 transition-colors p-1"
-                title="Italic"
-              >
-                <Italic size={18} />
-              </button>
-              <button
-                className="ql-underline hover:text-emerald-700 transition-colors p-1"
-                title="Underline"
-              >
-                <Underline size={18} />
-              </button>
-
-              {/* Separator */}
-              <div className="w-px h-4 bg-gray-200 hidden sm:block"></div>
-
-              <button
-                className="ql-link hover:text-emerald-700 transition-colors p-1"
-                title="Link"
-              >
-                <LinkIcon size={18} />
-              </button>
-              <button
-                className="ql-image hover:text-emerald-700 transition-colors p-1"
-                title="Insert Image"
-              >
-                <ImageIcon size={18} />
-              </button>
-              <button
-                className="ql-video hover:text-emerald-700 transition-colors p-1"
-                title="Insert Video"
-              >
-                <Video size={18} />
-              </button>
-
-              {/* Separator */}
-              <div className="w-px h-4 bg-gray-200 hidden sm:block"></div>
-
-              <button
-                className="ql-list hover:text-emerald-700 transition-colors p-1"
-                value="bullet"
-                title="Bullet List"
-              >
-                <List size={18} />
-              </button>
-
-              {/* Separator */}
-              <div className="w-px h-4 bg-gray-200 hidden sm:block"></div>
-
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500">
               <div className="flex items-center gap-2 sm:gap-4">
                 <label className="cursor-pointer hover:text-emerald-900 flex items-center gap-1 text-xs sm:text-sm font-medium transition-colors">
                   <input
@@ -215,14 +93,8 @@ function CustomToolbarEditor({
               </div>
             </div>
 
-            {/* Hidden input needs to be somewhere */}
-            <input
-              type="text"
-              name="content"
-              readOnly
-              value={forumData?._id || ""}
-              className="hidden"
-            />
+            {/* Hidden inputs if needed for form submission standard behavior, 
+                though handled via state in this component usually */}
 
             {/* Actions & Previews */}
             <div className="flex flex-col sm:flex-row items-center gap-4">

@@ -8,7 +8,6 @@ import { SingleCommentItem } from "./SingleCommentItem";
 import { SongleOurWorkPagination } from "./SongleOurWorkPagination";
 import { CommentData } from "./interface";
 
-import "react-quill-new/dist/quill.snow.css";
 import CustomToolbarEditor from "./CustomToolbarEditor";
 
 // --- Types ---
@@ -72,7 +71,7 @@ export const ContentCommentsSection = ({
     const validFiles = files.filter((file) => {
       if (file.size > maxSize) {
         toast.error(
-          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`
+          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`,
         );
         return false;
       }
@@ -113,7 +112,7 @@ export const ContentCommentsSection = ({
     const validFiles = files.filter((file) => {
       if (file.size > maxSize) {
         toast.error(
-          `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`
+          `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`,
         );
         return false;
       }
