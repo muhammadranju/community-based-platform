@@ -95,13 +95,13 @@ const checkImageNudity = async (
       return { isSafe: true };
     }
 
-    // If any sexual/mildly_suggestive > 0.5, reject
+    // If any sexual/mildly_suggestive > 0.6, reject
     if (
-      nudity.sexual_activity > 0.5 ||
-      nudity.sexual_display > 0.5 ||
-      nudity.erotica > 0.5 ||
-      nudity.very_suggestive > 0.5 ||
-      nudity.suggestive > 0.5
+      nudity.sexual_activity > 0.6 ||
+      nudity.sexual_display > 0.6 ||
+      nudity.erotica > 0.6 ||
+      nudity.very_suggestive > 0.6 ||
+      nudity.suggestive > 0.6
     ) {
       return {
         isSafe: false,
