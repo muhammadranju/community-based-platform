@@ -260,11 +260,27 @@ export default function AddBlogForm() {
               onChange={handleDescriptionChange}
               className="h-[300px] mb-12"
               modules={{
+                // toolbar: [
+                //   [{ header: [1, 2, 3, false] }],
+                //   ["bold", "italic", "underline", "strike"],
+                //   [{ list: "ordered" }, { list: "bullet" }],
+                //   ["link", "image"],
+                //   ["clean"],
+                // ],
                 toolbar: [
-                  [{ header: [1, 2, 3, false] }],
                   ["bold", "italic", "underline", "strike"],
-                  [{ list: "ordered" }, { list: "bullet" }],
-                  ["link", "image"],
+                  ["blockquote", "code-block"],
+                  ["link", "image", "video", "formula"],
+                  [{ header: 1 }, { header: 2 }],
+                  [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+                  [{ script: "sub" }, { script: "super" }],
+                  [{ indent: "-1" }, { indent: "+1" }],
+                  [{ direction: "rtl" }],
+                  [{ size: ["small", false, "large", "huge"] }],
+                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                  [{ color: [] }, { background: [] }],
+                  [{ font: [] }],
+                  [{ align: [] }],
                   ["clean"],
                 ],
               }}
