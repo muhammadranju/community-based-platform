@@ -123,10 +123,7 @@ export default function EditBlogDialog({
         toast.error("Please select an image file");
         return;
       }
-      if (file.size > 2 * 1024 * 1024) {
-        toast.error("Cover image must be 2MB or smaller");
-        return;
-      }
+
       setCoverImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
