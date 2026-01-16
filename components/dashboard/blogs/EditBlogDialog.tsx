@@ -400,9 +400,8 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { IBlog } from "@/types/types";
-import "react-quill-new/dist/quill.snow.css";
 
-const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+import { Editor } from "@/components/editor/Editor";
 
 const categories = {
   introduction: "Introduction",
@@ -483,14 +482,9 @@ export default function EditBlogDialog({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleDescriptionChange = (
-    content: string,
-    _delta: any,
-    _source: any,
-    editor: any,
-  ) => {
-    setFormData((prev) => ({ ...prev, description: content }));
-    setShortDescription(editor.getText().trim());
+  const handleDescriptionChange = (html: string, text: string) => {
+    setFormData((prev) => ({ ...prev, description: html }));
+    setShortDescription(text.trim());
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -713,20 +707,9 @@ export default function EditBlogDialog({
               Blog Content
             </Label>
             <div className="prose-editor rounded-xl border border-gray-200 focus-within:border-teal-500 focus-within:ring-2 focus-within:ring-teal-500/20 transition-colors overflow-hidden">
-              <ReactQuill
-                theme="snow"
+              <Editor
                 value={formData.description}
                 onChange={handleDescriptionChange}
-                className="h-[320px] [&_.ql-container]:border-0 [&_.ql-toolbar]:border-b [&_.ql-editor]:min-h-[240px]"
-                modules={{
-                  toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    ["bold", "italic", "underline", "strike"],
-                    [{ list: "ordered" }, { list: "bullet" }],
-                    ["link", "image"],
-                    ["clean"],
-                  ],
-                }}
               />
             </div>
           </div>

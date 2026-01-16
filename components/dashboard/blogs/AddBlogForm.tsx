@@ -6,9 +6,7 @@ import dynamic from "next/dynamic";
 import { authFetch } from "@/lib/authFetch";
 import { toast } from "sonner";
 import { Upload, X } from "lucide-react";
-import "react-quill-new/dist/quill.snow.css";
-
-const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+import { Editor } from "@/components/editor/Editor";
 
 const categories = {
   introduction: "Introduction",
@@ -34,20 +32,15 @@ export default function AddBlogForm() {
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleDescriptionChange = (
-    content: string,
-    delta: any,
-    source: any,
-    editor: any
-  ) => {
-    setFormData((prev) => ({ ...prev, description: content }));
-    setShortDescription(editor.getText());
+  const handleDescriptionChange = (html: string, text: string) => {
+    setFormData((prev) => ({ ...prev, description: html }));
+    setShortDescription(text);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -254,36 +247,9 @@ export default function AddBlogForm() {
             Blog Content
           </label>
           <div className="prose-editor">
-            <ReactQuill
-              theme="snow"
+            <Editor
               value={formData.description}
               onChange={handleDescriptionChange}
-              className="h-[300px] mb-12"
-              modules={{
-                // toolbar: [
-                //   [{ header: [1, 2, 3, false] }],
-                //   ["bold", "italic", "underline", "strike"],
-                //   [{ list: "ordered" }, { list: "bullet" }],
-                //   ["link", "image"],
-                //   ["clean"],
-                // ],
-                toolbar: [
-                  ["bold", "italic", "underline", "strike"],
-                  ["blockquote", "code-block"],
-                  ["link", "image", "video", "formula"],
-                  [{ header: 1 }, { header: 2 }],
-                  [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-                  [{ script: "sub" }, { script: "super" }],
-                  [{ indent: "-1" }, { indent: "+1" }],
-                  [{ direction: "rtl" }],
-                  [{ size: ["small", false, "large", "huge"] }],
-                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                  [{ color: [] }, { background: [] }],
-                  [{ font: [] }],
-                  [{ align: [] }],
-                  ["clean"],
-                ],
-              }}
             />
           </div>
         </div>

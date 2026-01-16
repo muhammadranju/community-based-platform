@@ -11,8 +11,6 @@ import { SongleOurWorkPagination } from "@/components/our_work/single-our-work/S
 import { CommentData } from "@/components/our_work/single-our-work/interface";
 import { authFetch } from "@/lib/authFetch";
 
-import "react-quill-new/dist/quill.snow.css";
-
 const BlogComments = ({
   comments,
   contentData,
@@ -65,7 +63,7 @@ const BlogComments = ({
     const validFiles = files.filter((file) => {
       if (file.size > maxSize) {
         toast.error(
-          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`
+          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`,
         );
         return false;
       }
@@ -106,7 +104,7 @@ const BlogComments = ({
     const validFiles = files.filter((file) => {
       if (file.size > maxSize) {
         toast.error(
-          `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`
+          `PDF ${file.name} is larger than 4MB. Please upload a smaller PDF.`,
         );
         return false;
       }
