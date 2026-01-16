@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import parse from "html-react-parser";
 import BlogComments from "@/components/blogs/BlogComments";
 import { Spinner } from "@/components/ui/spinner";
+import parse from "html-react-parser";
+
 import apiFetch from "@/lib/api";
 import { format } from "date-fns";
 import DOMPurify from "isomorphic-dompurify";
@@ -156,8 +158,9 @@ export default function SingleBlog() {
         "a",
         "blockquote",
         "img",
+        "span",
       ],
-      ALLOWED_ATTR: ["href", "target", "rel", "src", "alt"],
+      ALLOWED_ATTR: ["href", "target", "rel", "src", "alt", "style"],
     });
   };
 
@@ -264,12 +267,16 @@ export default function SingleBlog() {
           </div>
 
           {/* Body Content */}
-          <div
-            className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full break-words"
+          {/* <div
+            className="max-w-full break-words"
             dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(blog.description),
+              __html: getCleanDescription(),
             }}
-          />
+          /> */}
+
+          <p className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full wrap-break-word">
+            {parse(blog.description)}
+          </p>
         </div>
 
         {/* Comments Section */}
