@@ -47,6 +47,7 @@ export default function EditBlogDialog({
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [shortDescription, setShortDescription] = useState("");
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
 
   useEffect(() => {
@@ -65,6 +66,7 @@ export default function EditBlogDialog({
         category: "",
       });
       setTags([]);
+      setShortDescription("");
       setCoverImage(null);
       setCoverPreview(null);
     }
@@ -85,6 +87,7 @@ export default function EditBlogDialog({
           description: blog?.description || "",
           category: blog?.category || "",
         });
+        setShortDescription(blog?.shortDescription || ""); // Optimistic init, may be empty until edited
         setTags(blog?.tags || []);
         if (blog?.image) {
           setCoverPreview(`${process.env.NEXT_PUBLIC_API_URL}${blog.image}`);
@@ -103,8 +106,14 @@ export default function EditBlogDialog({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleDescriptionChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, description: value }));
+  const handleDescriptionChange = (
+    content: string,
+    delta: any,
+    source: any,
+    editor: any
+  ) => {
+    setFormData((prev) => ({ ...prev, description: content }));
+    setShortDescription(editor.getText());
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,6 +170,7 @@ export default function EditBlogDialog({
     const submitData = new FormData();
     submitData.append("title", formData.title);
     submitData.append("description", formData.description);
+    submitData.append("shortDescription", shortDescription);
     if (formData.category) submitData.append("category", formData.category);
 
     tags.forEach((tag) => {

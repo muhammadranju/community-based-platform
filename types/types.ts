@@ -58,6 +58,7 @@ export interface IBlog {
   _id: string;
   title: string;
   description: string;
+  shortDescription?: string;
   category?: string; // Added optional
   tags?: string[]; // Added optional
   location: string;

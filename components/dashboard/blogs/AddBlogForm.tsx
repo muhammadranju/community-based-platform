@@ -30,6 +30,7 @@ export default function AddBlogForm() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [shortDescription, setShortDescription] = useState("");
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
 
   const handleInputChange = (
@@ -39,8 +40,14 @@ export default function AddBlogForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleDescriptionChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, description: value }));
+  const handleDescriptionChange = (
+    content: string,
+    delta: any,
+    source: any,
+    editor: any
+  ) => {
+    setFormData((prev) => ({ ...prev, description: content }));
+    setShortDescription(editor.getText());
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,10 +57,7 @@ export default function AddBlogForm() {
         toast.error("Please select an image file");
         return;
       }
-      if (file.size > 2 * 1024 * 1024) {
-        toast.error("Cover image must be 2MB or smaller");
-        return;
-      }
+
       setCoverImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -99,6 +103,7 @@ export default function AddBlogForm() {
     const submitData = new FormData();
     submitData.append("title", formData.title);
     submitData.append("description", formData.description);
+    submitData.append("shortDescription", shortDescription);
     submitData.append("category", formData.category);
 
     // Append tags - usually servers expect tags[] or repeated keys

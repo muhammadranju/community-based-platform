@@ -1,16 +1,18 @@
 "use client";
 import apiFetch from "@/lib/api";
+import DOMPurify from "isomorphic-dompurify";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CustomBadge from "../shared/SharedBadge";
-import { Spinner } from "../ui/spinner";
-import DOMPurify from "isomorphic-dompurify";
 import HeroBlogCardSkeleton from "../skeleton/HeroBlogCardSkeleton";
+
+import parse from "html-react-parser";
 
 export interface Story {
   title: string;
   description: string;
+  shortDescription: string;
   image: string;
   _id: string;
   author: string;
@@ -137,11 +139,14 @@ export default function FeaturedStoriesSection() {
                 <h3 className="text-2xl md:text-4xl font-bold mb-4 max-w-md leading-tight drop-shadow-sm">
                   {story?.title}
                 </h3>
-                {/* <p className="text-base text-gray-200 mb-8 hidden md:block max-w-lg leading-relaxed">
-                {story?.description}
-              </p> */}
-                <div
-                  className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full break-words"
+
+                <p className="text-white">
+                  {story?.shortDescription?.length > 300
+                    ? story?.shortDescription?.slice(0, 300) + "..."
+                    : story?.shortDescription}
+                </p>
+                {/* <div
+                  className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 text-white max-w-full break-words"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(
                       story?.description.length > 300
@@ -149,7 +154,7 @@ export default function FeaturedStoriesSection() {
                         : story?.description
                     ),
                   }}
-                />
+                /> */}
 
                 <Link
                   href={`/blogs/${story?.slug}`}
