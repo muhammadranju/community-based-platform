@@ -1,5 +1,6 @@
 "use client";
 
+import parse from "html-react-parser";
 import BlogComments from "@/components/blogs/BlogComments";
 import { Spinner } from "@/components/ui/spinner";
 import apiFetch from "@/lib/api";
@@ -114,6 +115,54 @@ export default function SingleBlog() {
     ? format(new Date(blog.createdAt), "MMMM dd, yyyy")
     : "";
 
+  const decodeHtmlEntities = (str: string) => {
+    return str
+      .replace(/&lt;/g, "<")
+      .replace(/&#60;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#62;/g, ">")
+      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"')
+      .replace(/&#34;/g, '"')
+      .replace(/&#39;/g, "'");
+  };
+
+  const getCleanDescription = () => {
+    if (!blog?.description) return "";
+    let html = blog.description;
+
+    for (let i = 0; i < 3; i++) {
+      const decoded = decodeHtmlEntities(html);
+      if (decoded === html) break;
+      html = decoded;
+    }
+
+    return DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: [
+        "p",
+        "br",
+        "strong",
+        "em",
+        "u",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "ul",
+        "ol",
+        "li",
+        "a",
+        "blockquote",
+        "img",
+      ],
+      ALLOWED_ATTR: ["href", "target", "rel", "src", "alt"],
+    });
+  };
+
+  console.log(getCleanDescription());
+
   return (
     <div className="bg-neutral-50 min-h-screen pb-20">
       {/* Hero Section */}
@@ -183,7 +232,7 @@ export default function SingleBlog() {
               {blog.tags?.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-900 rounded-lg text-sm font-medium"
+                  className="inline-flex items-center flex-wrap gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-900 rounded-lg text-sm font-medium"
                 >
                   <Tag className="w-3.5 h-3.5" />
                   {tag.replace(/,/g, "")}{" "}
@@ -215,12 +264,6 @@ export default function SingleBlog() {
           </div>
 
           {/* Body Content */}
-          {/* <div
-            className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-none overflow-hidden"
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(blog.description),
-            }}
-          /> */}
           <div
             className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full break-words"
             dangerouslySetInnerHTML={{

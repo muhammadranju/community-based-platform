@@ -1,16 +1,7 @@
-import BlogPage from "./BlogPage";
-
-export const metadata = {
-  title: "Blogs - African Traditional Architecture",
-  description: "Blogs - African Traditional Architecture",
-};
+import { redirect } from "next/navigation";
 
 function page() {
-  return (
-    <>
-      <BlogPage />
-    </>
-  );
+  return redirect("/");
 }
 
 export default page;

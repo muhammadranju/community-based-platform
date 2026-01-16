@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, MessagesSquare } from "lucide-react";
 import {
   useParams,
   useRouter,
@@ -69,7 +69,7 @@ export default function ForumDetailsPage() {
   const filteredData = forumData.filter(
     (item) =>
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      item.description.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   // Pagination
@@ -145,6 +145,12 @@ export default function ForumDetailsPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+            <button
+              onClick={handleOpenModal}
+              className="bg-primary-color text-white px-6 py-3 rounded-lg hover:bg-emerald-900 transition-colors shadow-sm cursor-pointer flex items-center gap-2"
+            >
+              <MessagesSquare size={20} /> Start New Discussion
+            </button>
             <ForumSearchBar value={searchQuery} onChange={handleSearch} />
             <ForumFilterButtons onOpen={handleOpenModal} />
           </div>
