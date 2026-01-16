@@ -1,13 +1,10 @@
 "use client";
 import apiFetch from "@/lib/api";
-import DOMPurify from "isomorphic-dompurify";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CustomBadge from "../shared/SharedBadge";
 import HeroBlogCardSkeleton from "../skeleton/HeroBlogCardSkeleton";
-
-import parse from "html-react-parser";
 
 export interface Story {
   title: string;
@@ -126,12 +123,6 @@ export default function FeaturedStoriesSection() {
                 />
               </div>
 
-              {/* 
-              GRADIENT OVERLAY FIX 
-              - Changed 'inset-0' to 'bottom-0 h-3/4' so the gradient only covers the bottom 75% max.
-              - The top of the image remains completely clear.
-              - Changed colors to 'orange-950' (dark brown) to match the African decor aesthetic better than pure black.
-            */}
               <div className="absolute bottom-0 left-0 w-full h-3/4 bg-gradient-to-t from-orange-950 via-orange-950/60 to-transparent"></div>
 
               {/* CONTENT LAYER */}
@@ -145,17 +136,6 @@ export default function FeaturedStoriesSection() {
                     ? story?.shortDescription?.slice(0, 300) + "..."
                     : story?.shortDescription}
                 </p>
-                {/* <div
-                  className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 text-white max-w-full break-words"
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(
-                      story?.description.length > 300
-                        ? story?.description.slice(0, 300) + "..."
-                        : story?.description
-                    ),
-                  }}
-                /> */}
-
                 <Link
                   href={`/blogs/${story?.slug}`}
                   className="inline-flex items-center px-8 py-3 mt-5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-orange-950 transition-all text-sm font-bold uppercase tracking-wider"

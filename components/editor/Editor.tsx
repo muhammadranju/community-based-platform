@@ -42,16 +42,23 @@ function HtmlPlugin({
   const isInitialized = React.useRef(false);
 
   useEffect(() => {
-    if (isInitialized.current) return;
-    isInitialized.current = true;
+    if (!isInitialized.current) {
+      isInitialized.current = true;
+      if (initialHtml) {
+        editor.update(() => {
+          const parser = new DOMParser();
+          const dom = parser.parseFromString(initialHtml, "text/html");
+          const nodes = $generateNodesFromDOM(editor, dom);
+          $getRoot().select();
+          $insertNodes(nodes);
+        });
+      }
+      return;
+    }
 
-    if (initialHtml) {
+    if (initialHtml === "") {
       editor.update(() => {
-        const parser = new DOMParser();
-        const dom = parser.parseFromString(initialHtml, "text/html");
-        const nodes = $generateNodesFromDOM(editor, dom);
-        $getRoot().select();
-        $insertNodes(nodes);
+        $getRoot().clear();
       });
     }
   }, [editor, initialHtml]);

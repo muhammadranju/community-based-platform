@@ -1,9 +1,9 @@
 import { ContentItem } from "@/types/types";
-import { Calendar, ChartColumnStacked, MapPin } from "lucide-react";
+import parse from "html-react-parser";
+import { Calendar, ChartColumnStacked } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { costumFormatDate } from "../shared/DateTime";
-import DOMPurify from "isomorphic-dompurify";
 import { Button } from "../ui/button";
 
 interface PopularContentCardProps {
@@ -18,16 +18,9 @@ const PopularContentCard: React.FC<PopularContentCardProps> = ({ item }) => {
           {item?.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed font-light">
-          <div
-            className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full break-words"
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(
-                item?.description?.length > 200
-                  ? item.description.substring(0, 200) + "..."
-                  : item.description
-              ),
-            }}
-          />
+          <p className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full wrap-break-word">
+            {parse(item.description)}
+          </p>
         </p>
       </div>
 
