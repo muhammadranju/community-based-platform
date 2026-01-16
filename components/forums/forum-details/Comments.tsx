@@ -9,7 +9,6 @@ import { CommentData } from "@/components/our_work/single-our-work/interface";
 import { SingleCommentItem } from "@/components/our_work/single-our-work/SingleCommentItem";
 import { SongleOurWorkPagination } from "@/components/our_work/single-our-work/SongleOurWorkPagination";
 import getUser from "@/components/shared/UserInfo";
-import "react-quill-new/dist/quill.snow.css";
 
 export const CommentsSection = ({
   comments,
@@ -58,7 +57,7 @@ export const CommentsSection = ({
     const validFiles = files.filter((file) => {
       if (file.size > maxSize) {
         toast.error(
-          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`
+          `Image ${file.name} is larger than 2MB. Please upload a smaller image.`,
         );
         return false;
       }

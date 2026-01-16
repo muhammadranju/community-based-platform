@@ -1,15 +1,9 @@
 "use client";
 import { authFetch } from "@/lib/authFetch";
 import { Send } from "lucide-react";
-import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import "react-quill-new/dist/quill.snow.css";
 import { toast } from "sonner";
-
-// Dynamically import ReactQuill to avoid SSR issues
-const ReactQuill = dynamic(() => import("react-quill-new"), {
-  ssr: false,
-}) as any;
+import { Editor } from "@/components/editor/Editor";
 
 interface ForumFormData {
   _id?: string;
@@ -40,15 +34,15 @@ export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
 
   // Handle standard input changes
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle Rich Text Editor changes
-  const handleDescriptionChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, description: value }));
+  const handleDescriptionChange = (html: string, text: string) => {
+    setFormData((prev) => ({ ...prev, description: html }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -123,35 +117,6 @@ export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
     fetchForumsCategories();
   }, [defaultCategorySlug]);
 
-  const quillModules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image"],
-      ["clean"],
-    ],
-  };
-
-  const quillFormats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-  ];
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -208,14 +173,9 @@ export const ForumUploadForm: React.FC<ForumUploadFormProps> = ({
         </label>
 
         <div className="rounded-xl overflow-hidden border border-gray-300 focus-within:ring-2 focus-within:ring-emerald-500 bg-white">
-          <ReactQuill
-            theme="snow"
+          <Editor
             value={formData.description}
             onChange={handleDescriptionChange}
-            modules={quillModules}
-            formats={quillFormats}
-            className="h-64 mb-12"
-            placeholder="Write a detailed post..."
           />
         </div>
 
