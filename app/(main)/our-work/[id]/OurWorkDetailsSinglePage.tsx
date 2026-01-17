@@ -10,10 +10,11 @@ import {
   MediaCard,
 } from "@/components/sub_our_work/DocumentsCard";
 import { SectionCard } from "@/components/sub_our_work/SectionCard";
+import { Button } from "@/components/ui/button";
 import { authFetch } from "@/lib/authFetch";
 import { GUIDE_DATA } from "@/lib/data";
-import { HeartIcon, ShareIcon } from "lucide-react";
-import { useParams, useSearchParams } from "next/navigation";
+import { ArrowLeft, HeartIcon, ShareIcon } from "lucide-react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -23,6 +24,7 @@ function OurWorkDetailsSinglePage() {
   const [data, setData] = useState<any>(null);
   const [comments, setComments] = useState<any>(null);
   const { id } = useParams();
+  const router = useRouter();
   const user = getUser();
   const isAuthtenticated = user ? true : false;
   const copy = () => {
@@ -62,6 +64,16 @@ function OurWorkDetailsSinglePage() {
 
         <div className=" mx-auto space-y-8 ">
           <ArchiveHeader isAuthtenticated={isAuthtenticated} />
+          <Button
+            onClick={() => router.back()}
+            className="group flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-emerald-900 rounded-full shadow-md hover:bg-forest/90 transition-transform active:scale-95 my-5"
+            aria-label="Go back"
+          >
+            <ArrowLeft
+              className="w-5 h-5 md:w-6 md:h-6 text-white"
+              strokeWidth={2.5}
+            />
+          </Button>
           <div className="bg-accent-bg lg:p-8 p-4 lg:rounded-4xl rounded-2xl space-y-5">
             {/* Header Section */}
 
@@ -117,9 +129,9 @@ function OurWorkDetailsSinglePage() {
                 label="Videos"
                 type="videos"
                 imageUrl={
-                  data?.images[1]
-                    ? `${process.env.NEXT_PUBLIC_API_URL}/${data?.images[1]}`
-                    : "/Icons/video-image.jpg"
+                  data?.medias?.length
+                    ? "/Icons/video-image.jpg"
+                    : `/Icons/no-video.jpg`
                 }
                 url={`/our-work/our-work-details/videos?region=${search}&slug=${id}`}
               />

@@ -51,7 +51,7 @@ function VideosPage() {
               ? mediaUrl
               : `${process.env.NEXT_PUBLIC_API_URL}${mediaUrl}`,
             duration: "Playing", // Placeholder as we don't have duration metaprops
-          })
+          }),
         );
         setPlaylist(list);
       }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import CustomBadge from "../shared/SharedBadge";
 import HeroBlogCardSkeleton from "../skeleton/HeroBlogCardSkeleton";
+import { compile } from "html-to-text";
 
 export interface Story {
   title: string;
@@ -35,6 +36,13 @@ export default function FeaturedStoriesSection() {
       });
     }
   };
+
+  const options = {
+    wordwrap: 130,
+    // ...
+  };
+
+  const compiledConvert = compile(options); // options passed here
 
   const getBlogs = async () => {
     setLoading(true);
@@ -99,7 +107,7 @@ export default function FeaturedStoriesSection() {
       </div>
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory gap-6 px-4 md:px-0 pb-4 no-scrollbar md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+        className="flex overflow-x-auto snap-x snap-mandatory gap-6 px-4 md:px-0 pb-4 no-scrollbar md:gap-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] overflow-hidden  wrap-break-word"
       >
         {loading ? (
           <HeroBlogCardSkeleton />
@@ -127,15 +135,18 @@ export default function FeaturedStoriesSection() {
 
               {/* CONTENT LAYER */}
               <div className="absolute bottom-0 left-0 p-6 md:p-10 text-white w-full z-10">
-                <h3 className="text-2xl md:text-4xl font-bold mb-4 max-w-md leading-tight drop-shadow-sm">
-                  {story?.title}
+                <h3 className="text-2xl md:text-3xl font-bold mb-4 max-w-md leading-tight drop-shadow-sm">
+                  {story?.title?.length > 50
+                    ? story?.title?.slice(0, 50) + "..."
+                    : story?.title}
                 </h3>
 
-                <p className="overflow-x-hidden">
-                  {story?.shortDescription?.length > 500
-                    ? story?.shortDescription?.slice(0, 500) + "..."
-                    : story?.shortDescription}
-                  ...
+                <p className="w">
+                  {compiledConvert(
+                    story?.description?.length > 500
+                      ? story?.description?.slice(0, 500) + "..."
+                      : story?.description,
+                  )}
                 </p>
                 <Link
                   href={`/blogs/${story?.slug}`}

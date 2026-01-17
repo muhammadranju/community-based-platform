@@ -1,8 +1,8 @@
 import AfricanArchitectureHero from "@/components/home/AfricanArchitectureHeroBanner";
-import FeaturedStoriesSection from "@/components/home/OurBlogSection";
 import GetInvolvedSection from "@/components/home/JoinOurCommunity";
-import OurWorkSection from "@/components/home/OurWorkSection";
+import FeaturedStoriesSection from "@/components/home/OurBlogSection";
 import RebuildingSection from "@/components/home/OurMissionSection";
+import OurWorkSection from "@/components/home/OurWorkSection";
 import YouTubeSection from "@/components/home/YouTubeSection";
 
 export const metadata = {
