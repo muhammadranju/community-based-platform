@@ -141,7 +141,7 @@ export default function FeaturedStoriesSection() {
                     : story?.title}
                 </h3>
 
-                <p className="w">
+                <p className="">
                   {compiledConvert(
                     story?.description?.length > 500
                       ? story?.description?.slice(0, 500) + "..."
