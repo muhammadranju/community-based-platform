@@ -21,7 +21,7 @@ export const EditorTheme = {
     listitem: "editor-listitem",
   },
   image: "editor-image",
-  link: "editor-link",
+  link: "editor-link underline",
   text: {
     bold: "editor-text-bold",
     italic: "editor-text-italic",
