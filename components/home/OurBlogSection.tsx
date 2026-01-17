@@ -107,7 +107,7 @@ export default function FeaturedStoriesSection() {
           blogs?.map((story, index) => (
             <div
               key={index}
-              className="relative h-[500px] md:h-[650px] rounded-3xl overflow-hidden group cursor-pointer  lg:w-[500px] w-[400px]   snap-center shrink-0"
+              className="relative h-[500px] md:h-[650px] rounded-3xl overflow-hidden group cursor-pointer  lg:w-[500px] w-[400px]    snap-center shrink-0"
             >
               {/* 
               IMAGE LAYER 
@@ -131,10 +131,11 @@ export default function FeaturedStoriesSection() {
                   {story?.title}
                 </h3>
 
-                <p className="text-white">
-                  {story?.shortDescription?.length > 300
-                    ? story?.shortDescription?.slice(0, 300) + "..."
+                <p className="overflow-x-hidden">
+                  {story?.shortDescription?.length > 500
+                    ? story?.shortDescription?.slice(0, 500) + "..."
                     : story?.shortDescription}
+                  ...
                 </p>
                 <Link
                   href={`/blogs/${story?.slug}`}
