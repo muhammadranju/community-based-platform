@@ -2,7 +2,7 @@
 
 **African Traditional Architecture** is a modern, full-stack web application frontend built with **Next.js**, designed as a foundation for creating interactive community platforms where users can engage, share, and collaborate. This project uses the latest **React framework**, offering strong performance, scalability, and a rich developer experience.
 
-> 🚀 Bootstrapped with **Create Next App** and optimized for modern web development workflows.
+> Bootstrapped with **Create Next App** and optimized for modern web development workflows.
 
 ---
 
