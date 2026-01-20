@@ -226,9 +226,9 @@ export default function SingleBlog() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
+      <div className="max-w-7xl mx-auto -mt-20 relative z-10">
         {/* Main Content Card */}
-        <div className="bg-white rounded-3xl shadow-xl p-6 md:p-12 lg:p-16 mb-12">
+        <div className="bg-white rounded-3xl shadow-xl p-6 md:p-10 mb-12">
           {/* Interaction Bar - Sticky or Just Top */}
           <div className="flex justify-between items-center border-b border-gray-100 pb-8 mb-10">
             <div className="flex items-center gap-2">
@@ -268,8 +268,8 @@ export default function SingleBlog() {
 
           {/* Body Content */}
 
-          <p className="prose prose-lg md:prose-2xl prose-headings:text-emerald-900 prose-p:text-gray-600 prose-a:text-orange-600 prose-blockquote:border-orange-500 prose-blockquote:bg-orange-50 prose-blockquote:p-4 prose-blockquote:not-italic prose-blockquote:rounded-lg prose-img:rounded-2xl prose-strong:text-emerald-800 max-w-full wrap-break-word text-[#4D4D4D]">
-            {parse(blog.description)}
+          <p className="overflow-visible wrap-break-word">
+            {parse(blog.description.toString())}
           </p>
         </div>
 

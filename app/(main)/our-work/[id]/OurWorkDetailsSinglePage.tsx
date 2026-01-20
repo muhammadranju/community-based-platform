@@ -12,7 +12,7 @@ import {
 import { SectionCard } from "@/components/sub_our_work/SectionCard";
 import { Button } from "@/components/ui/button";
 import { authFetch } from "@/lib/authFetch";
-import { GUIDE_DATA } from "@/lib/data";
+// import { GUIDE_DATA } from "@/lib/data";
 import { ArrowLeft, HeartIcon, ShareIcon } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -118,7 +118,7 @@ function OurWorkDetailsSinglePage() {
                 imageUrl={
                   data?.images[0]
                     ? `${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`
-                    : "/Icons/image-icon.jpg"
+                    : "/Icons/no-photos.jpg"
                 }
                 // Using a distinct image of Maasai or similar landscape
                 // imageUrl={`${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`}
@@ -130,8 +130,8 @@ function OurWorkDetailsSinglePage() {
                 type="videos"
                 imageUrl={
                   data?.medias?.length
-                    ? "/Icons/video-image.jpg"
-                    : `/Icons/no-video.jpg`
+                    ? "/Icons/video.jpg"
+                    : `/Icons/no-videos.jpg`
                 }
                 url={`/our-work/our-work-details/videos?region=${search}&slug=${id}`}
               />
@@ -148,14 +148,11 @@ function OurWorkDetailsSinglePage() {
             <div className="flex-1 space-y-6">
               <CustomBadge>Learn More</CustomBadge>
 
-              <h2 className="text-4xl md:text-5xl font-bold text-emerald-900">
-                About the{" "}
-                {data?.title?.length > 10
-                  ? data?.title.slice(0, 10) + "..."
-                  : data?.title}
+              <h2 className="text-5xl font-bold text-emerald-900">
+                About the {data?.title}
               </h2>
               <p className="text-gray-600 leading-relaxed text-lg">
-                {data?.shortDescription || "No description available"}
+                {data?.description || "No description available"}
               </p>
             </div>
 
@@ -177,26 +174,39 @@ function OurWorkDetailsSinglePage() {
         </div>
       </div>
 
-      <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Main Header Section */}
-          <header className="mb-12 md:mb-16">
-            <h1 className="text-3xl md:text-4xl lg:text-[40px] font-bold text-emerald-900 leading-tight mb-2">
-              Step-by-Step Guide:
-            </h1>
-            <h2 className="text-xl md:text-2xl lg:text-[28px] font-semibold text-emerald-900 leading-snug">
-              {data?.title}
-            </h2>
-          </header>
+      {data?.stepByStep && data.stepByStep.length > 0 && (
+        <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            {/* Main Header Section */}
+            <header className="mb-12 md:mb-16">
+              <h1 className="text-3xl md:text-4xl lg:text-[40px] font-bold text-emerald-900 leading-tight mb-2">
+                Step-by-Step Guide:
+              </h1>
+              <h2 className="text-xl md:text-2xl lg:text-[28px] font-semibold text-emerald-900 leading-snug">
+                {data?.title}
+              </h2>
+            </header>
 
-          {/* Content Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-            {GUIDE_DATA?.map((section) => (
-              <SectionCard key={section.id} data={section} />
-            ))}
+            {/* Content Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+              {data.stepByStep.map((step: any, index: number) => (
+                <SectionCard
+                  key={index}
+                  data={{
+                    id: String(index + 1),
+                    title: step.title,
+                    steps: step.value.map((text: string, vIndex: number) => ({
+                      id: vIndex + 1,
+                      text: text,
+                    })),
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
       <ContentCommentsSection
         comments={comments}
         contentData={data}

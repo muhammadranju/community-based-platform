@@ -13,6 +13,12 @@ body {
   scroll-padding-top: 100px;
 }
 
+.no-wrap-text {
+  white-space: wrap;
+  overflow: auto;
+  text-overflow: ellipsis;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

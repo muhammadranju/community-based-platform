@@ -41,7 +41,7 @@ interface MediaCardProps {
 }
 
 export const MediaCard: React.FC<MediaCardProps> = ({
-  count,
+  count = 0,
   label,
   type,
   imageUrl,
@@ -61,7 +61,9 @@ export const MediaCard: React.FC<MediaCardProps> = ({
 
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-center text-center">
-        <h3 className="text-white lg:text-4xl text-2xl font-bold lg:mb-6 mb-2 drop-shadow-md">
+        <h3
+          className={`${count === 0 ? "text-emerald-900" : "text-white"} lg:text-4xl text-2xl font-bold lg:mb-6 mb-2 drop-shadow-md`}
+        >
           {count} {label}
         </h3>
         <Link href={url}>

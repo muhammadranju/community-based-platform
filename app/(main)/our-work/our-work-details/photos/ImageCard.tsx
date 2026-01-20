@@ -10,9 +10,10 @@ import CopyPath from "@/components/shared/CopyPath";
 
 interface ImageCardProps {
   item: GalleryItem;
+  onClick?: () => void;
 }
 
-export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
+export const ImageCard: React.FC<ImageCardProps> = ({ item, onClick }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const copy = () => {
@@ -22,9 +23,10 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
 
   return (
     <div
+      onClick={onClick}
       className={cn(
-        "relative group w-full overflow-hidden rounded-2xl bg-gray-100",
-        item.heightClass
+        "relative group w-full overflow-hidden rounded-2xl bg-gray-100 cursor-pointer",
+        item.heightClass,
       )}
     >
       {/* Background Image */}
@@ -36,7 +38,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
         className={cn(
           "w-full h-full object-cover transition-all duration-700 ease-in-out",
           "group-hover:scale-105",
-          isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
+          isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm",
         )}
       />
 
@@ -45,9 +47,19 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
         <OverlayButton
           icon={Heart}
           label="Save"
-          onClick={() => toast.success("Saved to your library")}
+          onClick={(e) => {
+            e.stopPropagation();
+            toast.success("Saved to your library");
+          }}
         />
-        <OverlayButton icon={Share2} label="Share" onClick={copy} />
+        <OverlayButton
+          icon={Share2}
+          label="Share"
+          onClick={(e) => {
+            e.stopPropagation();
+            copy();
+          }}
+        />
       </div>
 
       {/* Gradient Overlay for text readability (optional, subtle) */}
@@ -59,7 +71,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
 interface OverlayButtonProps {
   icon: React.ElementType;
   label: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
 }
 
 const OverlayButton: React.FC<OverlayButtonProps> = ({

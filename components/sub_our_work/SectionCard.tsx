@@ -19,7 +19,10 @@ export const SectionCard: React.FC<SectionCardProps> = ({ data }) => {
           className="w-full flex items-center justify-between group md:cursor-default"
         >
           <h2 className="text-xl md:text-2xl font-bold text-emerald-900 mb-3 text-left">
-            {data.id}. {data.title}
+            {isNaN(parseInt(data.id))
+              ? data.id
+              : String.fromCharCode(64 + parseInt(data.id))}
+            . {data.title}
           </h2>
           <ChevronDown
             className={`w-6 h-6 text-emerald-900 transition-transform duration-300 md:hidden ${
