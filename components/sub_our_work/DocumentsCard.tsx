@@ -50,22 +50,39 @@ export const MediaCard: React.FC<MediaCardProps> = ({
   return (
     <div className="group relative lg:h-[450px] h-[200px] w-full  rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow">
       {/* Background Image */}
-      <img
-        src={imageUrl}
-        alt={label}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-      />
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt={label}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      ) : (
+        <div className="absolute inset-0 w-full h-full bg-white flex items-center justify-center"></div>
+      )}
 
-      {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-linear-gradient-to-t from-black/60 via-black/10 to-transparent" />
+      {/* Overlay Gradient - only show if there is an image/content */}
+      {count > 0 && (
+        <div className="absolute inset-0 bg-linear-gradient-to-t from-black/60 via-black/10 to-transparent" />
+      )}
+
+      {/* Top Title - Shown only when count is 0 */}
+      {count === 0 && (
+        <div className="absolute top-0 left-0 right-0 p-8 flex flex-col items-start text-left">
+          <h3 className="text-emerald-900 text-2xl font-bold mb-6">
+            {count} {label}
+          </h3>
+        </div>
+      )}
 
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col items-center text-center">
-        <h3
-          className={`${count === 0 ? "text-emerald-900" : "text-white"} lg:text-4xl text-2xl font-bold lg:mb-6 mb-2 drop-shadow-md`}
-        >
-          {count} {label}
-        </h3>
+        {/* Bottom Title - Shown only when count > 0 */}
+        {count > 0 && (
+          <h3 className="text-white lg:text-4xl text-2xl font-bold lg:mb-6 mb-2 drop-shadow-md  ">
+            {count} {label}
+          </h3>
+        )}
+
         <Link href={url}>
           <GlassButton
             label={`View all ${label}`}

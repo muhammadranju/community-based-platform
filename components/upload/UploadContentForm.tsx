@@ -718,6 +718,113 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
           />
         </div>
+
+        {/* Step by Step Guide */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm  text-emerald-900">
+              Step By Step Guide (Optional)
+            </h4>
+            <button
+              type="button"
+              onClick={handleAddStep}
+              className="flex items-center gap-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition"
+            >
+              <Plus size={18} />
+              Add Step
+            </button>
+          </div>
+
+          <div className="space-y-6">
+            {formData.stepByStep.map((step, stepIndex) => (
+              <div
+                key={stepIndex}
+                className="bg-white rounded-xl p-6 border border-gray-200 relative group"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleRemoveStep(stepIndex)}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition opacity-0 group-hover:opacity-100"
+                >
+                  <Trash2 size={18} />
+                </button>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-emerald-900 mb-2">
+                      Step {stepIndex + 1} Title
+                    </label>
+                    <input
+                      type="text"
+                      value={step.title}
+                      onChange={(e) =>
+                        handleStepTitleChange(stepIndex, e.target.value)
+                      }
+                      placeholder="e.g. Preparation"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="block text-sm font-medium text-emerald-900">
+                      Description / Points
+                    </label>
+                    {step.value.map((val, valIndex) => (
+                      <div key={valIndex} className="flex gap-2">
+                        <textarea
+                          rows={2}
+                          value={val}
+                          onChange={(e) =>
+                            handleStepValueChange(
+                              stepIndex,
+                              valIndex,
+                              e.target.value,
+                            )
+                          }
+                          placeholder="Describe this step..."
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white resize-none"
+                        />
+                        {step.value.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleRemoveStepValue(stepIndex, valIndex)
+                            }
+                            className="p-2 text-gray-400 hover:text-red-500 transition self-start mt-2"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => handleAddStepValue(stepIndex)}
+                      className="text-sm font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-1 mt-2"
+                    >
+                      <Plus size={14} />
+                      Add Description Point
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {formData.stepByStep.length === 0 && (
+              <div className="text-center py-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+                <p className="text-gray-500 mb-4">No steps added yet.</p>
+                <button
+                  type="button"
+                  onClick={handleAddStep}
+                  className="px-6 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition shadow-sm"
+                >
+                  Add First Step
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Dropdowns */}
         <div className="grid md:grid-cols-3 gap-6">
           <div>
@@ -952,111 +1059,7 @@ export const UploadContentForm: React.FC<UploadContentFormProps> = ({
             </div>
           );
         })}
-        {/* Step by Step Guide */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h4 className="text-lg font-bold text-emerald-900">
-              Step By Step Guide (Optional)
-            </h4>
-            <button
-              type="button"
-              onClick={handleAddStep}
-              className="flex items-center gap-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition"
-            >
-              <Plus size={18} />
-              Add Step
-            </button>
-          </div>
 
-          <div className="space-y-6">
-            {formData.stepByStep.map((step, stepIndex) => (
-              <div
-                key={stepIndex}
-                className="bg-gray-50 rounded-xl p-6 border border-gray-200 relative group"
-              >
-                <button
-                  type="button"
-                  onClick={() => handleRemoveStep(stepIndex)}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition opacity-0 group-hover:opacity-100"
-                >
-                  <Trash2 size={18} />
-                </button>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-emerald-900 mb-2">
-                      Step {stepIndex + 1} Title
-                    </label>
-                    <input
-                      type="text"
-                      value={step.title}
-                      onChange={(e) =>
-                        handleStepTitleChange(stepIndex, e.target.value)
-                      }
-                      placeholder="e.g. Preparation"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
-                    />
-                  </div>
-
-                  <div className="space-y-3">
-                    <label className="block text-sm font-medium text-emerald-900">
-                      Description / Points
-                    </label>
-                    {step.value.map((val, valIndex) => (
-                      <div key={valIndex} className="flex gap-2">
-                        <textarea
-                          rows={2}
-                          value={val}
-                          onChange={(e) =>
-                            handleStepValueChange(
-                              stepIndex,
-                              valIndex,
-                              e.target.value,
-                            )
-                          }
-                          placeholder="Describe this step..."
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white resize-none"
-                        />
-                        {step.value.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleRemoveStepValue(stepIndex, valIndex)
-                            }
-                            className="p-2 text-gray-400 hover:text-red-500 transition self-start mt-2"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        )}
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => handleAddStepValue(stepIndex)}
-                      className="text-sm font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-1 mt-2"
-                    >
-                      <Plus size={14} />
-                      Add Description Point
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {formData.stepByStep.length === 0 && (
-              <div className="text-center py-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
-                <p className="text-gray-500 mb-4">No steps added yet.</p>
-                <button
-                  type="button"
-                  onClick={handleAddStep}
-                  className="px-6 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition shadow-sm"
-                >
-                  Add First Step
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
         <div className="pt-6 flex justify-center">
           <button
             type="submit"
