@@ -118,7 +118,7 @@ function OurWorkDetailsSinglePage() {
                 imageUrl={
                   data?.images[0]
                     ? `${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`
-                    : "/Icons/no-photos.jpg"
+                    : ""
                 }
                 // Using a distinct image of Maasai or similar landscape
                 // imageUrl={`${process.env.NEXT_PUBLIC_API_URL}/${data?.images[0]}`}
@@ -128,11 +128,7 @@ function OurWorkDetailsSinglePage() {
                 count={data?.medias?.length}
                 label="Videos"
                 type="videos"
-                imageUrl={
-                  data?.medias?.length
-                    ? "/Icons/video.jpg"
-                    : `/Icons/no-videos.jpg`
-                }
+                imageUrl={data?.medias?.length ? "/Icons/videos.png" : ``}
                 url={`/our-work/our-work-details/videos?region=${search}&slug=${id}`}
               />
               <DocumentsCard
