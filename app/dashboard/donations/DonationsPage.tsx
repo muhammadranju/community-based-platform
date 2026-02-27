@@ -277,7 +277,11 @@ export function DonationsPage() {
                       <span
                         className={`font-bold py-1 px-3 rounded-full capitalize ${item.paymentStatus === "success" ? "bg-green-200/40 text-green-500" : item.paymentStatus === "cancelled" ? "bg-red-200/40 text-red-500" : "bg-yellow-200/40 text-yellow-500"}`}
                       >
-                        {item.paymentStatus}
+                        {item.paymentStatus === "success"
+                          ? "Paid"
+                          : item.paymentStatus === "cancelled"
+                            ? "Cancelled"
+                            : "Pending"}
                       </span>
                     </td>
 
