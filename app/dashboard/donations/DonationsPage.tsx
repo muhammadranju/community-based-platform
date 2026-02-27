@@ -48,7 +48,7 @@ export function DonationsPage() {
     try {
       const res = await authFetch(
         `/donation?limit=${limit}&page=${currentPage}&sort=${currentSort}`,
-        { method: "GET", auth: true }
+        { method: "GET", auth: true },
       );
       const json = await res.json();
 
@@ -216,6 +216,8 @@ export function DonationsPage() {
                 <th className="py-4 px-6 font-medium text-sm">Donor Name</th>
                 <th className="py-4 px-6 font-medium text-sm">Category</th>
                 <th className="py-4 px-6 font-medium text-sm">Phone</th>
+                <th className="py-4 px-6 font-medium text-sm">Amount</th>
+                <th className="py-4 px-6 font-medium text-sm">Status</th>
                 <th className="py-4 px-6 font-medium text-sm">Date</th>
               </tr>
             </thead>
@@ -264,6 +266,18 @@ export function DonationsPage() {
                     <td className="py-4 px-6">
                       <span className="font-bold text-teal-900">
                         {item.phoneNumber}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className="font-bold text-teal-900">
+                        {formatCurrency(item.amount)}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <span
+                        className={`font-bold py-1 px-3 rounded-full capitalize ${item.paymentStatus === "success" ? "bg-green-200/40 text-green-500" : item.paymentStatus === "cancelled" ? "bg-red-200/40 text-red-500" : "bg-yellow-200/40 text-yellow-500"}`}
+                      >
+                        {item.paymentStatus}
                       </span>
                     </td>
 
