@@ -426,7 +426,9 @@ export function ContactsPage() {
               </div>
               <div className="flex items-end justify-end">
                 <a
-                  href={`mailto:${selectedContact.email}`}
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${selectedContact.email}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-teal-700 font-medium hover:text-teal-900 hover:underline break-all transition-colors text-[15px]"
                 >
                   <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm cursor-pointer">
