@@ -31,6 +31,7 @@ import {
   Calendar,
   Eye,
   Filter,
+  Mail,
   MoreVertical,
   Trash2,
 } from "lucide-react";
@@ -337,19 +338,7 @@ export function ContactsPage() {
                   }
                 `}
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <Eye size={16} />
               </button>
             </div>
           </div>
@@ -434,6 +423,16 @@ export function ContactsPage() {
                     )}
                   </p>
                 </div>
+              </div>
+              <div className="flex items-end justify-end">
+                <a
+                  href={`mailto:${selectedContact.email}`}
+                  className="text-teal-700 font-medium hover:text-teal-900 hover:underline break-all transition-colors text-[15px]"
+                >
+                  <button className="flex items-center gap-2 bg-teal-900 text-white px-5 py-2 rounded-full font-medium hover:bg-teal-950 transition-colors text-sm cursor-pointer">
+                    <Mail size={16} /> Send Email
+                  </button>
+                </a>
               </div>
             </div>
           )}
