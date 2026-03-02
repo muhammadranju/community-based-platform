@@ -13,6 +13,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -22,6 +29,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   ArrowLeft,
   Calendar,
+  Eye,
   Filter,
   MoreVertical,
   Trash2,
@@ -54,6 +62,8 @@ export function ContactsPage() {
   const [contacts, setContacts] = useState<IContact[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [selectedContact, setSelectedContact] = useState<IContact | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchContacts = async () => {
     setLoading(true);
@@ -87,12 +97,12 @@ export function ContactsPage() {
     if (currentSort === "newest") {
       sorted.sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
     } else {
       sorted.sort(
         (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       );
     }
     return sorted;
@@ -206,6 +216,7 @@ export function ContactsPage() {
                 <th className="py-4 px-6 font-medium text-sm">Address</th>
                 <th className="py-4 px-6 font-medium text-sm">Message</th>
                 <th className="py-4 px-6 font-medium text-sm">Submitted</th>
+                <th className="py-4 px-6 font-medium text-sm">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -253,6 +264,18 @@ export function ContactsPage() {
                         <Calendar size={14} className="text-gray-400" />
                         {costumFormatDate(item.createdAt)}
                       </div>
+                    </td>
+                    <td className="py-4 px-6 text-gray-600 text-sm">
+                      <button
+                        onClick={() => {
+                          setSelectedContact(item);
+                          setIsModalOpen(true);
+                        }}
+                        className="text-teal-900 p-2 rounded-full font-medium hover:bg-teal-950/20 transition-colors text-sm cursor-pointer"
+                        title="View Details"
+                      >
+                        <Eye size={16} />
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -332,6 +355,90 @@ export function ContactsPage() {
           </div>
         )}
       </div>
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="sm:max-w-md md:max-w-lg rounded-2xl p-6 bg-white border-0 shadow-xl overflow-hidden">
+          <DialogHeader className="mb-2">
+            <DialogTitle className="text-2xl font-bold text-teal-900">
+              Contact Details
+            </DialogTitle>
+            <DialogDescription className="text-gray-500 mt-1">
+              Full information submitted by the user.
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedContact && (
+            <div className="space-y-4 md:space-y-6">
+              <div className="bg-gray-50/80 rounded-xl p-4 md:p-5 border border-gray-100 shadow-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                  <div>
+                    <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      Name
+                    </h4>
+                    <p className="text-gray-900 font-semibold text-[15px]">
+                      {selectedContact.name}
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      Email
+                    </h4>
+                    <a
+                      href={`mailto:${selectedContact.email}`}
+                      className="text-teal-700 font-medium hover:text-teal-900 hover:underline break-all transition-colors text-[15px]"
+                    >
+                      {selectedContact.email}
+                    </a>
+                  </div>
+                  <div>
+                    <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      Phone
+                    </h4>
+                    <a
+                      href={`tel:${selectedContact.phone}`}
+                      className="text-teal-700 font-medium hover:text-teal-900 hover:underline transition-colors text-[15px]"
+                    >
+                      {selectedContact.phone}
+                    </a>
+                  </div>
+                  <div>
+                    <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      Submitted
+                    </h4>
+                    <p className="text-gray-900 font-medium text-[15px]">
+                      {costumFormatDate(selectedContact.createdAt)}
+                    </p>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <h4 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      Address
+                    </h4>
+                    <p className="text-gray-900 font-medium text-[15px]">
+                      {selectedContact.address}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-lime-50/50 rounded-xl p-4 md:p-5 border border-lime-200/50 shadow-sm relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-linear-to-br from-lime-200/20 to-teal-500/5 rounded-bl-full -z-10 transition-transform duration-500 group-hover:scale-110"></div>
+                <h4 className="text-[11px] font-bold text-teal-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  Message
+                </h4>
+                <div className="bg-white/60 rounded-lg p-3.5 border border-white max-h-[250px] overflow-y-auto">
+                  <p className="text-gray-800 leading-relaxed whitespace-pre-wrap text-[15px]">
+                    {selectedContact.message || (
+                      <span className="text-gray-400 italic">
+                        No message provided
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
