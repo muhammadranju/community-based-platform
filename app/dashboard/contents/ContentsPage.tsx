@@ -7,6 +7,7 @@ import ContentTableHeader from "@/components/dashboard/contents/ContentTableHead
 import ContentTableRow from "@/components/dashboard/contents/ContentTableRow";
 import ContentPagination from "@/components/dashboard/contents/ContentPagination";
 import ContentDetailsDialog from "@/components/dashboard/contents/ContentDetailsDialog";
+import UpdateContentDialog from "@/components/dashboard/contents/UpdateContentDialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,8 +43,10 @@ export default function ContentsTablePage() {
   const [allPosts, setAllPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPost, setSelectedPost] = useState<IPost | null>(null);
+  const [editPost, setEditPost] = useState<IPost | null>(null);
   const [deletePost, setDeletePost] = useState<IPost | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
@@ -96,14 +99,14 @@ export default function ContentsTablePage() {
     return [...allPosts].sort((a, b) =>
       sortOrder === "newest"
         ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
     );
   }, [allPosts, sortOrder]);
 
   const totalPages = Math.ceil(sortedPosts.length / itemsPerPage);
   const currentPosts = sortedPosts.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   return (
@@ -176,6 +179,10 @@ export default function ContentsTablePage() {
                       setSelectedPost(p);
                       setOpenDialog(true);
                     }}
+                    onEditPost={(p) => {
+                      setEditPost(p);
+                      setOpenEditDialog(true);
+                    }}
                     handelDeletePost={(p) => {
                       setDeletePost(p);
                       setOpenDeleteDialog(true);
@@ -206,6 +213,13 @@ export default function ContentsTablePage() {
         post={selectedPost}
         open={openDialog}
         onOpenChange={setOpenDialog}
+      />
+
+      <UpdateContentDialog
+        post={editPost}
+        open={openEditDialog}
+        onOpenChange={setOpenEditDialog}
+        onSuccess={fetchPosts}
       />
 
       <AlertDialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>

@@ -42,7 +42,7 @@ export default function ContentDetailsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent className="max-w-5xl! max-h-[90vh] overflow-y-auto p-4 md:p-8 bg-gray-50 border-none [&>button]:hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-teal-900">
             {post.title}
@@ -70,8 +70,8 @@ export default function ContentDetailsDialog({
                 key === "owner.name"
                   ? post?.owner?.name
                   : key === "createdAt"
-                  ? costumFormatDate(post.createdAt)
-                  : (post as any)[key];
+                    ? costumFormatDate(post.createdAt)
+                    : (post as any)[key];
               return (
                 <div key={key}>
                   <p className="text-sm text-gray-500">{label}</p>
