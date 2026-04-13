@@ -95,6 +95,22 @@ function PdfsPage() {
       setLoading(false);
     }
   };
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Document Title",
+          text: "Check out this document",
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Link copied!");
+      }
+    } catch (error) {
+      toast.error("Share failed");
+    }
+  };
 
   useEffect(() => {
     fetchPDF();
@@ -130,7 +146,7 @@ function PdfsPage() {
           {/* Main Grid Layout */}
           <div className="grow grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0">
             {/* Left Sidebar */}
-            <div className="hidden lg:block lg:col-span-3 lg:h-[800px] h-full min-h-0">
+            <div className="hidden lg:block lg:col-span-3 lg:h-[1200px] h-full min-h-0">
               <PDFSidebar
                 documents={playlist}
                 selectedIndex={currentPdfIndex}
@@ -150,7 +166,7 @@ function PdfsPage() {
             </div>
 
             {/* Center Document View */}
-            <div className="col-span-1 lg:col-span-7 lg:h-[900px] h-full flex flex-col min-h-0">
+            <div className="col-span-1 lg:col-span-7 lg:h-[1200px] h-full flex flex-col min-h-0">
               {currentPdf && (
                 <PDFDocumentViewer
                   url={currentPdf.url}
@@ -175,8 +191,14 @@ function PdfsPage() {
                     onClick={() => toast.success("Disliked this document")}
                   />
                   <span
-                    onClick={() => toast.success("Commented on this document")}
-                    className="p-2 border border-gray-500 rounded-full flex items-center gap-2 cursor-pointer"
+                    onClick={() => {
+                      if (slug) {
+                        router.push(`/our-work/${slug}#comments`);
+                      } else {
+                        router.back();
+                      }
+                    }}
+                    className="p-2 border border-gray-500 rounded-full flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors"
                   >
                     Comments
                   </span>
@@ -186,12 +208,12 @@ function PdfsPage() {
                     <AiOutlineShareAlt size={20} className="text-lime-500" />
                   }
                   text="Share"
-                  onClick={() => toast.success("Shared this document")}
+                  onClick={handleShare}
                 />
               </div>
             </div>
 
-            <div className="col-span-1 lg:col-span-2 h-full lg:h-[900px]  min-h-0 hidden md:block">
+            <div className="col-span-1 lg:col-span-2 h-full lg:h-[1200px]  min-h-0 hidden md:block">
               {currentPdf && (
                 <PDFThumbnailStrip
                   pdfUrl={currentPdf.url}

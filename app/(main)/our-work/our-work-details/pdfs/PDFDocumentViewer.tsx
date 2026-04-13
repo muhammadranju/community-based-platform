@@ -1,4 +1,4 @@
-import { Home, Loader2 } from "lucide-react";
+import { ExternalLink, Home, Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
@@ -22,6 +22,10 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const handleOpenInNewTab = () => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
   // 🔥 SYNC thumbnail selection → viewer page
   useEffect(() => {
@@ -59,11 +63,20 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
 
       <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
-        <div className="lg:flex items-center gap-3 mb-4 text-gray-600 hidden">
-          <Home className="w-5 h-5 text-gray-500" />
-          <span className="text-sm md:text-base font-medium text-gray-700 tracking-wide">
-            {companyName}
-          </span>
+        <div className="flex items-center justify-between mb-4">
+          <div className="lg:flex items-center gap-2 text-gray-500 hidden">
+            <Home className="w-4 h-4" />
+            <span className="text-xs font-semibold uppercase tracking-wider">
+              {companyName}
+            </span>
+          </div>
+          <button
+            onClick={handleOpenInNewTab}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full hover:bg-emerald-100 transition-all text-xs font-bold shadow-sm active:scale-95 cursor-pointer"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            Open Native Viewer
+          </button>
         </div>
 
         {/* Title */}

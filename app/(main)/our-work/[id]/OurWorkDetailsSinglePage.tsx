@@ -43,6 +43,15 @@ function OurWorkDetailsSinglePage() {
     getSingleData();
   }, []);
 
+  useEffect(() => {
+    if (window.location.hash === "#comments") {
+      const element = document.getElementById("comments");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [data]);
+
   const MOCK_DOCS =
     data?.pdfs?.map((path: string, index: number, arr: string[]) => {
       const fileName = path.split("/").pop() || "";
@@ -203,11 +212,13 @@ function OurWorkDetailsSinglePage() {
         </div>
       )}
 
-      <ContentCommentsSection
-        comments={comments}
-        contentData={data}
-        onCommentAdded={getSingleData}
-      />
+      <div id="comments">
+        <ContentCommentsSection
+          comments={comments}
+          contentData={data}
+          onCommentAdded={getSingleData}
+        />
+      </div>
     </>
   );
 }
