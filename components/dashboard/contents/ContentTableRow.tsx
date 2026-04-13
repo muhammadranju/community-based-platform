@@ -6,18 +6,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Calendar, Eye, MoreVertical, Trash } from "lucide-react";
+import { Calendar, Edit, Eye, MoreVertical, Trash } from "lucide-react";
 // import { IPost } from "./ContentTable"; // adjust path if needed
 
 interface ContentTableRowProps {
   post: IPost;
   onViewDetails: (post: IPost) => void;
+  onEditPost: (post: IPost) => void;
   handelDeletePost: (post: IPost) => void;
 }
 
 export default function ContentTableRow({
   post,
   onViewDetails,
+  onEditPost,
   handelDeletePost,
 }: ContentTableRowProps) {
   return (
@@ -48,8 +50,8 @@ export default function ContentTableRow({
             post.status === "approved"
               ? "bg-green-100 text-green-700"
               : post.status === "rejected"
-              ? "bg-red-100 text-red-700"
-              : "bg-amber-100 text-amber-700"
+                ? "bg-red-100 text-red-700"
+                : "bg-amber-100 text-amber-700"
           }`}
         >
           {post.status}
@@ -69,6 +71,13 @@ export default function ContentTableRow({
             >
               <Eye className="mr-2 h-4 w-4" />
               View Details
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onEditPost(post)}
+              className="cursor-pointer"
+            >
+              <Edit className="mr-2 h-4 w-4" />
+              Edit
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handelDeletePost(post)}
