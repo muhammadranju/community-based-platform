@@ -15,19 +15,19 @@ import { toast } from "sonner";
 
 const PDFSidebar = dynamic(
   () => import("./PDFSidebar").then((mod) => mod.PDFSidebar),
-  { ssr: false }
+  { ssr: false },
 );
 const PDFDocumentViewer = dynamic(
   () => import("./PDFDocumentViewer").then((mod) => mod.PDFDocumentViewer),
-  { ssr: false }
+  { ssr: false },
 );
 const PDFThumbnailStrip = dynamic(
   () => import("./PDFThumbnailStrip").then((mod) => mod.PDFThumbnailStrip),
-  { ssr: false }
+  { ssr: false },
 );
 const DocumentGallery = dynamic(
   () => import("./PDFDocumentGallery").then((mod) => mod.DocumentGallery),
-  { ssr: false }
+  { ssr: false },
 );
 
 export interface DocumentItem {

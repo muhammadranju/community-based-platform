@@ -67,7 +67,7 @@ export const PDFDocumentViewer: React.FC<PDFDocumentViewerProps> = ({
         </div>
 
         {/* Title */}
-        <h1 className="text-xl lg:text-4xl font-bold text-emerald-900 mb-6 leading-tight">
+        <h1 className="text-lg font-bold text-emerald-900 mb-6 leading-tight">
           {title}
         </h1>
 
